@@ -9,46 +9,85 @@ class UserModel extends Model
     
     public function __construct()
     {
-	   //echo "UserModel Constructor<br />";
+	//echo "UserModel Constructor<br />";
     }
 
     public function create($user) 
     {
-    	$pdo = Connector::getPDO();
-    	
-    	try 
-        {
-            $stmt = $pdo->prepare('INSERT INTO User (username, password, email) VALUES (:username, :password, :email)');
-    	    
-    	    $stmt->bindValue(':username', $user->username);
-    	    $stmt->bindValue(':password', $user->password);
-    	    $stmt->bindValue(':email', $user->email);
-    	    $stmt->execute();
-    	}
-        catch(PDOException $e) 
-        {
-            echo $e->getMessage();
+	$pdo = Connector::getPDO();
+	
+	try {
+	    $stmt = $pdo->prepare("INSERT INTO user
+				  (username, password, email)
+				  VALUES
+				  (:username, :password, :email)");
+	    
+	    $stmt->bindValue(":username", $user->username);
+	    $stmt->bindValue(":password", $user->password);
+	    $stmt->bindValue(":email", $user->email);
+	    $stmt->execute();
+	    
+	} catch(PDOException $e) {
+	    echo $e->getMessage();
         }
     }
 
-    public function update()
+    public function update($user)
     {
-	
+	try {
+	    $stmt = $pdo->prepare("UPDATE user
+				  SET username = :username,
+				      password = :password,
+				      email = :email
+				  WHERE idUser = :idUser");
+	    
+	    $stmt->bindValue(":username", $user->username);
+	    $stmt->bindValue(":password", $user->password);
+	    $stmt->bindValue(":email", $user->email);
+	    $stmt->bindValue(":idUser", $user->idUser);
+	    $stmt->execute();
+	    
+	} catch (PDOException $e) {
+	    echo $e->getMessage();
+	}
     }
     
-    public function delete()
+    public function delete($idUser)
     {
-        
+	$pdo = Connector::getPDO();
+	
+	try {
+	    $stmt = $pdo->prepare("DELETE FROM user
+				  WHERE idUser = :idUser");
+	    
+	    $stmt->bindValue(":idUser", $idUser);		
+	    $stmt->execute();
+	    
+	} catch(PDOException $e) {
+	    echo $e->getMessage();
+        }
     }
     
     public function getUserRoles($username)
     {
-	
+
     }
 
     public function getUsers() 
     {
-	
+	try {
+	    $stmt = $pdo->prepare("SELECT * FROM user");
+    
+	    $stmt->bindParam(":username", $username);				
+	    $stmt->execute();
+	    
+	    $users = $stmt->fetchAll(PDO::FETCH_CLASS, "user"); 
+	    
+	    return $users;
+	    
+	} catch(PDOException $e) {
+	    echo $e->getMessage();
+	}
     }
 
 }
