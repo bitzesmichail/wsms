@@ -7,6 +7,7 @@ class UserControllerTest extends PHPUnit_Framework_TestCase
 {
 	public function testCreate()
 	{
+		echo "Create test\n";
 		$userController = new UserController;
 
 		$params = array('username' => 'kgiann78',
