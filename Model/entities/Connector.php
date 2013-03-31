@@ -14,9 +14,9 @@ class Connector
     {
         try 
         {
-            $dsn = "mysql:host=localhost;dbname=tl;charset=UTF8";
-            $username = "root";
-            $password = "admin";
+            $dsn = "mysql:host=localhost;dbname=wsms;charset=UTF8";
+            $username = "test";
+            $password = "test";
         
             $this->pdo = new PDO($dsn, $username, $password, array(PDO::ATTR_ERRMODE => PDO::ERRMODE_WARNING));
         } 
