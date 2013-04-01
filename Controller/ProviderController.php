@@ -12,36 +12,36 @@
 
  	public public function create($provider='')
  	{
- 		# code...
+ 		return 0;
  	}
 
  	public function update($id='', $new_provider='')
  	{
- 		# code...
+ 		return 0;
  	}
 
  	public function delete($id='')
  	{
- 		# code...
+ 		return 0;
  	}
 
  	public function view()
  	{
- 		# code...
+ 		return 0;
  	}
 
  	public function viewById($id='')
  	{
- 		# code...
+ 		return 0;
  	}
 
  	public function viewByProduct($product_id='')
  	{
- 		# code...
+ 		return 0;
  	}
 
  	public function getStatistics($id='')
  	{
- 		# code...
+ 		return 0;
  	}
  }

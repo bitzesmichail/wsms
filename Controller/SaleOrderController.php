@@ -12,61 +12,61 @@
 
  	public public function create($sale='')
  	{
- 		# code...
+ 		return 0;
  	}
 
  	public function update($id='', $new_sale='')
  	{
- 		# code...
+ 		return 0;
  	}
 
  	public function delete($id='')
  	{
- 		# code...
+ 		return 0;
  	}
 
  	public function view()
  	{
- 		# code...
+ 		return 0;
  	}
 
  	public function viewById($id='')
  	{
- 		# code...
+ 		return 0;
  	}
 
  	public function viewByDate($dateTime='')
  	{
- 		# code...
+ 		return 0;
  	}
 
  	public function viewExecuted()
  	{
- 		# code...
+ 		return 0;
  	}
 
  	public function viewRemaining()
  	{
- 		# code...
+ 		return 0;
  	}
 
  	public function execute($sale='')
  	{
- 		# code...
+ 		return 0;
  	}
 
  	public function getFinancialByDate($dateTime='')
  	{
- 		# code...
+ 		return 0;
  	}
 
  	public function getFinancialByCustomer($customer_id='')
  	{
- 		# code...
+ 		return 0;
  	}
 
  	public function getFinancialByProduct($product_id='')
  	{
- 		# code...
+ 		return 0;
  	}
  }

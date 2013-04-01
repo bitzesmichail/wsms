@@ -14,16 +14,16 @@
 
  	public function login($username='', $password='')
  	{
- 		# code...
+ 		return 0;
  	}
 
  	public function logout($username='')
  	{
- 		# code...
+ 		return 0;
  	}
 
  	public function redirect() //aka view
  	{
- 		# code...
+ 		return 0;
  	}￼
  }

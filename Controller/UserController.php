@@ -14,28 +14,36 @@ require_once 'Model/UserModel.php';
 
  	public function create($user='')
  	{
- 		echo $user->username;
- 		echo "\n";
- 		echo $user->password;
- 		echo "\n";
- 		echo $user->email;
- 		echo "\n";
- 		$model = new UserModel;
- 		$model->create($user);
+ 		try 
+ 		{
+ 			echo $user->username;
+	 		echo "\n";
+	 		echo $user->password;
+	 		echo "\n";
+	 		echo $user->email;
+	 		echo "\n";
+	 		$model = new UserModel;
+	 		$model->create($user);
+	 		return 0;
+ 		}
+ 		catch(Exception $ex)
+ 		{
+ 			return $ex->getCode();
+ 		}
  	}
 
  	public function update($username='', $new_user='')
  	{
- 		# code...
+ 		return 0;
  	}
 
  	public function delete($username='')
  	{
- 		# code...
+ 		return 0;
  	}
 
  	public function view()
  	{
- 		# code...
+ 		return 0;
  	}
  }

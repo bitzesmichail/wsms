@@ -12,71 +12,71 @@
 
  	public function create($product='')
  	{
- 		# code...
+ 		return 0;
  	}
 
  	public function update($id='', $new_product='')
  	{
- 		# code...
+ 		return 0;
  	}
 
  	public function delete($id='')
  	{
- 		# code...
+ 		return 0;
  	}
 
  	public function view()
  	{
- 		# code...
+ 		return 0;
  	}
 
  	public function viewById($id='')
  	{
- 		# code...
+ 		return 0;
  	}
 
  	public function viewByDescription($value='')
  	{
- 		# code...
+ 		return 0;
  	}
 
  	public function viewByType($type='')
  	{
- 		# code...
+ 		return 0;
  	}
 
  	public function viewByCustomer($value='')
  	{
- 		# code...
+ 		return 0;
  	}
 
  	public function viewByProvider($value='')
  	{
- 		# code...
+ 		return 0;
  	}
 
  	public function getStatistics($id='')
  	{
- 		# code...
+ 		return 0;
  	}
 
  	public function createWishProduct($product='')
  	{
- 		# code...
+ 		return 0;
  	}
 
  	public function updateWishProduct($id='', $new_product='')
  	{
- 		# code...
+ 		return 0;
  	}
 
  	public function deleteWishProduct($id='')
  	{
- 		# code...
+ 		return 0;
  	}
 
  	public function viewWishProduct()
  	{
- 		# code...
+ 		return 0;
  	}
  }

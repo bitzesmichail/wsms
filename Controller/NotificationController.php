@@ -12,21 +12,21 @@
 
  	public function create($notification='')
  	{
- 		# code...
+ 		return 0;
  	}
 
  	public function receive()
  	{
- 		# code...
+ 		return 0;
  	}
 
  	public function view($id='')
  	{
- 		# code...
+ 		return 0;
  	}
 
  	public function dismiss($id='')
  	{
- 		# code...
+ 		return 0;
  	}
  }
