@@ -12,38 +12,39 @@ class Connector
     //note constructor is private so that class cannot be instantiated
     private function __construct()
     {
-        try {
+        try 
+        {
             $dsn = "mysql:host=localhost;dbname=wsms;charset=UTF8";
             $username = "test";
             $password = "test";
         
-            $this->pdo = new PDO($dsn, $username, $password, array(PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION));
-        } catch(PDOException $e) {
-	    echo $e->getMessage();
+            $this->pdo = new PDO($dsn, $username, $password, array(PDO::ATTR_ERRMODE => PDO::ERRMODE_WARNING));
+        } 
+        catch(PDOException $e) 
+        {
+	       echo $e->getMessage();
         }
     }     
 
      //to prevent loop hole in PHP so that the class cannot be cloned
-    private function __clone() {}
+    private function __clone() 
+    {
+
+    }
 
     //used static function so that, this can be called from other classes
+    public static function getInstance()
+    {
+
+    }
+
     public static function getPDO()
     {
-	if( !(self::$instance instanceof self) )
+        if( !(self::$instance instanceof self) )
         {
-	    echo "Created a connection<br />";
             self::$instance = new self();           
         }
-	else
-	{
-	    echo "Already created connection<br />";    
-	}
         return self::$instance->pdo;
-    }
-    
-    public function __destruct()
-    {
-	echo "Destroyed a connection<br />";
     }
 
 }

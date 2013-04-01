@@ -3,7 +3,7 @@
 require_once("entities/Connector.php");
 
 //Not used for the time being
-abstract class Model
+class Model
 {
     
     public function __construct()
