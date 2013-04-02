@@ -6,7 +6,6 @@ require_once("entities/Connector.php");
 
 class UserModel extends Model
 {
-    
     public function __construct()
     {
         //echo "UserModel Constructor<br />";
@@ -16,20 +15,19 @@ class UserModel extends Model
     {
         $pdo = Connector::getPDO();
 
-        try 
+        try
         {
             $stmt = $pdo->prepare("INSERT INTO user
-                      (username, password, email)
-                      VALUES
-                      (:username, :password, :email)");
+                (username, password, email)
+                VALUES
+                (:username, :password, :email)");
 
             $stmt->bindValue(":username", $user->username);
             $stmt->bindValue(":password", $user->password);
             $stmt->bindValue(":email", $user->email);
             $stmt->execute();
-
-        } 
-        catch(PDOException $e) 
+        }
+        catch(PDOException $e)
         {
             echo $e->getMessage();
         }
@@ -37,27 +35,25 @@ class UserModel extends Model
 
     public function update($user)
     {
-        try 
+        try
         {
             $stmt = $pdo->prepare("UPDATE user
-                      SET username = :username,
-                          password = :password,
-                          email = :email
-                      WHERE idUser = :idUser");
-
+                SET username = :username,
+                password = :password,
+                email = :email
+                WHERE idUser = :idUser");
             $stmt->bindValue(":username", $user->username);
             $stmt->bindValue(":password", $user->password);
             $stmt->bindValue(":email", $user->email);
             $stmt->bindValue(":idUser", $user->idUser);
             $stmt->execute();
-
-        } 
-        catch (PDOException $e) 
+        }
+        catch (PDOException $e)
         {
             echo $e->getMessage();
         }
     }
-    
+
     public function delete($idUser)
     {
         $pdo = Connector::getPDO();
@@ -83,17 +79,17 @@ class UserModel extends Model
 
     public function getUsers() 
     {
-        try 
+        try
         {
             $stmt = $pdo->prepare("SELECT * FROM user");
-        
+
             $stmt->bindParam(":username", $username);               
             $stmt->execute();
 
             $users = $stmt->fetchAll(PDO::FETCH_CLASS, "user"); 
 
             return $users;
-        } 
+        }
         catch(PDOException $e) 
         {
             echo $e->getMessage();
@@ -104,5 +100,4 @@ class UserModel extends Model
     {
         # code...
     }
-
 }

@@ -9,7 +9,7 @@ require_once 'Model/UserModel.php';
  {
  	public function __construct()
  	{
-    	# code...
+ 		# code...
  	}
 
  	public function create($user='')

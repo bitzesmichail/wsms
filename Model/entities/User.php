@@ -12,12 +12,12 @@ class User
     {
     	if ( !User::isValidUsername($username) )
 		{
-		    die("username can't be empty");
+			die("username can't be empty");
 		}
 
 		if ( !User::isValidPassword($password) )
 		{
-		    die("password must be at least 6 chars long");
+			die("password must be at least 6 chars long");
 		}
 
 		$this->username = $username;
@@ -31,7 +31,7 @@ class User
     {
 		switch ($param)
 		{
-		    case "idUser":
+			case "idUser":
 				return $this->idUser;	    
 		    case "username":
 				return $this->username;
@@ -42,31 +42,31 @@ class User
 		    case "roles":
 				return $this->roles;
 		}
-    }
-    
-    public function __set($name, $value)
+	}
+
+	public function __set($name, $value)
     {
 		switch ($name)
 		{
-		    case "idUser":
-				$this->idUser = $value;	    
-		    case "username":
+			case "idUser":
+				$this->idUser = $value;
+			case "username":
 				if ( isValidUsername($value) )
 				{
 				    $this->username = $value;
 				}
-		    case "password":
+			case "password":
 				if ( isValidPassword($value) )
 				{
 				    $this->password = $value;
 				}
-		    case "email":
+			case "email":
 				$this->email = $value;
-		    case "roles":
+			case "roles":
 				$this->roles = $value;
 		}
     }
-    
+
     public static function isValidUsername($username)
     {
 		if ( $username == null || $username == "" )
@@ -75,7 +75,7 @@ class User
 		}
 		return true;
     }
-    
+
     public static function isValidPassword($password)
     {
 		if ($password == null || strlen($password) < 6)
