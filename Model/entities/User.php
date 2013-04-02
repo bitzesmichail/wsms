@@ -2,13 +2,13 @@
  
 class User
 {   
-    private $idUser;
-    private $username;
-    private $password;
-    private $email;
-    private $roles;
+    private $idUser = 0;
+    private $username = '';
+    private $password = '';
+    private $email = '';
+    private $roles = array();
     
-    public function __construct($username, $password, $email = null, $idUser = null)
+    public function __construct($username, $password, $email = null, $idUser = null, $roles = null)
     {
     	if ( !User::isValidUsername($username) )
 		{
