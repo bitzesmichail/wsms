@@ -8,9 +8,9 @@ require_once 'Model/UserModel.php';
  class UserController extends Controller
  {
  	public function __construct()
-    {
+ 	{
     	# code...
-    }
+ 	}
 
  	public function create($user='')
  	{

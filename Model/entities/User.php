@@ -10,7 +10,7 @@ class User
     
     public function __construct($username, $password, $email = null, $idUser = null)
     {
-		if ( !User::isValidUsername($username) )
+    	if ( !User::isValidUsername($username) )
 		{
 		    die("username can't be empty");
 		}
