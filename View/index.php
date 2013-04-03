@@ -6,5 +6,15 @@
 		<script src="scriptd.js"></script>
 	</head>
 	<body>
+	<?php
+	if($loggedin == true)
+	{
+		require "index_user.php" ;
+	}
+	else
+	{
+		require "login.php" ;
+	}
+	?>
 	</body>
 </html>
