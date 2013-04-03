@@ -1,6 +1,11 @@
 <?php
+session_start() ;
 if($_POST['subm'] == "yes")
 {
+	require "vcc.php" ;
+	$username = addslashes($_POST['username']) ;
+	$password = addslashes($_POST['password']) ;
+	login($username, $password) ;
 }
 else
 {
