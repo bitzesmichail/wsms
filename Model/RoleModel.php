@@ -29,7 +29,7 @@ class RoleModel extends Model
     public function getRoles()
     {
         //returns array of object getRoles
-        return 0;
+        return array(0);
     }
 	
 }

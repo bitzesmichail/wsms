@@ -17,22 +17,17 @@ require_once 'Model/RoleModel.php';
  	{
  		try 
  		{
- 			echo $user->username;
-	 		echo "\n";
-	 		echo $user->password;
-	 		echo "\n";
-	 		echo $user->email;
-	 		echo "\n";
-	 		echo $user->roles[0];
-	 		echo "\n";
+ 			echo "username: ".$user->username."\n";
+	 		echo "password: ".$user->password."\n";
+	 		echo "email: ".$user->email."\n";
+	 		echo "assigned roles: ".$user->roles[0]."\n\n";
 
 	 		$userModel = new UserModel(); 
-	 		$userModel->create($user);
-	 		return 0;
+	 		return $userModel->create($user);
  		}
  		catch(Exception $ex)
  		{
- 			echo $ex->getMessage();
+ 			echo "Error Message: " . $ex->getMessage() . "\n";
  			return $ex->getCode();
  		}
  	}
