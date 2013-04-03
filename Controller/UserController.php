@@ -13,6 +13,16 @@ require_once 'Model/RoleModel.php';
  		# code...
  	}
 
+ 	public function login($username='', $password='')
+ 	{
+ 		return 0;
+ 	}
+
+ 	public function logout($username='')
+ 	{
+ 		return 0;
+ 	}
+
  	public function create($user='')
  	{
  		try 
