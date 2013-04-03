@@ -9,9 +9,9 @@ class UserControllerTest extends PHPUnit_Framework_TestCase
 	{
 		echo "Create test\n";
 		$userController = new UserController;
-		$roles = $userController->getRoles();
+		$roles = array(0);
 		$user = new User('kgiann789', 'qwerty', 'kg@kg.gr', $roles, null);
-		echo "Error Code: ".$userController->create($user);
+		echo "\nError Code: ".$userController->create($user);
 	}
 
 	public function testUdate()
