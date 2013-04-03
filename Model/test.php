@@ -12,22 +12,23 @@ require_once("WishProductModel.php");
 
 require_once("entities/User.php");
 
-
-$userModel = new UserModel();
-
-$user = array('username' => 'alkis',
-              'password' => '111111',
-              'email' => 'alkis@gmail');
-
-$userModel->create(new User($user));
+/*
+UserModel::create(new User("alkis1", "111111"));
+UserModel::create(new User("alkis2", "222222"));
+UserModel::create(new User("alkis3", "333333"));
+UserModel::create(new User("alkis4", "444444"));
+*/
 
 /*
-$roleModel = new RoleModel();
-$saleOrderModel = new SaleOrderModel();
-$supplyOrderModel = new SupplyOrderModel();
-$productModel = new ProductModel();
-$providerModel = new ProviderModel();
-$customerModel = new CustomerModel();
-$notificationModel = new NotificationModel();
-$wishProductModel = new WishProductModel();
+UserModel::delete('3'); //Work both
+UserModel::delete(4);  //
 */
+
+UserModel::update(new User("alkis12", "222222", "alkis@gmail", null, 2));
+$user = UserModel::getUsers("1");
+
+echo "<pre>"; print_r($user); echo "</pre>";
+
+$user[0]->password = "999999";
+
+echo "<pre>"; print_r($user); echo "</pre>";
