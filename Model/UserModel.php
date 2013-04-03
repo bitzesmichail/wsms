@@ -17,7 +17,7 @@ class UserModel extends Model
 
         try
         {
-            $stmt = $pdo->prepare("INSERT INTO user
+            $stmt = $pdo->prepare("INSERT INTO User
                 (username, password, email)
                 VALUES
                 (:username, :password, :email)");
@@ -37,7 +37,7 @@ class UserModel extends Model
     {
         try
         {
-            $stmt = $pdo->prepare("UPDATE user
+            $stmt = $pdo->prepare("UPDATE User
                 SET username = :username,
                 password = :password,
                 email = :email
@@ -59,7 +59,7 @@ class UserModel extends Model
         $pdo = Connector::getPDO();
         try 
         {
-            $stmt = $pdo->prepare("DELETE FROM user
+            $stmt = $pdo->prepare("DELETE FROM User
                       WHERE idUser = :idUser");
 
             $stmt->bindValue(":idUser", $idUser);       
@@ -81,12 +81,12 @@ class UserModel extends Model
     {
         try
         {
-            $stmt = $pdo->prepare("SELECT * FROM user");
+            $stmt = $pdo->prepare("SELECT * FROM User");
 
             $stmt->bindParam(":username", $username);               
             $stmt->execute();
 
-            $users = $stmt->fetchAll(PDO::FETCH_CLASS, "user"); 
+            $users = $stmt->fetchAll(PDO::FETCH_CLASS, "User"); 
 
             return $users;
         }

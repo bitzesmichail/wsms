@@ -7,8 +7,8 @@ class RoleModel extends Model
     
     public function __construct()
     {
-        parent::__construct();
-        echo "RoleModel Constructor<br />";
+        // parent::__construct();
+        // echo "RoleModel Constructor";
     }
 
     public function create($role)
@@ -29,7 +29,7 @@ class RoleModel extends Model
     public function getRoles()
     {
         //returns array of object getRoles
-        return 0;
+        return array(0);
     }
 	
 }

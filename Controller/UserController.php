@@ -2,36 +2,32 @@
 
 require_once 'Controller.php';
 require_once 'Model/UserModel.php';
+require_once 'Model/RoleModel.php';
 /**
  * Controller for users
  */
  class UserController extends Controller
  {
-
- 	private $userModel;
- 	private $roleModel;
-
  	public function __construct()
  	{
- 		$userModel = new UserModel;
- 		$roleModel = new RoleModel;
+ 		# code...
  	}
 
  	public function create($user='')
  	{
  		try 
  		{
- 			echo $user->username;
-	 		echo "\n";
-	 		echo $user->password;
-	 		echo "\n";
-	 		echo $user->email;
-	 		echo "\n";
-	 		$userModel->create($user);
-	 		return 0;
+ 			echo "username: ".$user->username."\n";
+	 		echo "password: ".$user->password."\n";
+	 		echo "email: ".$user->email."\n";
+	 		echo "assigned roles: ".$user->roles[0]."\n\n";
+
+	 		$userModel = new UserModel(); 
+	 		return $userModel->create($user);
  		}
  		catch(Exception $ex)
  		{
+ 			echo "Error Message: " . $ex->getMessage() . "\n";
  			return $ex->getCode();
  		}
  	}
@@ -53,6 +49,7 @@ require_once 'Model/UserModel.php';
 
  	public function viewRoles()
  	{
+ 		$roleModel = new RoleModel();
  		return $roleModel->getRoles();
  	}
  }
