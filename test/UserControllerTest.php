@@ -13,4 +13,19 @@ class UserControllerTest extends PHPUnit_Framework_TestCase
 
 		echo "Error Code: ".$userController->create($user);
 	}
+
+	public function testUdate()
+	{
+		# code...
+	}
+
+	public function testDelete()
+	{
+		# code...
+	}
+
+	public function testGetUsesrs($value='')
+	{
+		# code...
+	}
 }
