@@ -14,9 +14,16 @@ class UserControllerTest extends PHPUnit_Framework_TestCase
 		echo "\nError Code: " . $userController->create($user) . "\n";
 	}
 
-	public function testUdate()
+	public function testUpdate()
 	{
-		# code...
+		echo "Update test\n";
+		$userController = new UserController;
+		$roles = $userController->viewRoles();
+
+		//this test requires a user michalis to be present in the db
+		//update user
+		$user = new User('michalis', 'tralala!@#', 'test@test2.gr', $roles, null);
+		echo "\nError Code: " . $userController->update($user) . "\n";
 	}
 
 	public function testDelete()

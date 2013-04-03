@@ -44,7 +44,23 @@ require_once 'Model/RoleModel.php';
 
  	public function update($username='', $new_user='')
  	{
- 		return 0;
+ 		try 
+ 		{
+ 			echo "username to be updated: ".$username."\n";
+
+ 			echo "username: ".$new_user->username."\n";
+	 		echo "password: ".$new_user->password."\n";
+	 		echo "email: ".$new_user->email."\n";
+	 		echo "assigned roles: ".$new_user->roles[0]."\n\n";
+
+	 		$userModel = new UserModel(); 
+	 		return $userModel->update($new_user);
+ 		}
+ 		catch(Exception $ex)
+ 		{
+ 			echo "Error Message: " . $ex->getMessage() . "\n";
+ 			return $ex->getCode();
+ 		}
  	}
 
  	public function delete($username='')
