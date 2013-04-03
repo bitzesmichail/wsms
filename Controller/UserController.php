@@ -7,9 +7,14 @@ require_once 'Model/UserModel.php';
  */
  class UserController extends Controller
  {
+
+ 	private $userModel;
+ 	private $roleModel;
+
  	public function __construct()
  	{
- 		# code...
+ 		$userModel = new UserModel;
+ 		$roleModel = new RoleModel;
  	}
 
  	public function create($user='')
@@ -22,8 +27,7 @@ require_once 'Model/UserModel.php';
 	 		echo "\n";
 	 		echo $user->email;
 	 		echo "\n";
-	 		$model = new UserModel;
-	 		$model->create($user);
+	 		$userModel->create($user);
 	 		return 0;
  		}
  		catch(Exception $ex)
@@ -45,5 +49,10 @@ require_once 'Model/UserModel.php';
  	public function view()
  	{
  		return 0;
+ 	}
+
+ 	public function viewRoles()
+ 	{
+ 		return $roleModel->getRoles();
  	}
  }
