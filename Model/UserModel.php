@@ -106,12 +106,12 @@ class UserModel extends Model
                                   FROM User
                                   WHERE idUser = :idUser");
 
-            $stmt->bindParam(":idUser", $idUser);
+            $stmt->bindValue(":idUser", $idUser);
             $stmt->execute();
             
-            $userCol = $stmt->fetch(FETCH_ASSOC);
+            $userCol = $stmt->fetch(PDO::FETCH_ASSOC);
             
-            return new User($userCol['username'], $userArray['password'], $userArray['email'], null, $userArray['idUser']);
+            return new User($userCol['username'], $userCol['password'], $userCol['email'], null, $userCol['idUser']);
         }
         catch(PDOException $e) 
         {

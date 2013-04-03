@@ -77,7 +77,7 @@ class RoleModel extends Model
             $stmt = $pdo->prepare("SELECT * FROM Role");          
             $stmt->execute();
 
-            $rolesColumns = $stmt->fetchAll();       //place null instead of 'roles' cause it will put roles instead of null 
+            $rolesColumns = $stmt->fetchAll();       
             
             $roles = array();
             
@@ -104,11 +104,11 @@ class RoleModel extends Model
                                   FROM Role
                                   WHERE idRole = :idRole");
 
-            $stmt->bindParam(":idRole", $idRole);
+            $stmt->bindValue(":idRole", $idRole);
             $stmt->execute();
-            
-            $roleCol = $stmt->fetch(FETCH_ASSOC);
-            
+	    
+            $roleCol = $stmt->fetch(PDO::FETCH_ASSOC);
+            echo "<pre>"; print_r($roleCol); echo "</pre>";
             return new Role($roleCol['type'], $roleCol['description'], $roleCol['idRole']);
         }
         catch(PDOException $e) 

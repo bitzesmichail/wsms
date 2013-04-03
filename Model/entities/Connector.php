@@ -18,7 +18,7 @@ class Connector
             $username = "test";
             $password = "test";
         
-            $this->pdo = new PDO($dsn, $username, $password, array(PDO::ATTR_ERRMODE => PDO::ERRMODE_WARNING));
+            $this->pdo = new PDO($dsn, $username, $password, array(PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION));
         } 
         catch(PDOException $e) 
         {

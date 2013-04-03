@@ -53,13 +53,4 @@ class Role
 		break;
 	}
     }
-    
-    public static function isNull($param)
-    {
-	if ( $param == null )
-	{
-	    return true;
-	}
-	return false;
-    }
 }
