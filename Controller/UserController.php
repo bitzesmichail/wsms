@@ -73,9 +73,27 @@ require_once 'Model/RoleModel.php';
  		}
  	}
 
- 	public function delete($username='')
+ 	public function delete($idUser)
  	{
- 		return 0;
+ 		try 
+ 		{
+ 			echo "idUser to be deleted: ".$idUser."\n";
+
+	 		//$arr = $newUser->roles;
+
+	 		//foreach ($arr as &$role) {
+	 		//	echo "assigned role: ".$role->type."\n";
+	 		//}
+
+	 		// $userModel = new UserModel(); 
+	 		return UserModel::delete($idUser);
+ 		}
+ 		catch(Exception $ex)
+ 		{
+ 			echo "Error Message: " . $ex->getMessage() . "\n";
+ 			return $ex->getCode();
+ 		}
+
  	}
 
  	public function view()
