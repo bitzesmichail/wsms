@@ -34,6 +34,22 @@ class UserControllerTest extends PHPUnit_Framework_TestCase
 		echo "\nError Code: " . $userController->update($newUser) . "\n";
 	}
 
+	public function testLogin()
+	{
+		echo "Login test\n";
+		$userController = new UserController;
+		$result = $userController->login('kgiann789', 'qwert');
+		
+		if ($result instanceof User) 
+		{
+			echo "User " . $result->username . " was found!\n";
+		}
+		else
+		{
+			echo "User kgiann789 was not found!\n";
+		}
+	}
+
 	public function testDelete()
 	{
 		# code...

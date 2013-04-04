@@ -15,11 +15,25 @@ require_once 'Model/RoleModel.php';
 
  	public function login($username='', $password='')
  	{
- 		return 0;
+ 		// getUserByUsername
+ 		// lets say we got one...
+ 		$user = $this->view()[0];
+
+ 		// compare user with given password
+ 		// if ok then return $user else return error
+ 		if ($user->password != $password) 
+ 		{
+ 			return -1;
+ 		}
+ 		else
+ 		{
+ 			return $user;
+ 		}
  	}
 
  	public function logout($username='')
  	{
+ 		// do something here that I dont understand wtf can logout do in the UserController...
  		return 0;
  	}
 
@@ -73,7 +87,7 @@ require_once 'Model/RoleModel.php';
  		}
  	}
 
- 	public function delete($idUser)
+ 	public function delete($idUser='')
  	{
  		try 
  		{
@@ -96,9 +110,9 @@ require_once 'Model/RoleModel.php';
 
  	}
 
- 	public function view()
+ 	public static function view()
  	{
- 		return 0;
+ 		return UserModel::getUsers();
  	}
 
  	public function viewRoles()
