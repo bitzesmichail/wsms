@@ -1,0 +1,38 @@
+body
+{
+	font-family: arial ;
+	font-size: 15px ;
+	background: url(images/bg.png) ;
+}
+
+#login
+{
+	position: absolute ;
+	top: 200px ;
+	left: 200px ;
+	padding: 30px ;
+	border-radius: 12px ;
+	-moz-border-radius: 12px ;
+	-webkit-border-radius: 12px ;
+	background: #aaaaaa ;
+}
+
+#container
+{
+	width: 1024px ;
+	border-radius: 10px ;
+	-moz-border-radius: 10px ;
+	-webkit-border-radius: 10px ;
+	background: rgba(255, 255, 255, 0.6) ;
+	color: black ;
+	padding: 10px ;
+}
+
+
+
+
+
+
+
+
+
