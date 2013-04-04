@@ -14,7 +14,7 @@ class UserModel extends Model
     public static function create($user) 
     {
         $pdo = Connector::getPDO();
-
+        //Check if roles is null or not. 
         try
         {
             $stmt = $pdo->prepare("INSERT INTO User
@@ -26,6 +26,29 @@ class UserModel extends Model
             $stmt->bindValue(":password", $user->password);
             $stmt->bindValue(":email", $user->email);
             $stmt->execute();
+            
+            $idUser = $pdo->lastInsertId(); 
+            
+            foreach ($user->roles as $roleType)
+            {
+                $stmt = $pdo->prepare("SELECT idRole 
+                                      FROM Role
+                                      WHERE type = :type");
+    
+                $stmt->bindValue(":type", $roleType);
+                $stmt->execute();
+                
+                $role = $stmt->fetch(PDO::FETCH_ASSOC);
+                
+                $stmt = $pdo->prepare("INSERT INTO UserHasRole
+                                       (idUser, idRole)
+                                      VALUES
+                                       (:idUser, :idRole)");
+    
+                $stmt->bindValue(":idUser", $idUser);
+                $stmt->bindValue(":idRole", $role['idRole']);
+                $stmt->execute();
+            }
         }
         catch(PDOException $e)
         {
@@ -79,17 +102,37 @@ class UserModel extends Model
             $stmt = $pdo->prepare("SELECT * FROM User");          
             $stmt->execute();
 
-            $usersColumns = $stmt->fetchAll();       //place null instead of 'roles' cause it will put roles instead of null 
+            $usersColumns = $stmt->fetchAll();       
             
             $users = array();
             
             foreach ($usersColumns as $userCol)
             {
-                $users[] =  new User($userCol['username'], $userCol['password'], $userCol['email'], null, $userCol['idUser']);     
+                
+                $stmt = $pdo->prepare("SELECT type
+                                      FROM Role, UserHasRole
+                                      WHERE UserHasRole.idUser = :idUser
+                                      AND UserHasRole.idRole = Role.idRole");   
+                
+                $stmt->bindValue(":idUser", $userCol['idUser']);
+                $stmt->execute();
+                
+                $rolesArray = $stmt->fetchAll();
+                
+                $roles = array();
+                
+                foreach ($rolesArray as $roleRow)
+                {
+                    $roles[] = $roleRow[0];
+                }
+                
+               // echo "<pre>"; print_r($roles); echo "</pre>";
+                $users[] =  new User($userCol['username'], $userCol['password'], $userCol['email'], $roles, $userCol['idUser']);     
             }
             
             return $users;
         }
+        
         catch(PDOException $e) 
         {
             echo $e->getMessage();

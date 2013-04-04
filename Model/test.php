@@ -14,21 +14,21 @@ require_once("entities/User.php");
 require_once("entities/Role.php");
 
 /*
-UserModel::create(new User("alkis1", "111111"));
-UserModel::create(new User("alkis2", "222222"));
-UserModel::create(new User("alkis3", "333333"));
-UserModel::create(new User("alkis4", "444444"));
+UserModel::create(new User("alkis77", "111111"));
+UserModel::create(new User("alkis78", "222222"));
+UserModel::create(new User("alkis79", "333333"));
+UserModel::create(new User("alkis80", "444444"));
 */
 
+
+//UserModel::delete('3'); //Work both
+//UserModel::delete(4);  //
+//UserModel::create(new User("teliko", "444444", "alkis@hotmail", array("salesman", "scheduler")));
 /*
-UserModel::delete('3'); //Work both
-UserModel::delete(4);  //
-
-
 UserModel::update(new User("alkis12", "222222", "alkis@gmail", null, 2));
 $user = UserModel::getUsers("1");
 
-echo "<pre>"; print_r($user); echo "</pre>";
+echo "<pre>".print_r($user)."</pre>";
 
 $user[0]->password = "999999";
 
@@ -43,5 +43,13 @@ RoleModel::create(new Role("storage", "mple mple"));
 
 //RoleModel::update(new Role("manager", "trollll", 1));
 
-$role = UserModel::getUserById(2);
-echo "<pre>"; print_r($role); echo "</pre>";
+//$role = UserModel::getUserById(2);
+//echo "<pre>"; print_r($role); echo "</pre>";
+/*
+UserModel::create(new User("alkis77", "111111", "alkis@hotmail", array("scheduler")));
+UserModel::create(new User("alkis78", "222222", "alkis@hotmail", array("salesman", "scheduler")));
+UserModel::create(new User("alkis79", "333333", "alkis@hotmail", array("salesman", "scheduler")));
+UserModel::create(new User("alkis80", "444444", "alkis@hotmail", array("salesman")));
+*/
+$result = UserModel::getUsers();
+echo "<pre>"; print_r($result); echo "</pre>";
