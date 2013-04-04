@@ -59,4 +59,59 @@ class UserControllerTest extends PHPUnit_Framework_TestCase
 	{
 		# code...
 	}
+
+	public function testCreateUpdateDelete()
+	{
+		$userController = new UserController;
+		$roles = $userController->viewRoles();
+		
+		echo "\nCreating a test user\n";		
+		$user = new User('test_user', 'test_password', 'test@test.gr', $roles, null);
+		echo "\nError Code of create: " . $userController->create($user) . "\n";
+
+		//find if the user was really created
+		$users = UserController::view();
+
+		$found = FALSE;
+		foreach($users as &$user) {
+			if($user->username === 'test_user') {
+				$this->assertEquals($user->email, 'test@test.gr');
+				$found = TRUE;
+			}
+		}
+
+		$this->assertEquals(TRUE,$found);
+
+		echo "Updating the test user\n";
+		$newUser = new User('test_user', 'test_password', 'test2@test.gr', $roles, null);
+		echo "\nError Code of update: " . $userController->update($newUser) . "\n";
+
+		//find if the user was really updated
+		$users = UserController::view();
+
+		$found = FALSE;
+		foreach($users as &$user) {
+			if($user->username === 'test_user') {
+				$this->assertEquals($user->email, 'test2@test.gr');				
+				$found = TRUE;
+			}
+		}
+
+		$this->assertEquals(TRUE,$found);
+		
+		echo "Deleting the test user\n";
+		
+		//find it's idUser first
+		$users = UserController::view();
+
+		$found = FALSE;
+		foreach($users as &$user) {
+			if($user->username === 'test_user') {
+				echo "\nError Code of delete: " . $userController->delete($user->idUser) . "\n";
+				$found = TRUE;
+			}
+		}
+
+		$this->assertEquals(TRUE,$found);		
+	}
 }
