@@ -25,6 +25,8 @@ class User
 	$this->email = $email;
 	$this->idUser = $idUser;
 	$this->roles = $roles;
+
+	
     }
     
     public function __get($param)

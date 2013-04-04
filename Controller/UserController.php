@@ -30,10 +30,16 @@ require_once 'Model/RoleModel.php';
  			echo "username: ".$user->username."\n";
 	 		echo "password: ".$user->password."\n";
 	 		echo "email: ".$user->email."\n";
-	 		echo "assigned roles: ".$user->roles[0]."\n\n";
+	 		
+	 		$arr = $user->roles;
 
-	 		$userModel = new UserModel(); 
-	 		return $userModel->create($user);
+	 		foreach ($arr as &$role) {
+	 			echo "assigned role: ".$role->type."\n";
+	 		}
+
+	 		// $userModel = new UserModel(); 
+	 		// return UserModel::create($user);
+	 		return 0;
  		}
  		catch(Exception $ex)
  		{
@@ -53,8 +59,8 @@ require_once 'Model/RoleModel.php';
 	 		echo "email: ".$new_user->email."\n";
 	 		echo "assigned roles: ".$new_user->roles[0]."\n\n";
 
-	 		$userModel = new UserModel(); 
-	 		return $userModel->update($new_user);
+	 		// $userModel = new UserModel(); 
+	 		return UserModel::update($new_user);
  		}
  		catch(Exception $ex)
  		{
@@ -75,7 +81,7 @@ require_once 'Model/RoleModel.php';
 
  	public function viewRoles()
  	{
- 		$roleModel = new RoleModel();
- 		return $roleModel->getRoles();
+ 		// $roleModel = new RoleModel();
+ 		return RoleModel::getRoles();
  	}
  }
