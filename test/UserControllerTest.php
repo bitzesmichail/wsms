@@ -22,9 +22,16 @@ class UserControllerTest extends PHPUnit_Framework_TestCase
 		$roles = $userController->viewRoles();
 
 		//this test requires a user michalis to be present in the db
+		//so...
+		//
+		//$user = $userController->viewUserByUsername/ById/bySomething
+		//
 		//update user
-		$user = new User('michalis', 'tralala!@#', 'test@test2.gr', $roles, null);
-		echo "\nError Code: " . $userController->update($user) . "\n";
+		//
+		//change $user's some value (username/pass/email/roles)
+		$newUser = new User('michalis', 'tralala!@#', 'test@test2.gr', $roles, null);
+		//Update this newUser
+		echo "\nError Code: " . $userController->update($newUser) . "\n";
 	}
 
 	public function testDelete()
