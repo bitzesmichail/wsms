@@ -64,6 +64,10 @@ class UserControllerTest extends PHPUnit_Framework_TestCase
 	{
 		$userController = new UserController;
 		$roles = $userController->viewRoles();
+
+		foreach ($roles as &$value) {
+			echo "Role " . $value->type . "\n";
+		}
 		
 		echo "\nCreating a test user\n";		
 		$user = new User('test_user', 'test_password', 'test@test.gr', $roles, null);
@@ -72,9 +76,13 @@ class UserControllerTest extends PHPUnit_Framework_TestCase
 		//find if the user was really created
 		$users = UserController::view();
 
+		foreach ($users as &$value) {
+			echo "User " . $value->username . " was added\n";
+		}
+
 		$found = FALSE;
 		foreach($users as &$user) {
-			if($user->username === 'test_user') {
+			if($user->username == 'test_user') {
 				$this->assertEquals($user->email, 'test@test.gr');
 				$found = TRUE;
 			}
@@ -83,7 +91,16 @@ class UserControllerTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals(TRUE,$found);
 
 		echo "Updating the test user\n";
-		$newUser = new User('test_user', 'test_password', 'test2@test.gr', $roles, null);
+		$users = UserController::view();
+		foreach($users as &$user) 
+		{
+			if($user->username == 'test_user')
+			{
+				$newUser = $user;
+			}
+		}
+
+		$newUser->email = 'test2@test.gr'; // = new User('test_user', 'test_password', 'test2@test.gr', $roles, null);
 		echo "\nError Code of update: " . $userController->update($newUser) . "\n";
 
 		//find if the user was really updated
@@ -91,7 +108,8 @@ class UserControllerTest extends PHPUnit_Framework_TestCase
 
 		$found = FALSE;
 		foreach($users as &$user) {
-			if($user->username === 'test_user') {
+			if($user->username == 'test_user') {
+				echo "I  have this email " . $user->email . "\n";
 				$this->assertEquals($user->email, 'test2@test.gr');				
 				$found = TRUE;
 			}
@@ -106,7 +124,7 @@ class UserControllerTest extends PHPUnit_Framework_TestCase
 
 		$found = FALSE;
 		foreach($users as &$user) {
-			if($user->username === 'test_user') {
+			if($user->username == 'test_user') {
 				echo "\nError Code of delete: " . $userController->delete($user->idUser) . "\n";
 				$found = TRUE;
 			}

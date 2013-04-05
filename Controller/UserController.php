@@ -52,8 +52,8 @@ require_once 'Model/RoleModel.php';
 	 		}
 
 	 		// $userModel = new UserModel(); 
-	 		// return UserModel::create($user);
-	 		return 0;
+	 		return UserModel::create($user);
+	 		// return 0;
  		}
  		catch(Exception $ex)
  		{

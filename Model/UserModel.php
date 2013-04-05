@@ -68,7 +68,8 @@ class UserModel extends Model
             $stmt->bindValue(":password", $user->password);
             $stmt->bindValue(":email", $user->email);
             $stmt->bindValue(":idUser", $user->idUser);
-            echo $stmt->execute();
+            $stmt->execute();
+            return 0;
         }
         catch (PDOException $e)
         {
