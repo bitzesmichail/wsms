@@ -103,7 +103,7 @@ class UserModel extends Model
             $stmt = $pdo->prepare("SELECT * FROM User");          
             $stmt->execute();
 
-            $usersColumns = $stmt->fetchAll();       
+            $usersColumns = $stmt->fetchAll();
             
             $users = array();
             
@@ -113,7 +113,7 @@ class UserModel extends Model
                 $stmt = $pdo->prepare("SELECT type
                                       FROM Role, UserHasRole
                                       WHERE UserHasRole.idUser = :idUser
-                                      AND UserHasRole.idRole = Role.idRole");   
+                                      AND UserHasRole.idRole = Role.idRole");  
                 
                 $stmt->bindValue(":idUser", $userCol['idUser']);
                 $stmt->execute();

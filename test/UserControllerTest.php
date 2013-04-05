@@ -10,8 +10,13 @@ class UserControllerTest extends PHPUnit_Framework_TestCase
 		echo "Create test\n";
 		$userController = new UserController;
 		$roles = $userController->viewRoles();
+		$str_roles = array();
+
+		foreach ($roles as &$value) {
+			array_push($str_roles, $value->type);
+		}
 		
-		$user = new User('kgiann789', 'qwerty', 'kg@kg.gr', $roles, null);
+		$user = new User('kgiann78', 'qwerty', 'kg@kg.gr', $str_roles, null);
 		echo "\nError Code: " . $userController->create($user) . "\n";
 	}
 
@@ -38,15 +43,23 @@ class UserControllerTest extends PHPUnit_Framework_TestCase
 	{
 		echo "Login test\n";
 		$userController = new UserController;
-		$result = $userController->login('kgiann789', 'qwert');
+		$username = 'kgiann78';
+		$password = 'qwerty';
+		$result = $userController->login($username, $password);
 		
 		if ($result instanceof User) 
 		{
-			echo "User " . $result->username . " was found!\n";
+			echo "Successful login for user " . $result->username . "\n";
+			echo "User data\n" . $result->idUser ."\n" . $result->username ."\n". $result->password ."\n";
+			$arr = $result->roles;
+			foreach ($arr as &$role)
+			{
+				echo $role . "\n";
+			}
 		}
 		else
 		{
-			echo "User kgiann789 was not found!\n";
+			echo "User " . $username . " does not exist!\n";
 		}
 	}
 
@@ -92,7 +105,7 @@ class UserControllerTest extends PHPUnit_Framework_TestCase
 
 		echo "Updating the test user\n";
 		$users = UserController::view();
-		foreach($users as &$user) 
+		foreach($users as &$user)
 		{
 			if($user->username == 'test_user')
 			{
@@ -110,7 +123,7 @@ class UserControllerTest extends PHPUnit_Framework_TestCase
 		foreach($users as &$user) {
 			if($user->username == 'test_user') {
 				echo "I  have this email " . $user->email . "\n";
-				$this->assertEquals($user->email, 'test2@test.gr');				
+				$this->assertEquals($user->email, 'test2@test.gr');			
 				$found = TRUE;
 			}
 		}

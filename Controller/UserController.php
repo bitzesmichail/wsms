@@ -15,19 +15,20 @@ require_once 'Model/RoleModel.php';
 
  	public function login($username='', $password='')
  	{
- 		// getUserByUsername
- 		// lets say we got one...
- 		$user = $this->view()[0];
-
- 		// compare user with given password
- 		// if ok then return $user else return error
- 		if ($user->password != $password) 
+ 		$users = $this->view();
+ 		if (is_array($users)) 
  		{
- 			return -1;
+ 			foreach ($users as &$value) 
+ 			{
+ 				if ($value->username == $username
+ 					&& $value->password == $password) 
+ 				{
+ 					return $value;
+ 				}
+ 			}
  		}
- 		else
- 		{
- 			return $user;
+ 		else {
+ 			return -1;
  		}
  	}
 
@@ -48,7 +49,7 @@ require_once 'Model/RoleModel.php';
 	 		$arr = $user->roles;
 
 	 		foreach ($arr as &$role) {
-	 			echo "assigned role: ".$role->type."\n";
+	 			echo "assigned role: ".$role."\n";
 	 		}
 
 	 		// $userModel = new UserModel(); 
@@ -74,7 +75,7 @@ require_once 'Model/RoleModel.php';
 	 		$arr = $newUser->roles;
 
 	 		foreach ($arr as &$role) {
-	 			echo "assigned role: ".$role->type."\n";
+	 			echo "assigned role: ".$role."\n";
 	 		}
 
 	 		// $userModel = new UserModel(); 
