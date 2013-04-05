@@ -7,11 +7,11 @@ class Role
     private $type;
     private $description;
     
-    public function __construct($type, $description, $idRole = null)
+    public function __construct($type, $description = null, $idRole = null)
     {
-	if($type == null || $description == null)
+	if( $type == null )
 	{
-	    die("Both arguments must be non-null");
+	    die("Type can't be null");
 	}
 	
 	$this->idRole = $idRole;

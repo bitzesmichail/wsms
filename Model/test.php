@@ -51,5 +51,8 @@ UserModel::create(new User("alkis78", "222222", "alkis@hotmail", array("salesman
 UserModel::create(new User("alkis79", "333333", "alkis@hotmail", array("salesman", "scheduler")));
 UserModel::create(new User("alkis80", "444444", "alkis@hotmail", array("salesman")));
 */
-$result = UserModel::getUsers();
+
+UserModel::delete(25);
+$result = UserModel::getUserByUsername("up");
+$result = UserModel::getUserById(20);
 echo "<pre>"; print_r($result); echo "</pre>";
