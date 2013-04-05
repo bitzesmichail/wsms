@@ -11,7 +11,7 @@ class RoleModel extends Model
         
     }
     
-   public static function create($role) 
+   public static function create($roleObj) 
     {
         $pdo = Connector::getPDO();
 
@@ -22,8 +22,8 @@ class RoleModel extends Model
                                    VALUES
                                     (:type, :description)");
 
-            $stmt->bindValue(":type", $role->type);
-            $stmt->bindValue(":description", $role->description);
+            $stmt->bindValue(":type", $roleObj->type);
+            $stmt->bindValue(":description", $roleObj->description);
             $stmt->execute();
         }
         catch(PDOException $e)
@@ -32,7 +32,7 @@ class RoleModel extends Model
         }
     }
 
-    public static function update($role)
+    public static function update($roleObj)
     {
         $pdo = Connector::getPDO();
     
@@ -40,9 +40,9 @@ class RoleModel extends Model
         {
             $stmt = $pdo->prepare("UPDATE Role SET type = :type, description = :description WHERE idRole = :idRole");
             
-            $stmt->bindValue(":type", $role->type);
-            $stmt->bindValue(":description", $role->description);
-            $stmt->bindValue(":idRole", $role->idRole);
+            $stmt->bindValue(":type", $roleObj->type);
+            $stmt->bindValue(":description", $roleObj->description);
+            $stmt->bindValue(":idRole", $roleObj->idRole);
             echo $stmt->execute();
         }
         catch (PDOException $e)
@@ -79,14 +79,14 @@ class RoleModel extends Model
 
             $rolesColumns = $stmt->fetchAll();       
             
-            $roles = array();
+            $roleObjArray = array();
             
             foreach ($rolesColumns as $roleCol)
             {
-                $roles[] =  new Role($roleCol['type'], $roleCol['description'], $roleCol['idRole']);     
+                $roleObjArray[] =  new Role($roleCol['type'], $roleCol['description'], $roleCol['idRole']);     
             }
             
-            return $roles;
+            return $roleObjArray;
         }
         catch(PDOException $e) 
         {
@@ -108,7 +108,7 @@ class RoleModel extends Model
             $stmt->execute();
 	    
             $roleCol = $stmt->fetch(PDO::FETCH_ASSOC);
-            echo "<pre>"; print_r($roleCol); echo "</pre>";
+
             return new Role($roleCol['type'], $roleCol['description'], $roleCol['idRole']);
         }
         catch(PDOException $e) 
