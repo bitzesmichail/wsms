@@ -224,7 +224,11 @@ class UserModel extends Model
                 $roleObjArray[] = new Role($roleCol['type'], $roleCol['description']);
             }
                 
-            return new User($userCol['username'], $userCol['password'], $userCol['email'], $roleObjArray, $userCol['idUser']);
+            return new User($userCol['username'],
+                            $userCol['password'],
+                            $userCol['email'],
+                            $roleObjArray,
+                            $userCol['idUser']);
         }
         catch(PDOException $e) 
         {

@@ -113,16 +113,14 @@ class ProductModel extends Model
 						  $productCol['reservedSum'],
 						  $productCol['orderedSum'],
 						  $productCol['criticalSum'],
-						  $productCol['idProduct'],);
+						  $productCol['idProduct']);
             }
             
             return $productObjArray;
         }
-        
         catch(PDOException $e) 
         {
             echo $e->getMessage();
         }
     }
-    
 }

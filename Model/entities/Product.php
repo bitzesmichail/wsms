@@ -13,8 +13,15 @@ class Product
     private $orderedSum;
     private $criticalSum;
     
-    public function __construct($sku, $description, $priceSale, $priceSupply, $availableSum,
-				$reservedSum, $orderedSum, $criticalSum, $idProduct = null)
+    public function __construct($sku,
+				$description,
+				$priceSale,
+				$priceSupply,
+				$availableSum,
+				$reservedSum,
+				$orderedSum,
+				$criticalSum,
+				$idProduct = null)
     {
 	$this->idProduct = $idProduct;
 	$this->sku = $sku;

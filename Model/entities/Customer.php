@@ -3,38 +3,101 @@
 class Customer
 {
     
-    private $customer;
+    private $idCustomer;
+    private $name;
+    private $surname;
+    private $ssn;
+    private $phone;
+    private $cellphone;
+    private $email;
+    private $address;
+    private $city;
+    private $zipCode;
     
-    public function __construct($customer)
+    public function __construct($name,
+				$surname,
+				$ssn,
+				$phone,
+				$cellphone,
+				$email,
+				$address,
+				$zipCode,
+				$city,
+				$idCustomer = null)
     {
-	$this->customer = $customer;
+	$this->name = $name;
+	$this->surname = $surname;
+	$this->ssn = $ssn;
+	$this->phone = $phone;
+	$this->cellphone = $cellphone;
+	$this->email = $email;
+	$this->address = $address;
+	$this->city = $city;
+	$this->zipCode = $zipCode;
+	$this->idCustomer = $idCustomer;
     }
     
     public function __get($param)
     {
-		switch ($param)
-		{    
-			case "idCustomer":
-			return $this->customer['idCustomer'];
-			case "name":
-			return $this->customer['name'];
-			case "surname":
-			return $this->customer['surname'];
-			case "ssn":
-			return $this->customer['ssn'];
-			case "phone":
-			return $this->customer['phone'];
-			case "cellphone":
-			return $this->customer['cellphone'];
-			case "email":
-			return $this->customer['email'];
-			case "address":
-			return $this->customer['address'];
-			case "zipcode":
-			return $this->customer['zipcode'];
-			case "city":
-			return $this->customer['city'];
-		}
+	switch ($param)
+	{    
+	    case "idCustomer":
+		return $this->idCustomer;
+	    case "name":
+		return $this->name;
+	    case "surname":
+		return $this->surname;
+	    case "ssn":
+		return $this->ssn;
+	    case "phone":
+		return $this->phone;
+	    case "cellphone":
+		return $this->cellphone;
+	    case "email":
+		return $this->email;
+	    case "address":
+		return $this->address;
+	    case "zipCode":
+		return $this->zipCode;
+	    case "city":
+	        return $this->city;
+	}
     }
-
+    
+    public function __set($name, $value)
+    {
+	switch ($name)
+	{
+	    case "idCustomer":
+    		$this->idCustomer = $value;
+		break;
+	    case "name":
+		$this->name = $value;
+		break;
+	    case "surname":
+		$this->surname = $value;
+		break;
+	    case "ssn":
+		$this->ssn = $value;
+		break;
+	    case "phone":
+		$this->phone = $value;
+		break;
+	    case "cellphone":
+		$this->cellphone = $value;
+		break;
+	    case "email":
+		$this->email = $value;
+		break;	 	    
+	    case "address":
+		$this->address = $value;
+		break;
+	    case "zipCode":
+		$this->zipCode = $value;
+		break;
+	    case "city":
+		$this->city = $value;
+		break; 	    
+	}
+    }
 }

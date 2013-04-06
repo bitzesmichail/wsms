@@ -13,13 +13,34 @@ require_once("WishProductModel.php");
 require_once("entities/User.php");
 require_once("entities/Role.php");
 require_once("entities/Product.php");
+require_once("entities/Customer.php");
+                           
+                                
+$customerObj1 = new Customer("alkis",
+                             "kalogeris",
+                             "111111111",
+                             "2102102110",
+                             "696969696",
+			     "alkis@gmail",
+                             "makariou 69",
+                             "11035",
+                             "athens");
 
-$productObj = new Product("sku3", "description1", 2.01, 1.00, 15,
-				5, 0, 10, 4);
+$customerObj2 = new Customer("alkis",
+                             "kalogeris",
+                             "444444444",
+                             "2102102110",
+                             "696969696",
+			     "alkis@gmail",
+                             "makariou 69",
+                             "11035",
+                             "athens",
+                             3);
 
-//ProductModel::create($productObj);
-//ProductModel::update($productObj);
+                            
+//CustomerModel::delete(3);
+//CustomerModel::create($customerObj2);
 //ProductModel::delete(4);
-$result = ProductModel::getProducts();
+$result = CustomerModel::getCustomers();
 
 echo "<pre>"; print_r($result); echo "</pre>";
