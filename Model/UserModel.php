@@ -31,22 +31,16 @@ class UserModel extends Model
             
             foreach ($userObj->roles as $roleObj)
             {
-                $stmt = $pdo->prepare("SELECT idRole 
-                                      FROM Role
-                                      WHERE type = :type");
-    
-                $stmt->bindValue(":type", $roleObj->type);
-                $stmt->execute();
-                
-                $roleCol = $stmt->fetch(PDO::FETCH_ASSOC);
                 
                 $stmt = $pdo->prepare("INSERT INTO UserHasRole
                                        (idUser, idRole)
                                       VALUES
-                                       (:idUser, :idRole)");
+                                       (:idUser, (SELECT idRole 
+                                      FROM Role
+                                      WHERE type = :type))");
     
                 $stmt->bindValue(":idUser", $idUser);
-                $stmt->bindValue(":idRole", $roleCol['idRole']);
+                $stmt->bindValue(":type", $roleObj->type);
                 $stmt->execute();
             }
         }
@@ -224,11 +218,7 @@ class UserModel extends Model
                 $roleObjArray[] = new Role($roleCol['type'], $roleCol['description']);
             }
                 
-            return new User($userCol['username'],
-                            $userCol['password'],
-                            $userCol['email'],
-                            $roleObjArray,
-                            $userCol['idUser']);
+            return new User($userCol['username'], $userCol['password'], $userCol['email'], $roleObjArray, $userCol['idUser']);
         }
         catch(PDOException $e) 
         {

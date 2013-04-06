@@ -7,7 +7,7 @@ class Role
     private $type;
     private $description;
     
-    public function __construct($type, $description = null, $idRole = null)
+    public function __construct($type, $description, $idRole = null)
     {
 	if( $type == null )
 	{

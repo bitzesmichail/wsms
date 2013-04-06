@@ -8,7 +8,7 @@ class User
     private $email;
     private $roles;
     
-    public function __construct($username, $password, $email = null, $roles = null, $idUser = null)
+    public function __construct($username, $password, $email, $roles, $idUser = null)
     {
     	if ( !self::isValidUsername($username) )
 	{
