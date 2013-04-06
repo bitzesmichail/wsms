@@ -8,7 +8,6 @@
  	public function create($value='');
     public function update($value='');
     public function delete($value='');
-    public static function view();
  }
 
 /**
@@ -19,6 +18,5 @@
  	abstract public function create($value='');
     abstract public function update($value='');
     abstract public function delete($value='');
-    abstract public static function view();
  }
 

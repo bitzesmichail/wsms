@@ -1,5 +1,8 @@
 <?php
 
+require_once 'Controller.php';
+require_once 'Model/ProductModel.php';
+
 /**
  * Controller for products
  */
@@ -12,6 +15,7 @@
 
  	public function create($product='')
  	{
+ 		
  		return 0;
  	}
 

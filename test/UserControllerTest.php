@@ -7,60 +7,45 @@ class UserControllerTest extends PHPUnit_Framework_TestCase
 {
 	public function testCreate()
 	{
-		echo "Create test\n";
+		echo "\nCreate test\n";
 		$userController = new UserController;
-		$roles = $userController->viewRoles();
-		$str_roles = array();
-
-		foreach ($roles as &$value) {
-			array_push($str_roles, $value->type);
-		}
+		$roles = UserController::viewRoles();
 		
-		$user = new User('kgiann78', 'qwerty', 'kg@kg.gr', $str_roles, null);
-		echo "\nError Code: " . $userController->create($user) . "\n";
+		$user = new User('kgiann78', 'qwerty', 'kg@test.gr', $roles, null);
+
+		$this->assertEquals($userController->create($user), 0);
 	}
 
 	public function testUpdate()
 	{
-		echo "Update test\n";
+		echo "\nUpdate test\n";
 		$userController = new UserController;
-		$roles = $userController->viewRoles();
+		$users = UserController::view();
+		foreach ($users as &$value) 
+		{
+			if ($value->username == 'kgiann78') 
+			{
+				$user = $value;
+			}
+		}
 
-		//this test requires a user michalis to be present in the db
-		//so...
-		//
-		//$user = $userController->viewUserByUsername/ById/bySomething
-		//
-		//update user
-		//
-		//change $user's some value (username/pass/email/roles)
-		$newUser = new User('michalis', 'tralala!@#', 'test@test2.gr', $roles, null);
-		//Update this newUser
-		echo "\nError Code: " . $userController->update($newUser) . "\n";
+		$user->email = 'test@test2.gr';
+
+		//Update this edited user
+		$this->assertEquals($userController->update($user), 0);
 	}
 
 	public function testLogin()
 	{
-		echo "Login test\n";
+		echo "\nLogin test\n";
 		$userController = new UserController;
 		$username = 'kgiann78';
 		$password = 'qwerty';
 		$result = $userController->login($username, $password);
+
+		assert($result instanceof User);
 		
-		if ($result instanceof User) 
-		{
-			echo "Successful login for user " . $result->username . "\n";
-			echo "User data\n" . $result->idUser ."\n" . $result->username ."\n". $result->password ."\n";
-			$arr = $result->roles;
-			foreach ($arr as &$role)
-			{
-				echo $role . "\n";
-			}
-		}
-		else
-		{
-			echo "User " . $username . " does not exist!\n";
-		}
+		
 	}
 
 	public function testDelete()
@@ -73,76 +58,76 @@ class UserControllerTest extends PHPUnit_Framework_TestCase
 		# code...
 	}
 
-	public function testCreateUpdateDelete()
-	{
-		$userController = new UserController;
-		$roles = $userController->viewRoles();
+	// public function testCreateUpdateDelete()
+	// {
+	// 	$userController = new UserController;
+	// 	$roles = $userController->viewRoles();
 
-		foreach ($roles as &$value) {
-			echo "Role " . $value->type . "\n";
-		}
+	// 	foreach ($roles as &$value) {
+	// 		echo "Role " . $value->type . "\n";
+	// 	}
 		
-		echo "\nCreating a test user\n";		
-		$user = new User('test_user', 'test_password', 'test@test.gr', $roles, null);
-		echo "\nError Code of create: " . $userController->create($user) . "\n";
+	// 	echo "\nCreating a test user\n";		
+	// 	$user = new User('test_user', 'test_password', 'test@test.gr', $roles, null);
+	// 	echo "\nError Code of create: " . $userController->create($user) . "\n";
 
-		//find if the user was really created
-		$users = UserController::view();
+	// 	//find if the user was really created
+	// 	$users = UserController::view();
 
-		foreach ($users as &$value) {
-			echo "User " . $value->username . " was added\n";
-		}
+	// 	foreach ($users as &$value) {
+	// 		echo "User " . $value->username . " was added\n";
+	// 	}
 
-		$found = FALSE;
-		foreach($users as &$user) {
-			if($user->username == 'test_user') {
-				$this->assertEquals($user->email, 'test@test.gr');
-				$found = TRUE;
-			}
-		}
+	// 	$found = FALSE;
+	// 	foreach($users as &$user) {
+	// 		if($user->username == 'test_user') {
+	// 			$this->assertEquals($user->email, 'test@test.gr');
+	// 			$found = TRUE;
+	// 		}
+	// 	}
 
-		$this->assertEquals(TRUE,$found);
+	// 	$this->assertEquals(TRUE,$found);
 
-		echo "Updating the test user\n";
-		$users = UserController::view();
-		foreach($users as &$user)
-		{
-			if($user->username == 'test_user')
-			{
-				$newUser = $user;
-			}
-		}
+	// 	echo "Updating the test user\n";
+	// 	$users = UserController::view();
+	// 	foreach($users as &$user)
+	// 	{
+	// 		if($user->username == 'test_user')
+	// 		{
+	// 			$newUser = $user;
+	// 		}
+	// 	}
 
-		$newUser->email = 'test2@test.gr'; // = new User('test_user', 'test_password', 'test2@test.gr', $roles, null);
-		echo "\nError Code of update: " . $userController->update($newUser) . "\n";
+	// 	$newUser->email = 'test2@test.gr'; // = new User('test_user', 'test_password', 'test2@test.gr', $roles, null);
+	// 	echo "\nError Code of update: " . $userController->update($newUser) . "\n";
 
-		//find if the user was really updated
-		$users = UserController::view();
+	// 	//find if the user was really updated
+	// 	$users = UserController::view();
 
-		$found = FALSE;
-		foreach($users as &$user) {
-			if($user->username == 'test_user') {
-				echo "I  have this email " . $user->email . "\n";
-				$this->assertEquals($user->email, 'test2@test.gr');			
-				$found = TRUE;
-			}
-		}
+	// 	$found = FALSE;
+	// 	foreach($users as &$user) {
+	// 		if($user->username == 'test_user') {
+	// 			echo "I  have this email " . $user->email . "\n";
+	// 			$this->assertEquals($user->email, 'test2@test.gr');			
+	// 			$found = TRUE;
+	// 		}
+	// 	}
 
-		$this->assertEquals(TRUE,$found);
+	// 	$this->assertEquals(TRUE,$found);
 		
-		echo "Deleting the test user\n";
+	// 	echo "Deleting the test user\n";
 		
-		//find it's idUser first
-		$users = UserController::view();
+	// 	//find it's idUser first
+	// 	$users = UserController::view();
 
-		$found = FALSE;
-		foreach($users as &$user) {
-			if($user->username == 'test_user') {
-				echo "\nError Code of delete: " . $userController->delete($user->idUser) . "\n";
-				$found = TRUE;
-			}
-		}
+	// 	$found = FALSE;
+	// 	foreach($users as &$user) {
+	// 		if($user->username == 'test_user') {
+	// 			echo "\nError Code of delete: " . $userController->delete($user->idUser) . "\n";
+	// 			$found = TRUE;
+	// 		}
+	// 	}
 
-		$this->assertEquals(TRUE,$found);		
-	}
+	// 	$this->assertEquals(TRUE,$found);		
+	// }
 }

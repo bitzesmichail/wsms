@@ -42,19 +42,7 @@ require_once 'Model/RoleModel.php';
  	{
  		try 
  		{
- 			echo "username: ".$user->username."\n";
-	 		echo "password: ".$user->password."\n";
-	 		echo "email: ".$user->email."\n";
-	 		
-	 		$arr = $user->roles;
-
-	 		foreach ($arr as &$role) {
-	 			echo "assigned role: ".$role."\n";
-	 		}
-
-	 		// $userModel = new UserModel(); 
-	 		return UserModel::create($user);
-	 		// return 0;
+ 			return UserModel::create($user);
  		}
  		catch(Exception $ex)
  		{
@@ -67,18 +55,6 @@ require_once 'Model/RoleModel.php';
  	{
  		try 
  		{
- 			echo "username to be updated: ".$newUser->username."\n";
-
- 			echo "username: ".$newUser->username."\n";
-	 		echo "password: ".$newUser->password."\n";
-	 		echo "email: ".$newUser->email."\n";
-	 		$arr = $newUser->roles;
-
-	 		foreach ($arr as &$role) {
-	 			echo "assigned role: ".$role."\n";
-	 		}
-
-	 		// $userModel = new UserModel(); 
 	 		return UserModel::update($newUser);
  		}
  		catch(Exception $ex)
@@ -92,15 +68,6 @@ require_once 'Model/RoleModel.php';
  	{
  		try 
  		{
- 			echo "idUser to be deleted: ".$idUser."\n";
-
-	 		//$arr = $newUser->roles;
-
-	 		//foreach ($arr as &$role) {
-	 		//	echo "assigned role: ".$role->type."\n";
-	 		//}
-
-	 		// $userModel = new UserModel(); 
 	 		return UserModel::delete($idUser);
  		}
  		catch(Exception $ex)
@@ -116,7 +83,7 @@ require_once 'Model/RoleModel.php';
  		return UserModel::getUsers();
  	}
 
- 	public function viewRoles()
+ 	public static function viewRoles()
  	{
  		// $roleModel = new RoleModel();
  		return RoleModel::getRoles();
