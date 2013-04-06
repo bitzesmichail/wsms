@@ -14,9 +14,10 @@ require_once("entities/User.php");
 require_once("entities/Role.php");
 require_once("entities/Product.php");
 require_once("entities/Customer.php");
+require_once("entities/Provider.php");
                            
                                 
-$customerObj1 = new Customer("alkis",
+$providerObj1 = new Provider("alkis",
                              "kalogeris",
                              "111111111",
                              "2102102110",
@@ -26,21 +27,22 @@ $customerObj1 = new Customer("alkis",
                              "11035",
                              "athens");
 
-$customerObj2 = new Customer("alkis",
+$providerObj2 = new Provider("alkis",
                              "kalogeris",
-                             "444444444",
+                             "333333335",
                              "2102102110",
                              "696969696",
 			     "alkis@gmail",
                              "makariou 69",
-                             "11035",
+                             "11001",
                              "athens",
-                             3);
+                             1);
 
                             
 //CustomerModel::delete(3);
-//CustomerModel::create($customerObj2);
-//ProductModel::delete(4);
-$result = CustomerModel::getCustomers();
+//ProviderModel::create($providerObj1);
+//ProviderModel::update($providerObj2);
+//ProviderModel::delete(1);
+$result = ProviderModel::getProviders();
 
 echo "<pre>"; print_r($result); echo "</pre>";

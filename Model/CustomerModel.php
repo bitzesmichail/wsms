@@ -13,7 +13,7 @@ class CustomerModel extends Model
     public static function create($customerObj)  
     {
 	$pdo = Connector::getPDO();
-echo "<pre>"; print_r($customerObj); echo "</pre>"; 
+
         try
         {
             $stmt = $pdo->prepare("INSERT INTO Customer

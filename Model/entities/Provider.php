@@ -3,11 +3,38 @@
 class Provider 
 {
     
-    private $provider;
+    private $idProvider;
+    private $name;
+    private $surname;
+    private $ssn;
+    private $phone;
+    private $cellphone;
+    private $email;
+    private $address;
+    private $city;
+    private $zipCode;
     
-    public function __construct($provider)
+    public function __construct($name,
+				$surname,
+				$ssn,
+				$phone,
+				$cellphone,
+				$email,
+				$address,
+				$zipCode,
+				$city,
+				$idProvider = null)
     {
-	$this->provider = $provider;
+	$this->name = $name;
+	$this->surname = $surname;
+	$this->ssn = $ssn;
+	$this->phone = $phone;
+	$this->cellphone = $cellphone;
+	$this->email = $email;
+	$this->address = $address;
+	$this->city = $city;
+	$this->zipCode = $zipCode;
+	$this->idProvider = $idProvider;
     }
     
     public function __get($param)
@@ -15,25 +42,62 @@ class Provider
 	switch ($param)
 	{
 	    case "idProvider":
-		return $this->provider['idProvider'];
+		return $this->idProvider;
 	    case "name":
-		return $this->provider['name'];
+		return $this->name;
 	    case "surname":
-		return $this->provider['surname'];
+		return $this->surname;
 	    case "ssn":
-		return $this->provider['ssn'];
+		return $this->ssn;
 	    case "phone":
-		return $this->provider['phone'];
+		return $this->phone;
 	    case "cellphone":
-		return $this->provider['cellphone'];
+		return $this->cellphone;
 	    case "email":
-		return $this->provider['email'];
+		return $this->email;
 	    case "address":
-		return $this->provider['address'];
-	    case "zipcode":
-		return $this->provider['zipcode'];
+		return $this->address;
+	    case "zipCode":
+		return $this->zipCode;
 	    case "city":
-		return $this->provider['city'];
+		return $this->city;
+	}
+    }
+    
+    public function __set($name, $value)
+    {
+	switch ($name)
+	{
+	    case "idProvider":
+    		$this->idProvider = $value;
+		break;
+	    case "name":
+		$this->name = $value;
+		break;
+	    case "surname":
+		$this->surname = $value;
+		break;
+	    case "ssn":
+		$this->ssn = $value;
+		break;
+	    case "phone":
+		$this->phone = $value;
+		break;
+	    case "cellphone":
+		$this->cellphone = $value;
+		break;
+	    case "email":
+		$this->email = $value;
+		break;	 	    
+	    case "address":
+		$this->address = $value;
+		break;
+	    case "zipCode":
+		$this->zipCode = $value;
+		break;
+	    case "city":
+		$this->city = $value;
+		break; 	    
 	}
     }
 
