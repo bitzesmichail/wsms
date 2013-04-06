@@ -14,7 +14,7 @@ class UserModel extends Model
     public static function create($userObj) 
     {
         $pdo = Connector::getPDO();
-        //Check if roles is null or not. 
+        
         try
         {
             $stmt = $pdo->prepare("INSERT INTO User
@@ -59,10 +59,14 @@ class UserModel extends Model
     public static function update($userObj)
     {
         $pdo = Connector::getPDO();
-        //print_r($user);
+        
         try
         {
-            $stmt = $pdo->prepare("UPDATE User SET username = :username, password = :password, email = :email WHERE idUser = :idUser");
+            $stmt = $pdo->prepare("UPDATE User SET
+                                    username = :username,
+                                    password = :password,
+                                    email = :email
+                                  WHERE idUser = :idUser");
             
             $stmt->bindValue(":username", $userObj->username);
             $stmt->bindValue(":password", $userObj->password);
@@ -128,7 +132,11 @@ class UserModel extends Model
                 }
                 
                // echo "<pre>"; print_r($roles); echo "</pre>";
-                $userObjArray[] =  new User($userCol['username'], $userCol['password'], $userCol['email'], $roleObjArray, $userCol['idUser']);     
+                $userObjArray[] =  new User($userCol['username'],
+                                            $userCol['password'],
+                                            $userCol['email'],
+                                            $roleObjArray,
+                                            $userCol['idUser']);     
             }
             
             return $userObjArray;
@@ -172,7 +180,11 @@ class UserModel extends Model
                 $roleObjArray[] = new Role($roleCol['type'], $roleCol['description']);
             }
                 
-            return new User($userCol['username'], $userCol['password'], $userCol['email'], $roleObjArray, $userCol['idUser']);
+            return new User($userCol['username'],
+                            $userCol['password'],
+                            $userCol['email'],
+                            $roleObjArray,
+                            $userCol['idUser']);
         }
         catch(PDOException $e) 
         {
