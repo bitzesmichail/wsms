@@ -3,11 +3,11 @@
 class WishProduct 
 {
     
-    private $wishProduct;
+    private ;
     
-    public function __construct($wishProduct)
+    public function __construct()
     {
-	$this->wishProduct = $wishProduct;
+	
     }
     
     public function __get($param)
@@ -15,13 +15,13 @@ class WishProduct
 	switch ($param)
 	{
 	    case "idWishProduct":
-		return $this->wishProduct['idWishProduct'];
+		return $this->idWishProduct;
 	    case "quantity":
-		return $this->wishProduct['quantity'];
+		return $this->quantity;
 	    case "description":
-		return $this->wishProduct['description'];
+		return $this->description;
 	    case "idUser":
-		return $this->wishProduct['idUser'];	    
+		return $this->idUser;	    
 	}
     }
 

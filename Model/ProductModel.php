@@ -118,9 +118,72 @@ class ProductModel extends Model
             
             return $productObjArray;
         }
+        
         catch(PDOException $e) 
         {
             echo $e->getMessage();
         }
     }
+    
+    public static function getProductById($idProduct)
+    {
+	$pdo = Connector::getPDO();
+        
+        try
+        {
+            $stmt = $pdo->prepare("SELECT *
+                                  FROM Product
+                                  WHERE idProduct = :idProduct");
+
+            $stmt->bindValue(":idProduct", $idProduct);
+            $stmt->execute();
+	    
+            $productCol = $stmt->fetch(PDO::FETCH_ASSOC);
+	    
+	    return new Product($productCol["sku"],
+			       $productCol["description"],
+			       $productCol["priceSale"],
+			       $productCol["priceSupply"],
+			       $productCol["availableSum"],
+			       $productCol["reservedSum"],
+			       $productCol["orderedSum"],
+			       $productCol["criticalSum"],
+			       $idProduct);
+        }
+        catch(PDOException $e) 
+        {
+            echo $e->getMessage();
+        }
+    }
+    
+    public static function getProductBySku($sku)
+    {
+	$pdo = Connector::getPDO();
+        
+        try
+        {
+            $stmt = $pdo->prepare("SELECT *
+                                  FROM Product
+                                  WHERE sku = :sku");
+
+            $stmt->bindValue(":sku", $sku);
+            $stmt->execute();
+	    
+            $productCol = $stmt->fetch(PDO::FETCH_ASSOC);
+	    
+	    return new Product($sku,
+			       $productCol["description"],
+			       $productCol["priceSale"],
+			       $productCol["priceSupply"],
+			       $productCol["availableSum"],
+			       $productCol["reservedSum"],
+			       $productCol["orderedSum"],
+			       $productCol["criticalSum"]);
+        }
+        catch(PDOException $e) 
+        {
+            echo $e->getMessage();
+        }
+    }
+    
 }

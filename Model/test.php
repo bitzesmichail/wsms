@@ -16,33 +16,7 @@ require_once("entities/Product.php");
 require_once("entities/Customer.php");
 require_once("entities/Provider.php");
                            
-                                
-$providerObj1 = new Provider("alkis",
-                             "kalogeris",
-                             "111111111",
-                             "2102102110",
-                             "696969696",
-			     "alkis@gmail",
-                             "makariou 69",
-                             "11035",
-                             "athens");
-
-$providerObj2 = new Provider("alkis",
-                             "kalogeris",
-                             "333333335",
-                             "2102102110",
-                             "696969696",
-			     "alkis@gmail",
-                             "makariou 69",
-                             "11001",
-                             "athens",
-                             1);
-
                             
-//CustomerModel::delete(3);
-//ProviderModel::create($providerObj1);
-//ProviderModel::update($providerObj2);
-//ProviderModel::delete(1);
-$result = ProviderModel::getProviders();
+$result = CustomerModel::getDiscount(1, 1);
 
 echo "<pre>"; print_r($result); echo "</pre>";

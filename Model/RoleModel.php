@@ -116,4 +116,29 @@ class RoleModel extends Model
             echo $e->getMessage();
         }
     }
+    
+    public static function getRoleByType($type)
+    {
+    	$pdo = Connector::getPDO();
+    
+    	try
+    	{
+            $stmt = $pdo->prepare("SELECT *
+                                  FROM Role
+                                  WHERE type = :type");
+
+            $stmt->bindValue(":type", $type);
+            $stmt->execute();
+      
+            $roleCol = $stmt->fetch(PDO::FETCH_ASSOC);
+
+            return new Role($roleCol['type'],
+                            $roleCol['description'],
+                            $roleCol['idRole']);
+    	}
+    	catch(PDOException $e)
+    	{
+    		echo $e->getMessage();
+    	}
+    }
 }

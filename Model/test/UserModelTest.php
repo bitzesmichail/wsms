@@ -1,9 +1,9 @@
 <?php
 
-require_once("../RoleModel.php");
-require_once("../UserModel.php");
-require_once("../entities/User.php");
-require_once("../entities/Role.php");
+require_once("RoleModel.php");
+require_once("UserModel.php");
+require_once("entities/User.php");
+require_once("entities/Role.php");
 
 echo "Creating all 4 Roles!</br>";
 

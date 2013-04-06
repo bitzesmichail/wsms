@@ -126,4 +126,91 @@ class CustomerModel extends Model
             echo $e->getMessage();
         }
     }
+    
+    public static function getCustomerById($idCustomer)
+    {
+	$pdo = Connector::getPDO();
+        
+        try
+        {
+            $stmt = $pdo->prepare("SELECT *
+                                  FROM Customer
+                                  WHERE idCustomer = :idCustomer");
+
+            $stmt->bindValue(":idCustomer", $idCustomer);
+            $stmt->execute();
+	    
+            $customerCol = $stmt->fetch(PDO::FETCH_ASSOC);
+	    
+	    return new Customer($customerCol['name'],
+				$customerCol['surname'],
+				$customerCol['ssn'],
+				$customerCol['phone'],
+				$customerCol['cellphone'],
+				$customerCol['email'],
+				$customerCol['address'],
+				$customerCol['city'],
+				$customerCol['zipCode'],
+			        $idCustomer);
+        }
+        catch(PDOException $e) 
+        {
+            echo $e->getMessage();
+        }
+    }
+    
+    public static function setDiscount($idCustomer, $idProduct, $discount)
+    {
+	if($discount > 1)
+	{
+	    return -1;
+	}
+	
+	$pdo = Connector::getPDO();
+	
+	try
+        {
+            $stmt = $pdo->prepare("INSERT INTO CustomerHasDiscount
+				    (idCustomer, idProduct, discount)
+				   VALUES
+				    (:idCustomer, :idProduct, :discount)
+				   ON DUPLICATE KEY UPDATE
+				    discount = :discount");
+
+            $stmt->bindValue(":idCustomer", $idCustomer);
+	    $stmt->bindValue(":idProduct", $idProduct);
+	    $stmt->bindValue(":discount", $discount);
+            $stmt->execute();
+	        
+        }
+        catch(PDOException $e) 
+        {
+            echo $e->getMessage();
+        }
+    }
+    
+    public static function getDiscount($idCustomer, $idProduct)
+    {
+	$pdo = Connector::getPDO();
+	
+	try
+        {
+            $stmt = $pdo->prepare("SELECT discount
+				  FROM CustomerHasDiscount
+				  WHERE idCustomer = :idCustomer
+				  AND idProduct = :idProduct");
+
+            $stmt->bindValue(":idCustomer", $idCustomer);
+	    $stmt->bindValue(":idProduct", $idProduct);
+            $stmt->execute();
+	        
+	    $discountCol = $stmt->fetch(PDO::FETCH_ASSOC);
+	    
+	    return $discountCol['discount'];
+        }
+        catch(PDOException $e) 
+        {
+            echo $e->getMessage();
+        }
+    }
 }
