@@ -15,7 +15,7 @@ require_once 'Model/RoleModel.php';
 
  	public function login($username='', $password='')
  	{
- 		$users = $this->view();
+ 		$users = $this->viewAll();
  		if (is_array($users)) 
  		{
  			foreach ($users as &$value) 
@@ -34,7 +34,6 @@ require_once 'Model/RoleModel.php';
 
  	public function logout($username='')
  	{
- 		// do something here that I dont understand wtf can logout do in the UserController...
  		return 0;
  	}
 
@@ -78,14 +77,13 @@ require_once 'Model/RoleModel.php';
 
  	}
 
- 	public static function view()
+ 	public static function viewAll()
  	{
  		return UserModel::getUsers();
  	}
 
  	public static function viewRoles()
  	{
- 		// $roleModel = new RoleModel();
  		return RoleModel::getRoles();
  	}
  }
