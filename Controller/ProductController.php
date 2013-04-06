@@ -8,40 +8,87 @@ require_once 'Model/ProductModel.php';
  */
  class ProductController extends Controller
  {
- 	function __construct(argument)
+ 	function __construct()
  	{
  		# code...
  	}
 
  	public function create($product='')
  	{
- 		
- 		return 0;
+ 		try 
+ 		{
+ 			return ProductModel::create($product);
+ 		}
+ 		catch(Exception $ex)
+ 		{
+ 			echo "Error Message: " . $ex->getMessage() . "\n";
+ 			return $ex->getCode();
+ 		}
  	}
 
- 	public function update($id='', $new_product='')
+ 	public function update($new_product='')
  	{
- 		return 0;
+ 		try 
+ 		{
+	 		return ProductModel::update($newProduct);
+ 		}
+ 		catch(Exception $ex)
+ 		{
+ 			echo "Error Message: " . $ex->getMessage() . "\n";
+ 			return $ex->getCode();
+ 		}
  	}
 
  	public function delete($id='')
  	{
- 		return 0;
+ 		try 
+ 		{
+	 		return ProductModel::delete($idProduct);
+ 		}
+ 		catch(Exception $ex)
+ 		{
+ 			echo "Error Message: " . $ex->getMessage() . "\n";
+ 			return $ex->getCode();
+ 		}
  	}
 
- 	public function view()
+ 	public static function viewAll()
  	{
- 		return 0;
+ 		// return ProductModel::getProducts();
  	}
 
  	public function viewById($id='')
  	{
- 		return 0;
+ 		$products = ProductModel::getProducts();
+
+ 		if (is_array($products)) 
+ 		{
+ 			foreach ($products as &$value) 
+ 			{
+ 				if ($value->idProduct == $id)
+ 				{
+ 					return $value;
+ 				}
+ 			}
+ 		}
+ 		return null;
  	}
 
  	public function viewByDescription($value='')
  	{
- 		return 0;
+ 		$products = ProductModel::getProducts();
+
+ 		if (is_array($products)) 
+ 		{
+ 			foreach ($products as &$value) 
+ 			{
+ 				if ($value->description == $value)
+ 				{
+ 					return $value;
+ 				}
+ 			}
+ 		}
+ 		return null;
  	}
 
  	public function viewByType($type='')

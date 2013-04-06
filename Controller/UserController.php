@@ -15,21 +15,16 @@ require_once 'Model/RoleModel.php';
 
  	public function login($username='', $password='')
  	{
- 		$users = $this->viewAll();
- 		if (is_array($users)) 
+ 		$user = UserController::viewByUsername($username);
+
+ 		if (!is_null($user))
  		{
- 			foreach ($users as &$value) 
+ 			if ($user->password == $password)
  			{
- 				if ($value->username == $username
- 					&& $value->password == $password) 
- 				{
- 					return $value;
- 				}
+ 				return $user;
  			}
  		}
- 		else {
- 			return -1;
- 		}
+ 		return -1;
  	}
 
  	public function logout($username='')
@@ -74,13 +69,46 @@ require_once 'Model/RoleModel.php';
  			echo "Error Message: " . $ex->getMessage() . "\n";
  			return $ex->getCode();
  		}
-
  	}
 
  	public static function viewAll()
  	{
  		return UserModel::getUsers();
  	}
+
+ 	public static function viewById($id='')
+ 	{
+ 		$users = UserModel::getUsers();
+
+ 		if (is_array($users)) 
+ 		{
+ 			foreach ($users as &$value) 
+ 			{
+ 				if ($value->idUser == $id)
+ 				{
+ 					return $value;
+ 				}
+ 			}
+ 		}
+ 		return null;
+ 	}
+
+ 	public static function viewByUsername($username='')
+ 	{
+ 		$users = UserModel::getUsers();
+
+ 		if (is_array($users)) 
+ 		{
+ 			foreach ($users as &$value) 
+ 			{
+ 				if ($value->username == $username)
+ 				{
+ 					return $value;
+ 				}
+ 			}
+ 		}
+ 		return null;
+ 	} 	
 
  	public static function viewRoles()
  	{

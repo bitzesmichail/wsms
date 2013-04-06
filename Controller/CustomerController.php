@@ -1,33 +1,60 @@
 <?php
 
+require_once 'Controller.php';
+require_once 'Model/CustomerModel.php';
+
 /**
  * Controller for customers
  */
  class CustomerController extends Controller
  {
- 	function __construct(argument)
+ 	function __construct()
  	{
  		# code...
  	}
 
  	public public function create($customer='')
  	{
- 		return 0;
+ 		try 
+ 		{
+ 			return CustomerModel::create($Customer);
+ 		}
+ 		catch(Exception $ex)
+ 		{
+ 			echo "Error Message: " . $ex->getMessage() . "\n";
+ 			return $ex->getCode();
+ 		}
  	}
 
  	public function update($id='', $new_customer='')
  	{
- 		return 0;
+ 			try 
+ 		{
+	 		return CustomerModel::update($newCustomer);
+ 		}
+ 		catch(Exception $ex)
+ 		{
+ 			echo "Error Message: " . $ex->getMessage() . "\n";
+ 			return $ex->getCode();
+ 		}
  	}
 
  	public function delete($id='')
  	{
- 		return 0;
+ 		try 
+ 		{
+	 		return CustomerModel::delete($idCustomer);
+ 		}
+ 		catch(Exception $ex)
+ 		{
+ 			echo "Error Message: " . $ex->getMessage() . "\n";
+ 			return $ex->getCode();
+ 		}
  	}
 
  	public function view()
  	{
- 		return 0;
+ 		return CustomerModel::getProducts();
  	}
 
  	public function viewById($id='')
