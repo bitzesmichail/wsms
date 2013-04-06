@@ -26,7 +26,7 @@ require_once 'Model/ProductModel.php';
  		}
  	}
 
- 	public function update($new_product='')
+ 	public function update($newProduct='')
  	{
  		try 
  		{
@@ -39,7 +39,7 @@ require_once 'Model/ProductModel.php';
  		}
  	}
 
- 	public function delete($id='')
+ 	public function delete($idProduct='')
  	{
  		try 
  		{
@@ -54,7 +54,7 @@ require_once 'Model/ProductModel.php';
 
  	public static function viewAll()
  	{
- 		// return ProductModel::getProducts();
+ 		return ProductModel::getProducts();
  	}
 
  	public function viewById($id='')
@@ -74,7 +74,24 @@ require_once 'Model/ProductModel.php';
  		return null;
  	}
 
- 	public function viewByDescription($value='')
+ 	public static function viewBySku($sku='')
+ 	{
+ 		$products = ProductModel::getProducts();
+
+ 		if (is_array($products)) 
+ 		{
+ 			foreach ($products as &$value) 
+ 			{
+ 				if ($value->sku == $sku)
+ 				{
+ 					return $value;
+ 				}
+ 			}
+ 		}
+ 		return null;
+ 	}
+
+ 	public static function viewByDescription($value='')
  	{
  		$products = ProductModel::getProducts();
 
@@ -91,7 +108,7 @@ require_once 'Model/ProductModel.php';
  		return null;
  	}
 
- 	public function viewByType($type='')
+ 	public static function viewByType($type='')
  	{
  		return 0;
  	}
