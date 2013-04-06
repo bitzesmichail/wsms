@@ -213,4 +213,26 @@ class CustomerModel extends Model
             echo $e->getMessage();
         }
     }
+    
+    public static function removeDiscount($idCustomer, $idProduct)
+    {
+    	$pdo = Connector::getPDO();
+    
+    	try
+    	{
+    		$stmt = $pdo->prepare("DELETE 
+				  FROM CustomerHasDiscount
+				  WHERE idCustomer = :idCustomer
+				  AND idProduct = :idProduct");
+    
+    		$stmt->bindValue(":idCustomer", $idCustomer);
+    		$stmt->bindValue(":idProduct", $idProduct);
+    		$stmt->execute();
+    		 
+    	}
+    	catch(PDOException $e)
+    	{
+    		echo $e->getMessage();
+    	}
+    }
 }

@@ -17,11 +17,10 @@ class ProductModel extends Model
         try
         {
             $stmt = $pdo->prepare("INSERT INTO Product
-                                    (idProduct, sku, description, priceSale, priceSupply, availableSum, reservedSum, orderedSum, criticalSum)
+                                    (sku, description, priceSale, priceSupply, availableSum, reservedSum, orderedSum, criticalSum)
                                    VALUES
-                                    (:idProduct, :sku, :description, :priceSale, :priceSupply, :availableSum, :reservedSum, :orderedSum, :criticalSum)");
-
-	    $stmt->bindValue(":idProduct", $productObj->idProduct);			    
+                                    (:sku, :description, :priceSale, :priceSupply, :availableSum, :reservedSum, :orderedSum, :criticalSum)");
+		    
             $stmt->bindValue(":sku", $productObj->sku);
             $stmt->bindValue(":description", $productObj->description);
             $stmt->bindValue(":priceSale", $productObj->priceSale);
@@ -178,7 +177,8 @@ class ProductModel extends Model
 			       $productCol["availableSum"],
 			       $productCol["reservedSum"],
 			       $productCol["orderedSum"],
-			       $productCol["criticalSum"]);
+			       $productCol["criticalSum"],
+	    		   $productCol["idProduct"]);
         }
         catch(PDOException $e) 
         {
