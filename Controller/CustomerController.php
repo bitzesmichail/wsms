@@ -13,7 +13,7 @@ require_once 'Model/CustomerModel.php';
  		# code...
  	}
 
- 	public public function create($customer='')
+ 	public function create($customer='')
  	{
  		try 
  		{
