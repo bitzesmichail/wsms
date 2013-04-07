@@ -43,7 +43,7 @@ require_once 'Model/CustomerModel.php';
  	{
  		try 
  		{
-	 		return CustomerModel::delete($idCustomer);
+	 		return CustomerModel::delete($id);
  		}
  		catch(Exception $ex)
  		{
