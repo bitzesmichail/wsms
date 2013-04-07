@@ -12,7 +12,7 @@ class ProductControllerTest extends PHPUnit_Framework_TestCase
 		$ProductController = new ProductController;
 		for($i=0;$i<100;$i++)
 		{
-			$ProductController->create(new Product($i, $i, $i, $i, $i, $i, $i, $i));
+			$ProductController->create(new Product($i, $i, $i, $i, $i, $i, $i, $i, null));
 		}
 
 		$products=ProductController::viewAll();
