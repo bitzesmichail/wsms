@@ -26,7 +26,7 @@ require_once 'Model/CustomerModel.php';
  		}
  	}
 
- 	public function update($id='', $new_customer='')
+ 	public function update($newCustomer='')
  	{
  			try 
  		{
@@ -43,7 +43,7 @@ require_once 'Model/CustomerModel.php';
  	{
  		try 
  		{
-	 		return CustomerModel::delete($idCustomer);
+	 		return CustomerModel::delete($id);
  		}
  		catch(Exception $ex)
  		{
@@ -52,25 +52,26 @@ require_once 'Model/CustomerModel.php';
  		}
  	}
 
- 	public function view()
+ 	public function viewCustomers()
  	{
- 		return CustomerModel::getProducts();
+ 		return CustomerModel::getCustomers();
  	}
 
- 	public function viewById($id='')
+ 	public function viewACustomer($id='')
  	{
- 		return 0;
+ 		return CustomerModel::getCustomerById($id);
  	}
 
- 	public function viewByProduct($product_id='')
+
+ 	public function setDiscount($idCustomer='', $idProduct='',$discount)
  	{
- 		return 0;
+ 		return CustomerModel::setDiscount($idCustomer,idProduct,$discount);
  	}
 
- 	public function setDiscount($id='', $product_id)
- 	{
- 		return 0;
- 	}
+	public function getDiscount($idCustomer='', $idProduct='')
+	{
+		return CustomerModel($idCustomer,$idProduct)
+	}
 
  	public function getStatistics($id='')
  	{

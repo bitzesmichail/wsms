@@ -1,7 +1,7 @@
 <?php
 
-require_once("ProductModel.php");
-require_once("entities/Product.php");
+require_once("../ProductModel.php");
+require_once("../entities/Product.php");
 
 
 echo "Creating 100 Products!</br>";
@@ -13,9 +13,10 @@ $products=ProductModel::getProducts();
 echo "</br>Printing them!</br>";
 echo "<pre>"; print_r($products); echo "</pre>";
 
+echo "</br>Update values in all products!</br>";
 for($i=0;$i<100;$i++){
-	$products[$i]->__set("priceSale", $i+100);
-	$products[$i]->__set("priceSupply", $i+100);
+	$products[$i]->priceSale=$i+100;
+	$products[$i]->priceSupply=$i+100;
 }
 
 echo "</br>Update the DataBase!</br>";
@@ -34,7 +35,7 @@ for($i=0;$i<4;$i++){
 
 echo "</br>Now delete all products!</br>";
 foreach ($products as $product){
-	ProductModel::delete($product->__get("idProduct"));
+	ProductModel::delete($product->idProduct);
 }
 
 $products=ProductModel::getProducts();

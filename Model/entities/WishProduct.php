@@ -3,7 +3,7 @@
 class WishProduct 
 {
     
-    private ;
+   // private ;
     
     public function __construct()
     {

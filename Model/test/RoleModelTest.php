@@ -1,7 +1,7 @@
 <?php
 
-require_once("RoleModel.php");
-require_once("entities/Role.php");
+require_once("../RoleModel.php");
+require_once("../entities/Role.php");
 
 echo "Creating all 4 Roles!</br>";
 $roles=array();
@@ -41,17 +41,17 @@ echo "<pre>"; print_r($roles); echo "</pre>";
 
 echo "</br>Now get Roles by their id!</br>";
 foreach ($roles as $role){
-	echo "<pre>"; print_r(RoleModel::getRoleById($role->__get("idRole"))); echo "</pre>";
+	echo "<pre>"; print_r(RoleModel::getRoleById($role->idRole)); echo "</pre>";
 }
 
 echo "</br>Now get Roles by their type!</br>";
 foreach ($roles as $role){
-	echo "<pre>"; print_r(RoleModel::getRoleByType($role->__get("type"))); echo "</pre>";
+	echo "<pre>"; print_r(RoleModel::getRoleByType($role->type)); echo "</pre>";
 }
 
 echo "</br>Now Delete all Roles!</br>";
 foreach ($roles as $role){
-	RoleModel::delete($role->__get("idRole"));
+	RoleModel::delete($role->idRole);
 }
 
 echo "</br>No one left behind!</br>";

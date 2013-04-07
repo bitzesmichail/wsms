@@ -21,7 +21,7 @@ class Product
 				$reservedSum,
 				$orderedSum,
 				$criticalSum,
-				$idProduct = null)
+				$idProduct)
     {
 	$this->idProduct = $idProduct;
 	$this->sku = $sku;
