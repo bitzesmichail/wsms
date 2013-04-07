@@ -1,43 +1,83 @@
 <?php
 
+require_once 'Controller.php';
+require_once 'Model/ProviderModel.php';
+
 /**
  * Controller for providers
  */
  class ProviderController extends Controller
  {
- 	function __construct(argument)
+ 	function __construct()
  	{
  		# code...
  	}
 
- 	public public function create($provider='')
+ 	public function create($provider='')
  	{
- 		return 0;
+ 		try 
+ 		{
+ 			return ProviderModel::create($provider);
+ 		}
+ 		catch(Exception $ex)
+ 		{
+ 			echo "Error Message: " . $ex->getMessage() . "\n";
+ 			return $ex->getCode();
+ 		}
+
  	}
 
- 	public function update($id='', $new_provider='')
+ 	public function update($newProvider='')
  	{
- 		return 0;
+ 		try 
+ 		{
+	 		return ProviderModel::update($newProvider);
+ 		}
+ 		catch(Exception $ex)
+ 		{
+ 			echo "Error Message: " . $ex->getMessage() . "\n";
+ 			return $ex->getCode();
+ 		}
  	}
 
- 	public function delete($id='')
+ 	public function delete($idProvider='')
  	{
- 		return 0;
+ 		try 
+ 		{
+	 		return ProviderModel::delete($idProvider);
+ 		}
+ 		catch(Exception $ex)
+ 		{
+ 			echo "Error Message: " . $ex->getMessage() . "\n";
+ 			return $ex->getCode();
+ 		}
  	}
 
- 	public function view()
+ 	public static function viewAll()
  	{
- 		return 0;
+ 		return ProviderModel::getProviders();
  	}
 
  	public function viewById($id='')
  	{
- 		return 0;
+ 		$providers = ProviderModel::getProviders();
+
+ 		if (is_array($providers)) 
+ 		{
+ 			foreach ($providers as &$value) 
+ 			{
+ 				if ($value->idProvider == $id)
+ 				{
+ 					return $value;
+ 				}
+ 			}
+ 		}
+ 		return null;
  	}
 
  	public function viewByProduct($product_id='')
  	{
- 		return 0;
+		return 0;
  	}
 
  	public function getStatistics($id='')
