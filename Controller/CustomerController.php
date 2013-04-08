@@ -63,14 +63,14 @@ require_once 'Model/CustomerModel.php';
  	}
 
 
- 	public function setDiscount($idCustomer='', $idProduct='',$discount)
+ 	public function setDiscount($idCustomer='', $idProduct='', $discount)
  	{
- 		return CustomerModel::setDiscount($idCustomer,idProduct,$discount);
+ 		return CustomerModel::setDiscount($idCustomer, $idProduct, $discount);
  	}
 
 	public function getDiscount($idCustomer='', $idProduct='')
 	{
-		return CustomerModel($idCustomer,$idProduct)
+		return CustomerModel::getDiscount($idCustomer, $idProduct)
 	}
 
  	public function getStatistics($id='')

@@ -76,7 +76,7 @@ require_once 'Model/RoleModel.php';
  		return UserModel::getUsers();
  	}
 
- 	public static function viewById($userid='')
+ 	public static function viewById($idUser='')
  	{
  		$users = UserModel::getUsers();
 
@@ -84,7 +84,7 @@ require_once 'Model/RoleModel.php';
  		{
  			foreach ($users as &$value) 
  			{
- 				if ($value->idUser == $userid)
+ 				if ($value->idUser == $idUser)
  				{
  					return $value;
  				}
