@@ -17,7 +17,7 @@ require_once 'Model/CustomerModel.php';
  	{
  		try 
  		{
- 			return CustomerModel::create($Customer);
+ 			return CustomerModel::create($customer);
  		}
  		catch(Exception $ex)
  		{
@@ -39,11 +39,11 @@ require_once 'Model/CustomerModel.php';
  		}
  	}
 
- 	public function delete($id='')
+ 	public function delete($idCustomer='')
  	{
  		try 
  		{
-	 		return CustomerModel::delete($id);
+	 		return CustomerModel::delete($idCustomer);
  		}
  		catch(Exception $ex)
  		{
@@ -52,14 +52,14 @@ require_once 'Model/CustomerModel.php';
  		}
  	}
 
- 	public function viewCustomers()
+ 	public static function viewAll()
  	{
  		return CustomerModel::getCustomers();
  	}
 
- 	public function viewACustomer($id='')
+ 	public static function viewById($idCustomer='')
  	{
- 		return CustomerModel::getCustomerById($id);
+ 		return CustomerModel::getCustomerById($idCustomer);
  	}
 
 
@@ -70,7 +70,7 @@ require_once 'Model/CustomerModel.php';
 
 	public function getDiscount($idCustomer='', $idProduct='')
 	{
-		return CustomerModel::getDiscount($idCustomer, $idProduct)
+		return CustomerModel::getDiscount($idCustomer, $idProduct);
 	}
 
  	public function getStatistics($id='')
