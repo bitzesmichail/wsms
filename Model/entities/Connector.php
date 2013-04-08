@@ -12,7 +12,7 @@ class Connector
     //note constructor is private so that class cannot be instantiated
     private function __construct()
     {
-        try 
+        try
         {
             $dsn = "mysql:host=localhost;dbname=wsms;charset=UTF8";
             $username = "test";
