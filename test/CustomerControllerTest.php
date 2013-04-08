@@ -65,6 +65,15 @@ class CustomerControllerTest extends PHPUnit_Framework_TestCase
 			}
 		}
 
+		echo "Get Discounts\n";
+		if (is_array($customers)) 
+		{
+			foreach ($customers as &$customer)
+			{
+				echo $CustomerController->getDiscount($customer->idCustomer, 1). "\n";
+			}
+		}
+
 		echo "Delete all Customers!\n";
 		$customers=CustomerController::viewAll();
 		if (is_array($customers)) 
