@@ -144,7 +144,7 @@ CREATE  TABLE IF NOT EXISTS `wsms`.`CustomerHasDiscount` (
   CONSTRAINT `fk_ProductSale_has_Customer_Customer1`
     FOREIGN KEY (`idCustomer` )
     REFERENCES `wsms`.`Customer` (`idCustomer` )
-    ON DELETE NO ACTION
+    ON DELETE CASCADE
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
