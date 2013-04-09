@@ -280,3 +280,9 @@ ENGINE = InnoDB;
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
+
+INSERT INTO `wsms`.`Role` VALUES (1, "Manager", "The administrator of the System");
+INSERT INTO `wsms`.`Role` VALUES (2, "Scheduler", "The scheduler of the supplies. Also responsible for vendors");
+INSERT INTO `wsms`.`Role` VALUES (3, "Salesman", "The salesman of the System. Also responsible for customers");
+INSERT INTO `wsms`.`Role` VALUES (4, "Warehouseman", "The storekeeper of the System. Responsible for checking in and out the products");
+INSERT INTO `wsms`.`Product` VALUES (1, 1, "Ρετσίνα Κουρδάκι", 20, 15, 100, 0, 0, 20);
