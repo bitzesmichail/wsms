@@ -178,7 +178,7 @@ class ProductModel extends Model
 			       $productCol["reservedSum"],
 			       $productCol["orderedSum"],
 			       $productCol["criticalSum"],
-	    		   $productCol["idProduct"]);
+			       $productCol["idProduct"]);
         }
         catch(PDOException $e) 
         {
