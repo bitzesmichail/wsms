@@ -1,22 +1,31 @@
 <div id="container">
 	<div id="header">
-		<?php require "header.php" ; ?>
+		<?php require "includes/header.php" ;?>
 	</div>
 	<div id="menu">
 		<?php require "menu.php" ; ?>
 	</div>
+	<?php
+	foreach($_SESSION['roles'] as $role)
+	{
+		if($role == "manager")
+		{
+	?>
 	<div id="side_menu">
-		<?php require "sub_menu.php" ?>
 	</div>
+	<?php
+		}
+	}
+	?>
 	<div id="main">
 		
 	</div>
 	<div id="footer">
-		<?php require "footer.php" ; ?>
+		<?php require "includes/footer.php" ; ?>
 	</div>
 </div>
 <div id="notifications">
-	<?php require "notifications.php" ; ?>
+	<?php require "includes/notifications.php" ; ?>
 </div>
 <div id="error">
 	<?php echo $_SESSION['error'] ; ?>

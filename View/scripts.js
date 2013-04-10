@@ -13,7 +13,7 @@ function load_page(page, div)
 	request.send() ;
 	request.onreadystatechange = function()
 	{
-		if(request.readystate == 4 && request.status == 200)
+		if(request.readyState == 4 && request.status == 200)
 		{
 			document.getElementById(div).innerHTML = request.responseText ;
 		}
@@ -35,7 +35,7 @@ function load_page_get(page, div, args)
 	request.send() ;
 	request.onreadystatechange = function()
 	{
-		if(request.readystate == 4 && request.status == 200)
+		if(request.readyState == 4 && request.status == 200)
 		{
 			document.getElementById(div).innerHTML = request.responseText ;
 		}
@@ -57,15 +57,22 @@ function load_page_post(page, div, args)
 	request.send(args) ;
 	request.onreadystatechange = function()
 	{
-		if(request.readystate == 4 && request.status == 200)
+		if(request.readyState == 4 && request.status == 200)
 		{
 			document.getElementById(div).innerHTML = request.responseText ;
 		}
 	}
 }
 
-$(document).ready(function()
+function check_pass()
 {
-	
+	if(document.getElementById("pass_a").value != document.getElementById("pass").value)
+	{
+		document.getElementById("subm").disabled = true ;
+	}
+	else
+	{
+		document.getElementById("subm").disabled = false ;
+	}
 }
-) ;
+
