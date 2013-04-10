@@ -155,7 +155,7 @@ ENGINE = InnoDB;
 CREATE  TABLE IF NOT EXISTS `wsms`.`Role` (
   `idRole` INT NOT NULL AUTO_INCREMENT ,
   `type` VARCHAR(45) NOT NULL ,
-  `description` VARCHAR(45) NOT NULL ,
+  `description` TEXT NOT NULL ,
   PRIMARY KEY (`idRole`) ,
   UNIQUE INDEX `type_UNIQUE` (`type` ASC) )
 ENGINE = InnoDB;
