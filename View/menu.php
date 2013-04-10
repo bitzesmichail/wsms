@@ -8,7 +8,7 @@ foreach($roles as &$role)
 	?>
 	<li>Πωλήσεις</li>
 	<li>Προμήθειες</li>
-	<li>Προϊόντα</li>
+	<li onclick="load_page_get('products.php', 'main', 'action=show_products') ; load_page_get('sub_menu.php', 'side_menu', 'action=products') ;">Προϊόντα</li>
 	<li>Πελάτες</li>
 	<li>Προμηθευτές</li>
 	<li>Οικονομικά στοιχεία</li>

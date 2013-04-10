@@ -133,6 +133,30 @@ body
 	padding-left: 20px ;
 }
 
+.prod_table tr td
+{
+	border-left-color: black ;
+	border-left-width: 1px ;
+	border-left-style: solid ;
+}
+
+#table_header
+{
+	background: #729fcf ;
+	color: black ;
+}
+
+.odd
+{
+	background: #cccccc ;
+	color: black ;
+}
+
+.even
+{
+	background: #ffffff ;
+	color: black ;
+}
 
 
 

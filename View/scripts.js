@@ -76,3 +76,49 @@ function check_pass()
 	}
 }
 
+function search_p(section)
+{
+	var request ;
+	var si = document.getElementById("si").value ;
+	if(si == "")
+	{
+		document.getElementById("sr").innerHTML = "Δεν βρέθηκαν Προϊόντα" ;
+	}
+	else
+	{
+		var page = "search_products.php" ;
+		if(window.XMLHttpRequest)
+		{
+			request = new XMLHttpRequest() ;
+		}
+		else
+		{
+			request = new ActiveXObject(Microsoft.XMLHTTP) ;
+		}
+		request.open("GET", page+"?si="+si, true) ;
+		request.send() ;
+		request.onreadystatechange = function()
+		{
+			if(request.readyState == 4 && request.status == 200)
+			{
+				document.getElementById('sr').innerHTML = request.responseText ;
+			}
+		}
+	}
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

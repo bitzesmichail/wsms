@@ -1,7 +1,10 @@
 <?php
 session_start() ;
 require "Controller/UserController.php" ;
-
+require "Controller/ProductController.php" ;
+require_once 'Model/entities/Product.php';
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//------------------------------USERS-----------------------------------------------------------------------//
 function login($username, $password)
 {
 	$user = UserController::login($username, $password) ;
@@ -69,8 +72,52 @@ function delete_user($id)
 	UserController::delete($id) ;
 }
 
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//------------------------------------PRODUCTS------------------------------------------------------------------------//
 
+function get_products()
+{
+	return ProductController::viewAll() ;
+}
 
+function create_product($sku, $description, $priceSupply, $priceSale, $criticalSum)
+{
+	$prod = new Product($sku, $description, $priceSale, $priceSupply, 0, 0, 0, $criticalSum, NULL) ;
+	ProductController::create($prod) ;
+}
+
+function edit_product($sku, $description, $priceSale, $priceSupply, $availableSum, $criticalSum)
+{
+	$product = ProductController::viewBySku($sku) ;
+	$product->description = $description ;
+	$product->priceSale = $priceSale ;
+	$product->priceSupply = $priceSupply ;
+	$product->availableSum = $availableSum ;
+	$product->criticalSum = $criticalSum ;
+	ProductController::update($product) ;
+}
+
+function delete_product($id)
+{
+	ProductController::delete($id) ;
+}
+
+function search_products($key)
+{
+	$products = ProductController::viewAll() ;
+	$i = 0 ;
+	foreach($products as $prod)
+	{
+		if(strpos($prod->sku, $key) !== false || strpos($prod->description, $key) !== false)
+		{
+			$my_products[$i] = $prod ;
+			$i++ ;
+		}
+	}
+	return $my_products ;
+}
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
 
