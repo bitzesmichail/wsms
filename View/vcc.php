@@ -27,7 +27,7 @@ function login($username, $password)
 			$_SESSION['roles'][$i] = $role->type ;
 			$i ++ ;
 		}
-		header("Location: ./") ;
+		header("Location: ./index.php") ;
 	}
 }
 
@@ -112,7 +112,7 @@ function search_products($key)
 	$i = 0 ;
 	foreach($products as $prod)
 	{
-		if(strpos($prod->sku, $key) !== false || strpos($prod->description, $key) !== false)
+		if(stripos(strtoupper($prod->sku), strtoupper($key)) !== false || stripos(strtoupper($prod->description), strtoupper($key)) !== false)
 		{
 			$my_products[$i] = $prod ;
 			$i++ ;
@@ -161,7 +161,7 @@ function search_customers($key)
 	$i = 0 ;
 	foreach($customers as $c)
 	{
-		if(strpos($c->name, $key) !== false || strpos($c->surname, $key) !== false || strpos($c->ssn, $key) !== false)
+		if(stripos(strtoupper($c->name), strtoupper($key)) !== false || stripos(strtoupper($c->surname), strtoupper($key)) !== false || stripos(strtoupper($c->ssn), strtoupper($key)) !== false)
 		{
 			$my_customers[$i] = $c ;
 			$i ++ ;
@@ -209,7 +209,7 @@ function search_providers($key)
 	$i = 0 ;
 	foreach($providers as $c)
 	{
-		if(strpos($c->name, $key) !== false || strpos($c->surname, $key) !== false || strpos($c->ssn, $key) !== false)
+		if(stripos(strtoupper($c->name), strtoupper($key)) !== false || stripos($c->surname, strtoupper($key)) !== false || stripos($c->ssn, strtoupper($key)) !== false)
 		{
 			$my_providers[$i] = $c ;
 			$i ++ ;

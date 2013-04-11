@@ -1,5 +1,5 @@
 <?php
-require "vcc.php" ;
+require_once "vcc.php" ;
 if(isset($_SESSION['username']) == true)
 {
 	header("Location: ./") ;

@@ -1,5 +1,5 @@
  <?php
-require "vcc.php" ;
+require_once "vcc.php" ;
 if($loggedin)
 {
   if($user['role'] == manager)

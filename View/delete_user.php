@@ -1,6 +1,7 @@
 <?php
-require "vcc.php" ;
+require_once "vcc.php" ;
 $id = $_POST['id'] ;
-echo $id ;
 delete_user($id) ;
+$_SESSION['section'] = 'users' ;
+header("Location: ./index.php") ;
 ?>

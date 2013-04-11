@@ -1,5 +1,5 @@
 <?php
-require "vcc.php" ;
+require_once "vcc.php" ;
 $si = addslashes($_GET['si']) ;
 $providers = search_providers($si) ;
 if(is_array($providers))

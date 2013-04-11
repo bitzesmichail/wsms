@@ -18,7 +18,31 @@
 	}
 	?>
 	<div id="main">
-		
+		<?php
+		if(isset($_SESSION['section']) == true)
+		{
+			if($_SESSION['section'] == "products")
+			{
+				require "products.php" ;
+			}
+			if($_SESSION['section'] == "users")
+			{
+				require "users.php" ;
+			}
+			if($_SESSION['section'] == "customers")
+			{
+				require "customers.php" ;
+			}
+			if($_SESSION['section'] == "providers")
+			{
+				require "providers.php" ;
+			}
+		}
+		else
+		{
+			require("products.php") ;
+		}
+		?>
 	</div>
 	<div id="footer">
 		<?php require "includes/footer.php" ; ?>

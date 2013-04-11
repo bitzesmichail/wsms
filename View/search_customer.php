@@ -1,5 +1,5 @@
 <?php
-require "vcc.php" ;
+require_once "vcc.php" ;
 $si = addslashes($_GET['si']) ;
 $customers = search_customers($si) ;
 if(is_array($customers))

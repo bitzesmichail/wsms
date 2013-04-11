@@ -1,5 +1,5 @@
 <?php
-require "vcc.php" ;
+require_once "vcc.php" ;
 if($_GET['action'] == "show_users")
 {
 	$users = get_users() ;

@@ -1,5 +1,5 @@
 <?php
-require "vcc.php" ;
+require_once "vcc.php" ;
 $id = $_POST['cid'] ;
 $name = addslashes($_POST['name']) ;
 $surname = addslashes($_POST['surname']) ;
@@ -11,5 +11,6 @@ $address = addslashes($_POST['address']) ;
 $city = addslashes($_POST['city']) ;
 $zipCode = addslashes($_POST['zipCode']) ;
 edit_provider($id, $name, $surname, $ssn, $phone, $cellphone, $email, $address, $city, $zipCode) ;
-header("Location: ./") ;
+$_SESSION['section'] = "providers" ;
+header("Location: ./index.php") ;
 ?>

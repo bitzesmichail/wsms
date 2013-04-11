@@ -1,5 +1,5 @@
 <?php
-require "vcc.php" ;
+require_once "vcc.php" ;
 $name = addslashes($_POST['name']) ;
 $surname = addslashes($_POST['surname']) ;
 $ssn = addslashes($_POST['ssn']) ;
@@ -10,5 +10,6 @@ $address = addslashes($_POST['address']) ;
 $city = addslashes($_POST['city']) ;
 $zipCode = addslashes($_POST['zipCode']) ;
 create_provider($name, $surname, $ssn, $phone, $cellphone, $email, $address, $city, $zipCode) ;
-header("Location: ./") ;
+$_SESSION['section'] = "providers" ;
+header("Location: ./index.php") ;
 ?>

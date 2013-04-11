@@ -1,6 +1,6 @@
 <ul>
 <?php
-if($_GET['action'] == "users")
+if($_GET['action'] == "users" || $_SESSION['section'] == "users")
 {
 ?>
 	<li onclick="load_page_get('users.php', 'main', 'action=show_users') ;">Χρήστες</li>
@@ -8,7 +8,7 @@ if($_GET['action'] == "users")
 	<li onclick="load_page_get('users.php', 'main', 'action=delete') ;">Διαγραφή Χρήστη</li>
 <?php
 }
-else if($_GET['action'] == "products")
+else if($_GET['action'] == "products" || $_SESSION['section'] == "products")
 {
 ?>
 	<li onclick="load_page_get('products.php', 'main', 'action=show_products') ;">Προϊόντα</li>
@@ -17,7 +17,7 @@ else if($_GET['action'] == "products")
 	<li onclick="load_page_get('products.php', 'main', 'action=search_products') ;">Αναζήτηση Προϊόντων</li>
 <?php
 }
-else if($_GET['action'] == "customers")
+else if($_GET['action'] == "customers" || $_SESSION['section'] == "customers")
 {
 ?>
 	<li onclick="load_page_get('customers.php', 'main', 'action=show_customers') ;">Πελάτες</li>
@@ -26,7 +26,7 @@ else if($_GET['action'] == "customers")
 	<li onclick="load_page_get('customers.php', 'main', 'action=search_customers') ;">Αναζήτηση Πελάτη</li>
 <?php
 }
-else if($_GET['action'] == "providers")
+else if($_GET['action'] == "providers" || $_SESSION['section'] == "providers")
 {
 ?>
 	<li onclick="load_page_get('providers.php', 'main', 'action=show_providers') ;">Προμηθευτές</li>

@@ -1,6 +1,7 @@
 <?php
-require "vcc.php" ;
+require_once "vcc.php" ;
 $id = addslashes($_POST['pid']) ;
 delete_product($id) ;
-header("Location: ./") ;
+$_SESSION['section'] = "products" ;
+header("Location: ./index.php") ;
 ?>
