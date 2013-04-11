@@ -9,7 +9,7 @@ foreach($roles as &$role)
 	<li>Πωλήσεις</li>
 	<li>Προμήθειες</li>
 	<li onclick="load_page_get('products.php', 'main', 'action=show_products') ; load_page_get('sub_menu.php', 'side_menu', 'action=products') ;">Προϊόντα</li>
-	<li>Πελάτες</li>
+	<li onclick="load_page_get('customers.php', 'main', 'action=show_customers') ; load_page_get('sub_menu.php', 'side_menu', 'action=customers') ;">Πελάτες</li>
 	<li>Προμηθευτές</li>
 	<li>Οικονομικά στοιχεία</li>
 	<li onclick="load_page_get('users.php', 'main', 'action=show_users') ; load_page_get('sub_menu.php', 'side_menu', 'action=users') ;">Χρήστες</li>

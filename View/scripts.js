@@ -82,11 +82,19 @@ function search_p(section)
 	var si = document.getElementById("si").value ;
 	if(si == "")
 	{
-		document.getElementById("sr").innerHTML = "Δεν βρέθηκαν Προϊόντα" ;
+		document.getElementById("sr").innerHTML = "Δεν βρέθηκαν αποτελέσματα" ;
 	}
 	else
 	{
-		var page = "search_products.php" ;
+		var page ;
+		if(section == "products")
+		{
+			page = "search_products.php" ;
+		}
+		if(section == "customers")
+		{
+			page = "search_customer.php" ;
+		}
 		if(window.XMLHttpRequest)
 		{
 			request = new XMLHttpRequest() ;

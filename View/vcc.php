@@ -2,7 +2,9 @@
 session_start() ;
 require "Controller/UserController.php" ;
 require "Controller/ProductController.php" ;
+require "Controller/CustomerController.php" ;
 require_once 'Model/entities/Product.php';
+require_once 'Model/entities/Customer.php';
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //------------------------------USERS-----------------------------------------------------------------------//
 function login($username, $password)
@@ -118,10 +120,53 @@ function search_products($key)
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//-----------------------------Customers----------------------------------------------------------------------------//
 
+function create_customer($name, $surname, $ssn, $phone, $cellphone, $email, $address, $city, $zipCode)
+{
+	$c = new Customer($name, $surname, $ssn, $phone, $cellphone, $email, $address, $zipCode, $city) ;
+	CustomerController::create($c) ;
+}
 
+function get_customers()
+{
+	return CustomerController::viewAll() ;
+}
 
+function delete_customer($id)
+{
+	CustomerController::delete($id) ;
+}
 
+function edit_customer($id, $name, $surname, $ssn, $phone, $cellphone, $email, $address, $city, $zipCode)
+{
+	$c = CustomerController::viewById($id) ;
+	$c->name = $name ;
+	$c->surname = $surname ;
+	$c->ssn = $ssn ;
+	$c->phone = $phone ;
+	$c->cellphone = $cellphone ;
+	$c->email = $email ;
+	$c->address = $address ;
+	$c->city = $city ;
+	$c->zipCode = $zipCode ;
+	CustomerController::update($c) ;
+}
+
+function search_customers($key)
+{
+	$customers = CustomerController::viewAll() ;
+	$i = 0 ;
+	foreach($customers as $c)
+	{
+		if(strpos($c->name, $key) !== false || strpos($c->surname, $key) !== false || strpos($c->ssn, $key) !== false)
+		{
+			$my_customers[$i] = $c ;
+			$i ++ ;
+		}
+	}
+	return $my_customers ;
+}
 
 
 
