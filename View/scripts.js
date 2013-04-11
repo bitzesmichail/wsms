@@ -95,6 +95,10 @@ function search_p(section)
 		{
 			page = "search_customer.php" ;
 		}
+		if(section == "providers")
+		{
+			page = "search_provider.php" ;
+		}
 		if(window.XMLHttpRequest)
 		{
 			request = new XMLHttpRequest() ;

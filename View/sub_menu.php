@@ -26,5 +26,14 @@ else if($_GET['action'] == "customers")
 	<li onclick="load_page_get('customers.php', 'main', 'action=search_customers') ;">Αναζήτηση Πελάτη</li>
 <?php
 }
+else if($_GET['action'] == "providers")
+{
+?>
+	<li onclick="load_page_get('providers.php', 'main', 'action=show_providers') ;">Προμηθευτές</li>
+	<li onclick="load_page_get('providers.php', 'main', 'action=create_provider') ;">Δημιουργία Προμηθευτή</li>
+	<li onclick="load_page_get('providers.php', 'main', 'action=delete_provider') ;">Διαγραφή Προμηθευτή</li>
+	<li onclick="load_page_get('providers.php', 'main', 'action=search_providers') ;">Αναζήτηση Προμηθευτή</li>
+<?php
+}
 ?>
 </ul>

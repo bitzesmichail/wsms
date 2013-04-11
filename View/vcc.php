@@ -3,8 +3,10 @@ session_start() ;
 require "Controller/UserController.php" ;
 require "Controller/ProductController.php" ;
 require "Controller/CustomerController.php" ;
+require "Controller/ProviderController.php" ;
 require_once 'Model/entities/Product.php';
 require_once 'Model/entities/Customer.php';
+require_once 'Model/entities/Provider.php';
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //------------------------------USERS-----------------------------------------------------------------------//
 function login($username, $password)
@@ -167,9 +169,54 @@ function search_customers($key)
 	}
 	return $my_customers ;
 }
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//----------------------Providers--------------------------------------------------------------------------------------------------//
 
+function create_provider($name, $surname, $ssn, $phone, $cellphone, $email, $address, $city, $zipCode)
+{
+	$c = new Provider($name, $surname, $ssn, $phone, $cellphone, $email, $address, $zipCode, $city) ;
+	ProviderController::create($c) ;
+}
 
+function get_providers()
+{
+	return ProviderController::viewAll() ;
+}
 
+function delete_provider($id)
+{
+	ProviderController::delete($id) ;
+}
+
+function edit_provider($id, $name, $surname, $ssn, $phone, $cellphone, $email, $address, $city, $zipCode)
+{
+	$c = ProviderController::viewById($id) ;
+	$c->name = $name ;
+	$c->surname = $surname ;
+	$c->ssn = $ssn ;
+	$c->phone = $phone ;
+	$c->cellphone = $cellphone ;
+	$c->email = $email ;
+	$c->address = $address ;
+	$c->city = $city ;
+	$c->zipCode = $zipCode ;
+	ProviderController::update($c) ;
+}
+
+function search_providers($key)
+{
+	$providers = ProviderController::viewAll() ;
+	$i = 0 ;
+	foreach($providers as $c)
+	{
+		if(strpos($c->name, $key) !== false || strpos($c->surname, $key) !== false || strpos($c->ssn, $key) !== false)
+		{
+			$my_providers[$i] = $c ;
+			$i ++ ;
+		}
+	}
+	return $my_providers ;
+}
 
 
 
