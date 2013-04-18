@@ -16,23 +16,36 @@ if($_POST['subm'] == "yes")
 else
 {
 ?>
-<html>
+<!DOCTYPE html> 
+<html lang="en">
 	<head>
-		<link rel="stylesheet" type="text/css" href="style.css" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<meta http-equiv='Content-Type' content='text/html; charset=utf-8' />
-		<script src="jquery.js"></script>
-		<script src="scripts.js"></script>
+		<link href="css/bootstrap.min.css" rel="stylesheet" media="screen">
+		<link href="style.css" rel="stylesheet" type="text/css"  />
+		<script src="scripts.js"></script>	
+		<script src="js/jquery-1.9.1.min.js"></script>
+		<script src="js/bootstrap.min.js"></script>
 	</head>
 	<body>
-		<div id="logInForm">
-			<form action="login.php" method="post">
-				<input type="hidden" name="subm" value="yes" />
-				Όνομα Χρήστη:  <input type="text" name="username" /><br />
-				Κωδικός Χρήστη: <input type="password" name="password" /><br />
-				<input type="submit" value="Είσοδος στο Σύστημα" /> 
-				<a href="reset_password.php">Δεν θυμάμαι τον κωδικό μου</a>
-			</form>
-		</div>
+		<div class="container">
+			<form class="form-signin" action="login.php" method="post">
+				<h2 class="form-signin-heading">Σύνδεση</h2>
+				<div class="control-group">
+						<input type="hidden" name="subm" value="yes" />
+						<input type="text" id="username" name="username" class="input-block-level" placeholder="Όνομα Χρήστη">
+				</div>
+				<div class="control-group">
+						<input type="password" id="password" name="password" class="input-block-level" placeholder="Κωδικός Χρήστη">
+				</div>
+				<div class="control-group">
+						<a href="reset_password.php">Δεν θυμάμαι τον κωδικό μου</a>
+				</div>
+				<div class="control-group">					
+						<button type="submit" class="btn btn-large btn-primary">Είσοδος στο Σύστημα</button>
+				</div>
+			</form>	
+		 </div>
 	</body>
 </html>
 <?php
