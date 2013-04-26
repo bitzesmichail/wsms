@@ -16,12 +16,12 @@ class View {
 		}
 
 		if ($noInclude == true) {
-			require 'views/' . $dirname. '/' . $filename . '.php';	
+			require 'Views/' . $dirname. '/' . $filename . '.php';	
 		}
 		else {
-			require 'views/header.php';
-			require 'views/' . $dirname. '/' . $filename . '.php';
-			require 'views/footer.php';	
+			require 'Views/header.php';
+			require 'Views/' . $dirname. '/' . $filename . '.php';
+			require 'Views/footer.php';	
 		}
 	}
 
