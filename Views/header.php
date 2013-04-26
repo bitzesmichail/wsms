@@ -49,7 +49,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="brand" href="<?php echo HOME; ?>/">Warehouse &amp; Sales Management System</a>
+          <a class="brand" href="<?php echo HOME; ?>/">wsms</a>
           <div class="nav-collapse collapse">
           	<?php if (isset($_SESSION['username'])): ?>
           		<p class="navbar-text pull-right">
