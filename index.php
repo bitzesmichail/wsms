@@ -1,10 +1,8 @@
-<!DOCTYPE html>
-<html>
-<title>
-</title>
-<body>
 <?php
-?>
-</body>
-</html>
 
+// Use an autoloader!
+require 'Config/Router.php';
+require 'Config/Paths.php';
+require 'Config/Database.php';
+
+$app = new Router();
