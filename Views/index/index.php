@@ -1,5 +1,5 @@
 <?php if (isset($_SESSION['username'])): ?>
-		<div class="span3">
+		<!-- <div class="span3">
           <div class="well sidebar-nav">
             <ul class="nav nav-list">
               <li class="nav-header">Users Menu</li>
@@ -8,8 +8,8 @@
               <li><a href="<?php echo USERS; ?>/viewById/1">View By Id (1)</a></li>
             </ul>
           </div><!--/.well -->
-        </div><!--/span-->
-    	<div class="span9">
+        <!--</div><!--/span-->
+    	<!-- <div class="span9"> -->
 <?php endif ?>
 <div class="hero-unit">
 	<h3>Warehouse &amp; Sales Management System</h3>
