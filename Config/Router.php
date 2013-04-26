@@ -4,7 +4,7 @@ class Router
 {
 	function __construct() 
 	{
-
+		 ini_set('display_errors',1); 
 		//	get url from browser and get each part.
 		//	url[0] is for controller
 		//  url[1] is for method
