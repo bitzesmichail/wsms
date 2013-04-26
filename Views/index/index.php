@@ -12,7 +12,7 @@
     	<div class="span9">
 <?php endif ?>
 <div class="hero-unit">
-	<h1>WSMS</h1>
+	<h1>Warehouse &amp; Sales Management System</h1>
 	<p>
 		<?php if (!isset($_SESSION['username'])): ?>
 			<p>Καλώς ήρθατε! Αυτή είναι η αρχική σελίδα του συστήματος διαχείρισης αποθηκών και οργάνωσης πωλήσεων. Αν δεν έχετε ήδη λογαριασμό 
