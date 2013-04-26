@@ -1,13 +1,3 @@
-<div class="navbar">
-  <div class="navbar-inner">
-    <a class="brand" href="#">Title</a>
-    <ul class="nav">
-      <li class="active"><a href="#">Home</a></li>
-      <li><a href="#">Link</a></li>
-      <li><a href="#">Link</a></li>
-    </ul>
-  </div>
-</div>
 <?php if (isset($_SESSION['username'])): ?>
 		<div class="span3">
           <div class="well sidebar-nav">
@@ -27,7 +17,7 @@
 		<?php if (!isset($_SESSION['username'])): ?>
 			<p>Καλώς ήρθατε! Αυτή είναι η αρχική σελίδα του συστήματος διαχείρισης αποθηκών και οργάνωσης πωλήσεων. Αν δεν έχετε ήδη λογαριασμό 
 				αποτανθείτε στον manager προκειμένου να δημιουργήσει ένα για λογαριασμό σας.
-			<p><a href="#" class="btn btn-primary btn-large">Εγγραφή »</a></p>
+			<!-- <p><a href="#" class="btn btn-primary btn-large">Εγγραφή »</a></p> -->
             	<form class="navbar-form pull-right" method="post" action="<?php echo USERS; ?>/login">
             		<input class="span2" name="username" type="text" placeholder="Email">
                 	<input class="span2" name="password" type="password" placeholder="Password">

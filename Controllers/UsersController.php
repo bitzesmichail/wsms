@@ -23,6 +23,23 @@ require_once 'Models/entities/User.php';
  			if ($user->password == $password)
  			{
  				$_SESSION['username'] = $user->username;
+ 				switch ($user->username) {
+ 					case 'manager':
+ 						$_SESSION['role'] = 'manager';
+ 						break;
+ 					case 'seller':
+ 						$_SESSION['role'] = 'seller';
+ 						break;
+ 					case 'scheduler':
+ 						$_SESSION['role'] = 'scheduler';
+ 						break;
+ 					case 'apo8hkarios':
+ 						$_SESSION['role'] = 'apo8hkarios';
+ 						break;
+ 					default:
+ 						$_SESSION['role'] = null;
+ 						break;
+ 				}
   				// $this->view->render('index');
   				header("Location: " . HOME);
  			}
@@ -32,6 +49,7 @@ require_once 'Models/entities/User.php';
 
  	public function logout($username='')
  	{
+ 		$_SESSION['role'] = null;
  		$_SESSION['username'] = null;
  		header("Location: " . HOME);
  	}

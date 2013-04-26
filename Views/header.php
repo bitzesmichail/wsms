@@ -60,11 +60,11 @@
               		Logged in as <a href="#" class="navbar-link"><?php echo $_SESSION['username']; ?></a>
             	</p>
             <?php endif ?>
-            <ul class="nav">
+            <!-- <ul class="nav">
             	<li class="active"><a href="<?php echo HOME; ?>/">Home</a></li>
               	<li><a href="<?php echo HOME; ?>/help">Help</a></li>
               	<li><a href="<?php echo USERS; ?>/">Users</a></li>
-            </ul>
+            </ul> -->
           </div><!--/.nav-collapse -->
         </div>
       </div>
@@ -72,3 +72,24 @@
 
 	<div class="container-fluid">
 		<div class="row-fluid">
+      <?php
+        if (isset($_SESSION['role'])) {
+          switch ($_SESSION['role']) {
+            case 'seller':
+              require_once 'Views/navbars/seller_navbar.php';
+              break;
+            case 'scheduler':
+              require_once 'Views/navbars/scheduler_navbar.php';
+              break;
+            case 'manager':
+              require_once 'Views/navbars/manager_navbar.php';
+              break;
+            case 'apo8hkarios':
+              require_once 'Views/navbars/apo8hkarios_navbar.php';
+              break;
+            default:
+              # code...
+              break;
+          }
+        }
+      ?>
