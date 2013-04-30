@@ -2,7 +2,7 @@
 
 <hr>
 <footer>
-	<p>(C) Footer</p>
+	<p>(C) Elite 9 </p>
 </footer>
 </div><!--/.fluid-container-->
 
