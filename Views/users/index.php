@@ -13,7 +13,7 @@
 	<td><strong>Email</strong></td>
 </tr>
 
-<?php	
+<?php
 	if (!empty($data)) {
 		if (is_array($data)) {
 			foreach ($data as &$value) {

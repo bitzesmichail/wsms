@@ -40,8 +40,9 @@ require_once 'Models/entities/User.php';
  						$_SESSION['role'] = null;
  						break;
  				}
-  				// $this->view->render('index');
-  				header("Location: " . HOME);
+
+  				$this->view->render('index');
+  				//header("Location: " . HOME);
  			}
  		}
  		return -1;
@@ -51,7 +52,9 @@ require_once 'Models/entities/User.php';
  	{
  		$_SESSION['role'] = null;
  		$_SESSION['username'] = null;
- 		header("Location: " . HOME);
+
+ 		$this->view->render('index');
+ 		//header("Location: " . HOME);
  	}
 
  	public function index()

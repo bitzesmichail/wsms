@@ -54,7 +54,7 @@ require_once 'Models/CustomerModel.php';
 
  	public static function viewAll()
  	{
- 	iireturn CustomerModel::getCustomers();
+ 	  return CustomerModel::getCustomers();
  	}
 
  	public static function viewById($idCustomer='')
