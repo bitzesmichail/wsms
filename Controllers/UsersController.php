@@ -56,7 +56,7 @@ require_once 'Models/entities/User.php';
 
  	public function index()
  	{
- 		$this->view->render('users');
+ 		$this->view->render('users', 'index', UserModel::getUsers());
  	}
 
  	public function create($username='', $password='', $email='', $role='')

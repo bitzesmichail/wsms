@@ -3,16 +3,29 @@
   require_once 'Views/navbars/navbar.php';
 ?>
 
-<?php
-	echo "This is the user controller index";
+<h1>
+	Εγγεγραμμένοι Χρήστες
+</h1>
+
+<table class="table">
+<tr><td><strong>Username</em></td><td><strong>Email</strong></td></tr>
+
+<?php	
 	if (!empty($data)) {
 		if (is_array($data)) {
 			foreach ($data as &$value) {
-				echo "<br>" . $value->username . " " . $value->password . " " . $value->email;
+				echo "<tr>";
+				echo "<td>" . $value->username . "</td>";
+				echo "<td>" . $value->email . "</td>";
+				echo "</tr>";
 			}
 		}
 		else {
-			echo "<br>" . $data->username . " " . $data->password . " " . $data->email;
+			echo "<tr>";
+			echo "<td>" . $data->username . "</td>";
+			echo "<td>" . $data->email . "</td>";
+			echo "</tr>";
 		}
 	}
 ?>
+</table>
