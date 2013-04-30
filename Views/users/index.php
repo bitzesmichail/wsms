@@ -8,7 +8,10 @@
 </h1>
 
 <table class="table">
-<tr><td><strong>Username</em></td><td><strong>Email</strong></td></tr>
+<tr>
+	<td><strong>Username</strong></td>
+	<td><strong>Email</strong></td>
+</tr>
 
 <?php	
 	if (!empty($data)) {

@@ -10,7 +10,12 @@ require_once 'Models/ProductModel.php';
  {
  	function __construct()
  	{
- 		# code...
+ 		parent::__construct();
+ 	}
+
+ 	public function index()
+ 	{
+ 		$this->view->render('product', 'index', ProductModel::getProducts());
  	}
 
  	public function create($product='')

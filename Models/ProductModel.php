@@ -1,13 +1,14 @@
 <?php
  
 require_once("Model.php");
+require_once("entities/Product.php");
+require_once("entities/Connector.php");
 
 class ProductModel extends Model
 {
-    
     public function __construct()
     {
-        
+        parent::__construct();
     }
     
     public static function create($productObj) //ta default prepei na mpoun sto telos gia na paraleipontai otan den xreiazontai
