@@ -1,11 +1,12 @@
 <?php
-  $which = 'xristes'; //which navbar button is active
+  $which = 'users'; //which navbar button is active
   require_once 'Views/navbars/navbar.php';
 ?>
 
 <h1>
-	Εγγεγραμμένοι Χρήστες
+  	Εγγεγραμμένοι Χρήστες
 </h1>
+
 
 <table class="table">
 <tr>

@@ -15,7 +15,8 @@ require_once 'Models/ProductModel.php';
 
  	public function index()
  	{
- 		$this->view->render('product', 'index', ProductModel::getProducts());
+ 		if( $_SESSION['role'] == 'manager' || $_SESSION['role'] == 'seller' )
+ 			$this->view->render('product', 'index', ProductModel::getProducts());
  	}
 
  	public function create($product='')

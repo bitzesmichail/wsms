@@ -4,7 +4,7 @@
       <?php
           if(isset($which)) {
           switch($which) {
-            case 'paraggelies':
+            case 'saleorder':
               echo '<li class="active"><a>Παραγγελίες</a></li>';
               echo '<li><a href="' . SUPPLYORDER . '/index' .'">Προμήθειες</a></li>';
               echo '<li><a href="' . CUSTOMER . '/index' .'">Πελάτες</a></li>';
@@ -12,7 +12,7 @@
               echo '<li><a href="' . PRODUCT . '/index' .'">Προϊόντα</a></li>';
               echo '<li><a href="' . USERS . '/index' .'">Χρήστες</a></li>';
               break;
-            case 'promithies':
+            case 'supplyorder':
               echo '<li><a href="' . SALEORDER . '/index' .'">Παραγγελίες</a></li>';
               echo '<li class="active"><a>Προμήθειες</a></li>';
               echo '<li><a href="' . CUSTOMER . '/index' .'">Πελάτες</a></li>';
@@ -20,7 +20,7 @@
               echo '<li><a href="' . PRODUCT . '/index' .'">Προϊόντα</a></li>';
               echo '<li><a href="' . USERS . '/index' .'">Χρήστες</a></li>';
               break;
-            case 'pelates':
+            case 'customer':
               echo '<li><a href="' . SALEORDER . '/index' .'">Παραγγελίες</a></li>';
               echo '<li><a href="' . SUPPLYORDER . '/index' .'">Προμήθειες</a></li>';
               echo '<li class="active"><a>Πελάτες</a></li>';
@@ -28,7 +28,7 @@
               echo '<li><a href="' . PRODUCT . '/index' .'">Προϊόντα</a></li>';
               echo '<li><a href="' . USERS . '/index' .'">Χρήστες</a></li>';
               break;
-            case 'promitheutes':
+            case 'provider':
               echo '<li><a href="' . SALEORDER . '/index' .'">Παραγγελίες</a></li>';
               echo '<li><a href="' . SUPPLYORDER . '/index' .'">Προμήθειες</a></li>';
               echo '<li><a href="' . CUSTOMER . '/index' .'">Πελάτες</a></li>';
@@ -36,7 +36,7 @@
               echo '<li><a href="' . PRODUCT . '/index' .'">Προϊόντα</a></li>';
               echo '<li><a href="' . USERS . '/index' .'">Χρήστες</a></li>';
               break;
-            case 'proionta':
+            case 'product':
               echo '<li><a href="' . SALEORDER . '/index' .'">Παραγγελίες</a></li>';
               echo '<li><a href="' . SUPPLYORDER . '/index' .'">Προμήθειες</a></li>';
               echo '<li><a href="' . CUSTOMER . '/index' .'">Πελάτες</a></li>';
@@ -44,7 +44,7 @@
               echo '<li class="active"><a>Προϊόντα</a></li>';
               echo '<li><a href="' . USERS . '/index' .'">Χρήστες</a></li>';
               break;
-            case 'xristes':
+            case 'users':
               echo '<li><a href="' . SALEORDER . '/index' .'">Παραγγελίες</a></li>';
               echo '<li><a href="' . SUPPLYORDER . '/index' .'">Προμήθειες</a></li>';
               echo '<li><a href="' . CUSTOMER . '/index' .'">Πελάτες</a></li>';

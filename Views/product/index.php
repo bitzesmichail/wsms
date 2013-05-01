@@ -1,5 +1,5 @@
 <?php
-  $which = 'proionta'; //which navbar button is active
+  $which = 'product'; //which navbar button is active
   require_once 'Views/navbars/navbar.php';
 ?>
 
