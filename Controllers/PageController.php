@@ -34,8 +34,10 @@ require_once 'Models/entities/User.php';
 		$this->view->render('error', 'error501', null, true);
  	}
 
- 	public function redirect() //aka view
+ 	public function redirect($url) //aka view
  	{
- 		return 0;
+ 		session_write_close();
+ 		header("Location:" . $url);
+ 		exit();
  	}
  }

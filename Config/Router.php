@@ -63,7 +63,7 @@ class Router
 			{
 				if (method_exists($controller, $url[1])) 
 				{
-					if ($url[1] != 'login') {
+					if ($url[1] != 'login' ) {
 						if(!$this->checkForIntrusion())
 							return false;
 					}

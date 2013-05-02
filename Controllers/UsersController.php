@@ -16,10 +16,11 @@ require_once 'Models/entities/User.php';
 
  	public function login($username='', $password='')
  	{
- 		if (empty($username) || empty($password)) {
- 			require_once 'PageController.php';
- 			$controller = new PageController;
- 			$controller->error404('Hello intruder!!!');
+ 		require_once 'PageController.php';
+		$page = new PageController;
+
+ 		if (empty($username) && empty($password)) {
+ 			$page->error404('Hello intruder!!!');
  			return false;
  		}
 
@@ -48,12 +49,10 @@ require_once 'Models/entities/User.php';
  						$_SESSION['role'] = null;
  						break;
  				}
-
-  				$this->view->render('index');
-  				//header("Location: " . HOME);
+		 		$page->redirect(HOME);
  			}
  		}
- 		return -1;
+		$page->redirect(HOME);
  	}
 
  	public function logout($username='')
@@ -62,8 +61,9 @@ require_once 'Models/entities/User.php';
  		$_SESSION['username'] = null;
  		$_SESSION['success_logged_in'] = null;
 
- 		$this->view->render('index');
- 		// header("Location: " . HOME);
+ 		require_once 'PageController.php';
+ 		$page = new PageController;
+ 		$page->redirect(HOME);
  	}
 
  	public function index()
@@ -74,7 +74,6 @@ require_once 'Models/entities/User.php';
 			}
  		}
  		else {
-	 		echo "asdsadawsda";
 			$this->view->render('users', null, null);
 		}
  	}
