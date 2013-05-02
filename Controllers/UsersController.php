@@ -62,8 +62,8 @@ require_once 'Models/entities/User.php';
  		$_SESSION['username'] = null;
  		$_SESSION['success_logged_in'] = null;
 
- 		//$this->view->render('index');
- 		header("Location: " . HOME);
+ 		$this->view->render('index');
+ 		// header("Location: " . HOME);
  	}
 
  	public function index()
