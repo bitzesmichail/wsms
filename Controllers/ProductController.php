@@ -15,8 +15,17 @@ require_once 'Models/ProductModel.php';
 
  	public function index()
  	{
- 		if( $_SESSION['role'] == 'manager' || $_SESSION['role'] == 'seller' )
- 			$this->view->render('product', 'index', ProductModel::getProducts());
+ 		if (isset($_SESSION['role'])) {
+ 			if ($_SESSION['role'] == 'manager' || $_SESSION['role'] == 'seller') {
+	 			$this->view->render('product', 'index', ProductModel::getProducts());
+	 		}
+ 		}
+ 		else
+ 		{
+ 			require_once 'PageController.php';
+ 			$controller = new PageController();
+			$controller->error404("not yet implemented");
+ 		}
  	}
 
  	public function create($product='')

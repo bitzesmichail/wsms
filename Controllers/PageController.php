@@ -22,6 +22,18 @@ require_once 'Models/entities/User.php';
  		$this->view->render('index');
  	}
 
+ 	public function error404($value='')
+ 	{
+ 		$this->view->msg = $value;
+		$this->view->render('error', 'error404', null, true);
+ 	}
+
+ 	public function error501($value='')
+ 	{
+ 		$this->view->msg = $value;
+		$this->view->render('error', 'error501', null, true);
+ 	}
+
  	public function redirect() //aka view
  	{
  		return 0;

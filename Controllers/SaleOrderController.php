@@ -7,12 +7,12 @@ require_once 'Controller.php';
  */
  class SaleOrderController extends Controller
  {
- 	function __construct(argument)
+ 	function __construct()
  	{
  		# code...
  	}
 
- 	public public function create($sale='')
+ 	public function create($sale='')
  	{
  		return 0;
  	}

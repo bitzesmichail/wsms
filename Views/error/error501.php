@@ -42,7 +42,7 @@
 </head>
 	<body>
 		<div class="hero-unit">
-  			<h1>Σφάλμα</h1>
+  			<h1>Σφάλμα 501</h1>
   			<p><?php echo $this->msg; ?></p>
   			
 		</div>

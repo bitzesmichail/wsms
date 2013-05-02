@@ -35,7 +35,7 @@ class Router
 		} 
 		else 
 		{
-			$this->error('Requested file ' . $url[0] . '.php does not exist');
+			$this->error501('Requested file ' . $url[0] . '.php does not exist');
 			return false;
 		}
 		
@@ -47,12 +47,14 @@ class Router
 		{
 			if (method_exists($controller, $url[1])) 
 			{
+				if(!$this->checkForIntrusion())
+							return false;
 				//	call the defined method with the GET argument
 				$controller->{$url[1]}($url[2]);
 			}
 			else 
 			{
-				$this->error('Requested method ' . $url[1] . ' does not exist');
+				$this->error404('Requested method ' . $url[1] . ' does not exist');
 			}
 		} 
 		else 
@@ -61,6 +63,11 @@ class Router
 			{
 				if (method_exists($controller, $url[1])) 
 				{
+					if ($url[1] != 'login') {
+						if(!$this->checkForIntrusion())
+							return false;
+					}
+					
 					//	check for POST arguments
 					if (!empty($_POST)) 
 					{
@@ -74,21 +81,42 @@ class Router
 				} 
 				else 
 				{
-					$this->error('Requested method ' . $url[1] . ' does not exist');
+					$this->error404('Requested method ' . $url[1] . ' does not exist');
 				}
 			} 
 			else 
 			{
+				if(!$this->checkForIntrusion())
+							return false;
 				$controller->index();
 			}
 		}
 	}
 	
-	function error($msg='') 
+	function error501($msg='') 
 	{
-		require 'Controllers/ErrorController.php';
-		$controller = new ErrorController();
-		$controller->index($msg);
+		require 'Controllers/PageController.php';
+		$controller = new PageController();
+		$controller->error501($msg);
 		return false;
+	}
+
+	function error404($msg='') 
+	{
+		require 'Controllers/PageController.php';
+		$controller = new PageController();
+		$controller->error404($msg);
+		return false;
+	}
+
+	function checkForIntrusion()
+	{
+		if (!isset($_SESSION['success_logged_in'])) {
+			$this->error404('Hello intruder!!!');
+			return false;
+		}
+		else {
+			return true;
+		}
 	}
 }

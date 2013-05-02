@@ -16,12 +16,20 @@ require_once 'Models/entities/User.php';
 
  	public function login($username='', $password='')
  	{
+ 		if (empty($username) || empty($password)) {
+ 			require_once 'PageController.php';
+ 			$controller = new PageController;
+ 			$controller->error404('Hello intruder!!!');
+ 			return false;
+ 		}
+
  		$user = UsersController::viewByUsername($username);
 
  		if (!is_null($user))
  		{
  			if ($user->password == $password)
  			{
+ 				$_SESSION['success_logged_in'] = true;
  				$_SESSION['username'] = $user->username;
  				switch ($user->username) {
  					case 'manager':
@@ -52,15 +60,23 @@ require_once 'Models/entities/User.php';
  	{
  		$_SESSION['role'] = null;
  		$_SESSION['username'] = null;
+ 		$_SESSION['success_logged_in'] = null;
 
- 		$this->view->render('index');
- 		//header("Location: " . HOME);
+ 		//$this->view->render('index');
+ 		header("Location: " . HOME);
  	}
 
  	public function index()
  	{
- 		if( $_SESSION['role'] == 'manager')
-			$this->view->render('users', 'index', UserModel::getUsers());
+ 		if (isset($_SESSION['role'])) {
+ 			if( $_SESSION['role'] == 'manager') {
+				$this->view->render('users', 'index', UserModel::getUsers()); 
+			}
+ 		}
+ 		else {
+	 		echo "asdsadawsda";
+			$this->view->render('users', null, null);
+		}
  	}
 
  	public function create($username='', $password='', $email='', $role='')
