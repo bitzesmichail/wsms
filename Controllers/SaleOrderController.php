@@ -9,7 +9,12 @@ require_once 'Controller.php';
  {
  	function __construct()
  	{
- 		# code...
+ 		parent::__construct();
+ 	}
+
+ 	public function index()
+ 	{
+ 		$this->view->render('sales');
  	}
 
  	public function create($sale='')

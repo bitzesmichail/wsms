@@ -37,6 +37,7 @@ require_once 'Models/entities/User.php';
  						break;
  					case 'seller':
  						$_SESSION['role'] = 'seller';
+ 						$page->redirect(SALEORDER . '/');
  						break;
  					case 'scheduler':
  						$_SESSION['role'] = 'scheduler';

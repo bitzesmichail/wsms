@@ -5,7 +5,7 @@
 	define('PRODUCT', HOME . '/product');
 	define('PROVIDER', HOME . '/provider');
 	define('CUSTOMER', HOME . '/customer');
-	define('SALEORDER', HOME . '/saleorder');
-	define('SUPPLYORDER', HOME . '/supplyorder');
+	define('SALEORDER', HOME . '/saleOrder');
+	define('SUPPLYORDER', HOME . '/supplyOrder');
 
 	define('BACK', '..');

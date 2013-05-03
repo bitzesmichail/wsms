@@ -10,8 +10,9 @@
     <meta name="author" content="">
 
     <!-- Bootstrap -->
-    <link href="<?php echo BOOTSTRAP ?>/css/bootstrap.min.css" rel="stylesheet" media="screen">
-    <link href="<?php echo BOOTSTRAP ?>/css/bootstrap.css" rel="stylesheet">
+    <link href="<?php echo BOOTSTRAP; ?>/css/bootstrap.min.css" rel="stylesheet" media="screen">
+    <link href="<?php echo BOOTSTRAP; ?>/css/bootstrap.css" rel="stylesheet">
+
     <style type="text/css">
       body {
         padding-top: 60px;
@@ -30,17 +31,17 @@
         }
       }
     </style>
-    <link href="<?php echo BOOTSTRAP ?>/css/bootstrap-responsive.css" rel="stylesheet">
+    <link href="<?php echo BOOTSTRAP; ?>/css/bootstrap-responsive.css" rel="stylesheet">
 
     <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
     <!--[if lt IE 9]>
-      <script src="<?php echo BOOTSTRAP ?>/js/html5shiv.js"></script>
+      <script src="<?php echo BOOTSTRAP; ?>/js/html5shiv.js"></script>
     <![endif]-->
 
 
     
 </head>
-<body>
+<body>  
 	<div class="navbar navbar-inverse navbar-fixed-top">
       <div class="navbar-inner">
         <div class="container-fluid">
