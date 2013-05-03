@@ -20,8 +20,7 @@ require_once 'Models/entities/User.php';
 		$page = new PageController;
 
  		if (empty($username) && empty($password)) {
- 			$page->error404('Hello intruder!!!');
- 			return false;
+ 			$page->redirect(HOME);
  		}
 
  		$user = UsersController::viewByUsername($username);

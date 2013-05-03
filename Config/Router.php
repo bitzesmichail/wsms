@@ -17,7 +17,7 @@ class Router
 		//If no controller is defined then the PageController is required to show the home page of the application
 		if (empty($url[0])) 
 		{
-			require 'Controllers/PageController.php';
+			require_once 'Controllers/PageController.php';
 			$controller = new PageController();
 			$controller->index();
 			return false;
@@ -31,7 +31,7 @@ class Router
 		$file = 'Controllers/' . $url[0] . '.php';
 		if (file_exists($file)) 
 		{
-			require $file;
+			require_once $file;
 		} 
 		else 
 		{
@@ -47,8 +47,8 @@ class Router
 		{
 			if (method_exists($controller, $url[1])) 
 			{
-				if(!$this->checkForIntrusion())
-							return false;
+				$this->checkForIntrusion();
+
 				//	call the defined method with the GET argument
 				$controller->{$url[1]}($url[2]);
 			}
@@ -64,8 +64,7 @@ class Router
 				if (method_exists($controller, $url[1])) 
 				{
 					if ($url[1] != 'login' ) {
-						if(!$this->checkForIntrusion())
-							return false;
+						$this->checkForIntrusion();
 					}
 					
 					//	check for POST arguments
@@ -86,8 +85,7 @@ class Router
 			} 
 			else 
 			{
-				if(!$this->checkForIntrusion())
-							return false;
+				$this->checkForIntrusion();
 				$controller->index();
 			}
 		}
@@ -95,7 +93,7 @@ class Router
 	
 	function error501($msg='') 
 	{
-		require 'Controllers/PageController.php';
+		require_once 'Controllers/PageController.php';
 		$controller = new PageController();
 		$controller->error501($msg);
 		return false;
@@ -103,7 +101,7 @@ class Router
 
 	function error404($msg='') 
 	{
-		require 'Controllers/PageController.php';
+		require_once 'Controllers/PageController.php';
 		$controller = new PageController();
 		$controller->error404($msg);
 		return false;
@@ -112,11 +110,9 @@ class Router
 	function checkForIntrusion()
 	{
 		if (!isset($_SESSION['success_logged_in'])) {
-			$this->error404('Hello intruder!!!');
-			return false;
-		}
-		else {
-			return true;
+			require_once 'Controllers/PageController.php';
+			$page = new PageController;
+			$page->redirect(HOME);
 		}
 	}
 }
