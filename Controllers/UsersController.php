@@ -78,13 +78,29 @@ require_once 'Models/entities/User.php';
 		}
  	}
 
- 	public function create($username='', $password='', $email='', $role='')
+ 	public function adduser()
+ 	{
+ 		if (isset($_SESSION['role'])) {
+ 			if( $_SESSION['role'] == 'manager') {
+				$this->view->render('users', 'adduser', UserModel::getUsers()); 
+			}
+ 		}
+ 		else {
+			$this->view->render('users', null, null);
+		}
+ 	}
+
+ 	public function create()
  	{
  		try 
  		{
- 			//some validation here
- 			$user = new User($username, $password, $email, $role);
- 			return UserModel::create($user);
+	 		if (isset($_SESSION['role'])) {
+ 				if( $_SESSION['role'] == 'manager') {
+ 					$user = new User($_POST['username'], $_POST['password'], $_POST['email'], null);
+ 					UserModel::create($user);
+ 					UsersController::index();
+ 				}
+ 			}
  		}
  		catch(Exception $ex)
  		{

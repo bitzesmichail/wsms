@@ -33,3 +33,7 @@
 	}
 ?>
 </table>
+
+<p>
+  <a href="<?= USERS . "/adduser" ?>"><button class="btn btn-primary" type="button" >Προσθήκη νέου χρήστη</button></a>
+</p>
