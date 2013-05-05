@@ -7,9 +7,14 @@ require_once 'Controller.php';
  */
  class SupplyOrderController extends Controller
  {
- 	function __construct(argument)
+ 	function __construct()
  	{
- 		# code...
+ 		parent::__construct();
+ 	}
+
+ 	public function index()
+ 	{
+ 		$this->view->render('supplies');
  	}
 
  	public function create($supply='')

@@ -10,7 +10,12 @@ require_once 'Models/CustomerModel.php';
  {
  	function __construct()
  	{
- 		# code...
+ 		parent::__construct();
+ 	}
+
+ 	public function index()
+ 	{
+ 		$this->view->render('customers');
  	}
 
  	public function create($customer='')

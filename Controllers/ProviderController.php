@@ -10,7 +10,12 @@ require_once 'Models/ProviderModel.php';
  {
  	function __construct()
  	{
- 		# code...
+ 		parent::__construct();
+ 	}
+
+ 	public function index()
+ 	{
+ 		$this->view->render('providers');
  	}
 
  	public function create($provider='')
