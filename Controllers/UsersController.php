@@ -90,6 +90,18 @@ require_once 'Models/entities/User.php';
 		}
  	}
 
+ 	public function edituser()
+ 	{
+ 		if (isset($_SESSION['role'])) {
+ 			if( $_SESSION['role'] == 'manager') {
+				$this->view->render('users', 'edituser', UserModel::getUserById($_GET['id'])); 
+			}
+ 		}
+ 		else {
+			$this->view->render('users', null, null);
+		}
+ 	}
+
  	public function create()
  	{
  		try 
@@ -113,6 +125,14 @@ require_once 'Models/entities/User.php';
  	{
  		try 
  		{
+ 			if (isset($_SESSION['role'])) {
+ 				if( $_SESSION['role'] == 'manager') {
+ 					$user = new User($_POST['username'], $_POST['password'], $_POST['email'], null, $_POST['idUser']);
+ 					UserModel::update($user);
+ 					UsersController::index();
+ 				}
+ 			}
+
 	 		return UserModel::update($newUser);
  		}
  		catch(Exception $ex)

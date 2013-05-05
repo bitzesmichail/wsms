@@ -7,6 +7,10 @@
   	Εγγεγραμμένοι Χρήστες
 </h1>
 
+<p>
+  <a href="<?php echo USERS . "/adduser"; ?>"><button class="btn btn-primary" type="button" >Προσθήκη νέου χρήστη</button></a>
+</p>
+
 <div class="container">
 <table class="table table-striped table-bordered tablesorter" id="users_table">
 <thead>
@@ -23,6 +27,8 @@
 				echo "<tr>";
 				echo "<td>" . $value->username . "</td>";
 				echo "<td>" . $value->email . "</td>";
+				echo "<td>" . "<a href=\"" . USERS . "/edituser?id=" . $value->idUser . "\">" . "<button class=\"btn btn-primary\" type=\"button\" >Επεξεργασία</button></a>";				
+				echo "<button onclick=\"confirmDelete(" . $value->idUser . ",&quot;" . $value->username . "&quot; )\" class=\"btn btn-danger\" type=\"button\" >Διαγραφή</button></td>";
 				echo "</tr>";
 			}
 		}
@@ -38,14 +44,20 @@
 </table>
 </div>
 
-<p>
-  <a href="<?php echo USERS . "/adduser"; ?>"><button class="btn btn-primary" type="button" >Προσθήκη νέου χρήστη</button></a>
-</p>
-
 <script type="text/javascript">
 jQuery(document).ready(function() 
     { 
         jQuery("#users_table").tablesorter(); 
     } 
 ); 
+
+function confirmDelete(id, username)
+{
+	if(confirm("Είστε βέβαιος ότι επιθυμείτε τη διαγραφή του χρήστη " + username + ";")) {
+		alert("Ο χρήστης θα εξολοθρευθεί");
+	}
+	else {
+		alert("Ο χρήστης δεν θα διαγραφεί");
+	}
+}
 </script>
