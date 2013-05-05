@@ -11,7 +11,6 @@
 
     <!-- Bootstrap -->
     <link href="<?php echo BOOTSTRAP; ?>/css/bootstrap.min.css" rel="stylesheet" media="screen">
-    <link href="<?php echo BOOTSTRAP; ?>/css/bootstrap.css" rel="stylesheet">
 
     <style type="text/css">
       body {
@@ -42,6 +41,7 @@
     
 </head>
 <body>  
+  <script src="<?php echo BOOTSTRAP; ?>/js/jquery.js"></script>
 	<div class="navbar navbar-inverse navbar-fixed-top">
       <div class="navbar-inner">
         <div class="container-fluid">

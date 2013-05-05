@@ -3,8 +3,6 @@
   require_once 'Views/navbars/navbar.php';
 ?>
    
-    <script src="<?php echo BOOTSTRAP; ?>/js/jquery.js"></script>
-
 <h1>
   	Προσθήκη νέου χρήστη
 </h1>
