@@ -7,13 +7,15 @@
   	Εγγεγραμμένοι Χρήστες
 </h1>
 
-
-<table class="table">
+<div class="container">
+<table class="table table-striped table-bordered tablesorter" id="users_table">
+<thead>
 <tr>
-	<td><strong>Username</strong></td>
-	<td><strong>Email</strong></td>
+	<th><strong>Username</strong></th>
+	<th><strong>Email</strong></th>
 </tr>
-
+</thead>
+<tbody>
 <?php
 	if (!empty($data)) {
 		if (is_array($data)) {
@@ -32,8 +34,18 @@
 		}
 	}
 ?>
+</tbody>
 </table>
+</div>
 
 <p>
   <a href="<?php echo USERS . "/adduser"; ?>"><button class="btn btn-primary" type="button" >Προσθήκη νέου χρήστη</button></a>
 </p>
+
+<script type="text/javascript">
+jQuery(document).ready(function() 
+    { 
+        jQuery("#users_table").tablesorter(); 
+    } 
+); 
+</script>

@@ -11,7 +11,7 @@
 
     <!-- Bootstrap -->
     <link href="<?php echo BOOTSTRAP; ?>/css/bootstrap.min.css" rel="stylesheet" media="screen">
-
+    <link href="<?php echo BOOTSTRAP; ?>/css/bootstrap-tablesorter.css" rel="stylesheet" media="screen">
     <style type="text/css">
       body {
         padding-top: 60px;
