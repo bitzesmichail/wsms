@@ -2,6 +2,8 @@
   //$which = 'users'; //which navbar button is active
   require_once 'Views/navbars/navbar.php';
 ?>
+   
+    <script src="<?php echo BOOTSTRAP; ?>/js/jquery.js"></script>
 
 <h1>
   	Προσθήκη νέου χρήστη
@@ -23,7 +25,7 @@
   <div class="control-group">
     <label class="control-label" for="password">Password</label>
     <div class="controls">
-      <input type="password" id="password" name="password" placeholder="password">
+      <input type="password" id="password" name="password" placeholder="password" oninput="passwordStrength()">
     </div>
   </div>
   <div class="control-group">
@@ -31,6 +33,10 @@
     <div class="controls">
       <input type="password" id="retypepassword" name="retypepassword" placeholder="password">
     </div>
+  </div>
+
+  <div class="alert" id="alertstrength">
+    Password strength
   </div>
 
   <div class="control-group">
@@ -41,40 +47,61 @@
 </form>
 
 <script type="text/javascript">
+  jQuery(document).ready(function($) {
+      jQuery('#alertstrength').hide();
+  });
+
 	function validate() {
-		if(document.getElementById("password").value != document.getElementById("retypepassword").value)
+		if(document.getElementById("password").value != document.getElementById("retypepassword").value) 
 		{
-			alert("Passwords don't match");
+			alert("Τα passwords που δόθηκαν δεν ταιριάζουν");
 			return false;
 		}
 		return true;
 	}
 
-	function passwordStrength(password)
+	function passwordStrength()
 	{
- 		var desc = new Array();
- 		desc[0] = "Πολύ Αδύναμο";
- 		desc[1] = "Αδύναμο";
- 		desc[2] = "Μέτριο";
- 		desc[3] = "Καλό";
- 		desc[4] = "Δυνατό";
- 		desc[5] = "Strongest";
+    jQuery('#alertstrength').show();
 
- 		var strength = 0;
+    var msg = new Array();
+    msg[0] = "Μη αποδεκτό - Απαιτούνται τουλάχιστον 6 χαρακτήρες";
+    msg[1] = "Αδύναμο";
+    msg[2] = "Αδύναμο+";
+    msg[3] = "Μέτριο";
+    msg[4] = "Μέτριο+";
+    msg[5] = "Καλό";
+    msg[6] = "Καλό+";
+    msg[7] = "Δυνατό";
+    msg[8] = "Δυνατό+";
+    msg[9] = "Πολύ δυνατό";
+    msg[10] = "Πολύ δυνατό+";
 
- 		if (password.length > 6) 
- 			strength++;
+    var password = jQuery('#password').val();
 
- 		if ( ( password.match(/[a-z]/) ) && ( password.match(/[A-Z]/) ) ) 
- 			strength++;
+    var strength = 0;
 
- 		if (password.match(/\d+/)) 
- 			strength++;
+    if (password.length < 6)
+      strength = 0;
 
-		if ( password.match(/.[!,@,#,$,%,^,&,*,?,_,~,-,(,)]/) ) 
-			strength++;
+    if (password.length >= 6) 
+      strength = 1;
 
-		if (password.length > 12) 
-			strength++;
-	}
+    if (password.length >= 10) 
+      strength = 3;
+
+    if (password.length >= 12) 
+      strength = 5;
+
+    if (password.length >= 15) 
+      strength = 7;
+
+    if (password.length >= 20) 
+      strength = 9;
+
+    if ( password.match(/.[!,@,#,$,%,^,&,*,?,_,~,-,(,)]/) ) 
+      strength++;
+
+      jQuery('#alertstrength').text(msg[strength]);
+}
 </script>
