@@ -1,6 +1,6 @@
 <?php
 
-require_once 'Validator.php';
+require_once 'Controllers/utilities/Validator.php';
 
 class ValidationTest extends PHPUnit_Framework_TestCase 
 {

@@ -19,19 +19,19 @@ require_once 'Models/entities/User.php';
 
  	public function index()
  	{
- 		$this->view->render('index');
+ 		$this->view->render('page');
  	}
 
  	public function error404($value='')
  	{
  		$this->view->msg = $value;
-		$this->view->render('error', 'error404', null, true);
+		$this->view->render('page', 'error404', null, true);
  	}
 
  	public function error501($value='')
  	{
  		$this->view->msg = $value;
-		$this->view->render('error', 'error501', null, true);
+		$this->view->render('page', 'error501', null, true);
  	}
 
  	public function redirect($url) //aka view

@@ -18,8 +18,8 @@ class Router
 		if (empty($url[0])) 
 		{
 			require_once 'Controllers/PageController.php';
-			$controller = new PageController();
-			$controller->index();
+			$page = new PageController();
+			$page->index();
 			return false;
 		}
 
@@ -94,16 +94,16 @@ class Router
 	function error501($msg='') 
 	{
 		require_once 'Controllers/PageController.php';
-		$controller = new PageController();
-		$controller->error501($msg);
+		$page = new PageController();
+		$page->error501($msg);
 		return false;
 	}
 
 	function error404($msg='') 
 	{
 		require_once 'Controllers/PageController.php';
-		$controller = new PageController();
-		$controller->error404($msg);
+		$page = new PageController();
+		$page->error404($msg);
 		return false;
 	}
 
