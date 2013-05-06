@@ -7,18 +7,21 @@
 	Προϊόντα
 </h1>
 
-<table class="table">
+<div class="container">
+<table class="table table-striped table-bordered tablesorter" id="product_table">
+<thead>
 <tr>
-	<td><strong>SKU</strong></td>
-	<td><strong>Περιγραφή</strong></td>
-	<td><strong>Τιμή Πώλησης</strong></td>
-	<td><strong>Τιμή Αγοράς</strong></td>
-	<td><strong>Διαθέσιμο</strong></td>
-	<td><strong>Δεσμευμένο</strong></td>
-	<td><strong>Σε παραγγελία</strong></td>
-	<td><strong>Κρίσιμο</strong></td>
+	<th><strong>SKU</strong></th>
+	<th><strong>Περιγραφή</strong></th>
+	<th><strong>Τιμή Πώλησης</strong></th>
+	<th><strong>Τιμή Αγοράς</strong></th>
+	<th><strong>Διαθέσιμο</strong></th>
+	<th><strong>Δεσμευμένο</strong></th>
+	<th><strong>Σε παραγγελία</strong></th>
+	<th><strong>Κρίσιμο</strong></th>
 </tr>
-
+</thead>
+<tbody>
 <?php
 	if (!empty($data)) {
 		if (is_array($data)) {
@@ -49,4 +52,15 @@
 		}
 	}
 ?>
+</tbody>
 </table>
+</div>
+
+<script type="text/javascript">
+jQuery(document).ready(function() 
+    { 
+        jQuery("#product_table").tablesorter(); 
+    } 
+); 
+
+</script>
