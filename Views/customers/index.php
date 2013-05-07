@@ -1,4 +1,5 @@
 <?php
+  $which = 'customer';
   require_once 'Views/navbars/navbar.php';
 ?>
 

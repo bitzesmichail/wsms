@@ -1,4 +1,5 @@
 <?php
+  $which = 'supplyorder'; //which navbar button is active
   require_once 'Views/navbars/navbar.php';
 ?>
 
