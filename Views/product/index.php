@@ -7,6 +7,10 @@
 	Προϊόντα
 </h1>
 
+<p>
+  <a href="<?php echo PRODUCT . "/addproduct"; ?>"><button class="btn btn-primary" type="button" >Προσθήκη νέου προϊόντος</button></a>
+</p>
+
 <div class="container">
 <table class="table table-striped table-bordered tablesorter" id="product_table">
 <thead>
@@ -35,6 +39,8 @@
 				echo "<td>" . $value->reservedSum . "</td>";
 				echo "<td>" . $value->orderedSum . "</td>";
 				echo "<td>" . $value->criticalSum . "</td>";
+				echo "<td>" . "<a href=\"" . PRODUCT . "/editproduct?id=" . $value->idProduct . "\">" . "<button class=\"btn btn-primary\" type=\"button\" >Επεξεργασία</button></a>";				
+				echo "<a href=\"" . PRODUCT . "/deleteproduct?id=" . $value->idProduct . "\">" . "<button class=\"btn btn-danger\" type=\"button\" >Διαγραφή</button></td></a>";
 				echo "</tr>";
 			}
 		}

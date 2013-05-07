@@ -133,7 +133,7 @@ require_once 'Models/entities/User.php';
  		}
  	}
 
- 	public function update($newUser='')
+ 	public function update()
  	{
  		try 
  		{

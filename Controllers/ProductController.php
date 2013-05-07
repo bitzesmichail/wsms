@@ -27,12 +27,54 @@ require_once 'Models/ProductModel.php';
 			$controller->error404("not yet implemented");
  		}
  	}
+ 	
+ 	public function addproduct()
+ 	{
+ 		if (isset($_SESSION['role'])) {
+ 			if( $_SESSION['role'] == 'manager') {
+				$this->view->render('product', 'addproduct', ProductModel::getProducts()); 
+			}
+ 		}
+ 		else {
+			$this->view->render('product', null, null);
+		}
+ 	}
 
- 	public function create($product='')
+ 	public function editproduct()
+ 	{
+ 		if (isset($_SESSION['role'])) {
+ 			if( $_SESSION['role'] == 'manager') {
+				$this->view->render('product', 'editproduct', ProductModel::getProductById($_GET['id'])); 
+			}
+ 		}
+ 		else {
+			$this->view->render('product', null, null);
+		}
+ 	}
+
+ 	public function deleteproduct()
+ 	{
+ 		if (isset($_SESSION['role'])) {
+ 			if( $_SESSION['role'] == 'manager') {
+				$this->view->render('product', 'deleteproduct', ProductModel::getProductById($_GET['id'])); 
+			}
+ 		}
+ 		else {
+			$this->view->render('product', null, null);
+		}
+ 	}
+
+ 	public function create()
  	{
  		try 
  		{
- 			return ProductModel::create($product);
+	 		if (isset($_SESSION['role'])) {
+ 				if( $_SESSION['role'] == 'manager') {
+ 					$product = new Product($_POST['sku'], $_POST['description'], $_POST['priceSale'], $_POST['priceSupply'], $_POST['availableSum'], 0, 0, $_POST['criticalSum']);
+ 					ProductModel::create($product);
+ 					ProductController::index();
+ 				}
+ 			}
  		}
  		catch(Exception $ex)
  		{
@@ -41,11 +83,17 @@ require_once 'Models/ProductModel.php';
  		}
  	}
 
- 	public function update($newProduct='')
+ 	public function update()
  	{
  		try 
  		{
-	 		return ProductModel::update($newProduct);
+	 		if (isset($_SESSION['role'])) {
+ 				if( $_SESSION['role'] == 'manager') {
+ 					$product = new Product($_POST['sku'], $_POST['description'], $_POST['priceSale'], $_POST['priceSupply'], $_POST['availableSum'], $_POST['reservedSum'], $_POST['orderedSum'], $_POST['criticalSum'], $_POST['idProduct']);
+ 					ProductModel::update($product);
+ 					ProductController::index();
+ 				}
+ 			}
  		}
  		catch(Exception $ex)
  		{
@@ -54,11 +102,17 @@ require_once 'Models/ProductModel.php';
  		}
  	}
 
- 	public function delete($idProduct='')
+ 	public function delete()
  	{
  		try 
  		{
-	 		return ProductModel::delete($idProduct);
+ 			if (isset($_SESSION['role'])) {
+ 				if( $_SESSION['role'] == 'manager') {
+ 					ProductModel::delete($_POST['idProduct']);
+ 					ProductController::index();
+ 				}
+ 			}
+
  		}
  		catch(Exception $ex)
  		{

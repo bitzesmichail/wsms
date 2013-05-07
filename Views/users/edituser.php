@@ -42,7 +42,7 @@
 
   <div class="control-group">
     <div class="controls">
-      <button type="submit" class="btn">Ανανέωση</button>
+      <button type="submit" class="btn btn-primary">Ανανέωση</button>
     </div>
   </div>
 </form>
