@@ -102,6 +102,18 @@ require_once 'Models/entities/User.php';
 		}
  	}
 
+ 	public function deleteuser()
+ 	{
+ 		if (isset($_SESSION['role'])) {
+ 			if( $_SESSION['role'] == 'manager') {
+				$this->view->render('users', 'deleteuser', UserModel::getUserById($_GET['id'])); 
+			}
+ 		}
+ 		else {
+			$this->view->render('users', null, null);
+		}
+ 	}
+
  	public function create()
  	{
  		try 
@@ -132,8 +144,6 @@ require_once 'Models/entities/User.php';
  					UsersController::index();
  				}
  			}
-
-	 		return UserModel::update($newUser);
  		}
  		catch(Exception $ex)
  		{
@@ -142,11 +152,16 @@ require_once 'Models/entities/User.php';
  		}
  	}
 
- 	public function delete($idUser='')
+ 	public function delete()
  	{
- 		try 
+ 		try
  		{
-	 		return UserModel::delete($idUser);
+ 			if (isset($_SESSION['role'])) {
+ 				if( $_SESSION['role'] == 'manager') {
+ 					UserModel::delete($_POST['idUser']);
+ 					UsersController::index();
+ 				}
+ 			}
  		}
  		catch(Exception $ex)
  		{

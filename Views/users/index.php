@@ -28,7 +28,7 @@
 				echo "<td>" . $value->username . "</td>";
 				echo "<td>" . $value->email . "</td>";
 				echo "<td>" . "<a href=\"" . USERS . "/edituser?id=" . $value->idUser . "\">" . "<button class=\"btn btn-primary\" type=\"button\" >Επεξεργασία</button></a>";				
-				echo "<button onclick=\"confirmDelete(" . $value->idUser . ",&quot;" . $value->username . "&quot; )\" class=\"btn btn-danger\" type=\"button\" >Διαγραφή</button></td>";
+				echo "<a href=\"" . USERS . "/deleteuser?id=" . $value->idUser . "\">" . "<button class=\"btn btn-danger\" type=\"button\" >Διαγραφή</button></td></a>";
 				echo "</tr>";
 			}
 		}
@@ -50,14 +50,4 @@ jQuery(document).ready(function()
         jQuery("#users_table").tablesorter(); 
     } 
 ); 
-
-function confirmDelete(id, username)
-{
-	if(confirm("Είστε βέβαιος ότι επιθυμείτε τη διαγραφή του χρήστη " + username + ";")) {
-		alert("Ο χρήστης θα εξολοθρευθεί");
-	}
-	else {
-		alert("Ο χρήστης δεν θα διαγραφεί");
-	}
-}
 </script>
