@@ -3,7 +3,7 @@
 class Customer
 {
     
-    private $idCustomer;
+    
     private $name;
     private $surname;
     private $ssn;
@@ -13,6 +13,7 @@ class Customer
     private $address;
     private $city;
     private $zipCode;
+    private $version;
     
     public function __construct($name,
 				$surname,
@@ -23,7 +24,7 @@ class Customer
 				$address,
 				$zipCode,
 				$city,
-				$idCustomer = null)
+				$version = null)
     {
 	$this->name = $name;
 	$this->surname = $surname;
@@ -34,15 +35,13 @@ class Customer
 	$this->address = $address;
 	$this->city = $city;
 	$this->zipCode = $zipCode;
-	$this->idCustomer = $idCustomer;
+	$this->version = $version;
     }
     
     public function __get($param)
     {
 	switch ($param)
 	{    
-	    case "idCustomer":
-		return $this->idCustomer;
 	    case "name":
 		return $this->name;
 	    case "surname":
@@ -61,6 +60,8 @@ class Customer
 		return $this->zipCode;
 	    case "city":
 	        return $this->city;
+	    case "version":
+	       	return $this->version;
 	}
     }
     
@@ -68,9 +69,6 @@ class Customer
     {
 	switch ($name)
 	{
-	    case "idCustomer":
-    		$this->idCustomer = $value;
-		break;
 	    case "name":
 		$this->name = $value;
 		break;
@@ -97,7 +95,10 @@ class Customer
 		break;
 	    case "city":
 		$this->city = $value;
-		break; 	    
+		break; 	 
+		case "version":
+			$this->version=$value;
+			break;
 	}
     }
 }

@@ -47,25 +47,23 @@ class ProviderModel extends Model
             $stmt = $pdo->prepare("UPDATE Provider SET
 				    name = :name,
 				    surname = :surname,
-				    ssn = :ssn,
 				    phone = :phone,
 				    cellphone = :cellphone,
 				    email = :email,
 				    address = :address,
 				    city = :city,
 				    zipCode = :zipCode
-				  WHERE idProvider = :idProvider");
+				  WHERE ssn = :providerSsn");
 	
 	    $stmt->bindValue(":name", $providerObj->name);			    
             $stmt->bindValue(":surname", $providerObj->surname);
-            $stmt->bindValue(":ssn", $providerObj->ssn);
+            $stmt->bindValue(":providerSsn", $providerObj->ssn);
             $stmt->bindValue(":phone", $providerObj->phone);
 	    $stmt->bindValue(":cellphone", $providerObj->cellphone);
             $stmt->bindValue(":email", $providerObj->email);
             $stmt->bindValue(":address", $providerObj->address);
 	    $stmt->bindValue(":city", $providerObj->city);
             $stmt->bindValue(":zipCode", $providerObj->zipCode);
-	    $stmt->bindValue(":idProvider", $providerObj->idProvider);
             $stmt->execute();
 	    return 0;
 	}
@@ -75,15 +73,15 @@ class ProviderModel extends Model
         }	
     }
 
-    public static function delete($idProvider)
+    public static function delete($providerSsn)
     {
 	$pdo = Connector::getPDO();
         
         try 
         {
-            $stmt = $pdo->prepare("DELETE FROM Provider WHERE idProvider = :idProvider");
+            $stmt = $pdo->prepare("DELETE FROM Provider WHERE ssn = :providerSsn");
 
-            $stmt->bindValue(":idProvider", $idProvider);       
+            $stmt->bindValue(":providerSsn", $providerSsn);       
             $stmt->execute();
         } 
         catch(PDOException $e) 
@@ -116,7 +114,7 @@ class ProviderModel extends Model
 						    $providerCol['address'],
 						    $providerCol['city'],
 						    $providerCol['zipCode'],
-						    $providerCol['idProvider']);
+						    $providerCol['version']);
             }
             
             return $providerObjArray;

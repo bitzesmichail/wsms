@@ -22,10 +22,14 @@ class SaleOrder
 		return $this->saleOrder['dateClosed'];
 	    case "dateDue":
 		return $this->saleOrder['dateDue'];
-	    case "idCustomer":
-		return $this->saleOrder['idCustomer'];
+	    case "customerSsn":
+		return $this->saleOrder['customerSsn'];
 	    case "idUser":
-		return $this->saleOrder['idUser'];	    
+		return $this->saleOrder['idUser'];	
+		case "status":
+			return $this->saleOrder['status'];
+		case "dateUpdated":
+			return $this->saleOrder['dateUpdated'];
 	}
     }
 

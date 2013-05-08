@@ -1,6 +1,7 @@
 <?php
  
 require_once("Model.php");
+require_once("entities/Customer.php");
 
 class CustomerModel extends Model
 {
@@ -47,25 +48,23 @@ class CustomerModel extends Model
             $stmt = $pdo->prepare("UPDATE Customer SET
 				    name = :name,
 				    surname = :surname,
-				    ssn = :ssn,
 				    phone = :phone,
 				    cellphone = :cellphone,
 				    email = :email,
 				    address = :address,
 				    city = :city,
 				    zipCode = :zipCode
-				  WHERE idCustomer = :idCustomer");
+				  WHERE ssn = :customerSsn");
 	
 	    $stmt->bindValue(":name", $customerObj->name);			    
             $stmt->bindValue(":surname", $customerObj->surname);
-            $stmt->bindValue(":ssn", $customerObj->ssn);
+            $stmt->bindValue(":customerSsn", $customerObj->ssn);
             $stmt->bindValue(":phone", $customerObj->phone);
 	    $stmt->bindValue(":cellphone", $customerObj->cellphone);
             $stmt->bindValue(":email", $customerObj->email);
             $stmt->bindValue(":address", $customerObj->address);
 	    $stmt->bindValue(":city", $customerObj->city);
             $stmt->bindValue(":zipCode", $customerObj->zipCode);
-	    $stmt->bindValue(":idCustomer", $customerObj->idCustomer);
             $stmt->execute();
 	    return 0;
 	}
@@ -75,15 +74,15 @@ class CustomerModel extends Model
         }
     }
 
-    public static function delete($idCustomer)
+    public static function delete($customerSsn)
     {
 	$pdo = Connector::getPDO();
         
         try 
         {
-            $stmt = $pdo->prepare("DELETE FROM Customer WHERE idCustomer = :idCustomer");
+            $stmt = $pdo->prepare("DELETE FROM Customer WHERE ssn = :customerSsn");
 
-            $stmt->bindValue(":idCustomer", $idCustomer);       
+            $stmt->bindValue(":customerSsn", $customerSsn);       
             $stmt->execute();
         } 
         catch(PDOException $e) 
@@ -116,7 +115,7 @@ class CustomerModel extends Model
 						    $customerCol['address'],
 						    $customerCol['city'],
 						    $customerCol['zipCode'],
-						    $customerCol['idCustomer']);
+						    $customerCol['version']);
             }
             
             return $customerObjArray;
@@ -127,7 +126,7 @@ class CustomerModel extends Model
         }
     }
     
-    public static function getCustomerById($idCustomer)
+    public static function getCustomerBySsn($customerSsn)
     {
 	$pdo = Connector::getPDO();
         
@@ -135,7 +134,7 @@ class CustomerModel extends Model
         {
             $stmt = $pdo->prepare("SELECT *
                                   FROM Customer
-                                  WHERE idCustomer = :idCustomer");
+                                  WHERE ssn = :customerSsn");
 
             $stmt->bindValue(":idCustomer", $idCustomer);
             $stmt->execute();
@@ -151,7 +150,7 @@ class CustomerModel extends Model
 				$customerCol['address'],
 				$customerCol['city'],
 				$customerCol['zipCode'],
-			        $idCustomer);
+			        $customerCol['version']);
         }
         catch(PDOException $e) 
         {
@@ -159,7 +158,7 @@ class CustomerModel extends Model
         }
     }
     
-    public static function setDiscount($idCustomer, $idProduct, $discount)
+    public static function setDiscount($customerSsn, $productSku, $discount)
     {
 	if($discount > 1)
 	{
@@ -171,14 +170,14 @@ class CustomerModel extends Model
 	try
         {
             $stmt = $pdo->prepare("INSERT INTO CustomerHasDiscount
-				    (idCustomer, idProduct, discount)
+				    (ssn, sku, discount)
 				   VALUES
-				    (:idCustomer, :idProduct, :discount)
+				    (:customerSsn, :productSku, :discount)
 				   ON DUPLICATE KEY UPDATE
 				    discount = :discount");
 
-            $stmt->bindValue(":idCustomer", $idCustomer);
-	    $stmt->bindValue(":idProduct", $idProduct);
+            $stmt->bindValue(":idCustomer", $customerSsn);
+	    $stmt->bindValue(":idProduct", $productSku);
 	    $stmt->bindValue(":discount", $discount);
             $stmt->execute();
 	        
@@ -189,7 +188,7 @@ class CustomerModel extends Model
         }
     }
     
-    public static function getDiscount($idCustomer, $idProduct)
+    public static function getDiscount($customerSsn, $productSku)
     {
 	$pdo = Connector::getPDO();
 	
@@ -197,11 +196,11 @@ class CustomerModel extends Model
         {
             $stmt = $pdo->prepare("SELECT discount
 				  FROM CustomerHasDiscount
-				  WHERE idCustomer = :idCustomer
-				  AND idProduct = :idProduct");
+				  WHERE ssn = :customerSsn
+				  AND sku = :productSsn");
 
-            $stmt->bindValue(":idCustomer", $idCustomer);
-	    $stmt->bindValue(":idProduct", $idProduct);
+            $stmt->bindValue(":customerSsn", $customerSsn);
+	    $stmt->bindValue(":productSsn", $productSku);
             $stmt->execute();
 	        
 	    $discountCol = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -214,7 +213,7 @@ class CustomerModel extends Model
         }
     }
     
-    public static function removeDiscount($idCustomer, $idProduct)
+    public static function removeDiscount($customerSsn, $productSku)
     {
     	$pdo = Connector::getPDO();
     
@@ -222,11 +221,11 @@ class CustomerModel extends Model
     	{
     		$stmt = $pdo->prepare("DELETE 
 				  FROM CustomerHasDiscount
-				  WHERE idCustomer = :idCustomer
-				  AND idProduct = :idProduct");
+				  WHERE ssn = :customerSsn
+				  AND sku = :productSku");
     
-    		$stmt->bindValue(":idCustomer", $idCustomer);
-    		$stmt->bindValue(":idProduct", $idProduct);
+    		$stmt->bindValue(":customerSsn", $customerSsn);
+    		$stmt->bindValue(":productSku", $productSku);
     		$stmt->execute();
     		 
     	}

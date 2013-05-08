@@ -2,8 +2,7 @@
  
 class Product 
 {
-    
-    private $idProduct;
+    private $version;
     private $sku;
     private $description;
     private $priceSale;
@@ -21,9 +20,9 @@ class Product
 				$reservedSum,
 				$orderedSum,
 				$criticalSum,
-				$idProduct = null)
+				$version = null)
     {
-	$this->idProduct = $idProduct;
+	$this->version = $version;
 	$this->sku = $sku;
 	$this->description = $description;
 	$this->priceSale = $priceSale;
@@ -38,8 +37,8 @@ class Product
     {
 	switch ($param)
 	{    
-	    case "idProduct":
-		return $this->idProduct;
+	    case "version":
+		return $this->version;
 	    case "sku":
 		return $this->sku;
 	    case "description":
@@ -63,8 +62,8 @@ class Product
     {
 	switch ($name)
 	{
-	    case "idProduct":
-    		$this->idProduct = $value;
+	    case "version":
+    		$this->version = $value;
 		break;
 	    case "sku":
 		$this->sku = $value;

@@ -22,10 +22,14 @@ class SupplyOrder
 		return $this->supplyOrder['dateClosed'];
 	    case "dateDue":
 		return $this->supplyOrder['dateDue'];
-	    case "idProvider":
-		return $this->supplyOrder['idProvider'];
+	    case "providerSsn":
+		return $this->supplyOrder['providerSsn'];
 	    case "idUser":
-		return $this->supplyOrder['idUser'];	    
+		return $this->supplyOrder['idUser'];
+		case "dateUpdated":
+			return $this->supplyOrder['dateUpdated'];
+		case "status":
+			return $this->supplyOrder['status'];
 	}
     }
 

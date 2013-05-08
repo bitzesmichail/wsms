@@ -3,7 +3,7 @@
 class Provider 
 {
     
-    private $idProvider;
+    private $version;
     private $name;
     private $surname;
     private $ssn;
@@ -23,7 +23,7 @@ class Provider
 				$address,
 				$zipCode,
 				$city,
-				$idProvider = null)
+				$version = null)
     {
 	$this->name = $name;
 	$this->surname = $surname;
@@ -34,15 +34,15 @@ class Provider
 	$this->address = $address;
 	$this->city = $city;
 	$this->zipCode = $zipCode;
-	$this->idProvider = $idProvider;
+	$this->version = $version;
     }
     
     public function __get($param)
     {
 	switch ($param)
 	{
-	    case "idProvider":
-		return $this->idProvider;
+	    case "version":
+		return $this->version;
 	    case "name":
 		return $this->name;
 	    case "surname":
@@ -68,8 +68,8 @@ class Provider
     {
 	switch ($name)
 	{
-	    case "idProvider":
-    		$this->idProvider = $value;
+	    case "version":
+    		$this->version = $version;
 		break;
 	    case "name":
 		$this->name = $value;

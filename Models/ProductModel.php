@@ -45,7 +45,6 @@ class ProductModel extends Model
         try
         {
             $stmt = $pdo->prepare("UPDATE Product SET
-				    sku = :sku,
 				    description = :description,
 				    priceSale = :priceSale,
 				    priceSupply = :priceSupply,
@@ -53,9 +52,9 @@ class ProductModel extends Model
 				    reservedSum = :reservedSum,
 				    orderedSum = :orderedSum,
 				    criticalSum = :criticalSum
-				  WHERE idProduct = :idProduct");
+				  WHERE sku = :productSku");
             
-            $stmt->bindValue(":sku", $productObj->sku);
+            $stmt->bindValue(":productSku", $productObj->sku);
             $stmt->bindValue(":description", $productObj->description);
             $stmt->bindValue(":priceSale", $productObj->priceSale);
 	    $stmt->bindValue(":priceSupply", $productObj->priceSupply);
@@ -63,7 +62,6 @@ class ProductModel extends Model
             $stmt->bindValue(":reservedSum", $productObj->reservedSum);
 	    $stmt->bindValue(":orderedSum", $productObj->orderedSum);
             $stmt->bindValue(":criticalSum", $productObj->criticalSum);
-	    $stmt->bindValue(":idProduct", $productObj->idProduct);
             $stmt->execute();
             return 0;
         }
@@ -73,15 +71,15 @@ class ProductModel extends Model
         }
     }
 
-    public static function delete($idProduct)
+    public static function delete($productSku)
     {
 	$pdo = Connector::getPDO();
         
         try 
         {
-            $stmt = $pdo->prepare("DELETE FROM Product WHERE idProduct = :idProduct");
+            $stmt = $pdo->prepare("DELETE FROM Product WHERE sku = :productSku");
 
-            $stmt->bindValue(":idProduct", $idProduct);       
+            $stmt->bindValue(":productSku", $productSku);       
             $stmt->execute();
         } 
         catch(PDOException $e) 
@@ -113,7 +111,7 @@ class ProductModel extends Model
 						  $productCol['reservedSum'],
 						  $productCol['orderedSum'],
 						  $productCol['criticalSum'],
-						  $productCol['idProduct']);
+						  $productCol['version']);
             }
             
             return $productObjArray;
@@ -125,7 +123,7 @@ class ProductModel extends Model
         }
     }
     
-    public static function getProductById($idProduct)
+    public static function getProductBySku($productSku)
     {
 	$pdo = Connector::getPDO();
         
@@ -133,9 +131,9 @@ class ProductModel extends Model
         {
             $stmt = $pdo->prepare("SELECT *
                                   FROM Product
-                                  WHERE idProduct = :idProduct");
+                                  WHERE sku = :productSku");
 
-            $stmt->bindValue(":idProduct", $idProduct);
+            $stmt->bindValue(":productSku", $productSku);
             $stmt->execute();
 	    
             $productCol = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -148,43 +146,13 @@ class ProductModel extends Model
 			       $productCol["reservedSum"],
 			       $productCol["orderedSum"],
 			       $productCol["criticalSum"],
-			       $idProduct);
+			       $productCol['version']);
         }
         catch(PDOException $e) 
         {
             echo $e->getMessage();
         }
     }
-    
-    public static function getProductBySku($sku)
-    {
-	$pdo = Connector::getPDO();
-        
-        try
-        {
-            $stmt = $pdo->prepare("SELECT *
-                                  FROM Product
-                                  WHERE sku = :sku");
-
-            $stmt->bindValue(":sku", $sku);
-            $stmt->execute();
-	    
-            $productCol = $stmt->fetch(PDO::FETCH_ASSOC);
-	    
-	    return new Product($sku,
-			       $productCol["description"],
-			       $productCol["priceSale"],
-			       $productCol["priceSupply"],
-			       $productCol["availableSum"],
-			       $productCol["reservedSum"],
-			       $productCol["orderedSum"],
-			       $productCol["criticalSum"],
-			       $productCol["idProduct"]);
-        }
-        catch(PDOException $e) 
-        {
-            echo $e->getMessage();
-        }
-    }
+ 
     
 }
