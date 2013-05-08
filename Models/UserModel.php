@@ -109,11 +109,11 @@ class UserModel extends Model
             {
                 
                 $stmt = $pdo->prepare("SELECT type, description
-                                      FROM Role, UserHasRole
-                                      WHERE UserHasRole.idUser = :idUser
-                                      AND UserHasRole.idRole = Role.idRole");  
+                                      FROM Role
+                                      WHERE idRole = :idRole
+                                      ");  
                 
-                $stmt->bindValue(":idUser", $userCol['idUser']);
+                $stmt->bindValue(":idRole", $userCol['idRole']);
                 $stmt->execute();
                 
                 $rolesColumns = $stmt->fetchAll();
