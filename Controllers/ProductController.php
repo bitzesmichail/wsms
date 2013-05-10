@@ -65,7 +65,7 @@ require_once 'Models/ProductModel.php';
  			if( $_SESSION['role'] == 'manager') {
 				try 
 				{
-					$this->view->render('product', 'editproduct', ProductModel::getProductById($_GET['id'])); 
+					$this->view->render('product', 'editproduct', ProductModel::getProductBySku($_GET['sku'])); 
 				}
  				catch(Exception $ex)
 			 	{
@@ -88,7 +88,7 @@ require_once 'Models/ProductModel.php';
  			if( $_SESSION['role'] == 'manager') {
 				try 
 				{
-					$this->view->render('product', 'deleteproduct', ProductModel::getProductById($_GET['id'])); 
+					$this->view->render('product', 'deleteproduct', ProductModel::getProductBySku($_GET['sku'])); 
 				}
  				catch(Exception $ex)
 			 	{
