@@ -13,7 +13,7 @@ class CustomerModel extends Model
     
     public static function create($customerObj)  
     {
-	$pdo = Connector::getPDO();
+		$pdo = Connector::getPDO();
 
         try
         {
@@ -22,78 +22,79 @@ class CustomerModel extends Model
                                    VALUES
                                     (:name, :surname, :ssn, :phone, :cellphone, :email, :address, :city, :zipCode)");
 
-	    $stmt->bindValue(":name", $customerObj->name);			    
+			$stmt->bindValue(":name", $customerObj->name);			    
             $stmt->bindValue(":surname", $customerObj->surname);
             $stmt->bindValue(":ssn", $customerObj->ssn);
             $stmt->bindValue(":phone", $customerObj->phone);
-	    $stmt->bindValue(":cellphone", $customerObj->cellphone);
+			$stmt->bindValue(":cellphone", $customerObj->cellphone);
             $stmt->bindValue(":email", $customerObj->email);
             $stmt->bindValue(":address", $customerObj->address);
-	    $stmt->bindValue(":city", $customerObj->city);
+			$stmt->bindValue(":city", $customerObj->city);
             $stmt->bindValue(":zipCode", $customerObj->zipCode);
             $stmt->execute();
         }
         catch(PDOException $e)
         {
-            echo $e->getMessage();
+			throw $e;
+            //echo $e->getMessage();
         }
     }
 
     public static function update($customerObj)
     {
-	$pdo = Connector::getPDO();
+		$pdo = Connector::getPDO();
 
         try
         {
             $stmt = $pdo->prepare("UPDATE Customer SET
-				    name = :name,
-				    surname = :surname,
-				    phone = :phone,
-				    cellphone = :cellphone,
-				    email = :email,
-				    address = :address,
-				    city = :city,
-				    zipCode = :zipCode
-				  WHERE ssn = :customerSsn");
+									name = :name,
+									surname = :surname,
+									phone = :phone,
+									cellphone = :cellphone,
+									email = :email,
+									address = :address,
+									city = :city,
+									zipCode = :zipCode
+								  WHERE ssn = :customerSsn");
 	
-	    $stmt->bindValue(":name", $customerObj->name);			    
+			$stmt->bindValue(":name", $customerObj->name);			    
             $stmt->bindValue(":surname", $customerObj->surname);
             $stmt->bindValue(":customerSsn", $customerObj->ssn);
             $stmt->bindValue(":phone", $customerObj->phone);
-	    $stmt->bindValue(":cellphone", $customerObj->cellphone);
+			$stmt->bindValue(":cellphone", $customerObj->cellphone);
             $stmt->bindValue(":email", $customerObj->email);
             $stmt->bindValue(":address", $customerObj->address);
-	    $stmt->bindValue(":city", $customerObj->city);
+			$stmt->bindValue(":city", $customerObj->city);
             $stmt->bindValue(":zipCode", $customerObj->zipCode);
             $stmt->execute();
-	    return 0;
-	}
+		}
         catch (PDOException $e)
         {
-            echo $e->getMessage();
+			throw $e;
+            //echo $e->getMessage();
         }
     }
 
     public static function delete($customerSsn)
     {
-	$pdo = Connector::getPDO();
+		$pdo = Connector::getPDO();
         
         try 
         {
             $stmt = $pdo->prepare("DELETE FROM Customer WHERE ssn = :customerSsn");
-
             $stmt->bindValue(":customerSsn", $customerSsn);       
             $stmt->execute();
         } 
         catch(PDOException $e) 
         {
-            echo $e->getMessage();
+			throw $e;
+           // echo $e->getMessage();
         }
     }
 
     public static function getCustomers()
     {
-	$pdo = Connector::getPDO();
+		$pdo = Connector::getPDO();
         
         try
         {
@@ -107,22 +108,22 @@ class CustomerModel extends Model
             foreach ($customersColumns as $customerCol)
             {
                 $customerObjArray[] =  new Customer($customerCol['name'],
-						    $customerCol['surname'],
-						    $customerCol['ssn'],
-						    $customerCol['phone'],
-						    $customerCol['cellphone'],
-						    $customerCol['email'],
-						    $customerCol['address'],
-						    $customerCol['city'],
-						    $customerCol['zipCode'],
-						    $customerCol['version']);
+													$customerCol['surname'],
+													$customerCol['ssn'],
+													$customerCol['phone'],
+													$customerCol['cellphone'],
+													$customerCol['email'],
+													$customerCol['address'],
+													$customerCol['city'],
+													$customerCol['zipCode']);
             }
             
             return $customerObjArray;
         }
         catch(PDOException $e) 
         {
-            echo $e->getMessage();
+			throw $e;
+            //echo $e->getMessage();
         }
     }
     
@@ -141,33 +142,33 @@ class CustomerModel extends Model
 	    
             $customerCol = $stmt->fetch(PDO::FETCH_ASSOC);
 	    
-	    return new Customer($customerCol['name'],
-				$customerCol['surname'],
-				$customerCol['ssn'],
-				$customerCol['phone'],
-				$customerCol['cellphone'],
-				$customerCol['email'],
-				$customerCol['address'],
-				$customerCol['city'],
-				$customerCol['zipCode'],
-			        $customerCol['version']);
+			return new Customer($customerCol['name'],
+								$customerCol['surname'],
+								$customerCol['ssn'],
+								$customerCol['phone'],
+								$customerCol['cellphone'],
+								$customerCol['email'],
+								$customerCol['address'],
+								$customerCol['city'],
+								$customerCol['zipCode']);
         }
         catch(PDOException $e) 
         {
-            echo $e->getMessage();
+			throw $e;
+            //echo $e->getMessage();
         }
     }
     
     public static function setDiscount($customerSsn, $productSku, $discount)
     {
-	if($discount > 1)
-	{
-	    return -1;
-	}
+		if($discount > 1)
+		{
+			return -1;
+		}
 	
-	$pdo = Connector::getPDO();
+		$pdo = Connector::getPDO();
 	
-	try
+		try
         {
             $stmt = $pdo->prepare("INSERT INTO CustomerHasDiscount
 				    (ssn, sku, discount)
@@ -177,39 +178,41 @@ class CustomerModel extends Model
 				    discount = :discount");
 
             $stmt->bindValue(":idCustomer", $customerSsn);
-	    $stmt->bindValue(":idProduct", $productSku);
-	    $stmt->bindValue(":discount", $discount);
+			$stmt->bindValue(":idProduct", $productSku);
+			$stmt->bindValue(":discount", $discount);
             $stmt->execute();
 	        
         }
         catch(PDOException $e) 
-        {
-            echo $e->getMessage();
+        {	
+			throw $e;
+            //echo $e->getMessage();
         }
     }
     
     public static function getDiscount($customerSsn, $productSku)
     {
-	$pdo = Connector::getPDO();
+		$pdo = Connector::getPDO();
 	
-	try
+		try
         {
             $stmt = $pdo->prepare("SELECT discount
-				  FROM CustomerHasDiscount
-				  WHERE ssn = :customerSsn
-				  AND sku = :productSsn");
+								  FROM CustomerHasDiscount
+								  WHERE ssn = :customerSsn
+								  AND sku = :productSsn");
 
             $stmt->bindValue(":customerSsn", $customerSsn);
-	    $stmt->bindValue(":productSsn", $productSku);
+			$stmt->bindValue(":productSsn", $productSku);
             $stmt->execute();
 	        
-	    $discountCol = $stmt->fetch(PDO::FETCH_ASSOC);
+			$discount = $stmt->fetchColumn();
 	    
-	    return $discountCol['discount'];
-        }
+			return $discount;
+		}
         catch(PDOException $e) 
         {
-            echo $e->getMessage();
+			throw $e;
+            //echo $e->getMessage();
         }
     }
     
@@ -220,18 +223,18 @@ class CustomerModel extends Model
     	try
     	{
     		$stmt = $pdo->prepare("DELETE 
-				  FROM CustomerHasDiscount
-				  WHERE ssn = :customerSsn
-				  AND sku = :productSku");
+								  FROM CustomerHasDiscount
+								  WHERE ssn = :customerSsn
+								  AND sku = :productSku");
     
     		$stmt->bindValue(":customerSsn", $customerSsn);
     		$stmt->bindValue(":productSku", $productSku);
     		$stmt->execute();
-    		 
     	}
     	catch(PDOException $e)
     	{
-    		echo $e->getMessage();
+			throw $e;
+    		//echo $e->getMessage();
     	}
     }
 }
