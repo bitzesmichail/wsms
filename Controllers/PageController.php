@@ -34,6 +34,11 @@ require_once 'Models/entities/User.php';
 		$this->view->render('page', 'error501', null, true);
  	}
 
+	public function error_accdenied()
+	{
+		$this->view->render('page', 'accdenied', null, true);
+	}
+
  	public function redirect($url) //aka view
  	{
  		session_write_close();

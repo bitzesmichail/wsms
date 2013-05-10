@@ -72,10 +72,12 @@ require_once 'Models/entities/User.php';
  			if( $_SESSION['role'] == 'manager') {
 				$this->view->render('users', 'index', UserModel::getUsers()); 
 			}
+			else {
+ 				require_once 'PageController.php';
+				$page = new PageController;
+				$page->error_accdenied();
+			}
  		}
- 		else {
-			$this->view->render('users', null, null);
-		}
  	}
 
  	public function adduser()
@@ -84,10 +86,12 @@ require_once 'Models/entities/User.php';
  			if( $_SESSION['role'] == 'manager') {
 				$this->view->render('users', 'adduser', UserModel::getUsers()); 
 			}
+			else {
+ 				require_once 'PageController.php';
+				$page = new PageController;
+				$page->error_accdenied();
+			}
  		}
- 		else {
-			$this->view->render('users', null, null);
-		}
  	}
 
  	public function edituser()
@@ -96,10 +100,12 @@ require_once 'Models/entities/User.php';
  			if( $_SESSION['role'] == 'manager') {
 				$this->view->render('users', 'edituser', UserModel::getUserById($_GET['id'])); 
 			}
+			else {
+ 				require_once 'PageController.php';
+				$page = new PageController;
+				$page->error_accdenied();
+			}
  		}
- 		else {
-			$this->view->render('users', null, null);
-		}
  	}
 
  	public function deleteuser()
@@ -108,65 +114,82 @@ require_once 'Models/entities/User.php';
  			if( $_SESSION['role'] == 'manager') {
 				$this->view->render('users', 'deleteuser', UserModel::getUserById($_GET['id'])); 
 			}
- 		}
- 		else {
-			$this->view->render('users', null, null);
+			else {
+ 				require_once 'PageController.php';
+				$page = new PageController;
+				$page->error_accdenied();
+			}	
 		}
  	}
 
  	public function create()
  	{
- 		try 
- 		{
-	 		if (isset($_SESSION['role'])) {
- 				if( $_SESSION['role'] == 'manager') {
+	 	if (isset($_SESSION['role'])) {
+ 			if( $_SESSION['role'] == 'manager') {
+ 				try
+ 				{
  					$user = new User($_POST['username'], $_POST['password'], $_POST['email'], null);
  					UserModel::create($user);
  					UsersController::index();
  				}
+ 				catch(Exception $ex)
+			 	{
+ 					echo "Error Message: " . $ex->getMessage() . "\n";
+ 					return $ex->getCode();
+ 				}
  			}
- 		}
- 		catch(Exception $ex)
- 		{
- 			echo "Error Message: " . $ex->getMessage() . "\n";
- 			return $ex->getCode();
+ 			else {
+ 				require_once 'PageController.php';
+				$page = new PageController;
+				$page->error_accdenied(); 			
+			}
  		}
  	}
 
  	public function update()
  	{
- 		try 
- 		{
- 			if (isset($_SESSION['role'])) {
- 				if( $_SESSION['role'] == 'manager') {
+ 		if (isset($_SESSION['role'])) {
+ 			if( $_SESSION['role'] == 'manager') {
+ 				try 
+ 				{
  					$user = new User($_POST['username'], $_POST['password'], $_POST['email'], null, $_POST['idUser']);
  					UserModel::update($user);
  					UsersController::index();
  				}
+ 				catch(Exception $ex)
+ 				{
+ 					echo "Error Message: " . $ex->getMessage() . "\n";
+ 					return $ex->getCode();
+ 				}
  			}
- 		}
- 		catch(Exception $ex)
- 		{
- 			echo "Error Message: " . $ex->getMessage() . "\n";
- 			return $ex->getCode();
+ 			else {
+ 				require_once 'PageController.php';
+				$page = new PageController;
+				$page->error_accdenied(); 			 			
+ 			}
  		}
  	}
 
  	public function delete()
  	{
- 		try
- 		{
- 			if (isset($_SESSION['role'])) {
- 				if( $_SESSION['role'] == 'manager') {
+ 		if (isset($_SESSION['role'])) {
+ 			if( $_SESSION['role'] == 'manager') {
+ 				try
+ 				{
  					UserModel::delete($_POST['idUser']);
  					UsersController::index();
  				}
+ 				catch(Exception $ex)
+ 				{
+ 					echo "Error Message: " . $ex->getMessage() . "\n";
+ 					return $ex->getCode();
+ 				}
  			}
- 		}
- 		catch(Exception $ex)
- 		{
- 			echo "Error Message: " . $ex->getMessage() . "\n";
- 			return $ex->getCode();
+ 			else {
+ 				require_once 'PageController.php';
+				$page = new PageController;
+				$page->error_accdenied(); 			 			
+ 			}
  		}
  	}
 
