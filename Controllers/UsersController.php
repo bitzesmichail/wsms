@@ -134,8 +134,9 @@ require_once 'Models/entities/User.php';
  				}
  				catch(Exception $ex)
 			 	{
- 					echo "Error Message: " . $ex->getMessage() . "\n";
- 					return $ex->getCode();
+	 				require_once 'PageController.php';
+					$page = new PageController;
+					$page->errordb($ex->getMessage());
  				}
  			}
  			else {

@@ -34,6 +34,12 @@ require_once 'Models/entities/User.php';
 		$this->view->render('page', 'error501', null, true);
  	}
 
+ 	public function errordb($value='')
+ 	{
+ 		$this->view->msg = $value;
+		$this->view->render('page', 'errordb', null, true);
+ 	}
+
 	public function error_accdenied()
 	{
 		$this->view->render('page', 'accdenied', null, true);
