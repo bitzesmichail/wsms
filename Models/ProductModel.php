@@ -34,7 +34,8 @@ class ProductModel extends Model
         }
         catch(PDOException $e)
         {
-            echo $e->getMessage();
+        	throw $e;
+        //    echo $e->getMessage();
         }
     }
 
@@ -67,7 +68,8 @@ class ProductModel extends Model
         }
         catch (PDOException $e)
         {
-            echo $e->getMessage();
+        	throw $e;
+         //   echo $e->getMessage();
         }
     }
 
@@ -84,7 +86,8 @@ class ProductModel extends Model
         } 
         catch(PDOException $e) 
         {
-            echo $e->getMessage();
+        	throw $e;
+           // echo $e->getMessage();
         }
     }
 
@@ -119,7 +122,8 @@ class ProductModel extends Model
         
         catch(PDOException $e) 
         {
-            echo $e->getMessage();
+        	throw $e;
+           // echo $e->getMessage();
         }
     }
     
@@ -150,7 +154,8 @@ class ProductModel extends Model
         }
         catch(PDOException $e) 
         {
-            echo $e->getMessage();
+        	throw $e;
+          //  echo $e->getMessage();
         }
     }
  
