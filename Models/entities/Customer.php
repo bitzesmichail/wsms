@@ -15,12 +15,13 @@ class Customer
     public function __construct($name,
 								$surname,
 								$ssn,
+    							$phone,
+    							$cellphone,
+    							$email,
 								$address,
-								$zipCode,
 								$city,
-								$phone = null,
-								$cellphone = null,
-								$email = null)
+								$zipCode
+								)
     {
 		$this->name = $name;
 		$this->surname = $surname;
@@ -31,7 +32,6 @@ class Customer
 		$this->address = $address;
 		$this->city = $city;
 		$this->zipCode = $zipCode;
-		$this->version = $version;
     }
     
     public function __get($param)
@@ -90,9 +90,6 @@ class Customer
 			case "city":
 				$this->city = $value;
 				break; 	 
-			case "version":
-				$this->version=$value;
-				break;
 		}
     }
 }
