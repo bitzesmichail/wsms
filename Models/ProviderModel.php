@@ -14,7 +14,7 @@ class ProviderModel extends Model
     
     public static function create($providerObj)  
     {
-	$pdo = Connector::getPDO();
+		$pdo = Connector::getPDO();
 
         try
         {
@@ -23,20 +23,21 @@ class ProviderModel extends Model
                                    VALUES
                                     (:name, :surname, :ssn, :phone, :cellphone, :email, :address, :city, :zipCode)");
 
-	    $stmt->bindValue(":name", $providerObj->name);			    
+			$stmt->bindValue(":name", $providerObj->name);			    
             $stmt->bindValue(":surname", $providerObj->surname);
             $stmt->bindValue(":ssn", $providerObj->ssn);
             $stmt->bindValue(":phone", $providerObj->phone);
-	    $stmt->bindValue(":cellphone", $providerObj->cellphone);
+			$stmt->bindValue(":cellphone", $providerObj->cellphone);
             $stmt->bindValue(":email", $providerObj->email);
             $stmt->bindValue(":address", $providerObj->address);
-	    $stmt->bindValue(":city", $providerObj->city);
-            $stmt->bindValue(":zipCode", $providerObj->zipCode);
+			$stmt->bindValue(":city", $providerObj->city);
+			$stmt->bindValue(":zipCode", $providerObj->zipCode);
             $stmt->execute();
         }
         catch(PDOException $e)
         {
-            echo $e->getMessage();
+			throw $e;
+            //echo $e->getMessage();
         }
     }
 
@@ -47,28 +48,27 @@ class ProviderModel extends Model
         try
         {
             $stmt = $pdo->prepare("UPDATE Provider SET
-				    name = :name,
-				    surname = :surname,
-				    phone = :phone,
-				    cellphone = :cellphone,
-				    email = :email,
-				    address = :address,
-				    city = :city,
-				    zipCode = :zipCode
-				  WHERE ssn = :providerSsn");
+									name = :name,
+									surname = :surname,
+									phone = :phone,
+									cellphone = :cellphone,
+									email = :email,
+									address = :address,
+									city = :city,
+									zipCode = :zipCode
+								  WHERE ssn = :providerSsn");
 	
-	    $stmt->bindValue(":name", $providerObj->name);			    
+			$stmt->bindValue(":name", $providerObj->name);			    
             $stmt->bindValue(":surname", $providerObj->surname);
             $stmt->bindValue(":providerSsn", $providerObj->ssn);
             $stmt->bindValue(":phone", $providerObj->phone);
-	    $stmt->bindValue(":cellphone", $providerObj->cellphone);
+			$stmt->bindValue(":cellphone", $providerObj->cellphone);
             $stmt->bindValue(":email", $providerObj->email);
             $stmt->bindValue(":address", $providerObj->address);
-	    $stmt->bindValue(":city", $providerObj->city);
+			$stmt->bindValue(":city", $providerObj->city);
             $stmt->bindValue(":zipCode", $providerObj->zipCode);
             $stmt->execute();
-	    return 0;
-	}
+		}
         catch (PDOException $e)
         {
             echo $e->getMessage();

@@ -164,7 +164,7 @@ class CustomerModel extends Model
     {
 		if($discount > 1)
 		{
-			return -1;
+			throw new Exception("Discount value must be 0 < discount < 1");
 		}
 	
 		$pdo = Connector::getPDO();
