@@ -15,8 +15,8 @@ class UserModel extends Model
     {
         $pdo = Connector::getPDO();
         
-     //   try
-     //   {
+        try
+        {
             $stmt = $pdo->prepare("INSERT INTO User
                                     (username, password, email)
                                    VALUES
@@ -43,11 +43,12 @@ class UserModel extends Model
             //     $stmt->bindValue(":type", $roleObj->type);
             //     $stmt->execute();
             // }
-   /*     }
+        }
         catch(PDOException $e)
         {
-            echo $e->getMessage();
-        }*/
+		throw $e;
+         //   echo $e->getMessage();
+        }
     }
 
     public static function update($userObj)
