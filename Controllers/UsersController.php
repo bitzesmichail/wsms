@@ -70,7 +70,16 @@ require_once 'Models/entities/User.php';
  	{
  		if (isset($_SESSION['role'])) {
  			if( $_SESSION['role'] == 'manager') {
-				$this->view->render('users', 'index', UserModel::getUsers()); 
+				try 
+				{
+					$this->view->render('users', 'index', UserModel::getUsers()); 
+				}
+ 				catch(Exception $ex)
+			 	{
+	 				require_once 'PageController.php';
+					$page = new PageController;
+					$page->errordb($ex->getMessage());
+ 				}
 			}
 			else {
  				require_once 'PageController.php';
@@ -84,7 +93,16 @@ require_once 'Models/entities/User.php';
  	{
  		if (isset($_SESSION['role'])) {
  			if( $_SESSION['role'] == 'manager') {
-				$this->view->render('users', 'adduser', UserModel::getUsers()); 
+				try
+				{
+					$this->view->render('users', 'adduser', UserModel::getUsers()); 
+				}
+ 				catch(Exception $ex)
+			 	{
+	 				require_once 'PageController.php';
+					$page = new PageController;
+					$page->errordb($ex->getMessage());
+ 				}
 			}
 			else {
  				require_once 'PageController.php';
@@ -98,7 +116,16 @@ require_once 'Models/entities/User.php';
  	{
  		if (isset($_SESSION['role'])) {
  			if( $_SESSION['role'] == 'manager') {
-				$this->view->render('users', 'edituser', UserModel::getUserById($_GET['id'])); 
+				try 
+				{
+					$this->view->render('users', 'edituser', UserModel::getUserById($_GET['id'])); 
+				}
+ 				catch(Exception $ex)
+			 	{
+	 				require_once 'PageController.php';
+					$page = new PageController;
+					$page->errordb($ex->getMessage());
+ 				}
 			}
 			else {
  				require_once 'PageController.php';
@@ -112,7 +139,16 @@ require_once 'Models/entities/User.php';
  	{
  		if (isset($_SESSION['role'])) {
  			if( $_SESSION['role'] == 'manager') {
-				$this->view->render('users', 'deleteuser', UserModel::getUserById($_GET['id'])); 
+				try 
+				{
+					$this->view->render('users', 'deleteuser', UserModel::getUserById($_GET['id'])); 
+				}
+ 				catch(Exception $ex)
+			 	{
+	 				require_once 'PageController.php';
+					$page = new PageController;
+					$page->errordb($ex->getMessage());
+ 				}
 			}
 			else {
  				require_once 'PageController.php';
@@ -159,8 +195,9 @@ require_once 'Models/entities/User.php';
  				}
  				catch(Exception $ex)
  				{
- 					echo "Error Message: " . $ex->getMessage() . "\n";
- 					return $ex->getCode();
+	 				require_once 'PageController.php';
+					$page = new PageController;
+					$page->errordb($ex->getMessage());
  				}
  			}
  			else {
@@ -182,8 +219,9 @@ require_once 'Models/entities/User.php';
  				}
  				catch(Exception $ex)
  				{
- 					echo "Error Message: " . $ex->getMessage() . "\n";
- 					return $ex->getCode();
+	 				require_once 'PageController.php';
+					$page = new PageController;
+					$page->errordb($ex->getMessage());
  				}
  			}
  			else {
