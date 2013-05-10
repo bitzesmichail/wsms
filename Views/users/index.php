@@ -17,6 +17,7 @@
 <tr>
 	<th><strong>Username</strong></th>
 	<th><strong>Email</strong></th>
+	<th><strong>Ρόλος</strong></th>
 </tr>
 </thead>
 <tbody>
@@ -26,6 +27,7 @@
 			echo "<tr>";
 			echo "<td>" . $value->username . "</td>";
 			echo "<td><a href=\"mailto:" . $value->email . "\">" . $value->email . "</a></td>";
+			echo "<td>" . $value->role . "</td>";			
 			echo "<td>" . "<a href=\"" . USERS . "/edituser?id=" . $value->idUser . "\">" . "<button class=\"btn btn-primary\" type=\"button\" >Επεξεργασία</button></a>";				
 			echo "<a href=\"" . USERS . "/deleteuser?id=" . $value->idUser . "\">" . "<button class=\"btn btn-danger\" type=\"button\" >Διαγραφή</button></td></a>";
 			echo "</tr>";

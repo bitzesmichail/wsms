@@ -164,7 +164,7 @@ require_once 'Models/entities/User.php';
  			if( $_SESSION['role'] == 'manager') {
  				try
  				{
- 					$user = new User($_POST['username'], $_POST['password'], $_POST['email'], null);
+ 					$user = new User($_POST['username'], $_POST['password'], $_POST['email'], $_POST['role'], null);
  					UserModel::create($user);
  					UsersController::index();
  				}

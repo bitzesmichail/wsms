@@ -20,6 +20,19 @@
       <input type="text" name="email" placeholder="email" value="<?php echo $data->email; ?>">
     </div>
   </div>
+
+  <div class="control-group">
+    <label class="control-label" for="email">Email</label>
+    <div class="controls">
+	<select>
+		<option>Manager</option>
+		<option>Scheduler</option>
+		<option>Seller</option>
+		<option>Storekeeper</option>
+	</select>
+    </div>
+  </div>
+
   <div class="control-group">
     <label class="control-label" for="password">Password</label>
     <div class="controls">

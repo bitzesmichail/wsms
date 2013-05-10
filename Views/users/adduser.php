@@ -24,7 +24,12 @@
   <div class="control-group">
     <label class="control-label" for="role">Ρόλος</label>
     <div class="controls">
-
+	<select name="role">
+		<option value="MANAGER">Manager</option>
+		<option value="SCHEDULER">Scheduler</option>
+		<option value="SELLER">Seller</option>
+		<option value="STOREKEEPER">Storekeeper</option>
+	</select>
     </div>
   </div>
 
