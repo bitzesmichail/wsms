@@ -39,7 +39,7 @@ require_once 'Models/ProductModel.php';
  	public function addproduct()
  	{
  		if (isset($_SESSION['role'])) {
- 			if($_SESSION['role'] == 'manager') {
+ 			if( $_SESSION['role'] == 'manager') {
 				try 
 				{
 					$this->view->render('product', 'addproduct', ProductModel::getProducts()); 

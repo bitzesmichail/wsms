@@ -35,6 +35,74 @@ require_once 'Models/CustomerModel.php';
 			}
  		}
  	}
+ 	public function addcustomer()
+ 	{
+ 		if (isset($_SESSION['role'])) {
+ 			if( $_SESSION['role'] == 'manager') {
+				try 
+				{
+					$this->view->render('customer', 'addproduct', CustomerModel::getCustomers()); 
+				}
+ 				catch(Exception $ex)
+			 	{
+	 				require_once 'PageController.php';
+					$page = new PageController;
+					$page->errordb($ex->getMessage());
+ 				}
+			}
+			else {
+ 				require_once 'PageController.php';
+				$page = new PageController;
+				$page->error_accdenied();
+			}
+ 		}
+ 	}
+
+ 	public function editcustomer()
+ 	{
+ 		if (isset($_SESSION['role'])) {
+ 			if( $_SESSION['role'] == 'manager') {
+				try 
+				{
+					$this->view->render('customer', 'editcustomer', ProductModel::getCustomerBySsn($_GET['ssn'])); 
+				}
+ 				catch(Exception $ex)
+			 	{
+	 				require_once 'PageController.php';
+					$page = new PageController;
+					$page->errordb($ex->getMessage());
+ 				}
+			}
+			else {
+ 				require_once 'PageController.php';
+				$page = new PageController;
+				$page->error_accdenied();
+			}
+ 		}
+ 	}
+
+ 	public function deletecustomer()
+ 	{
+ 		if (isset($_SESSION['role'])) {
+ 			if( $_SESSION['role'] == 'manager') {
+				try 
+				{
+					$this->view->render('customer', 'deletecustomer', ProductModel::getProductBySsn($_GET['ssn'])); 
+				}
+ 				catch(Exception $ex)
+			 	{
+	 				require_once 'PageController.php';
+					$page = new PageController;
+					$page->errordb($ex->getMessage());
+ 				}
+			}
+			else {
+ 				require_once 'PageController.php';
+				$page = new PageController;
+				$page->error_accdenied();
+			}
+ 		}
+ 	}
 
  	public function create($customer='')
  	{
