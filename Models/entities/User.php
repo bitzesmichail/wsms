@@ -6,9 +6,9 @@ class User
     private $username;
     private $password;
     private $email;
-    private $roles;
+    private $role;
     
-    public function __construct($username, $password, $email, $roles, $idUser = null)
+    public function __construct($username, $password, $email, $role, $idUser)
     {
     	if ( !self::isValidUsername($username) )
 	{
@@ -24,7 +24,7 @@ class User
 	$this->password = $password;
 	$this->email = $email;
 	$this->idUser = $idUser;
-	$this->roles = $roles;
+	$this->role = $role;
 
 	
     }
@@ -41,8 +41,8 @@ class User
 		return $this->password;
 	    case "email":
 		return $this->email;
-	    case "roles":
-		return $this->roles;
+	    case "role":
+		return $this->role;
 	}
     }
 
@@ -68,8 +68,8 @@ class User
 	    case "email":
 		$this->email = $value;
 		break;
-	    case "roles":
-		$this->roles = $value;
+	    case "role":
+		$this->role = $value;
 		break;
 	}
     }
