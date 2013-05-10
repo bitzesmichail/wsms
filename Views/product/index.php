@@ -1,17 +1,18 @@
+<div class="container">
+
 <?php
   $which = 'product'; //which navbar button is active
   require_once 'Views/navbars/navbar.php';
 ?>
 
-<h1>
+<h2>
 	Προϊόντα
-</h1>
+</h2>
 
 <p>
   <a href="<?php echo PRODUCT . "/addproduct"; ?>"><button class="btn btn-primary" type="button" >Προσθήκη νέου προϊόντος</button></a>
 </p>
 
-<div class="container">
 <table class="table table-striped table-bordered tablesorter" id="product_table">
 <thead>
 <tr>

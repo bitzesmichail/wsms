@@ -1,17 +1,17 @@
+<div class="container">
 <?php
   $which = 'users'; //which navbar button is active
   require_once 'Views/navbars/navbar.php';
 ?>
 
-<h1>
+<h2>
   	Εγγεγραμμένοι Χρήστες
-</h1>
+</h2>
 
 <p>
   <a href="<?php echo USERS . "/adduser"; ?>"><button class="btn btn-primary" type="button" >Προσθήκη νέου χρήστη</button></a>
 </p>
 
-<div class="container">
 <table class="table table-striped table-bordered tablesorter" id="users_table">
 <thead>
 <tr>
