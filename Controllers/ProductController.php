@@ -17,14 +17,22 @@ require_once 'Models/ProductModel.php';
  	{
  		if (isset($_SESSION['role'])) {
  			if ($_SESSION['role'] == 'manager' || $_SESSION['role'] == 'seller') {
-	 			$this->view->render('product', 'index', ProductModel::getProducts());
+				try 
+				{
+	 				$this->view->render('product', 'index', ProductModel::getProducts());
+				}
+ 				catch(Exception $ex)
+			 	{
+	 				require_once 'PageController.php';
+					$page = new PageController;
+					$page->errordb($ex->getMessage());
+ 				}
 	 		}
- 		}
- 		else
- 		{
- 			require_once 'PageController.php';
- 			$controller = new PageController();
-			$controller->error404("not yet implemented");
+			else {
+ 				require_once 'PageController.php';
+				$page = new PageController;
+				$page->error_accdenied();
+			}
  		}
  	}
  	
@@ -32,92 +40,142 @@ require_once 'Models/ProductModel.php';
  	{
  		if (isset($_SESSION['role'])) {
  			if( $_SESSION['role'] == 'manager') {
-				$this->view->render('product', 'addproduct', ProductModel::getProducts()); 
+				try 
+				{
+					$this->view->render('product', 'addproduct', ProductModel::getProducts()); 
+				}
+ 				catch(Exception $ex)
+			 	{
+	 				require_once 'PageController.php';
+					$page = new PageController;
+					$page->errordb($ex->getMessage());
+ 				}
+			}
+			else {
+ 				require_once 'PageController.php';
+				$page = new PageController;
+				$page->error_accdenied();
 			}
  		}
- 		else {
-			$this->view->render('product', null, null);
-		}
  	}
 
  	public function editproduct()
  	{
  		if (isset($_SESSION['role'])) {
  			if( $_SESSION['role'] == 'manager') {
-				$this->view->render('product', 'editproduct', ProductModel::getProductById($_GET['id'])); 
+				try 
+				{
+					$this->view->render('product', 'editproduct', ProductModel::getProductBySku($_GET['sku'])); 
+				}
+ 				catch(Exception $ex)
+			 	{
+	 				require_once 'PageController.php';
+					$page = new PageController;
+					$page->errordb($ex->getMessage());
+ 				}
+			}
+			else {
+ 				require_once 'PageController.php';
+				$page = new PageController;
+				$page->error_accdenied();
 			}
  		}
- 		else {
-			$this->view->render('product', null, null);
-		}
  	}
 
  	public function deleteproduct()
  	{
  		if (isset($_SESSION['role'])) {
  			if( $_SESSION['role'] == 'manager') {
-				$this->view->render('product', 'deleteproduct', ProductModel::getProductById($_GET['id'])); 
+				try 
+				{
+					$this->view->render('product', 'deleteproduct', ProductModel::getProductBySku($_GET['sku'])); 
+				}
+ 				catch(Exception $ex)
+			 	{
+	 				require_once 'PageController.php';
+					$page = new PageController;
+					$page->errordb($ex->getMessage());
+ 				}
+			}
+			else {
+ 				require_once 'PageController.php';
+				$page = new PageController;
+				$page->error_accdenied();
 			}
  		}
- 		else {
-			$this->view->render('product', null, null);
-		}
  	}
 
  	public function create()
  	{
- 		try 
- 		{
-	 		if (isset($_SESSION['role'])) {
- 				if( $_SESSION['role'] == 'manager') {
+	 	if (isset($_SESSION['role'])) {
+ 			if( $_SESSION['role'] == 'manager') {
+				try 
+				{
  					$product = new Product($_POST['sku'], $_POST['description'], $_POST['priceSale'], $_POST['priceSupply'], $_POST['availableSum'], 0, 0, $_POST['criticalSum']);
  					ProductModel::create($product);
- 					ProductController::index();
+	 				ProductController::index();
+				}
+ 				catch(Exception $ex)
+			 	{
+	 				require_once 'PageController.php';
+					$page = new PageController;
+					$page->errordb($ex->getMessage());
  				}
  			}
- 		}
- 		catch(Exception $ex)
- 		{
- 			echo "Error Message: " . $ex->getMessage() . "\n";
- 			return $ex->getCode();
+			else {
+ 				require_once 'PageController.php';
+				$page = new PageController;
+				$page->error_accdenied();
+			}
  		}
  	}
 
  	public function update()
  	{
- 		try 
- 		{
-	 		if (isset($_SESSION['role'])) {
- 				if( $_SESSION['role'] == 'manager') {
+	 	if (isset($_SESSION['role'])) {
+ 			if( $_SESSION['role'] == 'manager') {
+				try
+				{
  					$product = new Product($_POST['sku'], $_POST['description'], $_POST['priceSale'], $_POST['priceSupply'], $_POST['availableSum'], $_POST['reservedSum'], $_POST['orderedSum'], $_POST['criticalSum'], $_POST['idProduct']);
  					ProductModel::update($product);
  					ProductController::index();
+				}
+ 				catch(Exception $ex)
+			 	{
+	 				require_once 'PageController.php';
+					$page = new PageController;
+					$page->errordb($ex->getMessage());
  				}
  			}
- 		}
- 		catch(Exception $ex)
- 		{
- 			echo "Error Message: " . $ex->getMessage() . "\n";
- 			return $ex->getCode();
+			else {
+ 				require_once 'PageController.php';
+				$page = new PageController;
+				$page->error_accdenied();
+			}
  		}
  	}
 
  	public function delete()
  	{
- 		try 
- 		{
- 			if (isset($_SESSION['role'])) {
- 				if( $_SESSION['role'] == 'manager') {
+ 		if (isset($_SESSION['role'])) {
+ 			if( $_SESSION['role'] == 'manager') {
+				try
+				{
  					ProductModel::delete($_POST['idProduct']);
  					ProductController::index();
+				}
+ 				catch(Exception $ex)
+			 	{
+	 				require_once 'PageController.php';
+					$page = new PageController;
+					$page->errordb($ex->getMessage());
  				}
  			}
-
- 		}
- 		catch(Exception $ex)
- 		{
- 			echo "Error Message: " . $ex->getMessage() . "\n";
- 			return $ex->getCode();
+			else {
+ 				require_once 'PageController.php';
+				$page = new PageController;
+				$page->error_accdenied();
+			}
  		}
  	}
 

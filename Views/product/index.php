@@ -39,8 +39,8 @@
 				echo "<td>" . $value->reservedSum . "</td>";
 				echo "<td>" . $value->orderedSum . "</td>";
 				echo "<td>" . $value->criticalSum . "</td>";
-				echo "<td>" . "<a href=\"" . PRODUCT . "/editproduct?id=" . $value->idProduct . "\">" . "<button class=\"btn btn-primary\" type=\"button\" >Επεξεργασία</button></a>";				
-				echo "<a href=\"" . PRODUCT . "/deleteproduct?id=" . $value->idProduct . "\">" . "<button class=\"btn btn-danger\" type=\"button\" >Διαγραφή</button></td></a>";
+				echo "<td>" . "<a href=\"" . PRODUCT . "/editproduct?sku=" . $value->sku . "\">" . "<button class=\"btn btn-primary\" type=\"button\" >Επεξεργασία</button></a>";				
+				echo "<a href=\"" . PRODUCT . "/deleteproduct?sku=" . $value->sku . "\">" . "<button class=\"btn btn-danger\" type=\"button\" >Διαγραφή</button></td></a>";
 				echo "</tr>";
 			}
 		}
