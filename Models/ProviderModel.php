@@ -1,6 +1,8 @@
 <?php
 
 require_once 'Model.php';
+require_once("entities/Provider.php");
+require_once("entities/Connector.php");
 
 class ProviderModel extends Model
 {

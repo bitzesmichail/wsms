@@ -1,6 +1,8 @@
 <?php
  
 require_once("Model.php");
+require_once("entities/SupplyOrder.php");
+require_once("entities/Connector.php");
 
 class SupplyOrderModel extends Model
 {

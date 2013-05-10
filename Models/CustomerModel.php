@@ -2,6 +2,7 @@
  
 require_once("Model.php");
 require_once("entities/Customer.php");
+require_once("entities/Connector.php");
 
 class CustomerModel extends Model
 {
