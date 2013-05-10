@@ -130,7 +130,7 @@ class CustomerModel extends Model
     
     public static function getCustomerBySsn($customerSsn)
     {
-	$pdo = Connector::getPDO();
+		$pdo = Connector::getPDO();
         
         try
         {

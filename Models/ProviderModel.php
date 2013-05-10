@@ -127,4 +127,36 @@ class ProviderModel extends Model
             //echo $e->getMessage();
         }
     }
+	
+	public static function getProviderBySsn($providerSsn)
+    {
+		$pdo = Connector::getPDO();
+        
+        try
+        {
+            $stmt = $pdo->prepare("SELECT *
+                                  FROM Provider
+                                  WHERE ssn = :providerSsn");
+
+            $stmt->bindValue(":providerSsn", $providerSsn);
+            $stmt->execute();
+	    
+            $providerCol = $stmt->fetch(PDO::FETCH_ASSOC);
+	    
+			return new Provider($providerCol['name'],
+								$providerCol['surname'],
+								$providerCol['ssn'],
+								$providerCol['phone'],
+								$providerCol['cellphone'],
+								$providerCol['email'],
+								$providerCol['address'],
+								$providerCol['city'],
+								$providerCol['zipCode']);
+        }
+        catch(PDOException $e) 
+        {
+			throw $e;
+            //echo $e->getMessage();
+        }
+    }
 }
