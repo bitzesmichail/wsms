@@ -138,7 +138,7 @@ class CustomerModel extends Model
                                   FROM Customer
                                   WHERE ssn = :customerSsn");
 
-            $stmt->bindValue(":idCustomer", $idCustomer);
+            $stmt->bindValue(":customerSsn", $customerSsn);
             $stmt->execute();
 	    
             $customerCol = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -172,14 +172,14 @@ class CustomerModel extends Model
 		try
         {
             $stmt = $pdo->prepare("INSERT INTO CustomerHasDiscount
-				    (ssn, sku, discount)
-				   VALUES
-				    (:customerSsn, :productSku, :discount)
-				   ON DUPLICATE KEY UPDATE
-				    discount = :discount");
+									(ssn, sku, discount)
+								   VALUES
+									(:customerSsn, :productSku, :discount)
+								   ON DUPLICATE KEY UPDATE
+									discount = :discount");
 
-            $stmt->bindValue(":idCustomer", $customerSsn);
-			$stmt->bindValue(":idProduct", $productSku);
+            $stmt->bindValue(":customerSsn", $customerSsn);
+			$stmt->bindValue(":productSku", $productSku);
 			$stmt->bindValue(":discount", $discount);
             $stmt->execute();
 	        
