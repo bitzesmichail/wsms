@@ -39,7 +39,7 @@ require_once 'Models/ProductModel.php';
  	public function addproduct()
  	{
  		if (isset($_SESSION['role'])) {
- 			if( $_SESSION['role'] == 'manager') {
+ 			if($_SESSION['role'] == 'manager') {
 				try 
 				{
 					$this->view->render('product', 'addproduct', ProductModel::getProducts()); 
@@ -161,7 +161,7 @@ require_once 'Models/ProductModel.php';
  			if( $_SESSION['role'] == 'manager') {
 				try
 				{
- 					ProductModel::delete($_POST['idProduct']);
+ 					ProductModel::delete($_POST['sku']);
  					ProductController::index();
 				}
  				catch(Exception $ex)

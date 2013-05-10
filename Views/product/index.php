@@ -28,23 +28,7 @@
 <tbody>
 <?php
 	if (!empty($data)) {
-		if (is_array($data)) {
-			foreach ($data as &$value) {
-				echo "<tr>";
-				echo "<td>" . $value->sku . "</td>";
-				echo "<td>" . $value->description . "</td>";
-				echo "<td>" . $value->priceSale . "</td>";
-				echo "<td>" . $value->priceSupply . "</td>";
-				echo "<td>" . $value->availableSum . "</td>";
-				echo "<td>" . $value->reservedSum . "</td>";
-				echo "<td>" . $value->orderedSum . "</td>";
-				echo "<td>" . $value->criticalSum . "</td>";
-				echo "<td>" . "<a href=\"" . PRODUCT . "/editproduct?sku=" . $value->sku . "\">" . "<button class=\"btn btn-primary\" type=\"button\" >Επεξεργασία</button></a>";				
-				echo "<a href=\"" . PRODUCT . "/deleteproduct?sku=" . $value->sku . "\">" . "<button class=\"btn btn-danger\" type=\"button\" >Διαγραφή</button></td></a>";
-				echo "</tr>";
-			}
-		}
-		else {
+		foreach ($data as &$value) {
 			echo "<tr>";
 			echo "<td>" . $value->sku . "</td>";
 			echo "<td>" . $value->description . "</td>";
@@ -54,6 +38,8 @@
 			echo "<td>" . $value->reservedSum . "</td>";
 			echo "<td>" . $value->orderedSum . "</td>";
 			echo "<td>" . $value->criticalSum . "</td>";
+			echo "<td>" . "<a href=\"" . PRODUCT . "/editproduct?sku=" . $value->sku . "\">" . "<button class=\"btn btn-primary\" type=\"button\" >Επεξεργασία</button></a>";				
+			echo "<a href=\"" . PRODUCT . "/deleteproduct?sku=" . $value->sku . "\">" . "<button class=\"btn btn-danger\" type=\"button\" >Διαγραφή</button></td></a>";
 			echo "</tr>";
 		}
 	}

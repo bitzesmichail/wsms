@@ -15,7 +15,25 @@ require_once 'Models/CustomerModel.php';
 
  	public function index()
  	{
- 		$this->view->render('customers');
+ 		if (isset($_SESSION['role'])) {
+ 			if ($_SESSION['role'] == 'manager' || $_SESSION['role'] == 'seller') {
+				try 
+				{
+	 				$this->view->render('customers', 'index', CustomerModel::getCustomers());
+				}
+ 				catch(Exception $ex)
+			 	{
+	 				require_once 'PageController.php';
+					$page = new PageController;
+					$page->errordb($ex->getMessage());
+ 				}
+	 		}
+			else {
+ 				require_once 'PageController.php';
+				$page = new PageController;
+				$page->error_accdenied();
+			}
+ 		}
  	}
 
  	public function create($customer='')

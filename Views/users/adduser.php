@@ -20,6 +20,14 @@
       <input type="text" name="email" placeholder="email">
     </div>
   </div>
+
+  <div class="control-group">
+    <label class="control-label" for="role">Ρόλος</label>
+    <div class="controls">
+
+    </div>
+  </div>
+
   <div class="control-group">
     <label class="control-label" for="password">Password</label>
     <div class="controls">
@@ -32,6 +40,7 @@
       <input type="password" id="retypepassword" name="retypepassword" placeholder="password">
     </div>
   </div>
+
 
   <div class="alert" id="alertstrength">
     Password strength
