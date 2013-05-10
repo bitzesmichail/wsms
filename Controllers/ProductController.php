@@ -161,7 +161,7 @@ require_once 'Models/ProductModel.php';
  			if( $_SESSION['role'] == 'manager') {
 				try
 				{
- 					ProductModel::delete($_POST['idProduct']);
+ 					ProductModel::delete($_POST['sku']);
  					ProductController::index();
 				}
  				catch(Exception $ex)

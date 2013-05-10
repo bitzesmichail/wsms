@@ -12,7 +12,7 @@
   <div class="control-group">
     <label class="control-label" for="sku">SKU</label>
     <div class="controls">
-      <input type="text" name="sku" value="<?php echo $data->sku; ?>" disabled>
+      <input type="text" name="sku" value="<?php echo $data->sku; ?>" readonly>
     </div>
   </div>
   <div class="control-group">
