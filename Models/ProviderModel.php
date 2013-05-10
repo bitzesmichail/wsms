@@ -71,7 +71,8 @@ class ProviderModel extends Model
 		}
         catch (PDOException $e)
         {
-            echo $e->getMessage();
+			throw $e;
+            //echo $e->getMessage();
         }	
     }
 
@@ -82,19 +83,19 @@ class ProviderModel extends Model
         try 
         {
             $stmt = $pdo->prepare("DELETE FROM Provider WHERE ssn = :providerSsn");
-
             $stmt->bindValue(":providerSsn", $providerSsn);       
             $stmt->execute();
         } 
         catch(PDOException $e) 
         {
-            echo $e->getMessage();
+			throw $e;	
+            //echo $e->getMessage();
         }		
     }
 
     public static function getProviders()
     {
-	$pdo = Connector::getPDO();
+		$pdo = Connector::getPDO();
         
         try
         {
@@ -108,22 +109,22 @@ class ProviderModel extends Model
             foreach ($providersColumns as $providerCol)
             {
                 $providerObjArray[] =  new Provider($providerCol['name'],
-						    $providerCol['surname'],
-						    $providerCol['ssn'],
-						    $providerCol['phone'],
-						    $providerCol['cellphone'],
-						    $providerCol['email'],
-						    $providerCol['address'],
-						    $providerCol['city'],
-						    $providerCol['zipCode'],
-						    $providerCol['version']);
+													$providerCol['surname'],
+													$providerCol['ssn'],
+													$providerCol['phone'],
+													$providerCol['cellphone'],
+													$providerCol['email'],
+													$providerCol['address'],
+													$providerCol['city'],
+													$providerCol['zipCode']);
             }
             
             return $providerObjArray;
         }
         catch(PDOException $e) 
         {
-            echo $e->getMessage();
+			throw $e;
+            //echo $e->getMessage();
         }
     }
 }
