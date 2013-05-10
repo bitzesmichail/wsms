@@ -22,20 +22,12 @@
 <tbody>
 <?php
 	if (!empty($data)) {
-		if (is_array($data)) {
-			foreach ($data as &$value) {
-				echo "<tr>";
-				echo "<td>" . $value->username . "</td>";
-				echo "<td><a href=\"mailto:" . $value->email . "\">" . $value->email . "</a></td>";
-				echo "<td>" . "<a href=\"" . USERS . "/edituser?id=" . $value->idUser . "\">" . "<button class=\"btn btn-primary\" type=\"button\" >Επεξεργασία</button></a>";				
-				echo "<a href=\"" . USERS . "/deleteuser?id=" . $value->idUser . "\">" . "<button class=\"btn btn-danger\" type=\"button\" >Διαγραφή</button></td></a>";
-				echo "</tr>";
-			}
-		}
-		else {
+		foreach ($data as &$value) {
 			echo "<tr>";
-			echo "<td>" . $data->username . "</td>";
-			echo "<td>" . $data->email . "</td>";
+			echo "<td>" . $value->username . "</td>";
+			echo "<td><a href=\"mailto:" . $value->email . "\">" . $value->email . "</a></td>";
+			echo "<td>" . "<a href=\"" . USERS . "/edituser?id=" . $value->idUser . "\">" . "<button class=\"btn btn-primary\" type=\"button\" >Επεξεργασία</button></a>";				
+			echo "<a href=\"" . USERS . "/deleteuser?id=" . $value->idUser . "\">" . "<button class=\"btn btn-danger\" type=\"button\" >Διαγραφή</button></td></a>";
 			echo "</tr>";
 		}
 	}
