@@ -44,14 +44,14 @@
   <div class="control-group">
     <label class="control-label" for="email">Email</label>
     <div class="controls">
-      <input type="text" name="email" value="0" disabled>
+      <input type="text" name="email">
     </div>
   </div>
 
   <div class="control-group">
     <label class="control-label" for="address">Διεύθυνση</label>
     <div class="controls">
-      <input type="text" name="address" value="0" disabled>
+      <input type="text" name="address">
     </div>
   </div>
 
