@@ -1,6 +1,4 @@
-<div class="navbar">
-  <div class="navbar-inner">
-    <ul class="nav">
+	<ul class="nav nav-pills">
     	<?php
         if(isset($which)) {
           switch($which) {
@@ -19,5 +17,3 @@
         }
       ?>
     </ul>
-  </div>
-</div>

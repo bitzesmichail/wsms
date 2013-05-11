@@ -12,25 +12,40 @@
     <!-- Bootstrap -->
     <link href="<?php echo BOOTSTRAP; ?>/css/bootstrap.min.css" rel="stylesheet" media="screen">
     <link href="<?php echo BOOTSTRAP; ?>/css/bootstrap-tablesorter.css" rel="stylesheet" media="screen">
-    <style type="text/css">
-      body {
-        padding-top: 60px;
-        padding-bottom: 40px;
-      }
-      .sidebar-nav {
-        padding: 9px 0;
-      }
-
-      @media (max-width: 980px) {
-        /* Enable use of floated navbar text */
-        .navbar-text.pull-right {
-          float: none;
-          padding-left: 5px;
-          padding-right: 5px;
-        }
-      }
-    </style>
-    <link href="<?php echo BOOTSTRAP; ?>/css/bootstrap-responsive.css" rel="stylesheet">
+	
+	<link href="<?php echo BOOTSTRAP; ?>/css/style.css" rel="stylesheet">
+	<link href="<?php echo BOOTSTRAP; ?>/css/jquery.dataTables.css" rel="stylesheet">
+	<link href="<?php echo BOOTSTRAP; ?>/css/jquery.dataTables_themeroller.css" rel="stylesheet">
+	<link href="<?php echo BOOTSTRAP; ?>/css/bootstrap-responsive.css" rel="stylesheet">
+	<link href="<?php echo BOOTSTRAP; ?>/css/DT_bootstrap.css" rel="stylesheet">		
+  	
+	
+	<script src="<?php echo BOOTSTRAP; ?>/js/jquery-1.9.1.js"></script>
+	<script src="<?php echo BOOTSTRAP; ?>/js/jquery.tablesorter.min.js"></script> 
+    <script src="<?php echo BOOTSTRAP; ?>/js/bootstrap.min.js"></script>    
+	<script src="<?php echo BOOTSTRAP; ?>/js/bootstrap-dropdown.js"></script>
+	<script src="<?php echo BOOTSTRAP; ?>/js/jquery.dataTables.js"></script>
+	<script src="<?php echo BOOTSTRAP; ?>/js/DT_bootstrap.js"></script>
+	
+	<script type="text/javascript">			
+			$(document).ready(function() {
+				oTable = $('#resultsTable').dataTable({
+					"bJQueryUI": true,
+					"bLengthChange": false,
+					"sPaginationType": "bootstrap"
+				});
+			} );
+	</script>
+	
+	<script type="text/javascript">			
+			$(document).ready(function() {
+				oTable = $('#users_table').dataTable({
+					"bJQueryUI": true,
+					"bLengthChange": false,
+					"sPaginationType": "bootstrap"
+				});
+			} );
+	</script>
 
     <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
     <!--[if lt IE 9]>
@@ -41,32 +56,21 @@
     
 </head>
 <body>  
-  <script src="<?php echo BOOTSTRAP; ?>/js/jquery.js"></script>
+
 	<div class="navbar navbar-inverse navbar-fixed-top">
       <div class="navbar-inner">
-        <div class="container-fluid">
-          <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
-          <a class="brand" href="<?php echo HOME; ?>/">wsms</a>
-          <div class="nav-collapse collapse">
-          	<?php if (isset($_SESSION['username'])): ?>
-          		<p class="navbar-text pull-right">
-          			<a href="<?php echo USERS; ?>/logout">log out</a>
-          		</p>
-          		<p class="navbar-text pull-right">&nbsp;&nbsp;&nbsp;&nbsp;</p>
-          		<p class="navbar-text pull-right">
-              		Logged in as <a href="#" class="navbar-link"><?php echo $_SESSION['username']; ?></a>
-            	</p>
-            <?php endif ?>
-            <!-- <ul class="nav">
-            	<li class="active"><a href="<?php echo HOME; ?>/">Home</a></li>
-              	<li><a href="<?php echo HOME; ?>/help">Help</a></li>
-              	<li><a href="<?php echo USERS; ?>/">Users</a></li>
-            </ul> -->
-          </div><!--/.nav-collapse -->
+        <div class="container">
+			<a class="brand" href="<?php echo HOME; ?>/"><img src="<?php echo BOOTSTRAP; ?>/img/logo.png" alt="" /></a>
+			<div class="nav-collapse collapse pull-right">
+			<ul class="nav">
+				<li class="divider-vertical"></li>
+				<?php if (isset($_SESSION['username'])): ?>
+					<li class="active"><p class="navbar-text pull-right">Είστε συνδεδεμένος ως, <a href="#" class="navbar-link"><b style="color:#FFCCFF">  <?php echo $_SESSION['username']; ?></b> </a></p></li>
+					<li class="divider-vertical"></li>
+					<li><a href=""<?php echo USERS; ?>">Έξοδος</a></li>
+				<?php endif ?>
+			</ul>
+			</div><!--/.nav-collapse -->
         </div>
       </div>
     </div>

@@ -1,7 +1,7 @@
 <div class="navbar">
   <div class="navbar-inner">
   	<div class="container">
-  	<ul class="nav" role="navigation">
+  	<ul class="nav nav-pills" role="navigation">
   		<li class="dropdown">
 		  <a id="dLabel" class="dropdown-toggle" role="button" data-toggle="dropdown" href="#">
 		    Παραγγελίες
