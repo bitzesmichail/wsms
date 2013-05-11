@@ -1,4 +1,3 @@
-<div class="container">
 
 <?php
   $which = 'product'; //which navbar button is active
