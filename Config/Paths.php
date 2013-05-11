@@ -1,5 +1,5 @@
 <?php
-	define('HOME', 'https://bitzesmichail.no-ip.biz/wsms');
+	define('HOME', '//bitzesmichail.no-ip.biz/wsms');
 	define('BOOTSTRAP', HOME . '/Bootstrap');
 	define('USERS', HOME . '/users');
 	define('PRODUCT', HOME . '/product');
