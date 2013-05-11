@@ -40,14 +40,12 @@
 	<script type="text/javascript">			
 			$(document).ready(function() {
 				oTable = $('#users_table').dataTable({
-					"bJQueryUI": true,
 					"bLengthChange": false,
 					"sPaginationType": "bootstrap"
 				});
 			} );
 			$(document).ready(function() {
 				oTable = $('#product_table').dataTable({
-					"bJQueryUI": true,
 					"bLengthChange": false,
 					"sPaginationType": "bootstrap"
 				});
