@@ -15,7 +15,25 @@ require_once 'Models/ProviderModel.php';
 
  	public function index()
  	{
- 		$this->view->render('providers');
+ 		if (isset($_SESSION['role'])) {
+ 			if ($_SESSION['role'] == 'MANAGER' || $_SESSION['role'] == 'SCHEDULER') {
+				try 
+				{
+	 				$this->view->render('providers', 'index', ProviderModel::getProviders());
+				}
+ 				catch(Exception $ex)
+			 	{
+	 				require_once 'PageController.php';
+					$page = new PageController;
+					$page->errordb($ex->getMessage());
+ 				}
+	 		}
+			else {
+ 				require_once 'PageController.php';
+				$page = new PageController;
+				$page->error_accdenied();
+			}
+ 		}
  	}
 
  	public function create($provider='')
