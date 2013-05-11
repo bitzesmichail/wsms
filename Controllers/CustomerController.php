@@ -35,6 +35,7 @@ require_once 'Models/CustomerModel.php';
 			}
  		}
  	}
+
  	public function addcustomer()
  	{
  		if (isset($_SESSION['role'])) {
@@ -64,7 +65,7 @@ require_once 'Models/CustomerModel.php';
  			if($_SESSION['role'] == 'MANAGER'|| $_SESSION['role'] == 'SELLER') {
 				try 
 				{
-					$this->view->render('customer', 'editcustomer', CustomerModel::getCustomerBySsn($_GET['ssn'])); 
+					$this->view->render('customers', 'editcustomer', CustomerModel::getCustomerBySsn($_GET['ssn'])); 
 				}
  				catch(Exception $ex)
 			 	{
@@ -87,7 +88,7 @@ require_once 'Models/CustomerModel.php';
  			if($_SESSION['role'] == 'MANAGER' || $_SESSION['role'] == 'SELLER') {
 				try 
 				{
-					$this->view->render('customer', 'deletecustomer', CustomerModel::getCustomerBySsn($_GET['ssn'])); 
+					$this->view->render('customers', 'deletecustomer', CustomerModel::getCustomerBySsn($_GET['ssn'])); 
 				}
  				catch(Exception $ex)
 			 	{
@@ -136,7 +137,7 @@ require_once 'Models/CustomerModel.php';
  	public function update()
  	{
  		if (isset($_SESSION['role'])) {
- 			if( $_SESSION['role'] == 'MANAGER' || $_SESSION['role'] == 'SELLER') {
+ 			if($_SESSION['role'] == 'MANAGER' || $_SESSION['role'] == 'SELLER') {
 				try
 				{
  					$customer = new Customer($_POST['name'], $_POST['surname'], 
@@ -165,7 +166,7 @@ require_once 'Models/CustomerModel.php';
  	public function delete()
  	{
  		if (isset($_SESSION['role'])) {
- 			if( $_SESSION['role'] == 'MANAGER' || $_SESSION['role'] == 'SELLER') {
+ 			if($_SESSION['role'] == 'MANAGER' || $_SESSION['role'] == 'SELLER') {
 				try
 				{
  					CustomerModel::delete($_POST['ssn']);

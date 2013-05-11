@@ -36,47 +36,158 @@ require_once 'Models/ProviderModel.php';
  		}
  	}
 
- 	public function create($provider='')
+ 	public function addprovider()
  	{
- 		try 
- 		{
- 			return ProviderModel::create($provider);
+ 		if (isset($_SESSION['role'])) {
+ 			if($_SESSION['role'] == 'MANAGER' || $_SESSION['role'] == 'SCHEDULER') {
+				try 
+				{
+					$this->view->render('providers', 'addprovider', ProviderModel::getProviders()); 
+				}
+ 				catch(Exception $ex)
+			 	{
+	 				require_once 'PageController.php';
+					$page = new PageController;
+					$page->errordb($ex->getMessage());
+ 				}
+			}
+			else {
+ 				require_once 'PageController.php';
+				$page = new PageController;
+				$page->error_accdenied();
+			}
  		}
- 		catch(Exception $ex)
- 		{
- 			echo "Error Message: " . $ex->getMessage() . "\n";
- 			return $ex->getCode();
+ 	}
+
+ 	public function editprovider()
+ 	{
+ 		if (isset($_SESSION['role'])) {
+ 			if($_SESSION['role'] == 'MANAGER'|| $_SESSION['role'] == 'SCHEDULER') {
+				try 
+				{
+					$this->view->render('providers', 'editprovider', ProviderModel::getProviderBySsn($_GET['ssn'])); 
+				}
+ 				catch(Exception $ex)
+			 	{
+	 				require_once 'PageController.php';
+					$page = new PageController;
+					$page->errordb($ex->getMessage());
+ 				}
+			}
+			else {
+ 				require_once 'PageController.php';
+				$page = new PageController;
+				$page->error_accdenied();
+			}
+ 		}
+ 	}
+
+ 	public function deleteprovider()
+ 	{
+ 		if (isset($_SESSION['role'])) {
+ 			if($_SESSION['role'] == 'MANAGER' || $_SESSION['role'] == 'SCHEDULER') {
+				try 
+				{
+					$this->view->render('providers', 'deleteprovider', ProviderModel::getCustomerBySsn($_GET['ssn'])); 
+				}
+ 				catch(Exception $ex)
+			 	{
+	 				require_once 'PageController.php';
+					$page = new PageController;
+					$page->errordb($ex->getMessage());
+ 				}
+			}
+			else {
+ 				require_once 'PageController.php';
+				$page = new PageController;
+				$page->error_accdenied();
+			}
+ 		}
+ 	}
+
+ 	public function create()
+ 	{
+ 		if (isset($_SESSION['role'])) {
+ 			if($_SESSION['role'] == 'MANAGER' || $_SESSION['role'] == 'SCHEDULER') {
+				try 
+				{
+ 					$provider = new Provider($_POST['name'], $_POST['surname'], 
+ 						                     $_POST['ssn'], $_POST['phone'], 
+ 						                     $_POST['cellphone'], $_POST['email'], 
+ 						                     $_POST['address'], $_POST['city'], $_POST['zipCode']);
+ 					ProviderModel::create($provider);
+	 				ProviderController::index();
+				}
+ 				catch(Exception $ex)
+			 	{
+	 				require_once 'PageController.php';
+					$page = new PageController;
+					$page->errordb($ex->getMessage());
+ 				}
+ 			}
+			else {
+ 				require_once 'PageController.php';
+				$page = new PageController;
+				$page->error_accdenied();
+			}
  		}
 
  	}
 
- 	public function update($newProvider='')
+ 	public function update()
  	{
- 		try 
- 		{
-	 		return ProviderModel::update($newProvider);
+ 		if (isset($_SESSION['role'])) {
+ 			if($_SESSION['role'] == 'MANAGER' || $_SESSION['role'] == 'SCHEDULER') {
+				try
+				{
+ 					$provider = new Provider($_POST['name'], $_POST['surname'], 
+ 						                     $_POST['ssn'], $_POST['phone'], 
+ 						                     $_POST['cellphone'], $_POST['email'], 
+ 						                     $_POST['address'], $_POST['city'], $_POST['zipCode']);ProductModel::update($product);
+ 					ProviderModel::update($provider);
+	 				ProviderController::index();
+				}
+ 				catch(Exception $ex)
+			 	{
+	 				require_once 'PageController.php';
+					$page = new PageController;
+					$page->errordb($ex->getMessage());
+ 				}
+ 			}
+			else {
+ 				require_once 'PageController.php';
+				$page = new PageController;
+				$page->error_accdenied();
+			}
  		}
- 		catch(Exception $ex)
- 		{
- 			echo "Error Message: " . $ex->getMessage() . "\n";
- 			return $ex->getCode();
+
+ 	}
+
+ 	public function delete()
+ 	{
+ 		if (isset($_SESSION['role'])) {
+ 			if($_SESSION['role'] == 'MANAGER' || $_SESSION['role'] == 'SCHEDULER') {
+				try
+				{
+ 					ProviderModel::delete($_POST['ssn']);
+ 					ProviderController::index();
+				}
+ 				catch(Exception $ex)
+			 	{
+	 				require_once 'PageController.php';
+					$page = new PageController;
+					$page->errordb($ex->getMessage());
+ 				}
+ 			}
+			else {
+ 				require_once 'PageController.php';
+				$page = new PageController;
+				$page->error_accdenied();
+			}
  		}
  	}
 
- 	public function delete($idProvider='')
- 	{
- 		try 
- 		{
-	 		return ProviderModel::delete($idProvider);
- 		}
- 		catch(Exception $ex)
- 		{
- 			echo "Error Message: " . $ex->getMessage() . "\n";
- 			return $ex->getCode();
- 		}
- 	}
-
- 	public static function viewAll()
+ 	/*public static function viewAll()
  	{
  		return ProviderModel::getProviders();
  	}
@@ -106,5 +217,5 @@ require_once 'Models/ProviderModel.php';
  	public function getStatistics($id='')
  	{
  		return 0;
- 	}
+ 	}*/
  }
