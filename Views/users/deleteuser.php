@@ -2,7 +2,8 @@
   //$which = 'users'; //which navbar button is active
   require_once 'Views/navbars/navbar.php';
 ?>
-   
+
+<div class="container">
 <h1>
   	Διαγραφή χρήστη
 </h1>
@@ -32,7 +33,4 @@
     </div>
   </div>
 </form>
-
-
-
-</script>
+  </div>

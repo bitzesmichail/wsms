@@ -1,7 +1,8 @@
 <?php
   require_once 'Views/navbars/navbar.php';
 ?>
-   
+  
+<div class="container">
 <h1>
   	Διαγραφή πελάτη
 </h1>
@@ -73,7 +74,7 @@
     </div>
   </div>
 </form>
-
+</div>
 
 
 
