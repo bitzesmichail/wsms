@@ -39,13 +39,14 @@
 	
 	<script type="text/javascript">			
 			$(document).ready(function() {
-				oTable = $('#users_table').dataTable({
-					"bJQueryUI": true,
+				oTable = $('#users_table, #product_table, #product_table').dataTable({
 					"bLengthChange": false,
 					"sPaginationType": "bootstrap"
 				});
 			} );
 	</script>
+	
+	
 
     <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
     <!--[if lt IE 9]>

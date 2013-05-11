@@ -5,6 +5,7 @@
   require_once 'Views/navbars/navbar.php';
 ?>
 
+<div class="container">
 <h2>
 	Προϊόντα
 </h2>
@@ -13,7 +14,7 @@
   <a href="<?php echo PRODUCT . "/addproduct"; ?>"><button class="btn btn-primary" type="button" >Προσθήκη νέου προϊόντος</button></a>
 </p>
 
-<table class="table table-striped table-bordered tablesorter" id="product_table">
+<table cellpadding="0" cellspacing="0" border="0" class="table table-striped table-bordered" width="100%" id="product_table">
 <thead>
 <tr>
 	<th><strong>SKU</strong></th>
@@ -24,6 +25,7 @@
 	<th><strong>Δεσμευμένο</strong></th>
 	<th><strong>Σε παραγγελία</strong></th>
 	<th><strong>Κρίσιμο</strong></th>
+	<th><strong>Ενέργειες</strong></th>
 </tr>
 </thead>
 <tbody>
@@ -49,11 +51,3 @@
 </table>
 </div>
 
-<script type="text/javascript">
-jQuery(document).ready(function() 
-    { 
-        jQuery("#product_table").tablesorter(); 
-    } 
-); 
-
-</script>

@@ -5,6 +5,7 @@
   require_once 'Views/navbars/navbar.php';
 ?>
 
+<div class="container">
 <h2>
 	Πελάτες
 </h2>
@@ -13,7 +14,7 @@
   <a href="<?php echo CUSTOMER . "/addcustomer"; ?>"><button class="btn btn-primary" type="button" >Προσθήκη νέου πελάτη</button></a>
 </p>
 
-<table class="table table-striped table-bordered tablesorter" id="product_table">
+<table cellpadding="0" cellspacing="0" border="0" class="table table-striped table-bordered" width="100%" id="product_table">
 <thead>
 <tr>
 	<th><strong>ΑΦΜ</strong></th>
@@ -25,6 +26,7 @@
 	<th><strong>Διεύθυνση</strong></th>
 	<th><strong>Ταχυδρομικός Κωδικός</strong></th>
 	<th><strong>Πόλη</strong></th>
+	<th><strong>Ενέργειες</strong></th>
 </tr>
 </thead>
 <tbody>
@@ -51,11 +53,3 @@
 </table>
 </div>
 
-<script type="text/javascript">
-jQuery(document).ready(function() 
-    { 
-        jQuery("#product_table").tablesorter(); 
-    } 
-); 
-
-</script>
