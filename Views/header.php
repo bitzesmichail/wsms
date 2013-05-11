@@ -67,7 +67,7 @@
 				<?php if (isset($_SESSION['username'])): ?>
 					<li class="active"><p class="navbar-text pull-right">Είστε συνδεδεμένος ως, <a href="#" class="navbar-link"><b style="color:#FFCCFF">  <?php echo $_SESSION['username']; ?></b> </a></p></li>
 					<li class="divider-vertical"></li>
-					<li><a href="<?php echo USERS; ?>">Έξοδος</a></li>
+					<li><a href="<?php echo USERS; ?>/logout">Έξοδος</a></li>
 				<?php endif ?>
 			</ul>
 			</div><!--/.nav-collapse -->
