@@ -45,7 +45,16 @@
 					"sPaginationType": "bootstrap"
 				});
 			} );
+			$(document).ready(function() {
+				oTable = $('#product_table').dataTable({
+					"bJQueryUI": true,
+					"bLengthChange": false,
+					"sPaginationType": "bootstrap"
+				});
+			} );
 	</script>
+	
+	
 
     <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
     <!--[if lt IE 9]>
