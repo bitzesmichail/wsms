@@ -16,7 +16,7 @@ require_once 'Models/CustomerModel.php';
  	public function index()
  	{
  		if (isset($_SESSION['role'])) {
- 			if ($_SESSION['role'] == 'manager' || $_SESSION['role'] == 'seller') {
+ 			if ($_SESSION['role'] == 'MANAGER' || $_SESSION['role'] == 'SELLER') {
 				try 
 				{
 	 				$this->view->render('customers', 'index', CustomerModel::getCustomers());
@@ -38,7 +38,7 @@ require_once 'Models/CustomerModel.php';
  	public function addcustomer()
  	{
  		if (isset($_SESSION['role'])) {
- 			if( $_SESSION['role'] == 'manager') {
+ 			if( $_SESSION['role'] == 'MANAGER') {
 				try 
 				{
 					$this->view->render('customer', 'addproduct', CustomerModel::getCustomers()); 
@@ -61,7 +61,7 @@ require_once 'Models/CustomerModel.php';
  	public function editcustomer()
  	{
  		if (isset($_SESSION['role'])) {
- 			if( $_SESSION['role'] == 'manager') {
+ 			if( $_SESSION['role'] == 'MANAGER') {
 				try 
 				{
 					$this->view->render('customer', 'editcustomer', ProductModel::getCustomerBySsn($_GET['ssn'])); 
@@ -84,7 +84,7 @@ require_once 'Models/CustomerModel.php';
  	public function deletecustomer()
  	{
  		if (isset($_SESSION['role'])) {
- 			if( $_SESSION['role'] == 'manager') {
+ 			if( $_SESSION['role'] == 'MANAGER') {
 				try 
 				{
 					$this->view->render('customer', 'deletecustomer', ProductModel::getProductBySsn($_GET['ssn'])); 

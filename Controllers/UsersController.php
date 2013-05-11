@@ -31,24 +31,7 @@ require_once 'Models/entities/User.php';
  			{
  				$_SESSION['success_logged_in'] = true;
  				$_SESSION['username'] = $user->username;
- 				switch ($user->username) {
- 					case 'manager':
- 						$_SESSION['role'] = 'manager';
- 						break;
- 					case 'seller':
- 						$_SESSION['role'] = 'seller';
- 						$page->redirect(SALEORDER . '/');
- 						break;
- 					case 'scheduler':
- 						$_SESSION['role'] = 'scheduler';
- 						break;
- 					case 'apo8hkarios':
- 						$_SESSION['role'] = 'apo8hkarios';
- 						break;
- 					default:
- 						$_SESSION['role'] = null;
- 						break;
- 				}
+ 				$_SESSION['role'] = $user->role;
 		 		$page->redirect(HOME);
  			}
  		}
@@ -69,7 +52,7 @@ require_once 'Models/entities/User.php';
  	public function index()
  	{
  		if (isset($_SESSION['role'])) {
- 			if( $_SESSION['role'] == 'manager') {
+ 			if( $_SESSION['role'] == 'MANAGER') {
 				try 
 				{
 					$this->view->render('users', 'index', UserModel::getUsers()); 
@@ -92,7 +75,7 @@ require_once 'Models/entities/User.php';
  	public function adduser()
  	{
  		if (isset($_SESSION['role'])) {
- 			if( $_SESSION['role'] == 'manager') {
+ 			if( $_SESSION['role'] == 'MANAGER') {
 				try
 				{
 					$this->view->render('users', 'adduser', UserModel::getUsers()); 
@@ -115,7 +98,7 @@ require_once 'Models/entities/User.php';
  	public function edituser()
  	{
  		if (isset($_SESSION['role'])) {
- 			if( $_SESSION['role'] == 'manager') {
+ 			if( $_SESSION['role'] == 'MANAGER') {
 				try 
 				{
 					$this->view->render('users', 'edituser', UserModel::getUserById($_GET['id'])); 
@@ -138,7 +121,7 @@ require_once 'Models/entities/User.php';
  	public function deleteuser()
  	{
  		if (isset($_SESSION['role'])) {
- 			if( $_SESSION['role'] == 'manager') {
+ 			if( $_SESSION['role'] == 'MANAGER') {
 				try 
 				{
 					$this->view->render('users', 'deleteuser', UserModel::getUserById($_GET['id'])); 
@@ -161,7 +144,7 @@ require_once 'Models/entities/User.php';
  	public function create()
  	{
 	 	if (isset($_SESSION['role'])) {
- 			if( $_SESSION['role'] == 'manager') {
+ 			if( $_SESSION['role'] == 'MANAGER') {
  				try
  				{
  					$user = new User($_POST['username'], $_POST['password'], $_POST['email'], $_POST['role'], null);
@@ -186,7 +169,7 @@ require_once 'Models/entities/User.php';
  	public function update()
  	{
  		if (isset($_SESSION['role'])) {
- 			if( $_SESSION['role'] == 'manager') {
+ 			if( $_SESSION['role'] == 'MANAGER') {
  				try 
  				{
  					$user = new User($_POST['username'], $_POST['password'], $_POST['email'], null, $_POST['idUser']);
@@ -211,7 +194,7 @@ require_once 'Models/entities/User.php';
  	public function delete()
  	{
  		if (isset($_SESSION['role'])) {
- 			if( $_SESSION['role'] == 'manager') {
+ 			if( $_SESSION['role'] == 'MANAGER') {
  				try
  				{
  					UserModel::delete($_POST['idUser']);
@@ -230,12 +213,6 @@ require_once 'Models/entities/User.php';
 				$page->error_accdenied(); 			 			
  			}
  		}
- 	}
-
- 	public function viewAll()
- 	{
- 		$data = UserModel::getUsers();
- 		$this->view->render('users', 'viewAll', $data);
  	}
 
  	public function viewById($idUser='')
@@ -271,9 +248,4 @@ require_once 'Models/entities/User.php';
  		}
  		return null;
  	} 	
-
- 	public static function viewRoles()
- 	{
- 		return RoleModel::getRoles();
- 	}
  }

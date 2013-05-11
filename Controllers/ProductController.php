@@ -16,7 +16,7 @@ require_once 'Models/ProductModel.php';
  	public function index()
  	{
  		if (isset($_SESSION['role'])) {
- 			if ($_SESSION['role'] == 'manager' || $_SESSION['role'] == 'seller') {
+ 			if ($_SESSION['role'] == 'MANAGER' || $_SESSION['role'] == 'SELLER') {
 				try 
 				{
 	 				$this->view->render('product', 'index', ProductModel::getProducts());
@@ -39,7 +39,7 @@ require_once 'Models/ProductModel.php';
  	public function addproduct()
  	{
  		if (isset($_SESSION['role'])) {
- 			if( $_SESSION['role'] == 'manager') {
+ 			if( $_SESSION['role'] == 'MANAGER') {
 				try 
 				{
 					$this->view->render('product', 'addproduct', ProductModel::getProducts()); 
@@ -62,7 +62,7 @@ require_once 'Models/ProductModel.php';
  	public function editproduct()
  	{
  		if (isset($_SESSION['role'])) {
- 			if( $_SESSION['role'] == 'manager') {
+ 			if( $_SESSION['role'] == 'MANAGER') {
 				try 
 				{
 					$this->view->render('product', 'editproduct', ProductModel::getProductBySku($_GET['sku'])); 
@@ -85,7 +85,7 @@ require_once 'Models/ProductModel.php';
  	public function deleteproduct()
  	{
  		if (isset($_SESSION['role'])) {
- 			if( $_SESSION['role'] == 'manager') {
+ 			if( $_SESSION['role'] == 'MANAGER') {
 				try 
 				{
 					$this->view->render('product', 'deleteproduct', ProductModel::getProductBySku($_GET['sku'])); 
@@ -108,7 +108,7 @@ require_once 'Models/ProductModel.php';
  	public function create()
  	{
 	 	if (isset($_SESSION['role'])) {
- 			if( $_SESSION['role'] == 'manager') {
+ 			if( $_SESSION['role'] == 'MANAGER') {
 				try 
 				{
  					$product = new Product($_POST['sku'], $_POST['description'], $_POST['priceSale'], $_POST['priceSupply'], $_POST['availableSum'], 0, 0, $_POST['criticalSum']);
@@ -133,7 +133,7 @@ require_once 'Models/ProductModel.php';
  	public function update()
  	{
 	 	if (isset($_SESSION['role'])) {
- 			if( $_SESSION['role'] == 'manager') {
+ 			if( $_SESSION['role'] == 'MANAGER') {
 				try
 				{
  					$product = new Product($_POST['sku'], $_POST['description'], $_POST['priceSale'], $_POST['priceSupply'], $_POST['availableSum'], $_POST['reservedSum'], $_POST['orderedSum'], $_POST['criticalSum'], $_POST['idProduct']);
@@ -158,7 +158,7 @@ require_once 'Models/ProductModel.php';
  	public function delete()
  	{
  		if (isset($_SESSION['role'])) {
- 			if( $_SESSION['role'] == 'manager') {
+ 			if( $_SESSION['role'] == 'MANAGER') {
 				try
 				{
  					ProductModel::delete($_POST['sku']);
