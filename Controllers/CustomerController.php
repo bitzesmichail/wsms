@@ -38,10 +38,10 @@ require_once 'Models/CustomerModel.php';
  	public function addcustomer()
  	{
  		if (isset($_SESSION['role'])) {
- 			if( $_SESSION['role'] == 'MANAGER') {
+ 			if($_SESSION['role'] == 'MANAGER' || $_SESSION['role'] == 'SELLER') {
 				try 
 				{
-					$this->view->render('customer', 'addproduct', CustomerModel::getCustomers()); 
+					$this->view->render('customers', 'addcustomer', CustomerModel::getCustomers()); 
 				}
  				catch(Exception $ex)
 			 	{
@@ -61,10 +61,10 @@ require_once 'Models/CustomerModel.php';
  	public function editcustomer()
  	{
  		if (isset($_SESSION['role'])) {
- 			if( $_SESSION['role'] == 'MANAGER') {
+ 			if($_SESSION['role'] == 'MANAGER'|| $_SESSION['role'] == 'SELLER') {
 				try 
 				{
-					$this->view->render('customer', 'editcustomer', ProductModel::getCustomerBySsn($_GET['ssn'])); 
+					$this->view->render('customer', 'editcustomer', CustomerModel::getCustomerBySsn($_GET['ssn'])); 
 				}
  				catch(Exception $ex)
 			 	{
@@ -84,10 +84,10 @@ require_once 'Models/CustomerModel.php';
  	public function deletecustomer()
  	{
  		if (isset($_SESSION['role'])) {
- 			if( $_SESSION['role'] == 'MANAGER') {
+ 			if($_SESSION['role'] == 'MANAGER' || $_SESSION['role'] == 'SELLER') {
 				try 
 				{
-					$this->view->render('customer', 'deletecustomer', ProductModel::getProductBySsn($_GET['ssn'])); 
+					$this->view->render('customer', 'deletecustomer', CustomerModel::getCustomerBySsn($_GET['ssn'])); 
 				}
  				catch(Exception $ex)
 			 	{
@@ -104,46 +104,89 @@ require_once 'Models/CustomerModel.php';
  		}
  	}
 
- 	public function create($customer='')
+ 	public function create()
  	{
- 		try 
- 		{
- 			return CustomerModel::create($customer);
+ 		if (isset($_SESSION['role'])) {
+ 			if($_SESSION['role'] == 'MANAGER' || $_SESSION['role'] == 'SELLER') {
+				try 
+				{
+ 					$customer = new Customer($_POST['name'], $_POST['surname'], 
+ 						                     $_POST['ssn'], $_POST['phone'], 
+ 						                     $_POST['cellphone'], $_POST['email'], 
+ 						                     $_POST['address'], $_POST['city'], $_POST['zipCode']);
+ 					CustomerModel::create($customer);
+	 				CustomerController::index();
+				}
+ 				catch(Exception $ex)
+			 	{
+	 				require_once 'PageController.php';
+					$page = new PageController;
+					$page->errordb($ex->getMessage());
+ 				}
+ 			}
+			else {
+ 				require_once 'PageController.php';
+				$page = new PageController;
+				$page->error_accdenied();
+			}
  		}
- 		catch(Exception $ex)
- 		{
- 			echo "Error Message: " . $ex->getMessage() . "\n";
- 			return $ex->getCode();
+
+ 	}
+
+ 	public function update()
+ 	{
+ 		if (isset($_SESSION['role'])) {
+ 			if( $_SESSION['role'] == 'MANAGER' || $_SESSION['role'] == 'SELLER') {
+				try
+				{
+ 					$customer = new Customer($_POST['name'], $_POST['surname'], 
+ 						                     $_POST['ssn'], $_POST['phone'], 
+ 						                     $_POST['cellphone'], $_POST['email'], 
+ 						                     $_POST['address'], $_POST['city'], $_POST['zipCode']);ProductModel::update($product);
+ 					CustomerModel::update($customer);
+	 				CustomerController::index();
+				}
+ 				catch(Exception $ex)
+			 	{
+	 				require_once 'PageController.php';
+					$page = new PageController;
+					$page->errordb($ex->getMessage());
+ 				}
+ 			}
+			else {
+ 				require_once 'PageController.php';
+				$page = new PageController;
+				$page->error_accdenied();
+			}
+ 		}
+
+ 	}
+
+ 	public function delete()
+ 	{
+ 		if (isset($_SESSION['role'])) {
+ 			if( $_SESSION['role'] == 'MANAGER' || $_SESSION['role'] == 'SELLER') {
+				try
+				{
+ 					CustomerModel::delete($_POST['ssn']);
+ 					CustomerController::index();
+				}
+ 				catch(Exception $ex)
+			 	{
+	 				require_once 'PageController.php';
+					$page = new PageController;
+					$page->errordb($ex->getMessage());
+ 				}
+ 			}
+			else {
+ 				require_once 'PageController.php';
+				$page = new PageController;
+				$page->error_accdenied();
+			}
  		}
  	}
 
- 	public function update($newCustomer='')
- 	{
- 			try 
- 		{
-	 		return CustomerModel::update($newCustomer);
- 		}
- 		catch(Exception $ex)
- 		{
- 			echo "Error Message: " . $ex->getMessage() . "\n";
- 			return $ex->getCode();
- 		}
- 	}
-
- 	public function delete($idCustomer='')
- 	{
- 		try 
- 		{
-	 		return CustomerModel::delete($idCustomer);
- 		}
- 		catch(Exception $ex)
- 		{
- 			echo "Error Message: " . $ex->getMessage() . "\n";
- 			return $ex->getCode();
- 		}
- 	}
-
- 	public static function viewAll()
+ 	/*public static function viewAll()
  	{
  	  return CustomerModel::getCustomers();
  	}
@@ -167,5 +210,5 @@ require_once 'Models/CustomerModel.php';
  	public function getStatistics($id='')
  	{
  		return 0;
- 	}
+ 	}*/
  }
