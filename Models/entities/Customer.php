@@ -20,8 +20,7 @@ class Customer
     							$email,
 								$address,
 								$city,
-								$zipCode
-								)
+								$zipCode)
     {
 		$this->name = $name;
 		$this->surname = $surname;

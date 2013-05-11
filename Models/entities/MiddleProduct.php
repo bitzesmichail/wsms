@@ -1,33 +1,30 @@
 <?php
  
-class Product 
+class MiddleProduct 
 {
     private $sku;
     private $description;
     private $priceSale;
     private $priceSupply;
-    private $availableSum;
-    private $reservedSum;
-    private $orderedSum;
-    private $criticalSum;
+    private $discount;
+	private $quantityCreated;
+	private $quantityClosed;
     
     public function __construct($sku,
 								$description,
 								$priceSale,
 								$priceSupply,
-								$availableSum,
-								$reservedSum,
-								$orderedSum,
-								$criticalSum)
+								$discount,
+								$quantityCreated,
+								$quantityClosed = null)
     {
 		$this->sku = $sku;
 		$this->description = $description;
 		$this->priceSale = $priceSale;
 		$this->priceSupply = $priceSupply;
-		$this->availableSum = $availableSum;
-		$this->reservedSum = $reservedSum;
-		$this->orderedSum = $orderedSum;
-		$this->criticalSum = $criticalSum;
+		$this->quantityCreated = $quantityCreated;
+		$this->quantityClosed = $quantityClosed;
+		$this->discount = $discount;
     }
     
     public function __get($param)
@@ -42,14 +39,12 @@ class Product
 				return $this->priceSale;
 			case "priceSupply":
 				return $this->priceSupply;
-			case "availableSum":
-				return $this->availableSum;
-			case "reservedSum":
-				return $this->reservedSum;
-			case "orderedSum":
-				return $this->orderedSum;
-			case "criticalSum":
-				return $this->criticalSum;
+			case "quantityCreated":
+				return $this->quantityCreated;
+			case "quantityClosed":
+				return $this->quantityClosed;			
+			case "discount":
+				return $this->discount;				
 		}
     }
 
@@ -69,18 +64,15 @@ class Product
 			case "priceSupply":
 				$this->priceSupply = $value;
 				break;
-			case "availableSum":
-				$this->availableSum = $value;
+			case "quantityCreated":
+				$this->quantityCreated = $value;
 				break;
-			case "reservedSum":
-				$this->reservedSum = $value;
+			case "quantityClosed":
+				$this->quantityClosed = $value;
 				break;	 	    
-			case "orderedSum":
-				$this->orderedSum = $value;
-				break;
-			case "criticalSum":
-				$this->criticalSum = $value;
-				break;   
+			case "discount":
+				$this->discount = $value;
+				break; 
 		}
     }
 }

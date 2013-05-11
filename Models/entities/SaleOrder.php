@@ -2,35 +2,107 @@
  
 class SaleOrder 
 {
-    
-    private $saleOrder;
-    
-    public function __construct($saleOrder)
+    private $idSaleOrder;
+    private $dateUpdated;
+	private $dateCreated;
+	private $dateClosed;
+	private $dateDue;
+	private $customerSsn;
+	private $idUser;
+	private $status;
+	private $products;			
+	
+    public function __construct($dateDue, 
+								$customerSsn, 
+								$idUser, 
+								$status,
+								$middleProductObjArray,
+								$dateCreated = null,
+								$idSaleOrder = null, 
+								$dateUpdated = null,
+								$dateClosed = null)
     {
-        $this->saleOrder = $saleOrder;
+		date_default_timezone_set('Europe/Athens');
+		
+		if($dateCreated == null) 
+		{
+			$dateCreated = date('Y-m-d H:i:s');
+			
+		}
+		
+		if($dateUpdated == null) 
+		{
+			$dateUpdated = $dateCreated;
+		}
+		
+		$this->dateCreated = $dateCreated;
+		$this->dateUpdated = $dateUpdated;
+		
+		$this->idSaleOrder = $idSaleOrder;
+		$this->dateDue = $dateDue;
+		$this->customerSsn = $customerSsn;
+		$this->idUser = $idUser;
+		$this->status = $status;
+		$this->dateClosed = $dateClosed;
+		$this->products = $middleProductObjArray;
     }
     
     public function __get($param)
     {
-	switch ($param)
-	{
-	    case "idSaleOrder":
-		return $this->saleOrder['idSaleOrder'];
-	    case "dateCreated":
-		return $this->saleOrder['dateCreated'];
-	    case "dateClosed":
-		return $this->saleOrder['dateClosed'];
-	    case "dateDue":
-		return $this->saleOrder['dateDue'];
-	    case "customerSsn":
-		return $this->saleOrder['customerSsn'];
-	    case "idUser":
-		return $this->saleOrder['idUser'];	
-		case "status":
-			return $this->saleOrder['status'];
-		case "dateUpdated":
-			return $this->saleOrder['dateUpdated'];
-	}
+		switch ($param)
+		{
+			case "idSaleOrder":
+				return $this->idSaleOrder;
+			case "dateCreated":
+				return $this->dateCreated;
+			case "dateUpdated":
+				return $this->dateUpdated;				
+			case "dateClosed":
+				return $this->dateClosed;
+			case "dateDue":
+				return $this->dateDue;
+			case "customerSsn":
+				return $this->customerSsn;
+			case "idUser":
+				return $this->idUser;	
+			case "status":
+				return $this->status;
+			case "products":	
+				return $this->products;
+		}
     }
-
+	
+	public function __set($name, $value)
+    {
+		switch ($name)
+		{
+			case "idSaleOrder":
+				$this->idSaleOrder = $value;
+				break;
+			case "dateCreated":
+				$this->dateCreated = $value;
+				break;
+			case "dateUpdated":
+				$this->dateUpdated = $value;
+				break;
+			case "dateClosed":
+				$this->dateClosed = $value;
+				break;
+			case "dateDue":
+				$this->dateDue = $value;
+				break;
+			case "customerSsn":
+				$this->customerSsn = $value;
+				break;	 	    
+			case "idUser":
+				$this->idUser = $value;
+				break;
+			case "status":
+				$this->status = $value;
+				break;	
+			case "products":
+				$this->products = $value;
+				break;					
+		}
+    }
 }

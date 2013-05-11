@@ -141,13 +141,13 @@ class ProductModel extends Model
             $productCol = $stmt->fetch(PDO::FETCH_ASSOC);
 	    
 			return new Product($productCol["sku"],
-					   $productCol["description"],
-					   $productCol["priceSale"],
-					   $productCol["priceSupply"],
-					   $productCol["availableSum"],
-					   $productCol["reservedSum"],
-					   $productCol["orderedSum"],
-					   $productCol["criticalSum"]);
+							   $productCol["description"],
+							   $productCol["priceSale"],
+							   $productCol["priceSupply"],
+							   $productCol["availableSum"],
+							   $productCol["reservedSum"],
+							   $productCol["orderedSum"],
+							   $productCol["criticalSum"]);
         }
         catch(PDOException $e) 
         {
