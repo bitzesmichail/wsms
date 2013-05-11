@@ -4,6 +4,7 @@
   require_once 'Views/navbars/navbar.php';
 ?>
 
+<div class="container">
 <h2>
   	Εγγεγραμμένοι Χρήστες
 </h2>
@@ -12,12 +13,13 @@
   <a href="<?php echo USERS . "/adduser"; ?>"><button class="btn btn-primary" type="button" >Προσθήκη νέου χρήστη</button></a>
 </p>
 
-<table class="table table-striped table-bordered tablesorter" id="users_table">
+<table cellpadding="0" cellspacing="0" border="0" class="table table-striped table-bordered" id="users_table" width="100%">
 <thead>
 <tr>
 	<th><strong>Username</strong></th>
 	<th><strong>Email</strong></th>
 	<th><strong>Ρόλος</strong></th>
+	<th><strong>Ενέργειες</strong></th>
 </tr>
 </thead>
 <tbody>
@@ -38,10 +40,3 @@
 </table>
 </div>
 
-<script type="text/javascript">
-jQuery(document).ready(function() 
-    { 
-        jQuery("#users_table").tablesorter(); 
-    } 
-); 
-</script>
