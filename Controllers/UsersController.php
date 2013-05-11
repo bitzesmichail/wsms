@@ -23,7 +23,16 @@ require_once 'Models/entities/User.php';
  			$page->redirect(HOME);
  		}
 
- 		$user = UsersController::viewByUsername($username);
+ 		try 
+ 		{
+ 			$user = UserModel::getUserByUsername($username);
+ 		}
+ 		catch(Exception $ex)
+		{
+	 		require_once 'PageController.php';
+			$page = new PageController;
+			$page->errordb($ex->getMessage());
+ 		}
 
  		if (!is_null($user))
  		{
@@ -52,7 +61,7 @@ require_once 'Models/entities/User.php';
  	public function index()
  	{
  		if (isset($_SESSION['role'])) {
- 			if( $_SESSION['role'] == 'MANAGER') {
+ 			if($_SESSION['role'] == 'MANAGER') {
 				try 
 				{
 					$this->view->render('users', 'index', UserModel::getUsers()); 
@@ -75,7 +84,7 @@ require_once 'Models/entities/User.php';
  	public function adduser()
  	{
  		if (isset($_SESSION['role'])) {
- 			if( $_SESSION['role'] == 'MANAGER') {
+ 			if($_SESSION['role'] == 'MANAGER') {
 				try
 				{
 					$this->view->render('users', 'adduser', UserModel::getUsers()); 
@@ -98,7 +107,7 @@ require_once 'Models/entities/User.php';
  	public function edituser()
  	{
  		if (isset($_SESSION['role'])) {
- 			if( $_SESSION['role'] == 'MANAGER') {
+ 			if($_SESSION['role'] == 'MANAGER') {
 				try 
 				{
 					$this->view->render('users', 'edituser', UserModel::getUserById($_GET['id'])); 
@@ -121,7 +130,7 @@ require_once 'Models/entities/User.php';
  	public function deleteuser()
  	{
  		if (isset($_SESSION['role'])) {
- 			if( $_SESSION['role'] == 'MANAGER') {
+ 			if($_SESSION['role'] == 'MANAGER') {
 				try 
 				{
 					$this->view->render('users', 'deleteuser', UserModel::getUserById($_GET['id'])); 
@@ -144,7 +153,7 @@ require_once 'Models/entities/User.php';
  	public function create()
  	{
 	 	if (isset($_SESSION['role'])) {
- 			if( $_SESSION['role'] == 'MANAGER') {
+ 			if($_SESSION['role'] == 'MANAGER') {
  				try
  				{
  					$user = new User($_POST['username'], $_POST['password'], $_POST['email'], $_POST['role'], null);
@@ -169,7 +178,7 @@ require_once 'Models/entities/User.php';
  	public function update()
  	{
  		if (isset($_SESSION['role'])) {
- 			if( $_SESSION['role'] == 'MANAGER') {
+ 			if($_SESSION['role'] == 'MANAGER') {
  				try 
  				{
  					$user = new User($_POST['username'], $_POST['password'], $_POST['email'], null, $_POST['idUser']);
@@ -194,7 +203,7 @@ require_once 'Models/entities/User.php';
  	public function delete()
  	{
  		if (isset($_SESSION['role'])) {
- 			if( $_SESSION['role'] == 'MANAGER') {
+ 			if($_SESSION['role'] == 'MANAGER') {
  				try
  				{
  					UserModel::delete($_POST['idUser']);
@@ -214,38 +223,4 @@ require_once 'Models/entities/User.php';
  			}
  		}
  	}
-
- 	public function viewById($idUser='')
- 	{
- 		$users = UserModel::getUsers();
-
- 		if (is_array($users)) 
- 		{
- 			foreach ($users as &$value) 
- 			{
- 				if ($value->idUser == $idUser)
- 				{
- 					$this->view->render('users', '', $value);
- 				}
- 			}
- 		}
- 		return null;
- 	}
-
- 	public static function viewByUsername($username='')
- 	{
- 		$users = UserModel::getUsers();
-
- 		if (is_array($users)) 
- 		{
- 			foreach ($users as &$value) 
- 			{
- 				if ($value->username == $username)
- 				{
- 					return $value;
- 				}
- 			}
- 		}
- 		return null;
- 	} 	
  }
