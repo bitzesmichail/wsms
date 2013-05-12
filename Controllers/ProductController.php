@@ -42,7 +42,7 @@ require_once 'Models/ProductModel.php';
  			if($_SESSION['role'] == 'MANAGER') {
 				try 
 				{
-					$this->view->render('product', 'addproduct', ProductModel::getProducts()); 
+					$this->view->render('product', 'addproduct', null); 
 				}
  				catch(Exception $ex)
 			 	{

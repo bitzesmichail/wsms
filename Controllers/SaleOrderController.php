@@ -36,9 +36,52 @@ require_once 'Models/SaleOrderModel.php';
  		}
  	}
 
- 	public function create($sale='')
+	public function addsaleorder()
  	{
- 		return 0;
+ 		if (isset($_SESSION['role'])) {
+ 			if($_SESSION['role'] == 'MANAGER' || $_SESSION['role'] == 'SELLER') {
+				try 
+				{
+					$this->view->render('sales', 'addsale', null); 
+				}
+ 				catch(Exception $ex)
+			 	{
+	 				require_once 'PageController.php';
+					$page = new PageController;
+					$page->errordb($ex->getMessage());
+ 				}
+			}
+			else {
+ 				require_once 'PageController.php';
+				$page = new PageController;
+				$page->error_accdenied();
+			}
+ 		}
+ 	}
+
+ 	public function create()
+ 	{
+	 	if (isset($_SESSION['role'])) {
+ 			if($_SESSION['role'] == 'MANAGER' || $_SESSION['role'] == 'SELLER') {
+				try 
+				{
+ 					$product = new SaleOrder($_POST['dateDue'], $_POST['customerSsn'], $_POST['idUser'], $_POST['status'], null);
+ 					SaleOrderModel::create($product);
+	 				SaleOrderController::index();
+				}
+ 				catch(Exception $ex)
+			 	{
+	 				require_once 'PageController.php';
+					$page = new PageController;
+					$page->errordb($ex->getMessage());
+ 				}
+ 			}
+			else {
+ 				require_once 'PageController.php';
+				$page = new PageController;
+				$page->error_accdenied();
+			}
+ 		}
  	}
 
  	public function update($id='', $new_sale='')
