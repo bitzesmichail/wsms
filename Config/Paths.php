@@ -1,5 +1,5 @@
 <?php
-	define('HOME', '//bitzesmichail.no-ip.biz/wsms');
+	define('HOME', '//' . $_SERVER['HTTP_HOST'] . substr($_SERVER['REQUEST_URI'], 0, strlen($_SERVER['REQUEST_URI']) - strlen($_GET['url'])));
 	define('BOOTSTRAP', HOME . '/Bootstrap');
 	define('USERS', HOME . '/users');
 	define('PRODUCT', HOME . '/product');
