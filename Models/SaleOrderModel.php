@@ -20,7 +20,7 @@ class SaleOrderModel extends Model
         
 		try
         {
-			$stmt = $pdo->prepare("INSERT INTO SaleOrder
+			$stmt = $pdo->prepare("INSERT INTO saleorder
 									(dateUpdated, dateCreated, dateClosed, dateDue, customerSsn, idUser, status)
 								   VALUES
 									(:dateUpdated, :dateCreated, :dateClosed, :dateDue, :customerSsn, :idUser, :status)");
@@ -39,7 +39,7 @@ class SaleOrderModel extends Model
 			foreach ($saleOrderObj->products as $middleProductObj)
             {
                 
-                $stmt = $pdo->prepare("INSERT INTO SaleOrderHasProduct
+                $stmt = $pdo->prepare("INSERT INTO saleorder_has_product
                                        (sku, idSaleOrder, dateUpdated, quantityCreated, currentDiscount, currentPriceSale, currentPriceSupply, currentDescription)
                                       VALUES
                                        (:sku, :idSaleOrder, :dateUpdated, :quantityCreated, :currentDiscount, :currentPriceSale, :currentPriceSupply, :currentDescription)");
@@ -81,7 +81,7 @@ class SaleOrderModel extends Model
         
         try
         {
-            $stmt = $pdo->prepare("SELECT * FROM SaleOrder WHERE dateCreated <> dateUpdated");          
+            $stmt = $pdo->prepare("SELECT * FROM saleorder WHERE dateCreated <> dateUpdated");          
             $stmt->execute();
 
             $saleOrderColumns = $stmt->fetchAll();
@@ -92,7 +92,7 @@ class SaleOrderModel extends Model
             {
                 
                 $stmt = $pdo->prepare("SELECT sku, currentDescription, currentPriceSale, currentPriceSupply, currentDiscount, quantityCreated, quantityClosed
-									  FROM SaleOrderHasProduct
+									  FROM saleorder_has_product
                                       WHERE idSaleOrder = :idSaleOrder
 									  AND dateUpdated = :dateUpdated");  
 

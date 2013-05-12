@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: May 11, 2013 at 11:34 PM
+-- Generation Time: May 12, 2013 at 01:31 PM
 -- Server version: 5.5.27
 -- PHP Version: 5.4.7
 
@@ -64,10 +64,10 @@ DELIMITER ;
 -- --------------------------------------------------------
 
 --
--- Table structure for table `customerhasdiscount`
+-- Table structure for table `customer_has_discount`
 --
 
-CREATE TABLE IF NOT EXISTS `customerhasdiscount` (
+CREATE TABLE IF NOT EXISTS `customer_has_discount` (
   `sku` varchar(20) NOT NULL,
   `ssn` varchar(9) NOT NULL,
   `discount` decimal(4,3) NOT NULL DEFAULT '0.000',
@@ -79,10 +79,10 @@ CREATE TABLE IF NOT EXISTS `customerhasdiscount` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `historycustomer`
+-- Table structure for table `history_customer`
 --
 
-CREATE TABLE IF NOT EXISTS `historycustomer` (
+CREATE TABLE IF NOT EXISTS `history_customer` (
   `idHistoryCustomer` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(45) NOT NULL,
   `surname` varchar(45) NOT NULL,
@@ -97,10 +97,10 @@ CREATE TABLE IF NOT EXISTS `historycustomer` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `historyproduct`
+-- Table structure for table `history_product`
 --
 
-CREATE TABLE IF NOT EXISTS `historyproduct` (
+CREATE TABLE IF NOT EXISTS `history_product` (
   `idHistoryProduct` int(11) NOT NULL AUTO_INCREMENT,
   `description` text NOT NULL,
   `priceSale` decimal(10,2) NOT NULL,
@@ -113,10 +113,10 @@ CREATE TABLE IF NOT EXISTS `historyproduct` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `historyprovider`
+-- Table structure for table `history_provider`
 --
 
-CREATE TABLE IF NOT EXISTS `historyprovider` (
+CREATE TABLE IF NOT EXISTS `history_provider` (
   `idHistoryProvider` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(45) NOT NULL,
   `surname` varchar(45) NOT NULL,
@@ -131,10 +131,10 @@ CREATE TABLE IF NOT EXISTS `historyprovider` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `historysaleorder`
+-- Table structure for table `history_saleorder`
 --
 
-CREATE TABLE IF NOT EXISTS `historysaleorder` (
+CREATE TABLE IF NOT EXISTS `history_saleorder` (
   `idHistorySaleOrder` int(11) NOT NULL AUTO_INCREMENT,
   `idSaleOrder` int(11) NOT NULL,
   `dateCreated` datetime NOT NULL,
@@ -150,10 +150,10 @@ CREATE TABLE IF NOT EXISTS `historysaleorder` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `historysaleorderhashistoryproduct`
+-- Table structure for table `history_saleorder_has_history_product`
 --
 
-CREATE TABLE IF NOT EXISTS `historysaleorderhashistoryproduct` (
+CREATE TABLE IF NOT EXISTS `history_saleorder_has_history_product` (
   `idHistorySaleOrder` int(11) NOT NULL,
   `idHistoryProduct` int(11) NOT NULL,
   `discount` decimal(4,3) NOT NULL,
@@ -167,10 +167,10 @@ CREATE TABLE IF NOT EXISTS `historysaleorderhashistoryproduct` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `historysupplyorder`
+-- Table structure for table `history_supplyorder`
 --
 
-CREATE TABLE IF NOT EXISTS `historysupplyorder` (
+CREATE TABLE IF NOT EXISTS `history_supplyorder` (
   `idHistorySupplyOrder` int(11) NOT NULL AUTO_INCREMENT,
   `idSupplyOrder` int(11) NOT NULL,
   `dateCreated` datetime NOT NULL,
@@ -184,10 +184,10 @@ CREATE TABLE IF NOT EXISTS `historysupplyorder` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `historysupplyorderhashistoryproduct`
+-- Table structure for table `history_supplyorder_has_history_product`
 --
 
-CREATE TABLE IF NOT EXISTS `historysupplyorderhashistoryproduct` (
+CREATE TABLE IF NOT EXISTS `history_supplyorder_has_history_product` (
   `idHistorySupplyOrder` int(11) NOT NULL,
   `idHistoryProduct` int(11) NOT NULL,
   `quantityCreated` int(11) NOT NULL,
@@ -286,7 +286,7 @@ CREATE TABLE IF NOT EXISTS `saleorder` (
   PRIMARY KEY (`idSaleOrder`,`dateUpdated`),
   KEY `fk_OrderSale_Customer1_idx` (`customerSsn`),
   KEY `fk_OrderSale_User1_idx` (`idUser`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=10 ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 --
 -- Triggers `saleorder`
@@ -296,28 +296,28 @@ DELIMITER //
 CREATE TRIGGER `SaleOrderTrigger` BEFORE DELETE ON `saleorder`
  FOR EACH ROW BEGIN 
 
-        IF((OLD.status='closed') OR (OLD.status='problem')) THEN
+        IF( (OLD.status='closed') OR (OLD.status='problem') ) THEN
 
             SET @customerVersion := (
                 SELECT version
-                FROM Provider
-                WHERE ssn=OLD.customerSsn
+                FROM provider
+                WHERE ssn = OLD.customerSsn
             );
 
 
             SET @historyCustomerId := (
                 SELECT idHistoryCustomer
-                FROM HistoryCustomer
+                FROM history_customer
                 WHERE customerSsn = OLD.customerSsn
                 AND version = @customerVersion
             );
 
             IF(@historyCustomerId IS NULL) THEN
 
-                INSERT INTO HistoryCustomer 
+                INSERT INTO history_customer 
                 (name,surname,address,zipCode,city,customerSsn,version) 
                 SELECT name,surname,address,zipCode,city,ssn,version
-                FROM Customer
+                FROM customer
                 WHERE ssn = OLD.customerSsn;
 
                 SET @historyCustomerId := LAST_INSERT_ID();
@@ -325,14 +325,15 @@ CREATE TRIGGER `SaleOrderTrigger` BEFORE DELETE ON `saleorder`
             END IF;
                 
 
-            INSERT INTO HistorySaleOrder 
+            INSERT INTO history_saleorder 
             (idSaleOrder,dateCreated,dateUpdated,dateDue,dateClosed,idHistoryCustomer,status)
-            VALUES (OLD.idSaleOrder,OLD.dateCreated,OLD.dateUpdated,OLD.dateDue,OLD.dateClosed,@historyCustomerId,OLD.status);
+            VALUES 
+			(OLD.idSaleOrder,OLD.dateCreated,OLD.dateUpdated,OLD.dateDue,OLD.dateClosed,@historyCustomerId,OLD.status);
 
         END IF;
 
-        DELETE FROM SaleOrderHasProduct  
-        WHERE (idSaleOrder=OLD.idSaleOrder AND dateUpdated=OLD.dateUpdated);
+        DELETE FROM saleorder_has_product  
+        WHERE (idSaleOrder = OLD.idSaleOrder AND dateUpdated = OLD.dateUpdated);
     END
 //
 DELIMITER ;
@@ -340,10 +341,10 @@ DELIMITER ;
 -- --------------------------------------------------------
 
 --
--- Table structure for table `saleorderhasproduct`
+-- Table structure for table `saleorder_has_product`
 --
 
-CREATE TABLE IF NOT EXISTS `saleorderhasproduct` (
+CREATE TABLE IF NOT EXISTS `saleorder_has_product` (
   `sku` varchar(20) NOT NULL,
   `idSaleOrder` int(11) NOT NULL,
   `dateUpdated` datetime NOT NULL,
@@ -360,15 +361,15 @@ CREATE TABLE IF NOT EXISTS `saleorderhasproduct` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Triggers `saleorderhasproduct`
+-- Triggers `saleorder_has_product`
 --
 DROP TRIGGER IF EXISTS `CurrentValuesSaleOrderTrigger`;
 DELIMITER //
-CREATE TRIGGER `CurrentValuesSaleOrderTrigger` BEFORE INSERT ON `saleorderhasproduct`
+CREATE TRIGGER `CurrentValuesSaleOrderTrigger` BEFORE INSERT ON `saleorder_has_product`
  FOR EACH ROW BEGIN
 	SELECT version
 	INTO @currentVersion
-	FROM Product
+	FROM product
 	WHERE NEW.sku = sku;
 	
 	SET NEW.currentVersion = @currentVersion;
@@ -377,21 +378,21 @@ END
 DELIMITER ;
 DROP TRIGGER IF EXISTS `SaleOrderHasProductTrigger`;
 DELIMITER //
-CREATE TRIGGER `SaleOrderHasProductTrigger` BEFORE DELETE ON `saleorderhasproduct`
+CREATE TRIGGER `SaleOrderHasProductTrigger` BEFORE DELETE ON `saleorder_has_product`
  FOR EACH ROW BEGIN
 
-        IF((SELECT status FROM SaleOrder AS sl WHERE sl.idSaleOrder=OLD.idSaleOrder)='closed' OR 'problem') THEN
+        IF( (SELECT status FROM saleorder WHERE idSaleOrder=OLD.idSaleOrder)='closed' OR 'problem' ) THEN
             
             SET @historyProductId := (
                 SELECT idHistoryProduct 
-                FROM HistoryProduct
-                WHERE sku=OLD.sku 
-                AND version=OLD.currentVersion
+                FROM history_product
+                WHERE sku = OLD.sku 
+                AND version = OLD.currentVersion
             );
 
             IF(@historyProductId IS NULL) THEN
 
-                INSERT INTO HistoryProduct 
+                INSERT INTO history_product 
                 (description,priceSale,priceSupply,sku,version) 
                 VALUES 
                 (OLD.currentDescription,OLD.currentPriceSale,OLD.currentpriceSupply,OLD.sku,OLD.currentVersion);
@@ -403,19 +404,19 @@ CREATE TRIGGER `SaleOrderHasProductTrigger` BEFORE DELETE ON `saleorderhasproduc
 
             SET @idHistorySaleOrder :=(
                 SELECT idHistorySaleOrder 
-                FROM HistorySaleOrder AS hs 
-                WHERE hs.idSaleOrder=OLD.idSaleOrder 
-                AND hs.dateUpdated=OLD.dateUpdated);
+                FROM history_saleorder 
+                WHERE idSaleOrder = OLD.idSaleOrder 
+                AND dateUpdated = OLD.dateUpdated);
             
-            INSERT INTO HistorySaleOrderHasHistoryProduct 
+            INSERT INTO history_saleorder_has_history_product 
             (idHistorySaleOrder,idHistoryProduct,discount,quantityCreated,quantityClosed) 
             VALUES 
             (@idHistorySaleOrder,@historyProductId,OLD.currentDiscount,OLD.quantityCreated,OLD.quantityClosed);
 
-            IF(OLD.quantityCreated != OLD.quantityClosed) THEN 
-                UPDATE HistorySaleOrder SET status := 'problem' 
-		WHERE idSaleOrder=OLD.idSaleOrder 
-                AND dateUpdated=OLD.dateUpdated;
+            IF( OLD.quantityCreated != OLD.quantityClosed ) THEN 
+                UPDATE history_saleorder SET status := 'problem' 
+				WHERE idSaleOrder = OLD.idSaleOrder 
+                AND dateUpdated = OLD.dateUpdated;
             END IF;
 
         END IF;
@@ -456,34 +457,36 @@ CREATE TRIGGER `SupplyOrderTrigger` BEFORE DELETE ON `supplyorder`
 			
 			SET @providerVersion := (
 				SELECT version 
-				FROM Provider 
+				FROM provider 
 				WHERE ssn = OLD.providerSsn 
 			);
 			
 			SET @historyProviderId := (
 				SELECT idHistoryProvider 
-				FROM HistoryProvider 
+				FROM history_provider 
 				WHERE providerSsn = OLD.providerSsn 
 				AND version = @providerVersion
 			);
 			
 			IF( @historyProviderId IS NULL ) THEN
                 
-				INSERT INTO HistoryProvider (name, surname, address, zipCode, city, providerSsn, version) 
+				INSERT INTO history_provider (name, surname, address, zipCode, city, providerSsn, version) 
 				SELECT name, surname, address, zipCode, city, ssn, version 
-				FROM Provider
+				FROM provider
 				WHERE ssn = OLD.providerSsn;
             
 				SET @historyProviderId := LAST_INSERT_ID();
             END IF;
             
-            INSERT INTO HistorySupplyOrder (idSupplyOrder, dateCreated, dateDue, dateClosed, idHistoryProvider) 
-			VALUES (OLD.idSupplyOrder, OLD.dateCreated, OLD.dateDue, OLD.dateClosed, @historyProviderId);
+            INSERT INTO history_supplyorder 
+			(idSupplyOrder, dateCreated, dateDue, dateClosed, idHistoryProvider) 
+			VALUES 
+			(OLD.idSupplyOrder, OLD.dateCreated, OLD.dateDue, OLD.dateClosed, @historyProviderId);
         END IF;
 
 
-	DELETE FROM SupplyOrderHasProduct  
-        WHERE (idSupplyOrder=OLD.idSupplyOrder);
+	DELETE FROM supplyorder_has_product  
+	WHERE (idSupplyOrder = OLD.idSupplyOrder);
 
     END
 //
@@ -492,10 +495,10 @@ DELIMITER ;
 -- --------------------------------------------------------
 
 --
--- Table structure for table `supplyorderhasproduct`
+-- Table structure for table `supplyorder_has_product`
 --
 
-CREATE TABLE IF NOT EXISTS `supplyorderhasproduct` (
+CREATE TABLE IF NOT EXISTS `supplyorder_has_product` (
   `idSupplyOrder` int(11) NOT NULL,
   `sku` varchar(20) NOT NULL,
   `quantityCreated` int(11) NOT NULL,
@@ -510,16 +513,16 @@ CREATE TABLE IF NOT EXISTS `supplyorderhasproduct` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Triggers `supplyorderhasproduct`
+-- Triggers `supplyorder_has_product`
 --
 DROP TRIGGER IF EXISTS `CurrentValuesSupplyOrderTrigger`;
 DELIMITER //
-CREATE TRIGGER `CurrentValuesSupplyOrderTrigger` BEFORE INSERT ON `supplyorderhasproduct`
+CREATE TRIGGER `CurrentValuesSupplyOrderTrigger` BEFORE INSERT ON `supplyorder_has_product`
  FOR EACH ROW BEGIN
 	
 		SELECT priceSupply, version, description, priceSale 
 		INTO @currentPriceSupply, @currentVersion, @currentDescription, @currentPriceSale
-		FROM Product
+		FROM product
 		WHERE  sku = NEW.sku;
 
 		SET	NEW.currentPriceSale := @currentPriceSale;
@@ -531,21 +534,21 @@ END
 DELIMITER ;
 DROP TRIGGER IF EXISTS `SupplyOrderHasProductTrigger`;
 DELIMITER //
-CREATE TRIGGER `SupplyOrderHasProductTrigger` BEFORE DELETE ON `supplyorderhasproduct`
+CREATE TRIGGER `SupplyOrderHasProductTrigger` BEFORE DELETE ON `supplyorder_has_product`
  FOR EACH ROW BEGIN
 
-        IF((SELECT status FROM SupplyOrder AS sl WHERE sl.idSupplyOrder=OLD.idSupplyOrder)='closed') THEN
+        IF( (SELECT status FROM supplyorder WHERE idSupplyOrder = OLD.idSupplyOrder)='closed' ) THEN
             
             SET @historyProductId := (
                 SELECT idHistoryProduct 
-                FROM HistoryProduct
-                WHERE sku=OLD.sku 
-                AND version=OLD.currentVersion
+                FROM history_product
+                WHERE sku = OLD.sku 
+                AND version = OLD.currentVersion
             );
 
             IF(@historyProductId IS NULL) THEN
 
-                INSERT INTO HistoryProduct 
+                INSERT INTO history_product 
                 (description,priceSale,priceSupply,sku,version) 
                 VALUES 
                 (OLD.currentDescription,OLD.currentPriceSale,OLD.currentPriceSupply,OLD.sku,OLD.currentVersion);
@@ -557,11 +560,11 @@ CREATE TRIGGER `SupplyOrderHasProductTrigger` BEFORE DELETE ON `supplyorderhaspr
 
             SET @idHistorySupplyOrder :=(
                 SELECT idHistorySupplyOrder 
-                FROM HistorySupplyOrder AS hs 
-                WHERE hs.idSupplyOrder=OLD.idSupplyOrder 
+                FROM history_supplyorder 
+                WHERE idSupplyOrder = OLD.idSupplyOrder 
             );
             
-            INSERT INTO HistorySupplyOrderHasHistoryProduct 
+            INSERT INTO history_supplyorder_has_history_product 
             (idHistorySupplyOrder,idHistoryProduct,quantityCreated,quantityClosed) 
             VALUES 
             (@idHistorySupplyOrder,@historyProductId,OLD.quantityCreated,OLD.quantityClosed);
@@ -586,7 +589,7 @@ CREATE TABLE IF NOT EXISTS `user` (
   `role` enum('MANAGER','SELLER','SCHEDULER','STOREKEEPER') NOT NULL,
   PRIMARY KEY (`idUser`),
   UNIQUE KEY `username_UNIQUE` (`username`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=6 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=5 ;
 
 --
 -- Dumping data for table `user`
@@ -618,37 +621,37 @@ CREATE TABLE IF NOT EXISTS `wishproduct` (
 --
 
 --
--- Constraints for table `customerhasdiscount`
+-- Constraints for table `customer_has_discount`
 --
-ALTER TABLE `customerhasdiscount`
+ALTER TABLE `customer_has_discount`
   ADD CONSTRAINT `fk_ProductSale_has_Customer_Customer1` FOREIGN KEY (`ssn`) REFERENCES `customer` (`ssn`) ON DELETE CASCADE ON UPDATE NO ACTION,
   ADD CONSTRAINT `fk_ProductSale_has_Customer_ProductSale1` FOREIGN KEY (`sku`) REFERENCES `product` (`sku`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
--- Constraints for table `historysaleorder`
+-- Constraints for table `history_saleorder`
 --
-ALTER TABLE `historysaleorder`
-  ADD CONSTRAINT `fk_HistorySaleOrder_InstanceCustomer1` FOREIGN KEY (`idHistoryCustomer`) REFERENCES `historycustomer` (`idHistoryCustomer`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+ALTER TABLE `history_saleorder`
+  ADD CONSTRAINT `fk_HistorySaleOrder_InstanceCustomer1` FOREIGN KEY (`idHistoryCustomer`) REFERENCES `history_customer` (`idHistoryCustomer`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
--- Constraints for table `historysaleorderhashistoryproduct`
+-- Constraints for table `history_saleorder_has_history_product`
 --
-ALTER TABLE `historysaleorderhashistoryproduct`
-  ADD CONSTRAINT `fk_HistorySaleOrder_has_InstanceProduct_HistorySaleOrder1` FOREIGN KEY (`idHistorySaleOrder`) REFERENCES `historysaleorder` (`idHistorySaleOrder`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  ADD CONSTRAINT `fk_HistorySaleOrder_has_InstanceProduct_InstanceProduct1` FOREIGN KEY (`idHistoryProduct`) REFERENCES `historyproduct` (`idHistoryProduct`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+ALTER TABLE `history_saleorder_has_history_product`
+  ADD CONSTRAINT `fk_HistorySaleOrder_has_InstanceProduct_HistorySaleOrder1` FOREIGN KEY (`idHistorySaleOrder`) REFERENCES `history_saleorder` (`idHistorySaleOrder`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `fk_HistorySaleOrder_has_InstanceProduct_InstanceProduct1` FOREIGN KEY (`idHistoryProduct`) REFERENCES `history_product` (`idHistoryProduct`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
--- Constraints for table `historysupplyorder`
+-- Constraints for table `history_supplyorder`
 --
-ALTER TABLE `historysupplyorder`
-  ADD CONSTRAINT `fk_HistorySupplyOrder_HistoryProvider1` FOREIGN KEY (`idHistoryProvider`) REFERENCES `historyprovider` (`idHistoryProvider`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+ALTER TABLE `history_supplyorder`
+  ADD CONSTRAINT `fk_HistorySupplyOrder_HistoryProvider1` FOREIGN KEY (`idHistoryProvider`) REFERENCES `history_provider` (`idHistoryProvider`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
--- Constraints for table `historysupplyorderhashistoryproduct`
+-- Constraints for table `history_supplyorder_has_history_product`
 --
-ALTER TABLE `historysupplyorderhashistoryproduct`
-  ADD CONSTRAINT `fk_HistorySupplyOrder_has_HistoryProduct_HistoryProduct1` FOREIGN KEY (`idHistoryProduct`) REFERENCES `historyproduct` (`idHistoryProduct`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  ADD CONSTRAINT `fk_HistorySupplyOrder_has_HistoryProduct_HistorySupplyOrder1` FOREIGN KEY (`idHistorySupplyOrder`) REFERENCES `historysupplyorder` (`idHistorySupplyOrder`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+ALTER TABLE `history_supplyorder_has_history_product`
+  ADD CONSTRAINT `fk_HistorySupplyOrder_has_HistoryProduct_HistoryProduct1` FOREIGN KEY (`idHistoryProduct`) REFERENCES `history_product` (`idHistoryProduct`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `fk_HistorySupplyOrder_has_HistoryProduct_HistorySupplyOrder1` FOREIGN KEY (`idHistorySupplyOrder`) REFERENCES `history_supplyorder` (`idHistorySupplyOrder`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
 -- Constraints for table `saleorder`
@@ -658,9 +661,9 @@ ALTER TABLE `saleorder`
   ADD CONSTRAINT `fk_OrderSale_User1` FOREIGN KEY (`idUser`) REFERENCES `user` (`idUser`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
--- Constraints for table `saleorderhasproduct`
+-- Constraints for table `saleorder_has_product`
 --
-ALTER TABLE `saleorderhasproduct`
+ALTER TABLE `saleorder_has_product`
   ADD CONSTRAINT `fk_Product_has_SaleOrder_Product1` FOREIGN KEY (`sku`) REFERENCES `product` (`sku`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   ADD CONSTRAINT `fk_SaleOrderHasProduct_SaleOrder1` FOREIGN KEY (`idSaleOrder`, `dateUpdated`) REFERENCES `saleorder` (`idSaleOrder`, `dateUpdated`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
@@ -672,9 +675,9 @@ ALTER TABLE `supplyorder`
   ADD CONSTRAINT `fk_OrderSupply_User1` FOREIGN KEY (`idUser`) REFERENCES `user` (`idUser`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
--- Constraints for table `supplyorderhasproduct`
+-- Constraints for table `supplyorder_has_product`
 --
-ALTER TABLE `supplyorderhasproduct`
+ALTER TABLE `supplyorder_has_product`
   ADD CONSTRAINT `fk_SupplyOrder_has_Product_Product1` FOREIGN KEY (`sku`) REFERENCES `product` (`sku`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   ADD CONSTRAINT `fk_SupplyOrder_has_Product_SupplyOrder1` FOREIGN KEY (`idSupplyOrder`) REFERENCES `supplyorder` (`idSupplyOrder`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 

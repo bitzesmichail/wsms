@@ -18,7 +18,7 @@ class CustomerModel extends Model
 
         try
         {
-            $stmt = $pdo->prepare("INSERT INTO Customer
+            $stmt = $pdo->prepare("INSERT INTO customer
                                     (name, surname, ssn, phone, cellphone, email, address, city, zipCode)
                                    VALUES
                                     (:name, :surname, :ssn, :phone, :cellphone, :email, :address, :city, :zipCode)");
@@ -47,7 +47,7 @@ class CustomerModel extends Model
 
         try
         {
-            $stmt = $pdo->prepare("UPDATE Customer SET
+            $stmt = $pdo->prepare("UPDATE customer SET
 									name = :name,
 									surname = :surname,
 									phone = :phone,
@@ -82,7 +82,7 @@ class CustomerModel extends Model
         
         try 
         {
-            $stmt = $pdo->prepare("DELETE FROM Customer WHERE ssn = :customerSsn");
+            $stmt = $pdo->prepare("DELETE FROM customer WHERE ssn = :customerSsn");
             $stmt->bindValue(":customerSsn", $customerSsn);       
             $stmt->execute();
         } 
@@ -99,7 +99,7 @@ class CustomerModel extends Model
         
         try
         {
-            $stmt = $pdo->prepare("SELECT * FROM Customer");          
+            $stmt = $pdo->prepare("SELECT * FROM customer");          
             $stmt->execute();
 
             $customersColumns = $stmt->fetchAll();
@@ -135,7 +135,7 @@ class CustomerModel extends Model
         try
         {
             $stmt = $pdo->prepare("SELECT *
-                                  FROM Customer
+                                  FROM customer
                                   WHERE ssn = :customerSsn");
 
             $stmt->bindValue(":customerSsn", $customerSsn);
@@ -171,7 +171,7 @@ class CustomerModel extends Model
 	
 		try
         {
-            $stmt = $pdo->prepare("INSERT INTO CustomerHasDiscount
+            $stmt = $pdo->prepare("INSERT INTO customer_has_discount
 									(ssn, sku, discount)
 								   VALUES
 									(:customerSsn, :productSku, :discount)
@@ -198,7 +198,7 @@ class CustomerModel extends Model
 		try
         {
             $stmt = $pdo->prepare("SELECT discount
-								  FROM CustomerHasDiscount
+								  FROM customer_has_discount
 								  WHERE ssn = :customerSsn
 								  AND sku = :productSsn");
 
@@ -224,7 +224,7 @@ class CustomerModel extends Model
     	try
     	{
     		$stmt = $pdo->prepare("DELETE 
-								  FROM CustomerHasDiscount
+								  FROM customer_has_discount
 								  WHERE ssn = :customerSsn
 								  AND sku = :productSku");
     

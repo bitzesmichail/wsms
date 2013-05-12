@@ -17,7 +17,7 @@ class ProductModel extends Model
 
         try
         {
-            $stmt = $pdo->prepare("INSERT INTO Product
+            $stmt = $pdo->prepare("INSERT INTO product
                                     (sku, description, priceSale, priceSupply, availableSum, reservedSum, orderedSum, criticalSum)
                                    VALUES
                                     (:sku, :description, :priceSale, :priceSupply, :availableSum, :reservedSum, :orderedSum, :criticalSum)");
@@ -45,7 +45,7 @@ class ProductModel extends Model
 
         try
         {
-            $stmt = $pdo->prepare("UPDATE Product SET
+            $stmt = $pdo->prepare("UPDATE product SET
 									description = :description,
 									priceSale = :priceSale,
 									priceSupply = :priceSupply,
@@ -78,7 +78,7 @@ class ProductModel extends Model
         
         try 
         {
-            $stmt = $pdo->prepare("DELETE FROM Product WHERE sku = :productSku");
+            $stmt = $pdo->prepare("DELETE FROM product WHERE sku = :productSku");
 
             $stmt->bindValue(":productSku", $productSku);       
             $stmt->execute();
@@ -96,7 +96,7 @@ class ProductModel extends Model
         
         try
         {
-            $stmt = $pdo->prepare("SELECT * FROM Product");          
+            $stmt = $pdo->prepare("SELECT * FROM product");          
             $stmt->execute();
 
             $productsColumns = $stmt->fetchAll();
@@ -131,9 +131,7 @@ class ProductModel extends Model
         
         try
         {
-            $stmt = $pdo->prepare("SELECT *
-                                  FROM Product
-                                  WHERE sku = :productSku");
+            $stmt = $pdo->prepare("SELECT * FROM product WHERE sku = :productSku");
 
             $stmt->bindValue(":productSku", $productSku);
             $stmt->execute();

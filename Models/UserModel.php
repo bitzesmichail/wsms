@@ -17,7 +17,7 @@ class UserModel extends Model
         
         try
         {
-            $stmt = $pdo->prepare("INSERT INTO User
+            $stmt = $pdo->prepare("INSERT INTO user
                                     (username, password, email,role)
                                    VALUES
                                     (:username, :password, :email, :role)");
@@ -41,7 +41,7 @@ class UserModel extends Model
         
         try
         {
-            $stmt = $pdo->prepare("UPDATE User SET
+            $stmt = $pdo->prepare("UPDATE user SET
                                     username = :username,
                                     password = :password,
                                     email = :email
@@ -66,7 +66,7 @@ class UserModel extends Model
         
         try 
         {
-            $stmt = $pdo->prepare("DELETE FROM User WHERE idUser = :idUser");
+            $stmt = $pdo->prepare("DELETE FROM user WHERE idUser = :idUser");
 
             $stmt->bindValue(":idUser", $idUser);       
             $stmt->execute();
@@ -84,7 +84,7 @@ class UserModel extends Model
         
         try
         {
-            $stmt = $pdo->prepare("SELECT * FROM User");          
+            $stmt = $pdo->prepare("SELECT * FROM user");          
             $stmt->execute();
 
             $usersColumns = $stmt->fetchAll();
@@ -117,9 +117,7 @@ class UserModel extends Model
         
         try
         {
-            $stmt = $pdo->prepare("SELECT *
-                                  FROM User
-                                  WHERE idUser = :idUser");
+            $stmt = $pdo->prepare("SELECT * FROM user WHERE idUser = :idUser");
 
             $stmt->bindValue(":idUser", $idUser);
             $stmt->execute();
@@ -146,9 +144,7 @@ class UserModel extends Model
         
         try
         {
-            $stmt = $pdo->prepare("SELECT *
-                                  FROM User
-                                  WHERE username = :username");
+            $stmt = $pdo->prepare("SELECT * FROM user WHERE username = :username");
 
             $stmt->bindValue(":username", $username);
             $stmt->execute();

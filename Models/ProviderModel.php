@@ -18,7 +18,7 @@ class ProviderModel extends Model
 
         try
         {
-            $stmt = $pdo->prepare("INSERT INTO Provider
+            $stmt = $pdo->prepare("INSERT INTO provider
                                     (name, surname, ssn, phone, cellphone, email, address, city, zipCode)
                                    VALUES
                                     (:name, :surname, :ssn, :phone, :cellphone, :email, :address, :city, :zipCode)");
@@ -47,7 +47,7 @@ class ProviderModel extends Model
 
         try
         {
-            $stmt = $pdo->prepare("UPDATE Provider SET
+            $stmt = $pdo->prepare("UPDATE provider SET
 									name = :name,
 									surname = :surname,
 									phone = :phone,
@@ -82,7 +82,7 @@ class ProviderModel extends Model
         
         try 
         {
-            $stmt = $pdo->prepare("DELETE FROM Provider WHERE ssn = :providerSsn");
+            $stmt = $pdo->prepare("DELETE FROM provider WHERE ssn = :providerSsn");
             $stmt->bindValue(":providerSsn", $providerSsn);       
             $stmt->execute();
         } 
@@ -99,7 +99,7 @@ class ProviderModel extends Model
         
         try
         {
-            $stmt = $pdo->prepare("SELECT * FROM Provider");          
+            $stmt = $pdo->prepare("SELECT * FROM provider");          
             $stmt->execute();
 
             $providersColumns = $stmt->fetchAll();
@@ -134,9 +134,7 @@ class ProviderModel extends Model
         
         try
         {
-            $stmt = $pdo->prepare("SELECT *
-                                  FROM Provider
-                                  WHERE ssn = :providerSsn");
+            $stmt = $pdo->prepare("SELECT * FROM provider WHERE ssn = :providerSsn");
 
             $stmt->bindValue(":providerSsn", $providerSsn);
             $stmt->execute();
