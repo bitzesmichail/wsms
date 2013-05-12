@@ -147,9 +147,85 @@ class SaleOrderModel extends Model
 		
 	}
 	
-	public static function getSaleOrdersByStatus($status)
+	public static function getSaleOrdersByStatus($username, $status)
 	{
-	
+		$pdo = Connector::getPDO();
+		
+        try
+        {
+			$stmt = $pdo->prepare("SELECT idUser, role FROM user WHERE username = :username");
+			$stmt->bindValue(":username", $username);
+            $stmt->execute();
+			
+			$userCol = $stmt->fetch(PDO::FETCH_ASSOC);
+				
+			$sqlSelectOrders = null;
+			
+			if( $userCol['role'] == 'manager' )
+			{
+				$stmt = $pdo->prepare("SELECT * FROM saleorder 
+									  WHERE dateCreated <> dateUpdated 
+									  AND status = :status");				  
+			} 
+			else
+			{
+				$stmt = $pdo->prepare("SELECT * FROM saleorder 
+									  WHERE idUser = :idUser 
+									  AND dateCreated <> dateUpdated 
+									  AND status = :status");
+									  
+				$stmt->bindValue(":idUser", $userCol['idUser']);
+			}
+			
+			$stmt->bindValue(":status", $status);
+            $stmt->execute();
+
+            $saleOrderColumns = $stmt->fetchAll();
+            
+            $saleOrderObjArray = array();
+            
+            foreach ($saleOrderColumns as $saleOrderCol)
+            {
+                
+                $stmt = $pdo->prepare("SELECT sku, currentDescription, currentPriceSale, currentPriceSupply, currentDiscount, quantityCreated, quantityClosed
+									  FROM saleorder_has_product
+                                      WHERE idSaleOrder = :idSaleOrder
+									  AND dateUpdated = :dateUpdated");  
+
+                $stmt->bindValue(":idSaleOrder", $saleOrderCol['idSaleOrder']);
+				$stmt->bindValue(":dateUpdated", $saleOrderCol['dateUpdated']);
+                $stmt->execute();
+                
+                $middleProductsColumns = $stmt->fetchAll();
+                
+                $middleProductObjArray = array();
+                
+                foreach ($middleProductsColumns as $middleProductsCol)
+                {
+                    $middleProductObjArray[] = new MiddleProduct($middleProductsCol['sku'], 
+																 $middleProductsCol['currentDescription'],
+																 $middleProductsCol['currentPriceSale'],
+																 $middleProductsCol['currentPriceSupply'],
+																 $middleProductsCol['currentDiscount'],
+																 $middleProductsCol['quantityCreated'],
+																 $middleProductsCol['quantityClosed']);
+                }
+                
+                $saleOrderObjArray[] =  new SaleOrder($saleOrderCol['dateDue'],
+													  $saleOrderCol['customerSsn'],
+													  $saleOrderCol['idUser'],
+													  $saleOrderCol['status'],
+													  $middleProductObjArray,
+													  $saleOrderCol['dateCreated']);     
+            }
+            return $saleOrderObjArray;
+		}
+		catch(PDOException $e)
+        {
+			$pdo->rollBack();
+			throw $e;
+            //echo $e->getMessage();
+        }	
 	}
 	
 	public static function getSaleOrdersByDate($dateTime)
