@@ -161,7 +161,7 @@ class SaleOrderModel extends Model
 				
 			$sqlSelectOrders = null;
 			
-			if( $userCol['role'] == 'manager' )
+			if( $userCol['role'] == 'MANAGER' )
 			{
 				$stmt = $pdo->prepare("SELECT * FROM saleorder 
 									  WHERE dateCreated <> dateUpdated 
