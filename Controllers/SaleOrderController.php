@@ -33,7 +33,7 @@ require_once 'Models/CustomerModel.php';
 						$element->name = $cur_customer->name;
 						$element->surname = $cur_customer->surname;
 						$element->ssn = $cur_customer->ssn;
-						$element->dateDue = $saleorder->dataDue;
+						$element->dateDue = $saleorder->dateDue;
 
 						$data[] = $element;
 	 				}
