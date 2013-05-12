@@ -27,11 +27,10 @@ class UserModel extends Model
             $stmt->bindValue(":email", $userObj->email);
             $stmt->bindValue(":role", $userObj->role);
             $stmt->execute();
-            
         }
         catch(PDOException $e)
         {
-		throw $e;
+			throw $e;
          //   echo $e->getMessage();
         }
     }
@@ -53,7 +52,6 @@ class UserModel extends Model
             $stmt->bindValue(":email", $userObj->email);
             $stmt->bindValue(":idUser", $userObj->idUser);
             $stmt->execute();
-            return 0;
         }
         catch (PDOException $e)
         {
@@ -166,7 +164,8 @@ class UserModel extends Model
         }
         catch(PDOException $e) 
         {
-            echo $e->getMessage();
+			throw $e;
+            //echo $e->getMessage();
         }
     }
 }
