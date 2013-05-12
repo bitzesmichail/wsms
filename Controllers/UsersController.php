@@ -26,25 +26,21 @@ require_once 'Models/entities/User.php';
  		try 
  		{
  			$user = UserModel::getUserByUsername($username);
- 		}
+ 	 		if (!is_null($user))
+	 		{
+ 				if ($user->password == $password)
+ 				{
+ 					$_SESSION['success_logged_in'] = true;
+ 					$_SESSION['username'] = $user->username;
+	 				$_SESSION['role'] = $user->role;
+			 		$page->redirect(HOME);
+ 				}
+	 		}
+		}
  		catch(Exception $ex)
 		{
-	 		require_once 'PageController.php';
-			$page = new PageController;
 			$page->errordb($ex->getMessage());
  		}
-
- 		if (!is_null($user))
- 		{
- 			if ($user->password == $password)
- 			{
- 				$_SESSION['success_logged_in'] = true;
- 				$_SESSION['username'] = $user->username;
- 				$_SESSION['role'] = $user->role;
-		 		$page->redirect(HOME);
- 			}
- 		}
-		$page->redirect(HOME);
  	}
 
  	public function logout($username='')
