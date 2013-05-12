@@ -1,5 +1,3 @@
-<div class="container">
-
 <?php
   $which = 'customer'; //which navbar button is active
   require_once 'Views/navbars/navbar.php';
