@@ -216,7 +216,9 @@ class SaleOrderModel extends Model
 													  $saleOrderCol['idUser'],
 													  $saleOrderCol['status'],
 													  $middleProductObjArray,
-													  $saleOrderCol['dateCreated']);     
+													  $saleOrderCol['dateCreated'],
+													  $saleOrderCol['idSaleOrder'],
+													  $saleOrderCol['dateUpdated']);     
             }
             return $saleOrderObjArray;
 		}
