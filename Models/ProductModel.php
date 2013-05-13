@@ -74,7 +74,7 @@ class ProductModel extends Model
 
     public static function delete($productSku)
     {
-	$pdo = Connector::getPDO();
+		$pdo = Connector::getPDO();
         
         try 
         {

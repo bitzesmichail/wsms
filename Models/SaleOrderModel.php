@@ -67,21 +67,106 @@ class SaleOrderModel extends Model
 
     public static function update($saleOrderObj)
     {
-	
+	  /*$dateDue, 
+		$customerSsn, 
+		$idUser, 
+		$status,
+		$middleProductObjArray,
+		$dateCreated = null,
+		$idSaleOrder = null, 
+		$dateUpdated = null,
+		$dateClosed = null*/
+		
+		date_default_timezone_set('Europe/Athens');
+		
+		$pdo = Connector::getPDO();
+		
+		$pdo->beginTransaction();
+        
+		try
+        {
+			/*No need to check if exists, it's double overhead. If it doesn't exist delete will just cause nothing*/
+			
+			$stmt = $pdo->prepare("DELETE FROM saleorder
+								  WHERE idSaleOrder = :idSaleOrder
+								  AND dateUpdated <> dateCreated");
+			
+			$stmt->bindValue(":idSaleOrder", $saleOrderObj->idSaleOrder);
+			$stmt->execute();
+			
+			$stmt = $pdo->prepare("INSERT INTO saleorder
+									(dateUpdated, dateCreated, dateClosed, dateDue, customerSsn, idUser, status)
+								   VALUES
+									(:dateUpdated, :dateCreated, :dateClosed, :dateDue, :customerSsn, :idUser, :status)");
+			    
+            $stmt->bindValue(":dateUpdated", date('Y-m-d H:i:s'););
+            $stmt->bindValue(":dateCreated", $saleOrderObj->dateCreated);
+            $stmt->bindValue(":dateClosed", $saleOrderObj->dateClosed);
+			$stmt->bindValue(":dateDue", $saleOrderObj->dateDue);
+            $stmt->bindValue(":customerSsn", $saleOrderObj->customerSsn);
+            $stmt->bindValue(":idUser", $saleOrderObj->idUser);
+			$stmt->bindValue(":status", $saleOrderObj->status);
+            $stmt->execute();
+
+			$idSaleOrder = $pdo->lastInsertId(); 
+			
+			foreach ($saleOrderObj->products as $middleProductObj)
+            {
+                
+                $stmt = $pdo->prepare("INSERT INTO saleorder_has_product
+                                       (sku, idSaleOrder, dateUpdated, quantityCreated, currentDiscount, currentPriceSale, currentPriceSupply, currentDescription)
+                                      VALUES
+                                       (:sku, :idSaleOrder, :dateUpdated, :quantityCreated, :currentDiscount, :currentPriceSale, :currentPriceSupply, :currentDescription)");
+    
+                $stmt->bindValue(":sku", $middleProductObj->sku);
+                $stmt->bindValue(":idSaleOrder", $idSaleOrder);
+				$stmt->bindValue(":dateUpdated", $saleOrderObj->dateUpdated);
+				$stmt->bindValue(":quantityCreated", $middleProductObj->quantityCreated);
+				$stmt->bindValue(":currentDiscount", $middleProductObj->discount);
+				$stmt->bindValue(":currentPriceSale", $middleProductObj->priceSale);
+				$stmt->bindValue(":currentPriceSupply", $middleProductObj->priceSupply);
+				$stmt->bindValue(":currentDescription", $middleProductObj->description);
+                $stmt->execute();
+            }		
+			
+			$pdo->commit();
+		}
+		catch(PDOException $e)
+        {
+			$pdo->rollBack();
+			throw $e;
+            //echo $e->getMessage();
+        }	
     }
 
     public static function delete($idSaleOrder)
     {
-	
+		$pdo = Connector::getPDO();
+        
+        try 
+        {
+            $stmt = $pdo->prepare("DELETE FROM saleorder WHERE idSaleOrder = :idSaleOrder");
+
+            $stmt->bindValue(":idSaleOrder", $idSaleOrder);       
+            $stmt->execute();
+        } 
+        catch(PDOException $e) 
+        {
+        	throw $e;
+           // echo $e->getMessage();
+        }
     }
 
-    public static function getSaleOrders()
+    public static function getActiveSaleOrders()
     {
 		$pdo = Connector::getPDO();
         
         try
         {
-            $stmt = $pdo->prepare("SELECT * FROM saleorder WHERE dateCreated <> dateUpdated");          
+            $stmt = $pdo->prepare("SELECT * FROM saleorder 
+								   WHERE dateCreated <> dateUpdated
+								   AND status = active");
+								   
             $stmt->execute();
 
             $saleOrderColumns = $stmt->fetchAll();
@@ -131,11 +216,6 @@ class SaleOrderModel extends Model
             //echo $e->getMessage();
         }	
     }
-
-	public static function getSaleOrdersByCustomer($customerSsn)
-	{
-	
-	}
 	
 	public static function getSaleOrdersByProduct($productSku)
 	{
