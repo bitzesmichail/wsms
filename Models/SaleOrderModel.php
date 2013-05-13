@@ -99,7 +99,7 @@ class SaleOrderModel extends Model
 								   VALUES
 									(:dateUpdated, :dateCreated, :dateClosed, :dateDue, :customerSsn, :idUser, :status)");
 			    
-            $stmt->bindValue(":dateUpdated", date('Y-m-d H:i:s'););
+            $stmt->bindValue(":dateUpdated", date('Y-m-d H:i:s'));
             $stmt->bindValue(":dateCreated", $saleOrderObj->dateCreated);
             $stmt->bindValue(":dateClosed", $saleOrderObj->dateClosed);
 			$stmt->bindValue(":dateDue", $saleOrderObj->dateDue);
