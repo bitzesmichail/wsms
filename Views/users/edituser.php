@@ -22,13 +22,13 @@
   </div>
 
   <div class="control-group">
-    <label class="control-label" for="email">Email</label>
+    <label class="control-label" for="email">Ρόλος</label>
     <div class="controls">
 	<select>
-		<option>Manager</option>
-		<option>Scheduler</option>
-		<option>Seller</option>
-		<option>Storekeeper</option>
+		<option value="MANAGER">MANAGER</option>
+		<option value="SCHEDULER">SCHEDULER</option>
+		<option value="SELLER">SELLER</option>
+		<option value="STOREKEEPER">STOREKEEPER</option>
 	</select>
     </div>
   </div>

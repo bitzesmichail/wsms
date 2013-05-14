@@ -25,10 +25,10 @@
     <label class="control-label" for="role">Ρόλος</label>
     <div class="controls">
 	<select name="role">
-		<option value="MANAGER">Manager</option>
-		<option value="SCHEDULER">Scheduler</option>
-		<option value="SELLER">Seller</option>
-		<option value="STOREKEEPER">Storekeeper</option>
+		<option value="MANAGER">MANAGER</option>
+		<option value="SCHEDULER">SCHEDULER</option>
+		<option value="SELLER">SELLER</option>
+		<option value="STOREKEEPER">STOREKEEPER</option>
 	</select>
     </div>
   </div>
