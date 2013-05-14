@@ -39,7 +39,7 @@
 	
 	<script type="text/javascript">			
 			$(document).ready(function() {
-				oTable = $('#users_table, #product_table, #product_table').dataTable({
+				oTable = $('#users_table, #product_table, #product_table, #saleorder_table').dataTable({
 					"bLengthChange": false,
 					"sPaginationType": "bootstrap"
 				});

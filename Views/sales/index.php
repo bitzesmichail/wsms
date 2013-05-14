@@ -19,6 +19,7 @@
 	<th><strong>Επώνυμο Πελάτη</strong></th>
 	<th><strong>ΑΦΜ Πελάτη</strong></th>
 	<th><strong>Προθεσμία</strong></th>
+	<th><strong>Ενέργειες</strong></th>
 </tr>
 </thead>
 <tbody>
@@ -29,10 +30,9 @@
 			echo "<td>" . $value->name . "</td>";
 			echo "<td>" . $value->surname . "</td>";
 			echo "<td>" . $value->ssn . "</td>";
-			echo "<td>" . $value->dateDue . "</td>";
-			
-			//echo "<td>" . "<a href=\"" . PROVIDER . "/editprovider?sku=" . $value->sku . "\">" . "<button class=\"btn btn-primary\" type=\"button\" >Επεξεργασία</button></a>";				
-			//echo "<a href=\"" . PROVIDER . "/deleteprovider?sku=" . $value->sku . "\">" . "<button class=\"btn btn-danger\" type=\"button\" >Διαγραφή</button></td></a>";
+			echo "<td>" . $value->dateDue . "</td>";			
+			echo "<td>" . "<a href=\"" . PROVIDER . "/editprovider?sku=" . $value->sku . "\">" . "<button class=\"btn btn-primary\" type=\"button\" >Επεξεργασία</button></a>";				
+			echo "<a href=\"" . PROVIDER . "/deleteprovider?sku=" . $value->sku . "\">" . "<button class=\"btn btn-danger\" type=\"button\" >Διαγραφή</button></td></a>";
 			echo "</tr>";
 		}
 	}
