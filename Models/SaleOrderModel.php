@@ -67,15 +67,6 @@ class SaleOrderModel extends Model
 
     public static function update($saleOrderObj)
     {
-	  /*$dateDue, 
-		$customerSsn, 
-		$idUser, 
-		$status,
-		$middleProductObjArray,
-		$dateCreated = null,
-		$idSaleOrder = null, 
-		$dateUpdated = null,
-		$dateClosed = null*/
 		
 		date_default_timezone_set('Europe/Athens');
 		
@@ -87,10 +78,22 @@ class SaleOrderModel extends Model
         {
 			/*No need to check if exists, it's double overhead. If it doesn't exist delete will just cause nothing*/
 			
-			$stmt = $pdo->prepare("DELETE FROM saleorder
-								  WHERE idSaleOrder = :idSaleOrder
-								  AND dateUpdated <> dateCreated");
+			$sqlDel = null;
+			/*If inactive don't keep first, just delete and create a new one*/
+			if($saleOrderObj->idSaleOrder == 'inactive')
+			{
+				$sqlDel = "DELETE FROM saleorder
+						   WHERE idSaleOrder = :idSaleOrder
+						   AND dateUpdated = dateCreated";
+			}
+			else
+			{
+				$sqlDel = "DELETE FROM saleorder
+						   WHERE idSaleOrder = :idSaleOrder
+						   AND dateUpdated <> dateCreated";
+			}
 			
+			$stmt = $pdo->prepare();
 			$stmt->bindValue(":idSaleOrder", $saleOrderObj->idSaleOrder);
 			$stmt->execute();
 			
@@ -216,6 +219,26 @@ class SaleOrderModel extends Model
             //echo $e->getMessage();
         }	
     }
+	
+	public static function activateSaleOrder($idSaleOrder)
+	{
+		$pdo = Connector::getPDO();
+
+        try
+        {
+            $stmt = $pdo->prepare("UPDATE saleorder SET
+									status = active
+								  WHERE idSaleOrder = :idSaleOrder");
+            
+            $stmt->bindValue(":idSaleOrder", $productObj->idSaleOrder);
+            $stmt->execute();
+        }
+        catch (PDOException $e)
+        {
+        	throw $e;
+         //   echo $e->getMessage();
+        }
+	}	
 	
 	public static function getSaleOrdersByProduct($productSku)
 	{
