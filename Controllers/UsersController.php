@@ -189,7 +189,7 @@ require_once 'Models/entities/User.php';
  			if($_SESSION['role'] == 'MANAGER') {
  				try 
  				{
- 					$user = new User($_POST['username'], $_POST['password'], $_POST['email'], null, $_POST['idUser']);
+ 					$user = new User($_POST['username'], $_POST['password'], $_POST['email'], $_POST['role'], $_POST['idUser']);
  					UserModel::update($user);
  					UsersController::index();
  				}

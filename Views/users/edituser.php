@@ -22,13 +22,13 @@
   </div>
 
   <div class="control-group">
-    <label class="control-label" for="email">Ρόλος</label>
+    <label class="control-label" for="role">Ρόλος</label>
     <div class="controls">
-	<select>
-		<option value="MANAGER">MANAGER</option>
-		<option value="SCHEDULER">SCHEDULER</option>
-		<option value="SELLER">SELLER</option>
-		<option value="STOREKEEPER">STOREKEEPER</option>
+	<select name="role">
+		<option <?php if($data->role == "MANAGER") echo "selected" ?> value="MANAGER">MANAGER</option>
+		<option <?php if($data->role == "SCHEDULER") echo "selected" ?> value="SCHEDULER">SCHEDULER</option>
+		<option <?php if($data->role == "SELLER") echo "selected" ?> value="SELLER">SELLER</option>
+		<option <?php if($data->role == "STOREKEEPER") echo "selected" ?> value="STOREKEEPER">STOREKEEPER</option>
 	</select>
     </div>
   </div>
