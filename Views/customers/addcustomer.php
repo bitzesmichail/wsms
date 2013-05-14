@@ -1,10 +1,11 @@
 <?php
   require_once 'Views/navbars/navbar.php';
 ?>
-   
-<h1>
+
+<div class="container">
+<h2>
   	Προσθήκη νέου πελάτη
-</h1>
+</h2>
 
 <form class="form-horizontal" action="<?php echo CUSTOMER . "/create"; ?>" method="post">
   <div class="control-group">
@@ -75,3 +76,4 @@
     </div>
   </div>
 </form>
+</div>
