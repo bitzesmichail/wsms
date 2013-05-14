@@ -2,9 +2,10 @@
   require_once 'Views/navbars/navbar.php';
 ?>
    
-<h1>
+<div class="container">
+<h2>
   	Προσθήκη προϊόντος
-</h1>
+</h2>
 
 <form class="form-horizontal" action="<?php echo PRODUCT . "/create"; ?>" method="post">
   <div class="control-group">
@@ -68,3 +69,4 @@
     </div>
   </div>
 </form>
+</div>
