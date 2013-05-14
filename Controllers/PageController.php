@@ -1,9 +1,6 @@
 <?php
 
 require_once 'Controller.php';
-require_once 'Models/UserModel.php';
-require_once 'Models/RoleModel.php';
-require_once 'Models/entities/User.php';
 
 /**
  * Controller for users to redirect to the proper page.
@@ -20,6 +17,13 @@ require_once 'Models/entities/User.php';
  	public function index()
  	{
  		$this->view->render('page');
+ 	}
+
+ 	//generic error
+ 	public function error($value='')
+ 	{
+ 		$this->view->msg = $value;
+		$this->view->render('page', 'error', null, true);
  	}
 
  	public function error404($value='')
