@@ -3,9 +3,10 @@
   require_once 'Views/navbars/navbar.php';
 ?>
    
-<h1>
+<div class="container">
+<h2>
   	Προσθήκη νέου χρήστη
-</h1>
+</h2>
 
 <form class="form-horizontal" onsubmit="return validate()" action="<?php echo USERS . "/create"; ?>" method="post">
   <div class="control-group">
@@ -57,7 +58,8 @@
     </div>
   </div>
 </form>
-
+</div>
+  
 <script type="text/javascript">
   jQuery(document).ready(function($) {
       jQuery('#alertstrength').hide();
