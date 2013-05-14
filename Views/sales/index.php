@@ -31,8 +31,8 @@
 			echo "<td>" . $value->surname . "</td>";
 			echo "<td>" . $value->ssn . "</td>";
 			echo "<td>" . $value->dateDue . "</td>";			
-			echo "<td>" . "<a href=\"" . PROVIDER . "/editprovider?sku=" . $value->sku . "\">" . "<button class=\"btn btn-primary\" type=\"button\" >Επεξεργασία</button></a>";				
-			echo "<a href=\"" . PROVIDER . "/deleteprovider?sku=" . $value->sku . "\">" . "<button class=\"btn btn-danger\" type=\"button\" >Διαγραφή</button></td></a>";
+			echo "<td>" . "<a href=\"" . SALEORDER . "/editsaleorder?ssn=" . $value->ssn . "\">" . "<button class=\"btn btn-primary\" type=\"button\" >Επεξεργασία</button></a>";				
+			echo "<a href=\"" . SALEORDER . "/deletesaleorder?ssn=" . $value->ssn . "\">" . "<button class=\"btn btn-danger\" type=\"button\" >Διαγραφή</button></td></a>";
 			echo "</tr>";
 		}
 	}
