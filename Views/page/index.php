@@ -2,6 +2,7 @@
   require_once 'Views/navbars/navbar.php';
 ?>
 
+<div class="container">
 <div class="hero-unit">
 	<h3>Warehouse &amp; Sales Management System</h3>
 	<p>
@@ -18,6 +19,7 @@
             	</div>
             <?php endif ?>
 	</p>
+</div>
 </div>
 
 <script type="text/javascript">
