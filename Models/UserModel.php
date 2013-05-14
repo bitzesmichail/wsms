@@ -44,12 +44,14 @@ class UserModel extends Model
             $stmt = $pdo->prepare("UPDATE user SET
                                     username = :username,
                                     password = :password,
-                                    email = :email
+                                    email = :email,
+									role = :role
                                   WHERE idUser = :idUser");
             
             $stmt->bindValue(":username", $userObj->username);
             $stmt->bindValue(":password", $userObj->password);
             $stmt->bindValue(":email", $userObj->email);
+			$stmt->bindValue(":role", $userObj->role);
             $stmt->bindValue(":idUser", $userObj->idUser);
             $stmt->execute();
         }
