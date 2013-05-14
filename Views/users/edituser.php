@@ -2,10 +2,11 @@
   //$which = 'users'; //which navbar button is active
   require_once 'Views/navbars/navbar.php';
 ?>
-   
-<h1>
+
+<div class="container">   
+<h2>
   	Επεξεργασία χρήστη
-</h1>
+</h2>
 
 <form class="form-horizontal" onsubmit="return validate()" action="<?php echo USERS . "/update"; ?>" method="post">
   <div class="control-group">
@@ -59,6 +60,7 @@
     </div>
   </div>
 </form>
+</div>
 
 <script type="text/javascript">
   jQuery(document).ready(function($) {

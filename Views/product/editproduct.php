@@ -2,9 +2,10 @@
   require_once 'Views/navbars/navbar.php';
 ?>
    
-<h1>
+<div class="container">
+<h2>
   	Επεξεργασία στοιχείων προϊόντος
-</h1>
+</h2>
 
 <form class="form-horizontal" action="<?php echo PRODUCT . "/update"; ?>" method="post">
   <div class="control-group">
@@ -70,4 +71,4 @@
     </div>
   </div>
 </form>
-
+</div>
