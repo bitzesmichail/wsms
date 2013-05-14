@@ -35,6 +35,18 @@ require_once 'Models/entities/User.php';
 	 				$_SESSION['role'] = $user->role;
 			 		$page->redirect(HOME);
  				}
+ 				else //wrong password
+ 				{
+	 				require_once 'PageController.php';
+					$page = new PageController;
+					$page->error("Ο χρήστης που ζητήσατε δεν βρέθηκε ή δόθηκε λάθος password");
+ 				}
+	 		}
+	 		else //display error: no such user exists
+	 		{
+	 			require_once 'PageController.php';
+				$page = new PageController;
+				$page->error("Ο χρήστης που ζητήσατε δεν βρέθηκε ή δόθηκε λάθος password");
 	 		}
 		}
  		catch(Exception $ex)
