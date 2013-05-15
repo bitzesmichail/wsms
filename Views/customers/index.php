@@ -41,8 +41,8 @@
 			echo "<td>" . $value->address . "</td>";
 			echo "<td>" . $value->zipCode . "</td>";
 			echo "<td>" . $value->city . "</td>";
-			echo "<td>" . "<a href=\"" . CUSTOMER . "/editproduct?sku=" . $value->sku . "\">" . "<button class=\"btn btn-primary\" type=\"button\" >Επεξεργασία</button></a>";				
-			echo "<a href=\"" . CUSTOMER . "/deleteproduct?sku=" . $value->sku . "\">" . "<button class=\"btn btn-danger\" type=\"button\" >Διαγραφή</button></td></a>";
+			echo "<td>" . "<a href=\"" . CUSTOMER . "/editcustomer?ssn=" . $value->ssn . "\">" . "<button class=\"btn btn-primary\" type=\"button\" >Επεξεργασία</button></a>";				
+			echo "<a href=\"" . CUSTOMER . "/deletecustomer?ssn=" . $value->ssn . "\">" . "<button class=\"btn btn-danger\" type=\"button\" >Διαγραφή</button></td></a>";
 			echo "</tr>";
 		}
 	}

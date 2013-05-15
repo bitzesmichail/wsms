@@ -143,7 +143,7 @@ require_once 'Models/CustomerModel.php';
  					$customer = new Customer($_POST['name'], $_POST['surname'], 
  						                     $_POST['ssn'], $_POST['phone'], 
  						                     $_POST['cellphone'], $_POST['email'], 
- 						                     $_POST['address'], $_POST['city'], $_POST['zipCode']);ProductModel::update($product);
+ 						                     $_POST['address'], $_POST['city'], $_POST['zipCode']);
  					CustomerModel::update($customer);
 	 				CustomerController::index();
 				}
