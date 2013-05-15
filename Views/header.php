@@ -26,6 +26,7 @@
 	<script src="<?php echo BOOTSTRAP; ?>/js/bootstrap-dropdown.js"></script>
 	<script src="<?php echo BOOTSTRAP; ?>/js/jquery.dataTables.js"></script>
 	<script src="<?php echo BOOTSTRAP; ?>/js/DT_bootstrap.js"></script>
+
 	
 	<script type="text/javascript">			
 			$(document).ready(function() {
@@ -39,11 +40,65 @@
 	
 	<script type="text/javascript">			
 			$(document).ready(function() {
-				oTable = $('#users_table, #product_table, #customer_table, #saleorder_table, #provider_table').dataTable({
+				dTable = $('#users_table, #product_table, #selectedProductTable, #customer_table, #saleorder_table, #provider_table').dataTable({
 					"bLengthChange": false,
 					"sPaginationType": "bootstrap"
 				});
+				
+				var oTable = $("#selectCustomerTable, #selectProductTable").dataTable({
+					"bLengthChange": false,
+					"sPaginationType": "bootstrap",
+				});;
+				
+				$("#selectCustomerTable tbody tr").click(function(event) {
+					$(event.target.parentNode).toggleClass('row_selected');
+					var sData = oTable.fnGetData( this );
+					//console.log(sData);
+					var aPos = oTable.fnGetPosition(this);
+					//console.log(aPos);
+				});
+				
+				$("#selectProductTable tbody tr").click(function(event) {
+					$(event.target.parentNode).toggleClass('row_selected');
+					var sData = oTable.fnGetData( this );
+					//console.log(sData);
+					var aPos = oTable.fnGetPosition(this);
+					//console.log(aPos);
+				});
+				
+				
+
+				$('.stepDivs').hide();
+				$('.step1').show();
+				$('.next').click(function (event){
+					$('.stepDivs').hide();
+					var divID = $(this).parent().attr('id');
+					if (divID == 'step1') {
+						$('.step2').show();
+					}
+					else if (divID == 'step2') {
+						$('.step3').show();
+					}
+					else if (divID == 'step3') {
+						$('.step4').show();
+						$('.submitButton').show();
+					}
+				});
+				$('.previous').click(function (event){
+					$('.stepDivs').hide();
+					var divID = $(this).parent().attr('id');
+					if (divID == 'step2') {
+						$('.step1').show();
+					}
+					else if (divID == 'step3') {
+						$('.step2').show();
+					}
+					else if (divID == 'step4') {
+						$('.step3').show();
+					}
+				});
 			} );
+			
 	</script>
 	
 	
