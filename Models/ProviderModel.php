@@ -36,8 +36,8 @@ class ProviderModel extends Model
         }
         catch(PDOException $e)
         {
-			throw $e;
-            //echo $e->getMessage();
+		//	throw $e;
+            echo $e->getMessage();
         }
     }
 
@@ -88,8 +88,8 @@ class ProviderModel extends Model
         } 
         catch(PDOException $e) 
         {
-			throw $e;	
-            //echo $e->getMessage();
+		//	throw $e;	
+            echo $e->getMessage();
         }		
     }
 

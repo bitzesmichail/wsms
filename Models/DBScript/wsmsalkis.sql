@@ -440,7 +440,7 @@ CREATE TABLE IF NOT EXISTS `supplyorder` (
   `idUser` int(11) NOT NULL,
   `dateCreated` datetime NOT NULL,
   `status` enum('active','closed') NOT NULL,
-  PRIMARY KEY (`idSupplyOrder`),
+  PRIMARY KEY (`idSupplyOrder`,`dateUpdated`),
   KEY `fk_OrderSupply_Provider1_idx` (`providerSsn`),
   KEY `fk_OrderSupply_User1_idx` (`idUser`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
@@ -507,7 +507,7 @@ CREATE TABLE IF NOT EXISTS `supplyorder_has_product` (
   `currentDescription` text NOT NULL,
   `currentVersion` int(11) DEFAULT NULL,
   `currentPriceSale` decimal(10,2) NOT NULL,
-  PRIMARY KEY (`idSupplyOrder`,`sku`),
+  PRIMARY KEY (`sku`,`idSupplyOrder`),
   KEY `fk_SupplyOrder_has_Product_Product1_idx` (`sku`),
   KEY `fk_SupplyOrder_has_Product_SupplyOrder1_idx` (`idSupplyOrder`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
