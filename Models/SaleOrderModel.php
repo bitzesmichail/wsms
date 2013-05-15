@@ -74,13 +74,15 @@ class SaleOrderModel extends Model
 		
 		$pdo->beginTransaction();
         
+		$dateUpdated = date('Y-m-d H:i:s');
+		
 		try
         {
 			/*No need to check if exists, it's double overhead. If it doesn't exist delete will just cause nothing*/
 			
 			$sqlDel = null;
 			/*If inactive don't keep first, just delete and create a new one*/
-			if($saleOrderObj->idSaleOrder == 'inactive')
+			if($saleOrderObj->status == 'inactive')
 			{
 				$sqlDel = "DELETE FROM saleorder
 						   WHERE idSaleOrder = :idSaleOrder
@@ -98,11 +100,12 @@ class SaleOrderModel extends Model
 			$stmt->execute();
 			
 			$stmt = $pdo->prepare("INSERT INTO saleorder
-									(dateUpdated, dateCreated, dateClosed, dateDue, customerSsn, idUser, status)
+									(idSaleOrder, dateUpdated, dateCreated, dateClosed, dateDue, customerSsn, idUser, status)
 								   VALUES
-									(:dateUpdated, :dateCreated, :dateClosed, :dateDue, :customerSsn, :idUser, :status)");
-			    
-            $stmt->bindValue(":dateUpdated", date('Y-m-d H:i:s'));
+									(:idSaleOrder, :dateUpdated, :dateCreated, :dateClosed, :dateDue, :customerSsn, :idUser, :status)");
+			
+			$stmt->bindValue(":idSaleOrder", $saleOrderObj->idSaleOrder);
+            $stmt->bindValue(":dateUpdated", $dateUpdated);
             $stmt->bindValue(":dateCreated", $saleOrderObj->dateCreated);
             $stmt->bindValue(":dateClosed", $saleOrderObj->dateClosed);
 			$stmt->bindValue(":dateDue", $saleOrderObj->dateDue);
@@ -110,8 +113,6 @@ class SaleOrderModel extends Model
             $stmt->bindValue(":idUser", $saleOrderObj->idUser);
 			$stmt->bindValue(":status", $saleOrderObj->status);
             $stmt->execute();
-
-			$idSaleOrder = $pdo->lastInsertId(); 
 			
 			foreach ($saleOrderObj->products as $middleProductObj)
             {
@@ -122,8 +123,8 @@ class SaleOrderModel extends Model
                                        (:sku, :idSaleOrder, :dateUpdated, :quantityCreated, :currentDiscount, :currentPriceSale, :currentPriceSupply, :currentDescription)");
     
                 $stmt->bindValue(":sku", $middleProductObj->sku);
-                $stmt->bindValue(":idSaleOrder", $idSaleOrder);
-				$stmt->bindValue(":dateUpdated", $saleOrderObj->dateUpdated);
+                $stmt->bindValue(":idSaleOrder", $saleOrderObj->idSaleOrder);
+				$stmt->bindValue(":dateUpdated", $dateUpdated);
 				$stmt->bindValue(":quantityCreated", $middleProductObj->quantityCreated);
 				$stmt->bindValue(":currentDiscount", $middleProductObj->discount);
 				$stmt->bindValue(":currentPriceSale", $middleProductObj->priceSale);
