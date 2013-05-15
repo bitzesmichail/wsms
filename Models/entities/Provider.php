@@ -15,12 +15,12 @@ class Provider
     public function __construct($name,
 								$surname,
 								$ssn,
+    							$phone = null,
+    							$cellphone = null,
+    							$email = null,
 								$address,
-								$zipCode,
 								$city,
-								$phone = null,
-								$cellphone = null,
-								$email = null)
+    							$zipCode)
     {
 		$this->name = $name;
 		$this->surname = $surname;
