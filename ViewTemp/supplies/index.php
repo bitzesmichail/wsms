@@ -1,23 +1,23 @@
 <?php
-  $which = 'saleorder'; //which navbar button is active
+  $which = 'supplyOrder'; //which navbar button is active
   require_once 'Views/navbars/navbar.php';
 ?>
 
 <div class="container">
 <h2>
-  Ενεργές Παραγγελίες
+  Προμήθειες υπό Παραγγελία
 </h2>
 
 <p>
-  <a href="<?php echo SALEORDER . "/addsaleorder"; ?>"><button class="btn btn-primary" type="button" >Προσθήκη νέας παραγγελίας</button></a>
+  <a href="<?php echo SUPPLYORDER . "/addsupplyorder"; ?>"><button class="btn btn-primary" type="button" >Προσθήκη νέας Προμήθειας υπό παραγγελία</button></a>
 </p>
 
-<table cellpadding="0" cellspacing="0" border="0" class="table table-striped table-bordered" width="100%" id="saleorder_table">
+<table cellpadding="0" cellspacing="0" border="0" class="table table-striped table-bordered" width="100%" id="supplyorder_table">
 <thead>
 <tr>
-	<th><strong>Όνομα Πελάτη</strong></th>
-	<th><strong>Επώνυμο Πελάτη</strong></th>
-	<th><strong>ΑΦΜ Πελάτη</strong></th>
+	<th><strong>Όνομα Προμηθευτή/strong></th>
+	<th><strong>Επώνυμο Προμηθευτή</strong></th>
+	<th><strong>ΑΦΜ Προμηθευτή</strong></th>
 	<th><strong>Προθεσμία</strong></th>
 	<th><strong>Ενέργειες</strong></th>
 </tr>
@@ -31,8 +31,8 @@
 			echo "<td>" . $value->surname . "</td>";
 			echo "<td>" . $value->ssn . "</td>";
 			echo "<td>" . $value->dateDue . "</td>";			
-			echo "<td>" . "<a href=\"" . SALEORDER . "/editsaleorder?ssn=" . $value->ssn . "\">" . "<button class=\"btn btn-primary\" type=\"button\" >Επεξεργασία</button></a>";				
-			echo "<a href=\"" . SALEORDER . "/deletesaleorder?ssn=" . $value->ssn . "\">" . "<button class=\"btn btn-danger\" type=\"button\" >Διαγραφή</button></td></a>";
+			echo "<td>" . "<a href=\"" . SUPPLYORDER . "/editsupplyorder?ssn=" . $value->ssn . "\">" . "<button class=\"btn btn-primary\" type=\"button\" >Επεξεργασία</button></a>";				
+			echo "<a href=\"" . SUPPLYORDER . "/deletesUPPLYorder?ssn=" . $value->ssn . "\">" . "<button class=\"btn btn-danger\" type=\"button\" >Διαγραφή</button></td></a>";
 			echo "</tr>";
 		}
 	}
