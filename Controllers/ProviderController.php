@@ -88,7 +88,7 @@ require_once 'Models/ProviderModel.php';
  			if($_SESSION['role'] == 'MANAGER' || $_SESSION['role'] == 'SCHEDULER') {
 				try 
 				{
-					$this->view->render('providers', 'deleteprovider', ProviderModel::getCustomerBySsn($_GET['ssn'])); 
+					$this->view->render('providers', 'deleteprovider', ProviderModel::getProviderBySsn($_GET['ssn'])); 
 				}
  				catch(Exception $ex)
 			 	{
@@ -143,7 +143,7 @@ require_once 'Models/ProviderModel.php';
  					$provider = new Provider($_POST['name'], $_POST['surname'], 
  						                     $_POST['ssn'], $_POST['phone'], 
  						                     $_POST['cellphone'], $_POST['email'], 
- 						                     $_POST['address'], $_POST['city'], $_POST['zipCode']);ProductModel::update($product);
+ 						                     $_POST['address'], $_POST['city'], $_POST['zipCode']);
  					ProviderModel::update($provider);
 	 				ProviderController::index();
 				}
