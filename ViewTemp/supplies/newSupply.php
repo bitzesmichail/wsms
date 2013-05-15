@@ -7,7 +7,7 @@
 
 <form class="form-horizontal" action="<?php echo SUPPLYORDER . "/create"; ?>" method="post">
 <div class="control-group">
-<label class="control-label" for="providerSsn">ΑΦΜ Προμηθευτή/label>
+<label class="control-label" for="providerSsn">ΑΦΜ Προμηθευτή</label>
 <div class="controls">
 <input type="text" name="providerSsn">
 </div>
