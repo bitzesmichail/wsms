@@ -111,12 +111,12 @@ class ProviderModel extends Model
                 $providerObjArray[] =  new Provider($providerCol['name'],
 													$providerCol['surname'],
 													$providerCol['ssn'],
-													$providerCol['phone'],
-													$providerCol['cellphone'],
-													$providerCol['email'],
 													$providerCol['address'],
 													$providerCol['city'],
-													$providerCol['zipCode']);
+													$providerCol['zipCode'],
+													$providerCol['phone'],
+													$providerCol['cellphone'],
+													$providerCol['email']);
             }
             
             return $providerObjArray;
@@ -144,12 +144,12 @@ class ProviderModel extends Model
 			return new Provider($providerCol['name'],
 								$providerCol['surname'],
 								$providerCol['ssn'],
-								$providerCol['phone'],
-								$providerCol['cellphone'],
-								$providerCol['email'],
 								$providerCol['address'],
 								$providerCol['city'],
-								$providerCol['zipCode']);
+								$providerCol['zipCode'],
+								$providerCol['phone'],
+								$providerCol['cellphone'],
+								$providerCol['email']);
         }
         catch(PDOException $e) 
         {

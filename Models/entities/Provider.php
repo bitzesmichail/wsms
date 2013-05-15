@@ -13,14 +13,14 @@ class Provider
     private $zipCode;
     
     public function __construct($name,
-								$surname,
-								$ssn,
-    							$phone = null,
-    							$cellphone = null,
-    							$email = null,
-								$address,
-								$city,
-    							$zipCode)
+				$surname,
+				$ssn,
+				$address,
+				$city,
+    				$zipCode,
+				$phone = null,
+				$cellphone = null,
+				$email = null)
     {
 		$this->name = $name;
 		$this->surname = $surname;
