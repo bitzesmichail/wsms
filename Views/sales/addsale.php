@@ -153,6 +153,7 @@
           echo "<td>" . $value->sku . "</td>";
           echo "<td>" . $value->description . "</td>";
           echo "<td>" . $value->priceSale . "</td>";
+          echo "<td>" . "</td>";
           echo "</tr>";
           }
         }
