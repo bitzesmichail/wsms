@@ -105,7 +105,7 @@ require_once 'Models/WishProductModel.php';
  		}
  	}
 
- 	public function wishproduct()
+ 	public function wishproduct_index()
  	{
  		if (isset($_SESSION['role'])) {
  			if($_SESSION['role'] == 'MANAGER') {
@@ -127,7 +127,29 @@ require_once 'Models/WishProductModel.php';
 			}
  		}
  	}
-
+	
+	public function addwishproduct()
+ 	{
+ 		if (isset($_SESSION['role'])) {
+ 			if($_SESSION['role'] == 'MANAGER' || $_SESSION['role'] == 'SELLER') {
+				try 
+				{
+					$this->view->render('product', 'addwishproduct', null); 
+				}
+ 				catch(Exception $ex)
+			 	{
+	 				require_once 'PageController.php';
+					$page = new PageController;
+					$page->errordb($ex->getMessage());
+ 				}
+			}
+			else {
+ 				require_once 'PageController.php';
+				$page = new PageController;
+				$page->error_accdenied();
+			}
+ 		}
+ 	}
  	public function create()
  	{
 	 	if (isset($_SESSION['role'])) {
@@ -186,6 +208,31 @@ require_once 'Models/WishProductModel.php';
 				{
  					ProductModel::delete($_POST['sku']);
  					ProductController::index();
+				}
+ 				catch(Exception $ex)
+			 	{
+	 				require_once 'PageController.php';
+					$page = new PageController;
+					$page->errordb($ex->getMessage());
+ 				}
+ 			}
+			else {
+ 				require_once 'PageController.php';
+				$page = new PageController;
+				$page->error_accdenied();
+			}
+ 		}
+ 	}
+
+ 	public function wishproduct_create()
+ 	{
+	 	if (isset($_SESSION['role'])) {
+ 			if($_SESSION['role'] == 'MANAGER' || $_SESSION['role'] == 'SELLER') {
+				try 
+				{
+ 					$wishProduct = new WishProduct($_POST['quantity'], $_POST['description'], $_SESSION['idUser']);
+ 					WishProductModel::create($wishProduct);
+	 				ProductController::wishproduct_index();
 				}
  				catch(Exception $ex)
 			 	{

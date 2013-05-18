@@ -32,6 +32,7 @@ require_once 'Models/entities/User.php';
  				{
  					$_SESSION['success_logged_in'] = true;
  					$_SESSION['username'] = $user->username;
+ 					$_SESSION['idUser'] = $user->idUser;
 	 				$_SESSION['role'] = $user->role;
 			 		$page->redirect(HOME);
  				}

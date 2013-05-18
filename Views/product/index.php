@@ -11,6 +11,7 @@
 
 <p>
   <a href="<?php echo PRODUCT . "/addproduct"; ?>"><button class="btn btn-primary" type="button" >Προσθήκη νέου προϊόντος</button></a>
+  <a href="<?php echo PRODUCT . "/wishproduct_index"; ?>"><button class="btn btn-primary" type="button" >Ευκταία Προϊόντα</button></a>
 </p>
 
 <table cellpadding="0" cellspacing="0" border="0" class="table table-striped table-bordered" width="100%" id="product_table">
