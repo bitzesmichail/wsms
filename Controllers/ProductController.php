@@ -105,6 +105,29 @@ require_once 'Models/ProductModel.php';
  		}
  	}
 
+ 	public function wishproduct()
+ 	{
+ 		if (isset($_SESSION['role'])) {
+ 			if($_SESSION['role'] == 'MANAGER') {
+				try 
+				{
+					$this->view->render('product', 'wishproduct', null); 
+				}
+ 				catch(Exception $ex)
+			 	{
+	 				require_once 'PageController.php';
+					$page = new PageController;
+					$page->errordb($ex->getMessage());
+ 				}
+			}
+			else {
+ 				require_once 'PageController.php';
+				$page = new PageController;
+				$page->error_accdenied();
+			}
+ 		}
+ 	}
+
  	public function create()
  	{
 	 	if (isset($_SESSION['role'])) {
@@ -269,9 +292,5 @@ require_once 'Models/ProductModel.php';
  	{
  		return 0;
  	}
-
- 	public function viewWishProduct()
- 	{
- 		return 0;
- 	}*/
+*/
  }
