@@ -2,7 +2,7 @@
 
 require_once 'Controller.php';
 require_once 'Models/CustomerModel.php';
-
+require_once 'Models/ProductModel.php';
 /**
  * Controller for customers
  */
@@ -82,6 +82,46 @@ require_once 'Models/CustomerModel.php';
  		}
  	}
 
+ 	public function editdiscount()
+ 	{
+ 		if (isset($_SESSION['role'])) {
+ 			if($_SESSION['role'] == 'MANAGER') {
+				try 
+				{
+					$products = ProductModel::getProducts();
+
+					$data = array();
+					foreach ($products as &$value) {
+						$element = new StdClass();
+						if(($value_discount = CustomerModel::getDiscount($_GET['ssn'], $value->sku)) != null)
+						{
+							$element->discount = $value_discount;
+							$element->sku = $value->sku;
+							$element->description = $value->description;
+							$element->priceSale = $value->priceSale;
+							$element->priceSupply = $value->priceSupply;
+
+							$data[] = $element;
+						}
+					}
+					$this->view->render('customers', 'editdiscount', $data); 
+				}
+ 				catch(Exception $ex)
+			 	{
+	 				require_once 'PageController.php';
+					$page = new PageController;
+					$page->errordb($ex->getMessage());
+ 				}
+			}
+			else {
+ 				require_once 'PageController.php';
+				$page = new PageController;
+				$page->error_accdenied();
+			}
+ 		}
+
+ 	}
+
  	public function deletecustomer()
  	{
  		if (isset($_SESSION['role'])) {
@@ -135,6 +175,34 @@ require_once 'Models/CustomerModel.php';
  	}
 
  	public function update()
+ 	{
+ 		if (isset($_SESSION['role'])) {
+ 			if($_SESSION['role'] == 'MANAGER' || $_SESSION['role'] == 'SELLER') {
+				try
+				{
+ 					$customer = new Customer($_POST['name'], $_POST['surname'], 
+ 						                     $_POST['ssn'], $_POST['phone'], 
+ 						                     $_POST['cellphone'], $_POST['email'], 
+ 						                     $_POST['address'], $_POST['city'], $_POST['zipCode']);
+ 					CustomerModel::update($customer);
+	 				CustomerController::index();
+				}
+ 				catch(Exception $ex)
+			 	{
+	 				require_once 'PageController.php';
+					$page = new PageController;
+					$page->errordb($ex->getMessage());
+ 				}
+ 			}
+			else {
+ 				require_once 'PageController.php';
+				$page = new PageController;
+				$page->error_accdenied();
+			}
+ 		}
+ 	}
+
+	public function update_discount()
  	{
  		if (isset($_SESSION['role'])) {
  			if($_SESSION['role'] == 'MANAGER' || $_SESSION['role'] == 'SELLER') {
