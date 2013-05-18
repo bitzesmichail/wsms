@@ -2,7 +2,7 @@
 
 require_once 'Controller.php';
 require_once 'Models/ProductModel.php';
-
+require_once 'Models/WishProductModel.php';
 /**
  * Controller for products
  */
@@ -111,7 +111,7 @@ require_once 'Models/ProductModel.php';
  			if($_SESSION['role'] == 'MANAGER') {
 				try 
 				{
-					$this->view->render('product', 'wishproduct', null); 
+					$this->view->render('product', 'wishproduct', WishProductModel::getProducts()); 
 				}
  				catch(Exception $ex)
 			 	{
