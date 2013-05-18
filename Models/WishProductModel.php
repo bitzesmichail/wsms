@@ -99,7 +99,7 @@ class WishProductModel extends Model
 														  $wishProductCol['idWishProduct']);
             }
             
-            return $wishproductObjArray;
+            return $wishProductObjArray;
         }
         
         catch(PDOException $e) 
