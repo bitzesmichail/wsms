@@ -93,13 +93,13 @@ class WishProductModel extends Model
             
             foreach ($wishProductsColumns as $wishProductCol)
             {
-                $wishproductObjArray[] =  new WishProduct($wishProductCol['quantity'],
+                $wishProductObjArray[] =  new WishProduct($wishProductCol['quantity'],
 														  $wishProductCol['description'],
 														  $wishProductCol['idUser'],
 														  $wishProductCol['idWishProduct']);
             }
             
-            return $productObjArray;
+            return $wishproductObjArray;
         }
         
         catch(PDOException $e) 
