@@ -27,7 +27,7 @@
 			echo "<tr>";
 			echo "<td>" . $value->description . "</td>";
 			echo "<td>" . $value->quantity . "</td>";
-			echo "<td>" . $value->idUser . "</td>";
+			echo "<td>" . $value->username . "</td>";
 			echo "</tr>";
 		}
 	}

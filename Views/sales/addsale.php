@@ -84,6 +84,10 @@
     <h2>
       Δημιουργία Παραγγελίας - Βήμα 3ο(Επιλογή προϊόντων)
     </h2>
+    <p>
+      <a target="_blank" href="<?php echo PRODUCT . "/wishproduct_index"; ?>"><button class="btn btn-primary" type="button" >Ευκταία Προϊόντα</button></a>
+    </p>
+
     <div class="control-group">
       <label class="control-label" for="dateDue">Ποσότητα</label>
       <div class="controls">
