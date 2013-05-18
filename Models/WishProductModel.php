@@ -12,24 +12,100 @@ class WishProductModel extends Model
         
     }
 
-    public function create($quantity, $description, $creator)
+    public static function create($wishProductObj) //ta default prepei na mpoun sto telos gia na paraleipontai otan den xreiazontai
     {
-	
+		$pdo = Connector::getPDO();
+
+        try
+        {
+            $stmt = $pdo->prepare("INSERT INTO wishproduct
+                                    (quantity, description, idUser)
+                                   VALUES
+                                    (:quantity, :description, :idUser)");
+		    
+            $stmt->bindValue(":quantity", $wishProductObj->quantity);
+            $stmt->bindValue(":description", $wishProductObj->description);
+            $stmt->bindValue(":idUser", $wishProductObj->idUser);
+            $stmt->execute();
+        }
+        catch(PDOException $e)
+        {
+        	throw $e;
+            //echo $e->getMessage();
+        }
     }
 
-    public function update()
+    public static function update($wishProductObj)
     {
-	
+		$pdo = Connector::getPDO();
+
+        try
+        {
+            $stmt = $pdo->prepare("UPDATE wishproduct SET
+									description = :description,
+									quantity = :quantity,
+									idUser = :idUser
+								  WHERE idWishProduct = :idWishProduct");
+            
+            $stmt->bindValue(":quantity", $wishProductObj->quantity);
+            $stmt->bindValue(":description", $wishProductObj->description);
+            $stmt->bindValue(":idUser", $wishProductObj->idUser);
+			$stmt->bindValue(":idWishProduct", $wishProductObj->idWishProduct);
+            $stmt->execute();
+        }
+        catch (PDOException $e)
+        {
+        	throw $e;
+         //  echo $e->getMessage();
+        }
     }
 
-    public function delete()
+    public static function delete($idWishProduct)
     {
-	
+		$pdo = Connector::getPDO();
+        
+        try 
+        {
+            $stmt = $pdo->prepare("DELETE FROM wishproduct WHERE idWishProduct = :idWishProduct");
+
+            $stmt->bindValue(":idWishProduct", $idWishProduct);       
+            $stmt->execute();
+        } 
+        catch(PDOException $e) 
+        {
+        	throw $e;
+           // echo $e->getMessage();
+        }
     }
 
-    public function getProducts()
+    public static function getProducts()
     {
-	
+		$pdo = Connector::getPDO();
+        
+        try
+        {
+            $stmt = $pdo->prepare("SELECT * FROM wishproduct");          
+            $stmt->execute();
+
+            $wishProductsColumns = $stmt->fetchAll();
+            
+            $wishProductObjArray = array();
+            
+            foreach ($wishProductsColumns as $wishProductCol)
+            {
+                $wishproductObjArray[] =  new WishProduct($wishProductCol['quantity'],
+														  $wishProductCol['description'],
+														  $wishProductCol['idUser'],
+														  $wishProductCol['idWishProduct']);
+            }
+            
+            return $productObjArray;
+        }
+        
+        catch(PDOException $e) 
+        {
+        	throw $e;
+           // echo $e->getMessage();
+        }
     }
-    
 }
