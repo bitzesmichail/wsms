@@ -57,11 +57,6 @@
 		
 		} );
 
-
-		
-
-		
-
 	</script>
 	
 	<script type="text/javascript">			
@@ -156,5 +151,7 @@
         </div>
       </div>
     </div>
+	
+	<div id="main" class="container">
 
  

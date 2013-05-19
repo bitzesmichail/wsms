@@ -1,11 +1,10 @@
-</div><!--/row-->
-	<hr>
-	<div class="container">
-		<footer>
+</div>
+
+		<footer class="footer container">
+			<hr>
 			<p>Copyright &copy; 2013 Elite 9&reg;</p>
 		</footer>
-	</div>
-</div><!--/.fluid-container-->
+
 
 <!-- Le javascript
     ================================================== -->

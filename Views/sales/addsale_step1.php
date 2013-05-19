@@ -2,7 +2,6 @@
   require_once 'Views/navbars/navbar.php';
 ?>
 
-<div class="container">
 
 <form class="form-horizontal" action="<?php echo SALEORDER . "/create"; ?>" method="post">
 	<div id="step1" class="stepDivs step1">
@@ -272,4 +271,4 @@
 		</div>
 	</div>
 </form>
-</div>
+
