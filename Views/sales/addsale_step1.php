@@ -15,16 +15,29 @@
 				<input type="text" name="customerSsn">
 			</div>
 		</div>
+
 		<div class="control-group">
-			<label class="control-label" for="dateDue">Ημερομηνία Έκδοσης</label>
+			<label class="control-label" for="datePublish">Ημερομηνία Έκδοσης</label>
 			<div class="controls">
-				<input type="text" name="dateDue">
+				<div id="datePublish" class="input-append date">
+					<input data-format="dd/MM/yyyy hh:mm:ss" type="text"></input>
+					<span class="add-on">
+						<i data-time-icon="icon-time" data-date-icon="icon-calendar">
+						</i>
+					</span>
+				</div>
 			</div>
 		</div>
 		<div class="control-group">
 			<label class="control-label" for="dateDue">Ημερομηνία Παράδοσης</label>
 			<div class="controls">
-				<input type="text" name="dateDue">
+				<div id="dateDue" class="input-append date">
+					<input data-format="dd/MM/yyyy hh:mm:ss" type="text"></input>
+					<span class="add-on">
+						<i data-time-icon="icon-time" data-date-icon="icon-calendar">
+						</i>
+					</span>
+				</div>
 			</div>
 		</div>
 

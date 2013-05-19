@@ -17,7 +17,8 @@
 	<link href="<?php echo BOOTSTRAP; ?>/css/jquery.dataTables.css" rel="stylesheet">
 	<link href="<?php echo BOOTSTRAP; ?>/css/jquery.dataTables_themeroller.css" rel="stylesheet">
 	<link href="<?php echo BOOTSTRAP; ?>/css/bootstrap-responsive.css" rel="stylesheet">
-	<link href="<?php echo BOOTSTRAP; ?>/css/DT_bootstrap.css" rel="stylesheet">		
+	<link href="<?php echo BOOTSTRAP; ?>/css/DT_bootstrap.css" rel="stylesheet">
+	<link href="<?php echo BOOTSTRAP; ?>/css/bootstrap-datetimepicker.min.css" rel="stylesheet">	
   	
 	
 	<script src="<?php echo BOOTSTRAP; ?>/js/jquery-1.9.1.js"></script>
@@ -26,6 +27,7 @@
 	<script src="<?php echo BOOTSTRAP; ?>/js/bootstrap-dropdown.js"></script>
 	<script src="<?php echo BOOTSTRAP; ?>/js/jquery.dataTables.js"></script>
 	<script src="<?php echo BOOTSTRAP; ?>/js/DT_bootstrap.js"></script>
+	<script src="<?php echo BOOTSTRAP; ?>/js/bootstrap-datetimepicker.min.js"></script>
 
 	
 	<script type="text/javascript">			
@@ -36,6 +38,15 @@
 					"sPaginationType": "bootstrap"
 				});
 			} );
+			
+
+		  $(function() {
+			$('#datePublish, #dateDue').datetimepicker({
+				language: 'en',
+				pick12HourFormat: true
+			});
+		  });
+
 	</script>
 	
 	<script type="text/javascript">			
