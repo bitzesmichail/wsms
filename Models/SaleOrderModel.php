@@ -3,6 +3,7 @@
 require_once("Model.php");
 require_once("entities/SaleOrder.php");
 require_once("entities/Connector.php");
+require_once("entities/MiddleProduct.php");
 
 class SaleOrderModel extends Model
 {
