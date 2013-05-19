@@ -60,10 +60,7 @@ require_once 'Models/CustomerModel.php';
  			if($_SESSION['role'] == 'MANAGER' || $_SESSION['role'] == 'SELLER') {
 				try 
 				{
-					$data = new StdClass();
-					$data->customers = CustomerModel::getCustomers();
-					$data->products = ProductModel::getProducts();
-					$this->view->render('sales', 'addsale', $data); 
+					$this->view->render('sales', 'addsale_step1', null); 
 				}
  				catch(Exception $ex)
 			 	{
