@@ -30,3 +30,11 @@ body{
 .row_selected{
     color:red;
 }
+
+.next {
+	float:right;
+}
+
+.previous {
+	float:left;
+}
