@@ -153,11 +153,16 @@ class UserModel extends Model
             
             $userCol = $stmt->fetch(PDO::FETCH_ASSOC);
             
+			if($userCol == null) 
+			{
+				return null;
+			}
+			
             return new User($userCol['username'],
-            		$userCol['password'],
-            		$userCol['email'],
-            		$userCol['role'],
-            		$userCol['idUser']);
+							$userCol['password'],
+							$userCol['email'],
+							$userCol['role'],
+							$userCol['idUser']);
             
         }
         catch(PDOException $e) 

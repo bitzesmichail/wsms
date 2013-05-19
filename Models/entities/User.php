@@ -11,22 +11,20 @@ class User
     public function __construct($username, $password, $email, $role, $idUser)
     {
     	if ( !self::isValidUsername($username) )
-	{
-	    die("username can't be empty");
-	}
+		{
+			die("username can't be empty");
+		}
 
-	if ( !self::isValidPassword($password) )
-	{
-	    die("password must be at least 6 chars long");
-	}
+		if ( !self::isValidPassword($password) )
+		{
+			die("password must be at least 6 chars long");
+		}
 
-	$this->username = $username;
-	$this->password = $password;
-	$this->email = $email;
-	$this->idUser = $idUser;
-	$this->role = $role;
-
-	
+		$this->username = $username;
+		$this->password = $password;
+		$this->email = $email;
+		$this->idUser = $idUser;
+		$this->role = $role;
     }
     
     public function __get($param)
