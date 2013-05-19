@@ -12,7 +12,7 @@
 		<div class="control-group">
 			<label class="control-label" for="customerSsn">Κωδικός Παραγγελίας</label>
 			<div class="controls">
-				<input type="text" name="customerSsn">
+				<input type="text" name="customerSsn" id="customerSsn">
 			</div>
 		</div>
 
@@ -211,6 +211,20 @@
 		<h3>
 			Στοιχεία Πωλητή
 		</h3>
+		<div>
+			<label class="control-label" for="datePublishFinal">Ημερομηνία Έκδοσης</label>
+			<div class="controls">
+				<div id="datePublishFinal" class="date">
+					<input data-format="dd/MM/yyyy hh:mm:ss" type="text" readonly></input>
+				</div>
+			</div>
+			<label class="control-label" for="dateDueFinal">Ημερομηνία Παράδοσης</label>
+			<div class="controls">
+				<div id="dateDueFinal" class="date">
+					<input data-format="dd/MM/yyyy hh:mm:ss" type="text" readonly></input>
+				</div>
+			</div>
+		</div>		
 		<h3>
 			Στοιχεία Πελάτη
 		</h3>
@@ -253,7 +267,7 @@
 	<div class="stepDivs submitButton">
 		<div class="control-group">
 			<div class="controls">
-				<button type="submit" class="btn btn-primary">Προσθήκη</button>
+				<button type="submit" class="btn btn-primary" style="float:right;">Προσθήκη</button>
 			</div>
 		</div>
 	</div>

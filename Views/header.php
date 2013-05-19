@@ -31,21 +31,36 @@
 
 	
 	<script type="text/javascript">			
-			$(document).ready(function() {
-				oTable = $('#resultsTable').dataTable({
-					"bJQueryUI": true,
-					"bLengthChange": false,
-					"sPaginationType": "bootstrap"
-				});
-			} );
-			
-
-		  $(function() {
-			$('#datePublish, #dateDue').datetimepicker({
-				language: 'en',
-				pick12HourFormat: true
+		$(document).ready(function() {
+			oTable = $('#resultsTable').dataTable({
+				"bJQueryUI": true,
+				"bLengthChange": false,
+				"sPaginationType": "bootstrap"
 			});
-		  });
+			
+			$(function() {
+				$('#datePublish, #dateDue, #datePublishFinal, #dateDueFinal').datetimepicker({
+					language: 'en',
+					pick12HourFormat: true
+				});
+			});
+					
+			$("#datePublish").on('changeDate', function(e) {
+				var picker = $('#datePublishFinal').data('datetimepicker');
+				picker.setLocalDate(e.localDate);
+			});
+			
+			$("#dateDue").on('changeDate', function(e) {
+				var picker = $('#dateDueFinal').data('datetimepicker');
+				picker.setLocalDate(e.localDate);
+			});
+		
+		} );
+
+
+		
+
+		
 
 	</script>
 	
