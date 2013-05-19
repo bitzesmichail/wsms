@@ -17,14 +17,10 @@ ul.nav.pull-right {
 	}
 }
 
-body{
-	margin:0 auto;
-	font-size: 0.8em;
+html, body{
 	min-width: 1200px;
-	padding-top: 60px;
-	padding-bottom: 40px;
+	padding-top: 30px;
 	background: url(../img/redox_01.png);  
-	
 }
 
 .row_selected{
