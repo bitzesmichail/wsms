@@ -20,7 +20,7 @@ class SaleOrderModel extends Model
 		$pdo->beginTransaction();
         
 		try
-        {
+        {	
 			$stmt = $pdo->prepare("INSERT INTO saleorder
 									(dateUpdated, dateCreated, dateClosed, dateDue, customerSsn, idUser, status)
 								   VALUES
@@ -34,7 +34,7 @@ class SaleOrderModel extends Model
             $stmt->bindValue(":idUser", $saleOrderObj->idUser);
 			$stmt->bindValue(":status", $saleOrderObj->status);
             $stmt->execute();
-
+			
 			$idSaleOrder = $pdo->lastInsertId(); 
 			
 			foreach ($saleOrderObj->products as $middleProductObj)
@@ -96,7 +96,7 @@ class SaleOrderModel extends Model
 						   AND dateUpdated <> dateCreated";
 			}
 			
-			$stmt = $pdo->prepare();
+			$stmt = $pdo->prepare($sqlDel);
 			$stmt->bindValue(":idSaleOrder", $saleOrderObj->idSaleOrder);
 			$stmt->execute();
 			
@@ -168,20 +168,179 @@ class SaleOrderModel extends Model
         
         try
         {
-            $stmt = $pdo->prepare("SELECT * FROM saleorder 
-								   WHERE dateCreated <> dateUpdated
-								   AND status = active");
-								   
-            $stmt->execute();
+        	$stmt = $pdo->prepare("SELECT DISTINCT idSaleOrder
+    				               FROM saleorder
+    							   WHERE status = 'active'
+									");
+        	 
+        	$stmt->execute();
+        	
+        	$saleOrderIds = $stmt->fetchAll();
+        	
+        	
+        	foreach ($saleOrderIds as $saleOrderId)
+        	{
+        		$saleOrderObjArray[]= static::getSaleOrderById($saleOrderId["idSaleOrder"]);
+          		
+        	}
+        	return $saleOrderObjArray;
+		}
+		catch(PDOException $e)
+        {
+			$pdo->rollBack();
+			throw $e;
+            //echo $e->getMessage();
+        }	
+    }
+	
+	public static function activateSaleOrder($idSaleOrder)
+	{
+		$pdo = Connector::getPDO();
 
-            $saleOrderColumns = $stmt->fetchAll();
-            
-            $saleOrderObjArray = array();
-            
-            foreach ($saleOrderColumns as $saleOrderCol)
-            {
+        try
+        {
+        	$stmt = $pdo->prepare("SELECT COUNT(*)
+								   FROM saleorder
+                                   WHERE idSaleOrder = :idSaleOrder
+								   ");
+        	
+        	$stmt->bindValue(":idSaleOrder", $idSaleOrder);
+        	$stmt->execute();
+        	
+        	
+        	$count = (int) $stmt->fetchColumn();
+        	
+        	if($count ==0){
+        		return null;
+        	}
+        	else if($count ==1){
+        		$stmt = $pdo->prepare("UPDATE saleorder SET
+									status = 'active'
+								  WHERE idSaleOrder = :idSaleOrder");
+        	}
+        	else{
+				$stmt = $pdo->prepare("UPDATE saleorder SET
+									status = 'active'
+								  WHERE idSaleOrder = :idSaleOrder
+								  AND dateCreated <> dateUpdated");
+        	}
+    	
                 
-                $stmt = $pdo->prepare("SELECT sku, currentDescription, currentPriceSale, currentPriceSupply, currentDiscount, quantityCreated, quantityClosed
+            $stmt->bindValue(":idSaleOrder", $idSaleOrder);
+            $stmt->execute();
+        }
+        catch (PDOException $e)
+        {
+        	throw $e;
+         //   echo $e->getMessage();
+        }
+	}	
+	
+	public static function getSaleOrders()
+	{
+		$pdo = Connector::getPDO();
+	
+		try
+		{
+			$stmt = $pdo->prepare("SELECT * FROM saleorder
+									");
+			 
+			$stmt->execute();
+	
+			$saleOrderColumns = $stmt->fetchAll();
+			$saleOrderObjArray = array();
+	
+			foreach ($saleOrderColumns as $saleOrderCol)
+			{
+				$stmt = $pdo->prepare("SELECT sku, currentDescription, currentPriceSale, currentPriceSupply, quantityCreated, quantityClosed
+									  FROM saleorder_has_product
+                                      WHERE idSaleOrder = :idSaleOrder
+    								  AND dateUpdated = :dateUpdated
+									  ");
+	
+				$stmt->bindValue(":idSaleOrder", $saleOrderCol['idSaleOrder']);
+				$stmt->bindValue(":dateUpdated", $saleOrderCol['dateUpdated']);
+				$stmt->execute();
+	
+				$middleProductsColumns = $stmt->fetchAll();
+	
+				$middleProductObjArray = array();
+	
+				foreach ($middleProductsColumns as $middleProductsCol)
+				{
+					$middleProductObjArray[] = new MiddleProduct($middleProductsCol['sku'],
+							$middleProductsCol['currentDescription'],
+							$middleProductsCol['currentPriceSale'],
+							$middleProductsCol['currentPriceSupply'],
+							$middleProductsCol["currentDiscount"],
+							$middleProductsCol['quantityCreated'],
+							$middleProductsCol['quantityClosed']);
+				}
+				$saleOrderObjArray[] =  new SaleOrder($saleOrderCol['dateDue'],
+						$saleOrderCol['customerSsn'],
+						$saleOrderCol['idUser'],
+						$saleOrderCol['status'],
+						$middleProductObjArray,
+						$saleOrderCol['dateCreated'],
+						$saleOrderCol['idSaleOrder'],
+						$saleOrderCol['dateUpdated']);
+			}
+			return $saleOrderObjArray;
+		}
+		catch(PDOException $e)
+		{
+	
+			//	throw $e;
+			echo $e->getMessage();
+		}
+	}
+	
+	
+	
+	public static function getSaleOrdersByProduct($productSku)
+	{
+	
+	}
+	
+	public static function getSaleOrderById($idSaleOrder) 
+	{
+		$pdo = Connector::getPDO();
+		 
+		try
+		{
+			$stmt = $pdo->prepare("SELECT COUNT(*)
+								   FROM saleorder
+                                   WHERE idSaleOrder = :idSaleOrder
+								   ");
+			 
+			$stmt->bindValue(":idSaleOrder", $idSaleOrder);
+			$stmt->execute();
+		
+		
+			$count = (int) $stmt->fetchColumn();
+		
+			if($count ==0){
+				return null;
+			}
+			else if($count ==1){
+				$stmt = $pdo->prepare("SELECT * FROM saleorder
+    								   WHERE idSaleOrder = :idSaleOrder
+									");
+			}
+			else{
+				$stmt = $pdo->prepare("SELECT * FROM saleorder
+    								   WHERE idSaleOrder = :idSaleOrder
+    								   AND dateCreated <> dateUpdated
+									");
+			}
+		
+			$stmt->bindValue(":idSaleOrder", $idSaleOrder);
+			$stmt->execute();
+			 
+			$saleOrderCol = $stmt->fetch();
+	
+			 
+			$stmt = $pdo->prepare("SELECT sku, currentDescription, currentPriceSale, currentPriceSupply, currentDiscount, quantityCreated, quantityClosed
 									  FROM saleorder_has_product
                                       WHERE idSaleOrder = :idSaleOrder
 									  AND dateUpdated = :dateUpdated");  
@@ -205,51 +364,23 @@ class SaleOrderModel extends Model
 																 $middleProductsCol['quantityClosed']);
                 }
                 
-                $saleOrderObjArray[] =  new SaleOrder($saleOrderCol['dateDue'],
+                $saleOrderObj =  new SaleOrder($saleOrderCol['dateDue'],
 													  $saleOrderCol['customerSsn'],
 													  $saleOrderCol['idUser'],
 													  $saleOrderCol['status'],
 													  $middleProductObjArray,
-													  $saleOrderCol['dateCreated']);     
-            }
-            return $saleOrderObjArray;
+													  $saleOrderCol['dateCreated'],
+													  $saleOrderCol['idSaleOrder'],
+													  $saleOrderCol['dateUpdated']);
+		
+			return $saleOrderObj;
 		}
 		catch(PDOException $e)
-        {
-			$pdo->rollBack();
-			throw $e;
-            //echo $e->getMessage();
-        }	
-    }
-	
-	public static function activateSaleOrder($idSaleOrder)
-	{
-		$pdo = Connector::getPDO();
-
-        try
-        {
-            $stmt = $pdo->prepare("UPDATE saleorder SET
-									status = active
-								  WHERE idSaleOrder = :idSaleOrder");
-            
-            $stmt->bindValue(":idSaleOrder", $productObj->idSaleOrder);
-            $stmt->execute();
-        }
-        catch (PDOException $e)
-        {
-        	throw $e;
-         //   echo $e->getMessage();
-        }
-	}	
-	
-	public static function getSaleOrdersByProduct($productSku)
-	{
-	
-	}
-	
-	public static function getSaleOrderById($idSaleOrder) 
-	{
-		
+		{
+			 
+			//	throw $e;
+			echo $e->getMessage();
+		}
 	}
 	
 	public static function getSaleOrdersByStatus($username, $status)
