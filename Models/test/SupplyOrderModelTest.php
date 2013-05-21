@@ -25,38 +25,46 @@ $dateDue=date('Y-m-d H:i:s');
 
 echo "Get one Seller to do the job!</br>";
 
-$user=UserModel::getUserByUsername("seller");
-
+$seller=UserModel::getUserByUsername("seller");
+$manager=UserModel::getUserByUsername("manager");
 
 echo "Creating 1 Provider!</br>";
 
 ProviderModel::create(new Provider("giorgos","ele",222,"athens",123,"athens"));
 
-echo "Creating 1 SupplyOrder!</br>";
+echo "Creating 2 SupplyOrders!</br>";
 
-SupplyOrderModel::create(new SupplyOrder($dateDue,222, $user->idUser, "active", $middleProductObjArray, NULL));
+SupplyOrderModel::create(new SupplyOrder($dateDue,222, $seller->idUser, "active", $middleProductObjArray, NULL));
+SupplyOrderModel::create(new SupplyOrder($dateDue,222, $manager->idUser, "active", $middleProductObjArray, NULL));
 
-echo "Retrive it back!</br>";
+echo "Retrive them back!</br>";
 
 
 $supplyorders=SupplyOrderModel::getSupplyOrders();
 
+$id;
 
 foreach ($supplyorders as $supplyorder){
+	$id=$supplyorder->idSupplyOrder;
 	echo "<pre>"; print_r($supplyorder); echo "</pre>";
 }
+
+echo "getSupplyOrderById</br>";
+
+$one = SupplyOrderModel::getSupplyOrderById($id);
+echo "<pre>"; print_r($one); echo "</pre>";
 
 echo "Update them!</br>";
 sleep("2");
 $dateDue=date('Y-m-d H:i:s');
 
 foreach ($supplyorders as $supplyorder){
-	$s=new SupplyOrder($dateDue, 222, $user->idUser, "active", $middleProductObjArray, $supplyorder->dateCreated, $supplyorder->idSupplyOrder);
+	$s=new SupplyOrder($dateDue, 222, $seller->idUser, "active", $middleProductObjArray, $supplyorder->dateCreated, $supplyorder->idSupplyOrder);
 	SupplyOrderModel::update($s);
 }
 
 
-echo "Retrive it back!</br>";
+echo "Retrive them back!</br>";
 
 
 $supplyorders=SupplyOrderModel::getSupplyOrders();
@@ -65,6 +73,16 @@ $supplyorders=SupplyOrderModel::getSupplyOrders();
 foreach ($supplyorders as $supplyorder){
 	echo "<pre>"; print_r($supplyorder); echo "</pre>";
 }
+
+echo "getSupplyOrderById</br>";
+
+$one = SupplyOrderModel::getSupplyOrderById($id);
+echo "<pre>"; print_r($one); echo "</pre>";
+
+echo "getSupplyOrderByProvider</br>";
+
+$one = SupplyOrderModel::getSupplyOrdersByProvider(222);
+echo "<pre>"; print_r($one); echo "</pre>";
 
 echo "Delete everything!</br>";
 

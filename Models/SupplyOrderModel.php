@@ -207,21 +207,135 @@ class SupplyOrderModel extends Model
     	}
     	catch(PDOException $e)
     	{
-    	//	$pdo->rollBack();
+ 
     	//	throw $e;
     		echo $e->getMessage();
     	}
     }
     
+    // Return Latests (dateUpdated) SupplyOrders with given Provider SSN or return NULL
+    
+    public static function getSupplyOrdersByProvider($providerSsn)
+    {
+    	$pdo = Connector::getPDO();
+    	
+    	try
+    	{
+    		$stmt = $pdo->prepare("SELECT DISTINCT idSupplyOrder 
+    				               FROM supplyorder
+    							   WHERE providerSsn = :providerSsn
+									");
+    		 
+    		$stmt->bindValue(":providerSsn", $providerSsn);
+    		$stmt->execute();
+    	
+    		$supplyOrderIds = $stmt->fetchAll();
+    		
+    		$supplyOrderObjArray = array();
+    	
+    		foreach ($supplyOrderIds as $supplyOrderId)
+    		{
+
+    			$supplyOrderObjArray[] = static::getSupplyOrderById($supplyOrderId["idSupplyOrder"]);
+    		}
+    		return $supplyOrderObjArray;
+    	}
+    	catch(PDOException $e)
+    	{
+    	
+    		//	throw $e;
+    		echo $e->getMessage();
+    	}
+    }
+    
+    
     
     public static function getSupplyOrdersByProduct($productSku)
     {
-    
+    	
     }
     
-    public static function getSupplyOrderById($idSaleOrder)
-    {
     
+    // Return Latest (dateUpdated) SupplyOrder with given id or return NULL
+    
+    public static function getSupplyOrderById($idSupplyOrder)
+    {
+    	$pdo = Connector::getPDO();
+    	
+    	try
+    	{ 
+    		$stmt = $pdo->prepare("SELECT COUNT(*)
+								   FROM supplyorder
+                                   WHERE idSupplyOrder = :idSupplyOrder
+								   ");
+    		 
+    		$stmt->bindValue(":idSupplyOrder", $idSupplyOrder);
+    		$stmt->execute();
+    		
+    		
+    		$count = (int) $stmt->fetchColumn();
+    		
+    		if($count ==0){
+    			return null;
+    		}
+    		else if($count ==1){
+    			$stmt = $pdo->prepare("SELECT * FROM supplyorder
+    								   WHERE idSupplyOrder = :idSupplyOrder
+									");
+    		}
+    		else{
+    			$stmt = $pdo->prepare("SELECT * FROM supplyorder
+    								   WHERE idSupplyOrder = :idSupplyOrder
+    								   AND dateCreated <> dateUpdated
+									");
+    		}
+    		
+    		$stmt->bindValue(":idSupplyOrder", $idSupplyOrder);
+    		$stmt->execute();
+    	
+    		$supplyOrderColumns = $stmt->fetch();
+    	
+    		$stmt = $pdo->prepare("SELECT sku, currentDescription, currentPriceSale, currentPriceSupply, quantityCreated, quantityClosed
+								   FROM supplyorder_has_product
+                                      WHERE idSupplyOrder = :idSupplyOrder
+    								  AND dateUpdated = :dateUpdated
+									  ");
+    	
+    		$stmt->bindValue(":idSupplyOrder", $supplyOrderColumns['idSupplyOrder']);
+    		$stmt->bindValue(":dateUpdated", $supplyOrderColumns['dateUpdated']);
+    		$stmt->execute();
+    	
+    		$middleProductsColumns = $stmt->fetchAll();
+    	
+    		$middleProductObjArray = array();
+    	
+    		foreach ($middleProductsColumns as $middleProductsCol)
+    		{
+    			$middleProductObjArray[] = new MiddleProduct($middleProductsCol['sku'],
+    					$middleProductsCol['currentDescription'],
+    					$middleProductsCol['currentPriceSale'],
+    					$middleProductsCol['currentPriceSupply'],
+    					NULL,
+    					$middleProductsCol['quantityCreated'],
+    					$middleProductsCol['quantityClosed']);
+    		}
+    		$supplyOrderObj =  new SupplyOrder($supplyOrderColumns['dateDue'],
+    				$supplyOrderColumns['providerSsn'],
+    				$supplyOrderColumns['idUser'],
+    				$supplyOrderColumns['status'],
+    				$middleProductObjArray,
+    				$supplyOrderColumns['dateCreated'],
+    				$supplyOrderColumns['idSupplyOrder'],
+    				$supplyOrderColumns['dateUpdated']);
+    
+    		return $supplyOrderObj;
+    	}
+    	catch(PDOException $e)
+    	{
+    	
+    		//	throw $e;
+    		echo $e->getMessage();
+    	}
     }
     
     public static function getSupplyOrdersByDate($dateTime)
