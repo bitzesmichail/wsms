@@ -46,6 +46,25 @@ foreach ($supplyorders as $supplyorder){
 	echo "<pre>"; print_r($supplyorder); echo "</pre>";
 }
 
+echo "Update them!</br>";
+sleep("2");
+$dateDue=date('Y-m-d H:i:s');
+
+foreach ($supplyorders as $supplyorder){
+	$s=new SupplyOrder($dateDue, 222, $user->idUser, "active", $middleProductObjArray, $supplyorder->dateCreated, $supplyorder->idSupplyOrder);
+	SupplyOrderModel::update($s);
+}
+
+
+echo "Retrive it back!</br>";
+
+
+$supplyorders=SupplyOrderModel::getSupplyOrders();
+
+
+foreach ($supplyorders as $supplyorder){
+	echo "<pre>"; print_r($supplyorder); echo "</pre>";
+}
 
 echo "Delete everything!</br>";
 

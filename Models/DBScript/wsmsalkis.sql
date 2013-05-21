@@ -381,7 +381,7 @@ DELIMITER //
 CREATE TRIGGER `SaleOrderHasProductTrigger` BEFORE DELETE ON `saleorder_has_product`
  FOR EACH ROW BEGIN
 
-        IF( (SELECT status FROM saleorder WHERE idSaleOrder=OLD.idSaleOrder)='closed' OR 'problem' ) THEN
+        IF( (SELECT status FROM saleorder WHERE idSaleOrder=OLD.idSaleOrder AND dateUpdated = OLD.dateUpdated)='closed' OR 'problem' ) THEN
             
             SET @historyProductId := (
                 SELECT idHistoryProduct 
@@ -500,6 +500,7 @@ DELIMITER ;
 
 CREATE TABLE IF NOT EXISTS `supplyorder_has_product` (
   `idSupplyOrder` int(11) NOT NULL,
+  `dateUpdated` datetime NOT NULL,
   `sku` varchar(20) NOT NULL,
   `quantityCreated` int(11) NOT NULL,
   `quantityClosed` int(11) DEFAULT NULL,
@@ -507,9 +508,9 @@ CREATE TABLE IF NOT EXISTS `supplyorder_has_product` (
   `currentDescription` text NOT NULL,
   `currentVersion` int(11) DEFAULT NULL,
   `currentPriceSale` decimal(10,2) NOT NULL,
-  PRIMARY KEY (`sku`,`idSupplyOrder`),
+  PRIMARY KEY (`sku`,`idSupplyOrder`,`dateUpdated`),
   KEY `fk_SupplyOrder_has_Product_Product1_idx` (`sku`),
-  KEY `fk_SupplyOrder_has_Product_SupplyOrder1_idx` (`idSupplyOrder`)
+  KEY `fk_SupplyOrder_has_Product_SupplyOrder1_idx` (`idSupplyOrder`,`dateUpdated`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
@@ -537,7 +538,7 @@ DELIMITER //
 CREATE TRIGGER `SupplyOrderHasProductTrigger` BEFORE DELETE ON `supplyorder_has_product`
  FOR EACH ROW BEGIN
 
-        IF( (SELECT status FROM supplyorder WHERE idSupplyOrder = OLD.idSupplyOrder)='closed' ) THEN
+        IF( (SELECT status FROM supplyorder WHERE idSupplyOrder = OLD.idSupplyOrder AND dateUpdated = OLD.dateUpdated)='closed' ) THEN
             
             SET @historyProductId := (
                 SELECT idHistoryProduct 

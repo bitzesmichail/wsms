@@ -41,12 +41,13 @@ class SupplyOrderModel extends Model
     		{
     
     			$stmt = $pdo->prepare("INSERT INTO supplyorder_has_product
-                                       (sku, idSupplyOrder, quantityCreated, currentPriceSale, currentPriceSupply, currentDescription)
+                                       (sku, idSupplyOrder, dateUpdated, quantityCreated, currentPriceSale, currentPriceSupply, currentDescription)
                                       VALUES
-                                       (:sku, :idSaleOrder, :quantityCreated, :currentPriceSale, :currentPriceSupply, :currentDescription)");
+                                       (:sku, :idSupplyOrder, :dateUpdated, :quantityCreated, :currentPriceSale, :currentPriceSupply, :currentDescription)");
     
+    			$stmt->bindValue(":dateUpdated", $supplyOrderObj->dateUpdated);
     			$stmt->bindValue(":sku", $middleProductObj->sku);
-    			$stmt->bindValue(":idSaleOrder", $idSupplyOrder);
+    			$stmt->bindValue(":idSupplyOrder", $idSupplyOrder);
     			$stmt->bindValue(":quantityCreated", $middleProductObj->quantityCreated);
     			$stmt->bindValue(":currentPriceSale", $middleProductObj->priceSale);
     			$stmt->bindValue(":currentPriceSupply", $middleProductObj->priceSupply);
@@ -66,7 +67,72 @@ class SupplyOrderModel extends Model
     
     public static function update($supplyOrderObj)
     {
-    
+    	date_default_timezone_set('Europe/Athens');
+    	
+    	$pdo = Connector::getPDO();
+    	
+    	$pdo->beginTransaction();
+    	
+    	$dateUpdated = date('Y-m-d H:i:s');
+    	
+    	try
+    	{
+    		/*No need to check if exists, it's double overhead. If it doesn't exist delete will just cause nothing*/
+    			
+    		$sqlDel = null;
+
+    		$sqlDel = "DELETE FROM supplyorder
+					   WHERE idSupplyOrder = :idSupplyOrder
+					   AND dateUpdated <> dateCreated";
+
+    			
+    		$stmt = $pdo->prepare($sqlDel);
+    		$stmt->bindValue(":idSupplyOrder", $supplyOrderObj->idSupplyOrder);
+    		$stmt->execute();
+    		
+    		$stmt = $pdo->prepare("INSERT INTO supplyorder
+									(idSupplyOrder, dateUpdated, dateCreated, dateClosed, dateDue, providerSsn, idUser, status)
+								   VALUES
+									(:idSupplyOrder, :dateUpdated, :dateCreated, :dateClosed, :dateDue, :providerSsn, :idUser, :status)");
+    		 
+    		$stmt->bindValue(":idSupplyOrder", $supplyOrderObj->idSupplyOrder);
+    		$stmt->bindValue(":dateUpdated", $dateUpdated);
+    		$stmt->bindValue(":dateCreated", $supplyOrderObj->dateCreated);
+    		$stmt->bindValue(":dateClosed", $supplyOrderObj->dateClosed);
+    		$stmt->bindValue(":dateDue", $supplyOrderObj->dateDue);
+    		$stmt->bindValue(":providerSsn", $supplyOrderObj->providerSsn);
+    		$stmt->bindValue(":idUser", $supplyOrderObj->idUser);
+    		$stmt->bindValue(":status", $supplyOrderObj->status);
+    		$stmt->execute();
+
+    		
+    		 
+    		foreach ($supplyOrderObj->products as $middleProductObj)
+    		{
+    		
+    			$stmt = $pdo->prepare("INSERT INTO supplyorder_has_product
+                                       (sku, idSupplyOrder, dateUpdated, quantityCreated, currentPriceSale, currentPriceSupply, currentDescription)
+                                      VALUES
+                                       (:sku, :idSupplyOrder, :dateUpdated, :quantityCreated, :currentPriceSale, :currentPriceSupply, :currentDescription)");
+    		
+    			$stmt->bindValue(":dateUpdated", $dateUpdated);
+    			$stmt->bindValue(":sku", $middleProductObj->sku);
+    			$stmt->bindValue(":idSupplyOrder", $supplyOrderObj->idSupplyOrder);
+    			$stmt->bindValue(":quantityCreated", $middleProductObj->quantityCreated);
+    			$stmt->bindValue(":currentPriceSale", $middleProductObj->priceSale);
+    			$stmt->bindValue(":currentPriceSupply", $middleProductObj->priceSupply);
+    			$stmt->bindValue(":currentDescription", $middleProductObj->description);
+    			$stmt->execute();
+    		}
+
+    		$pdo->commit();
+    	}
+    	catch(PDOException $e)
+    	{
+    		$pdo->rollBack();
+    		//throw $e;
+    		//echo $e->getMessage();
+    	}
 
     }
     
@@ -106,10 +172,12 @@ class SupplyOrderModel extends Model
     		{
     			$stmt = $pdo->prepare("SELECT sku, currentDescription, currentPriceSale, currentPriceSupply, quantityCreated, quantityClosed
 									  FROM supplyorder_has_product
-                                      WHERE idSupplyOrder = :idSupplyOrder
+                                      WHERE idSupplyOrder = :idSupplyOrder 
+    								  AND dateUpdated = :dateUpdated
 									  ");
     
     			$stmt->bindValue(":idSupplyOrder", $supplyOrderCol['idSupplyOrder']);
+    			$stmt->bindValue(":dateUpdated", $supplyOrderCol['dateUpdated']);
     			$stmt->execute();
     
     			$middleProductsColumns = $stmt->fetchAll();
@@ -132,7 +200,8 @@ class SupplyOrderModel extends Model
     					$supplyOrderCol['status'],
     					$middleProductObjArray,
     					$supplyOrderCol['dateCreated'],
-    					$supplyOrderCol['idSupplyOrder']);
+    					$supplyOrderCol['idSupplyOrder'],
+    					$supplyOrderCol['dateUpdated']);
     		}
     		return $supplyOrderObjArray;
     	}
