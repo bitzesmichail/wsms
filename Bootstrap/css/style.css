@@ -24,6 +24,7 @@ html, body{
 }
 
 .row_selected{
+	/*background-color: red;*/
     color:red;
 }
 
