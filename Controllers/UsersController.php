@@ -28,7 +28,7 @@ require_once 'Models/entities/User.php';
  			$user = UserModel::getUserByUsername($username);
  	 		if (!is_null($user))
 	 		{
- 				if ($user->password == $password)
+ 				if ($user->password == UserModel::getHash($password))
  				{
  					$_SESSION['success_logged_in'] = true;
  					$_SESSION['username'] = $user->username;
