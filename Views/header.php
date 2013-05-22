@@ -61,7 +61,7 @@
 	
 	<script type="text/javascript">			
 			$(document).ready(function() {
-				dTable = $('#users_table, #product_table, #selectedProductTable, #customer_table, #saleorder_table, #provider_table').dataTable({
+				dTable = $('#users_table, #product_table, #selectedProductTable, #customer_table, #saleorder_table, #provider_table, #supplyorder_table').dataTable({
 					"bLengthChange": false,
 					"sPaginationType": "bootstrap"
 				});
