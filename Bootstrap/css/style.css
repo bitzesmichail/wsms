@@ -23,9 +23,9 @@ html, body{
 	background: url(../img/redox_01.png);  
 }
 
-.row_selected td{
-	background-color: red;
-    /*color:red;*/
+.row_selected{
+	/*background-color: red;*/
+    color:red;
 }
 
 .next {
