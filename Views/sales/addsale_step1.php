@@ -9,9 +9,9 @@
 			Δημιουργία Παραγγελίας - Βήμα 1ο
 		</h2>
 		<div class="control-group">
-			<label class="control-label" for="customerSsn">Κωδικός Παραγγελίας</label>
+			<label class="control-label" for="saleOrderID">Κωδικός Παραγγελίας</label>
 			<div class="controls">
-				<input type="text" name="customerSsn" id="customerSsn">
+				<input type="text" name="saleOrderID" id="saleOrderID">
 			</div>
 		</div>
 
@@ -207,6 +207,12 @@
 		<h2>
 			Στοιχεία Παραγγελίας
 		</h2>
+		<div>
+			<label class="control-label" for="saleOrderIDFinal">Κωδικός Παραγγελίας</label>
+			<div class="controls">
+				<input type="text" name="saleOrderIDFinal" id="saleOrderIDFinal" readonly></input>
+			</div>
+		</div>		
 		<h3>
 			Στοιχεία Πωλητή
 		</h3>
@@ -227,6 +233,12 @@
 		<h3>
 			Στοιχεία Πελάτη
 		</h3>
+		<div>
+			<label class="control-label" for="customerSsnFinal">Κωδικός Πελάτη</label>
+			<div class="controls">
+				<input type="text" name="customerSsnFinal" id="customerSsnFinal" readonly></input>
+			</div>
+		</div>		
 		<h3>
 			Στοιχεία Προιόντων
 		</h3>

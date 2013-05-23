@@ -119,8 +119,13 @@
 					else if (divID == 'step3') {
 						$('.step4').show();
 						$('#selectedProductTable').dataTable().fnClearTable();
-						for (var i = 0; i < selectedProducts.length; i++)
+						for (var i = 0; i < selectedProducts.length; i++) {
 							$('#selectedProductTable').dataTable().fnAddData( selectProductTable.fnGetData(selectedProducts[i]) );
+						}
+						if (selectedCustomer != -1) {
+							$("#customerSsnFinal").val(selectCustomerTable.fnGetData(selectedCustomer)[0]);
+						}
+						$("#saleOrderIDFinal").val($("#saleOrderID").val());
 						$('.submitButton').show();
 					}
 				});
