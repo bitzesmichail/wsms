@@ -60,6 +60,8 @@
 	
 	<script type="text/javascript">			
 			$(document).ready(function() {
+				var selectedCustomer = -1;
+				var selectedProducts = [];
 				dTable = $('#users_table, #product_table, #selectedProductTable, #customer_table, #saleorder_table, #provider_table, #supplyorder_table').dataTable({
 					"bLengthChange": false,
 					"sPaginationType": "bootstrap"
@@ -71,19 +73,28 @@
 				});;
 				
 				$("#selectCustomerTable tbody tr").click(function(event) {
-					$(event.target.parentNode).toggleClass('row_selected');
-					var sData = oTable.fnGetData( this );
-					//console.log(sData);
-					var aPos = oTable.fnGetPosition(this);
-					//console.log(aPos);
+					$('.row_selected').removeClass('row_selected');
+					if (oTable.fnGetPosition(this) != selectedCustomer) {
+						$(event.target.parentNode).toggleClass('row_selected');
+						selectedCustomer = oTable.fnGetPosition(this);
+					}
+					else 
+						selectedCustomer = -1;
+					//var sData = oTable.fnGetData( this );
+					//var aPos = oTable.fnGetPosition(this);
 				});
 				
 				$("#selectProductTable tbody tr").click(function(event) {
 					$(event.target.parentNode).toggleClass('row_selected');
-					var sData = oTable.fnGetData( this );
-					//console.log(sData);
-					var aPos = oTable.fnGetPosition(this);
-					//console.log(aPos);
+					var index = $.inArray(oTable.fnGetPosition(this), selectedProducts);
+					if (index == -1) {
+						selectedProducts.push(oTable.fnGetPosition(this))
+					}
+					else {
+						selectedProducts.splice(index, 1);
+					}
+ 					//console.log(selectedProducts);
+					//var sData = oTable.fnGetData( this );
 				});
 				
 				
