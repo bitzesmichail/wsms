@@ -11,24 +11,21 @@
 
     <!-- Bootstrap -->
     <link href="<?php echo BOOTSTRAP; ?>/css/bootstrap.min.css" rel="stylesheet" media="screen">
-    <link href="<?php echo BOOTSTRAP; ?>/css/bootstrap-tablesorter.css" rel="stylesheet" media="screen">
-	
 	<link href="<?php echo BOOTSTRAP; ?>/css/style.css" rel="stylesheet">
 	<link href="<?php echo BOOTSTRAP; ?>/css/jquery.dataTables.css" rel="stylesheet">
-	<link href="<?php echo BOOTSTRAP; ?>/css/jquery.dataTables_themeroller.css" rel="stylesheet">
 	<link href="<?php echo BOOTSTRAP; ?>/css/bootstrap-responsive.css" rel="stylesheet">
 	<link href="<?php echo BOOTSTRAP; ?>/css/DT_bootstrap.css" rel="stylesheet">
 	<link href="<?php echo BOOTSTRAP; ?>/css/bootstrap-datetimepicker.min.css" rel="stylesheet">	
   	
 	
 	<script src="<?php echo BOOTSTRAP; ?>/js/jquery-1.9.1.js"></script>
-	<script src="<?php echo BOOTSTRAP; ?>/js/jquery.tablesorter.min.js"></script> 
     <script src="<?php echo BOOTSTRAP; ?>/js/bootstrap.min.js"></script>    
 	<script src="<?php echo BOOTSTRAP; ?>/js/bootstrap-dropdown.js"></script>
+	<script src="<?php echo BOOTSTRAP; ?>/js/bootstrap-modal.js"></script>
 	<script src="<?php echo BOOTSTRAP; ?>/js/jquery.dataTables.js"></script>
 	<script src="<?php echo BOOTSTRAP; ?>/js/DT_bootstrap.js"></script>
 	<script src="<?php echo BOOTSTRAP; ?>/js/bootstrap-datetimepicker.min.js"></script>
-
+	
 	
 	<script type="text/javascript">			
 		$(document).ready(function() {
@@ -54,6 +51,8 @@
 				var picker = $('#dateDueFinal').data('datetimepicker');
 				picker.setLocalDate(e.localDate);
 			});
+			
+			$('.dropdown-toggle').dropdown();
 		
 		} );
 
@@ -61,30 +60,47 @@
 	
 	<script type="text/javascript">			
 			$(document).ready(function() {
+				var selectedCustomer = -1;
+				var selectedProducts = [];
 				dTable = $('#users_table, #product_table, #selectedProductTable, #customer_table, #saleorder_table, #provider_table, #supplyorder_table').dataTable({
 					"bLengthChange": false,
 					"sPaginationType": "bootstrap"
 				});
 				
-				var oTable = $("#selectCustomerTable, #selectProductTable").dataTable({
+				var selectCustomerTable = $("#selectCustomerTable").dataTable({
 					"bLengthChange": false,
 					"sPaginationType": "bootstrap",
-				});;
+				});
+				
+				var selectProductTable = $("#selectProductTable").dataTable({
+					"bLengthChange": false,
+					"sPaginationType": "bootstrap",
+				});
+				
 				
 				$("#selectCustomerTable tbody tr").click(function(event) {
-					$(event.target.parentNode).toggleClass('row_selected');
-					var sData = oTable.fnGetData( this );
-					//console.log(sData);
-					var aPos = oTable.fnGetPosition(this);
-					//console.log(aPos);
+					$('.row_selected').removeClass('row_selected');
+					if (selectCustomerTable.fnGetPosition(this) != selectedCustomer) {
+						$(event.target.parentNode).toggleClass('row_selected');
+						selectedCustomer = selectCustomerTable.fnGetPosition(this);
+					}
+					else 
+						selectedCustomer = -1;
+					//var sData = selectCustomerTable.fnGetData( this );
+					//var aPos = selectCustomerTable.fnGetPosition(this);
 				});
 				
 				$("#selectProductTable tbody tr").click(function(event) {
 					$(event.target.parentNode).toggleClass('row_selected');
-					var sData = oTable.fnGetData( this );
-					//console.log(sData);
-					var aPos = oTable.fnGetPosition(this);
-					//console.log(aPos);
+					var index = $.inArray(selectProductTable.fnGetPosition(this), selectedProducts);
+					if (index == -1) {
+						selectedProducts.push(selectProductTable.fnGetPosition(this))
+					}
+					else {
+						selectedProducts.splice(index, 1);
+					}
+ 					//console.log(selectedProducts);
+					//var sData = selectProductTable.fnGetData( this );
 				});
 				
 				
@@ -102,6 +118,14 @@
 					}
 					else if (divID == 'step3') {
 						$('.step4').show();
+						$('#selectedProductTable').dataTable().fnClearTable();
+						for (var i = 0; i < selectedProducts.length; i++) {
+							$('#selectedProductTable').dataTable().fnAddData( selectProductTable.fnGetData(selectedProducts[i]) );
+						}
+						if (selectedCustomer != -1) {
+							$("#customerSsnFinal").val(selectCustomerTable.fnGetData(selectedCustomer)[0]);
+						}
+						$("#saleOrderIDFinal").val($("#saleOrderID").val());
 						$('.submitButton').show();
 					}
 				});
