@@ -67,34 +67,40 @@
 					"sPaginationType": "bootstrap"
 				});
 				
-				var oTable = $("#selectCustomerTable, #selectProductTable").dataTable({
+				var selectCustomerTable = $("#selectCustomerTable").dataTable({
 					"bLengthChange": false,
 					"sPaginationType": "bootstrap",
-				});;
+				});
+				
+				var selectProductTable = $("#selectProductTable").dataTable({
+					"bLengthChange": false,
+					"sPaginationType": "bootstrap",
+				});
+				
 				
 				$("#selectCustomerTable tbody tr").click(function(event) {
 					$('.row_selected').removeClass('row_selected');
-					if (oTable.fnGetPosition(this) != selectedCustomer) {
+					if (selectCustomerTable.fnGetPosition(this) != selectedCustomer) {
 						$(event.target.parentNode).toggleClass('row_selected');
-						selectedCustomer = oTable.fnGetPosition(this);
+						selectedCustomer = selectCustomerTable.fnGetPosition(this);
 					}
 					else 
 						selectedCustomer = -1;
-					//var sData = oTable.fnGetData( this );
-					//var aPos = oTable.fnGetPosition(this);
+					//var sData = selectCustomerTable.fnGetData( this );
+					//var aPos = selectCustomerTable.fnGetPosition(this);
 				});
 				
 				$("#selectProductTable tbody tr").click(function(event) {
 					$(event.target.parentNode).toggleClass('row_selected');
-					var index = $.inArray(oTable.fnGetPosition(this), selectedProducts);
+					var index = $.inArray(selectProductTable.fnGetPosition(this), selectedProducts);
 					if (index == -1) {
-						selectedProducts.push(oTable.fnGetPosition(this))
+						selectedProducts.push(selectProductTable.fnGetPosition(this))
 					}
 					else {
 						selectedProducts.splice(index, 1);
 					}
  					//console.log(selectedProducts);
-					//var sData = oTable.fnGetData( this );
+					//var sData = selectProductTable.fnGetData( this );
 				});
 				
 				
@@ -112,6 +118,9 @@
 					}
 					else if (divID == 'step3') {
 						$('.step4').show();
+						$('#selectedProductTable').dataTable().fnClearTable();
+						for (var i = 0; i < selectedProducts.length; i++)
+							$('#selectedProductTable').dataTable().fnAddData( selectProductTable.fnGetData(selectedProducts[i]) );
 						$('.submitButton').show();
 					}
 				});

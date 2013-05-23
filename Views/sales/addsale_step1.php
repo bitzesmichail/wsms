@@ -240,24 +240,7 @@
 			</tr>
 			</thead>
 			<tbody>
-			<tr>
-				<td>value->ssn</td>
-				<td>value->name</td>
-				<td>value->surname</td>
-				<td>value->phone</td>
-			</tr>
-			<tr>
-				<td>value->ssn1</td>
-				<td>value->name1</td>
-				<td>value->surname1</td>
-				<td>value->phone1</td>
-			</tr>
-			<tr>
-				<td>value->ssn2</td>
-				<td>value->name2</td>
-				<td>value->surname2</td>
-				<td>value->phone2</td>
-			</tr>
+			
 			</tbody>
 		</table>	
 		<button type="button" class="btn btn-success previous">Προηγούμενο</button>
