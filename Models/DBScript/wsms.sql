@@ -147,7 +147,6 @@ CREATE TABLE IF NOT EXISTS `history_provider` (
 --
 -- Table structure for table `history_saleorder`
 --
-
 CREATE TABLE IF NOT EXISTS `history_saleorder` (
   `idHistorySaleOrder` int(11) NOT NULL AUTO_INCREMENT,
   `idSaleOrder` int(11) NOT NULL,
@@ -157,15 +156,13 @@ CREATE TABLE IF NOT EXISTS `history_saleorder` (
   `dateClosed` datetime NOT NULL,
   `idHistoryCustomer` int(11) NOT NULL,
   `status` enum('closed','problem') NOT NULL,
+  `priceSale` DECIMAL(10,2) NOT NULL ,
+  `priceSupply` DECIMAL(10,2) NOT NULL ,
+  `discount` DECIMAL(10,2) NOT NULL ,
   PRIMARY KEY (`idHistorySaleOrder`),
   KEY `fk_HistorySaleOrder_InstanceCustomer1_idx` (`idHistoryCustomer`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
--- --------------------------------------------------------
-
---
--- Table structure for table `history_saleorder_has_history_product`
---
 
 CREATE TABLE IF NOT EXISTS `history_saleorder_has_history_product` (
   `idHistorySaleOrder` int(11) NOT NULL,
@@ -173,16 +170,18 @@ CREATE TABLE IF NOT EXISTS `history_saleorder_has_history_product` (
   `discount` decimal(4,3) NOT NULL,
   `quantityCreated` int(11) NOT NULL,
   `quantityClosed` int(11) NOT NULL,
+  `priceSale` DECIMAL(10,2) NOT NULL ,
+  `priceSupply` DECIMAL(10,2) NOT NULL ,
+  `profit` DECIMAL(10,2) NOT NULL ,
   PRIMARY KEY (`idHistorySaleOrder`,`idHistoryProduct`),
   KEY `fk_HistorySaleOrder_has_InstanceProduct_InstanceProduct1_idx` (`idHistoryProduct`),
   KEY `fk_HistorySaleOrder_has_InstanceProduct_HistorySaleOrder1_idx` (`idHistorySaleOrder`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- --------------------------------------------------------
 
---
--- Table structure for table `history_supplyorder`
---
+-- -----------------------------------------------------
+-- Table `wsms`.`history_supplyorder`
+-- -----------------------------------------------------
 
 CREATE TABLE IF NOT EXISTS `history_supplyorder` (
   `idHistorySupplyOrder` int(11) NOT NULL AUTO_INCREMENT,
@@ -191,21 +190,22 @@ CREATE TABLE IF NOT EXISTS `history_supplyorder` (
   `dateDue` datetime NOT NULL,
   `dateClosed` datetime NOT NULL,
   `idHistoryProvider` int(11) NOT NULL,
+  `priceSupply` DECIMAL(10,2) NOT NULL ,
   PRIMARY KEY (`idHistorySupplyOrder`),
   KEY `fk_HistorySupplyOrder_HistoryProvider1_idx` (`idHistoryProvider`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
--- --------------------------------------------------------
 
---
--- Table structure for table `history_supplyorder_has_history_product`
---
+-- -----------------------------------------------------
+-- Table `wsms`.`history_supplyorder_has_history_product`
+-- -----------------------------------------------------
 
 CREATE TABLE IF NOT EXISTS `history_supplyorder_has_history_product` (
   `idHistorySupplyOrder` int(11) NOT NULL,
   `idHistoryProduct` int(11) NOT NULL,
   `quantityCreated` int(11) NOT NULL,
   `quantityClosed` int(11) NOT NULL,
+  `priceSupply` DECIMAL(10,2) NOT NULL ,
   PRIMARY KEY (`idHistorySupplyOrder`,`idHistoryProduct`),
   KEY `fk_HistorySupplyOrder_has_HistoryProduct_HistoryProduct1_idx` (`idHistoryProduct`),
   KEY `fk_HistorySupplyOrder_has_HistoryProduct_HistorySupplyOrder_idx` (`idHistorySupplyOrder`)
@@ -373,11 +373,19 @@ CREATE TRIGGER `SaleOrderTrigger` BEFORE DELETE ON `saleorder`
     
             END IF;
                 
+	    
+            SELECT SUM((currentPriceSale-(currentPriceSale*currentDiscount))*quantityClosed),
+		   SUM(currentPriceSupply*quantityClosed),
+    	  	   SUM((currentPriceSale*currentDiscount)*quantityClosed)
+	    INTO @priceSale, @priceSupply, @discount
+	    FROM saleorder_has_product 
+	    WHERE idSaleOrder = OLD.idSaleOrder
+	    AND dateUpdated = OLD.dateUpdated;
 
             INSERT INTO history_saleorder 
-            (idSaleOrder,dateCreated,dateUpdated,dateDue,dateClosed,idHistoryCustomer,status)
+            (idSaleOrder,dateCreated,dateUpdated,dateDue,dateClosed,idHistoryCustomer,status,priceSale,priceSupply,discount)
             VALUES 
-			(OLD.idSaleOrder,OLD.dateCreated,OLD.dateUpdated,OLD.dateDue,OLD.dateClosed,@historyCustomerId,OLD.status);
+	    (OLD.idSaleOrder,OLD.dateCreated,OLD.dateUpdated,OLD.dateDue,OLD.dateClosed,@historyCustomerId,OLD.status,@priceSale,@priceSupply,@discount);
 
         END IF;
 
@@ -463,15 +471,19 @@ CREATE TRIGGER `SaleOrderHasProductTrigger` BEFORE DELETE ON `saleorder_has_prod
                 FROM history_saleorder 
                 WHERE idSaleOrder = OLD.idSaleOrder 
                 AND dateUpdated = OLD.dateUpdated);
+
+	   SET @profit :=(((OLD.currentPriceSale-
+		(OLD.currentPriceSale*OLD.currentDiscount))-
+		OLD.currentPriceSupply)*OLD.quantityClosed);
             
             INSERT INTO history_saleorder_has_history_product 
-            (idHistorySaleOrder,idHistoryProduct,discount,quantityCreated,quantityClosed) 
+            (idHistorySaleOrder,idHistoryProduct,discount,quantityCreated,quantityClosed,priceSale,priceSupply,profit) 
             VALUES 
-            (@idHistorySaleOrder,@historyProductId,OLD.currentDiscount,OLD.quantityCreated,OLD.quantityClosed);
+            (@idHistorySaleOrder,@historyProductId,OLD.currentDiscount,OLD.quantityCreated,OLD.quantityClosed,OLD.currentPriceSale,OLD.currentPriceSupply,@profit);
 
             IF( OLD.quantityCreated != OLD.quantityClosed ) THEN 
                 UPDATE history_saleorder SET status := 'problem' 
-				WHERE idSaleOrder = OLD.idSaleOrder 
+		WHERE idSaleOrder = OLD.idSaleOrder 
                 AND dateUpdated = OLD.dateUpdated;
             END IF;
 
@@ -533,11 +545,17 @@ CREATE TRIGGER `SupplyOrderTrigger` BEFORE DELETE ON `supplyorder`
             
 				SET @historyProviderId := LAST_INSERT_ID();
             END IF;
+
+	    SELECT SUM(currentPriceSupply*quantityClosed)
+	    INTO @priceSupply
+	    FROM supplyorder_has_product 
+	    WHERE idSupplyOrder = OLD.idSupplyOrder
+	    AND dateUpdated = OLD.dateUpdated;
             
             INSERT INTO history_supplyorder 
-			(idSupplyOrder, dateCreated, dateDue, dateClosed, idHistoryProvider) 
+			(idSupplyOrder, dateCreated, dateDue, dateClosed, idHistoryProvider,priceSupply) 
 			VALUES 
-			(OLD.idSupplyOrder, OLD.dateCreated, OLD.dateDue, OLD.dateClosed, @historyProviderId);
+			(OLD.idSupplyOrder, OLD.dateCreated, OLD.dateDue, OLD.dateClosed, @historyProviderId,@priceSupply);
         END IF;
 
 
@@ -622,9 +640,9 @@ CREATE TRIGGER `SupplyOrderHasProductTrigger` BEFORE DELETE ON `supplyorder_has_
             );
             
             INSERT INTO history_supplyorder_has_history_product 
-            (idHistorySupplyOrder,idHistoryProduct,quantityCreated,quantityClosed) 
+            (idHistorySupplyOrder,idHistoryProduct,quantityCreated,quantityClosed,priceSupply) 
             VALUES 
-            (@idHistorySupplyOrder,@historyProductId,OLD.quantityCreated,OLD.quantityClosed);
+            (@idHistorySupplyOrder,@historyProductId,OLD.quantityCreated,OLD.quantityClosed,(OLD.currentPriceSupply*OLD.quantityClosed));
 
         END IF;
 
