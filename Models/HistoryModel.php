@@ -58,4 +58,43 @@ class HistoryModel extends Model
 		
 	}
 	
+	public static function getProviderStatistics($providerSsn){
+	
+		$pdo = Connector::getPDO();
+	
+		try
+		{
+			$stmt = $pdo->prepare("SELECT SUM(priceSupply),
+										  MIN(priceSupply),
+										  MAX(priceSupply),
+										  AVG(priceSupply),
+										  COUNT(*)
+								   FROM history_supplyorder
+								   WHERE idHistoryProvider IN (
+								   SELECT idHistoryProvider
+								   FROM history_provider
+								   WHERE providerSsn = :providerSsn)");
+	
+			$stmt->bindValue(":providerSsn", $providerSsn);
+			$stmt->execute();
+	
+			$providerCol = $stmt->fetch(PDO::FETCH_NUM);
+	
+			return new ProviderStatistics($providerCol[0], 
+										  $providerCol[1], 
+										  $providerCol[2],
+										  $providerCol[3],
+										  $providerCol[4],
+										  $providerSsn
+										 );
+				
+		}
+		catch(PDOException $e)
+		{
+			throw $e;
+			//      echo $e->getMessage();
+		}
+	
+	}
+	
 }
