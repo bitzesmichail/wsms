@@ -62,7 +62,7 @@
 			$(document).ready(function() {
 				var selectedCustomer = -1;
 				var selectedProducts = [];
-				dTable = $('#users_table, #product_table, #selectedProductTable, #customer_table, #saleorder_table, #provider_table, #supplyorder_table').dataTable({
+				dTable = $('#users_table, #product_table, #saleorderHistory_table, #supplyHistory_table, #selectedProductTable, #customer_table, #saleorder_table, #provider_table, #supplyorder_table').dataTable({
 					"bLengthChange": false,
 					"sPaginationType": "bootstrap"
 				});
@@ -120,6 +120,7 @@
 						$('.step4').show();
 						$('#selectedProductTable').dataTable().fnClearTable();
 						for (var i = 0; i < selectedProducts.length; i++) {
+							console.log(selectProductTable.fnGetData(selectedProducts[i]));
 							$('#selectedProductTable').dataTable().fnAddData( selectProductTable.fnGetData(selectedProducts[i]) );
 						}
 						if (selectedCustomer != -1) {
