@@ -479,7 +479,8 @@ CREATE TRIGGER `SaleOrderHasProductTrigger` BEFORE DELETE ON `saleorder_has_prod
             INSERT INTO history_saleorder_has_history_product 
             (idHistorySaleOrder,idHistoryProduct,discount,quantityCreated,quantityClosed,priceSale,priceSupply,profit) 
             VALUES 
-            (@idHistorySaleOrder,@historyProductId,OLD.currentDiscount,OLD.quantityCreated,OLD.quantityClosed,OLD.currentPriceSale,OLD.currentPriceSupply,@profit);
+            (@idHistorySaleOrder,@historyProductId,OLD.currentDiscount,OLD.quantityCreated,OLD.quantityClosed,
+	    ((OLD.currentPriceSale-(OLD.currentPriceSale*OLD.currentDiscount))*OLD.quantityClosed),(OLD.currentPriceSupply*OLD.quantityClosed),@profit);
 
             IF( OLD.quantityCreated != OLD.quantityClosed ) THEN 
                 UPDATE history_saleorder SET status := 'problem' 
