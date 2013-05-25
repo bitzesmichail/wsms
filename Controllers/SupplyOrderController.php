@@ -17,6 +17,29 @@ require_once 'Controller.php';
  		$this->view->render('supplies');
  	}
 
+	public function supplyHistory()
+ 	{
+ 		if (isset($_SESSION['role'])) {
+ 			if($_SESSION['role'] == 'MANAGER' || $_SESSION['role'] == 'SELLER') {
+				try 
+				{          
+					$this->view->render('supplies', 'supplyHistory', null); 
+				}
+ 				catch(Exception $ex)
+			 	{
+	 				require_once 'PageController.php';
+					$page = new PageController;
+					$page->errordb($ex->getMessage());
+ 				}
+			}
+			else {
+ 				require_once 'PageController.php';
+				$page = new PageController;
+				$page->error_accdenied();
+			}
+ 		}
+ 	}
+
  	public function create($supply='')
  	{
  		return 0;

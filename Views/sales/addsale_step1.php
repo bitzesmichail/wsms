@@ -2,7 +2,6 @@
   require_once 'Views/navbars/navbar.php';
 ?>
 
-
 <form class="form-horizontal" action="<?php echo SALEORDER . "/create"; ?>" method="post">
 	<div id="step1" class="stepDivs step1">
 		<h2>
@@ -164,6 +163,8 @@
 				<th><strong>Όνομα</strong></th>
 				<th><strong>Επώνυμο</strong></th>
 				<th><strong>Τηλέφωνο</strong></th>
+				<th><strong>Ποσότητα</strong></th>
+				<th><strong>Ενέργειες</strong></th>
 			</tr>
 			</thead>
 			<tbody>
@@ -172,18 +173,24 @@
 				<td>value->name</td>
 				<td>value->surname</td>
 				<td>value->phone</td>
+				<td>0</td>
+				<td><a class="edit" href="">Επεξεργασία Ποσότητας</a></td>
 			</tr>
 			<tr>
 				<td>value->ssn1</td>
 				<td>value->name1</td>
 				<td>value->surname1</td>
 				<td>value->phone1</td>
+				<td>0</td>
+				<td><a class="edit" href="">Επεξεργασία Ποσότητας</a></td>
 			</tr>
 			<tr>
 				<td>value->ssn2</td>
 				<td>value->name2</td>
 				<td>value->surname2</td>
 				<td>value->phone2</td>
+				<td>0</td>
+				<td><a class="edit" href="">Επεξεργασία Ποσότητας</a></td>
 			</tr>
 			<?php
 				/*if (!empty($data)) {
@@ -249,6 +256,7 @@
 				<th><strong>Όνομα</strong></th>
 				<th><strong>Επώνυμο</strong></th>
 				<th><strong>Τηλέφωνο</strong></th>
+				<th><strong>Ποσότητα</strong></th>
 			</tr>
 			</thead>
 			<tbody>

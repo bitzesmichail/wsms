@@ -20,6 +20,7 @@
 	<th><strong>Κωδικός Πωλητή</strong></th>
 	<th><strong>Κατάσταση</strong></th>
 	<th><strong>Ημερομηνία Κλεισίματος</strong></th>
+	<th><strong>Ενέργειες</strong></th>
 </tr>
 </thead>
 <tbody>
@@ -31,7 +32,7 @@
 			echo "<td>" . $value->providerSsn . "</td>";
 			echo "<td>" . $value->idUser . "</td>";
 			echo "<td>" . $value->status . "</td>";
-			echo "<td>" . $value->dateClosed . "</td>";			
+			echo "<td>" . $value->dateClosed . "</td>";					
 			echo "<td>" . "<a href=\"" . SUPPLYORDER . "/editsupplyorder?idSupplyOrder=" . $value->idSupplyOrder . "\">" . "<button class=\"btn btn-primary\" type=\"button\" >Επεξεργασία</button></a>";				
 			echo "<a href=\"" . SUPPLYORDER . "/deletesupplyorder?idSupplyOrder=" . $value->idSupplyOrder . "\">" . "<button class=\"btn btn-danger\" type=\"button\" >Διαγραφή</button></td></a>";
 			echo "</tr>";

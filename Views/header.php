@@ -18,13 +18,15 @@
 	<link href="<?php echo BOOTSTRAP; ?>/css/bootstrap-datetimepicker.min.css" rel="stylesheet">	
   	
 	
-	<script src="<?php echo BOOTSTRAP; ?>/js/jquery-1.9.1.js"></script>
+	<script src="<?php echo BOOTSTRAP; ?>/js/jquery-1.8.1.min.js"></script>
     <script src="<?php echo BOOTSTRAP; ?>/js/bootstrap.min.js"></script>    
 	<script src="<?php echo BOOTSTRAP; ?>/js/bootstrap-dropdown.js"></script>
 	<script src="<?php echo BOOTSTRAP; ?>/js/bootstrap-modal.js"></script>
 	<script src="<?php echo BOOTSTRAP; ?>/js/jquery.dataTables.js"></script>
 	<script src="<?php echo BOOTSTRAP; ?>/js/DT_bootstrap.js"></script>
 	<script src="<?php echo BOOTSTRAP; ?>/js/bootstrap-datetimepicker.min.js"></script>
+	<script src="<?php echo BOOTSTRAP; ?>/js/jquery.dataTables.editable.js"></script>
+	<script src="<?php echo BOOTSTRAP; ?>/js/jquery.jeditable.js"></script>
 	
 	
 	<script type="text/javascript">			
@@ -62,7 +64,7 @@
 			$(document).ready(function() {
 				var selectedCustomer = -1;
 				var selectedProducts = [];
-				dTable = $('#users_table, #product_table, #selectedProductTable, #customer_table, #saleorder_table, #provider_table, #supplyorder_table').dataTable({
+				dTable = $('#users_table, #product_table, #saleorderHistory_table, #supplyHistory_table, #selectedProductTable, #customer_table, #saleorder_table, #provider_table, #supplyorder_table').dataTable({
 					"bLengthChange": false,
 					"sPaginationType": "bootstrap"
 				});
@@ -76,6 +78,57 @@
 					"bLengthChange": false,
 					"sPaginationType": "bootstrap",
 				});
+				
+				/*$('#selectProductTable').dataTable().makeEditable({
+							sUpdateURL: function(value, settings)
+                                {
+										console.log(value);
+										console.log(settings);
+                                        //return(value);
+                                }
+				});*/
+				
+				function editRow ( oTable, nRow )
+				{
+					var aData = oTable.fnGetData(nRow);
+					var jqTds = $('>td', nRow);
+					jqTds[4].innerHTML = '<input type="text" value="'+aData[4]+'">';
+					jqTds[5].innerHTML = '<a class="edit" href="">Αποθήκευση</a>';
+				}
+				
+				function saveRow ( oTable, nRow )
+				{
+					var jqInputs = $('input', nRow);
+					oTable.fnUpdate( jqInputs[0].value, nRow, 4, false );
+					oTable.fnUpdate( '<a class="edit" href="">Επεξεργασία Ποσότητας</a>', nRow, 5, false );
+					oTable.fnDraw();
+				}
+				
+				var nEditing = null;
+     
+				$('#selectProductTable a.edit').live('click', function (e) {
+					e.preventDefault();
+					 
+					/* Get the row as a parent of the link that was clicked on */
+					var nRow = $(this).parents('tr')[0];
+					 
+					if ( nEditing !== null && nEditing != nRow ) {
+						/* A different row is being edited - the edit should be cancelled and this row edited */
+						restoreRow( selectProductTable, nEditing );
+						editRow( selectProductTable, nRow );
+						nEditing = nRow;
+					}
+					else if ( nEditing == nRow && this.innerHTML == "Αποθήκευση" ) {
+						/* This row is being edited and should be saved */
+						saveRow( selectProductTable, nEditing );
+						nEditing = null;
+					}
+					else {
+						/* No row currently being edited */
+						editRow( selectProductTable, nRow );
+						nEditing = nRow;
+					}
+				} );
 				
 				
 				$("#selectCustomerTable tbody tr").click(function(event) {
@@ -120,6 +173,7 @@
 						$('.step4').show();
 						$('#selectedProductTable').dataTable().fnClearTable();
 						for (var i = 0; i < selectedProducts.length; i++) {
+							//console.log(selectProductTable.fnGetData(selectedProducts[i]));
 							$('#selectedProductTable').dataTable().fnAddData( selectProductTable.fnGetData(selectedProducts[i]) );
 						}
 						if (selectedCustomer != -1) {

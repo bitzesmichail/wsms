@@ -59,8 +59,34 @@ require_once 'Models/CustomerModel.php';
  		if (isset($_SESSION['role'])) {
  			if($_SESSION['role'] == 'MANAGER' || $_SESSION['role'] == 'SELLER') {
 				try 
-				{
-					$this->view->render('sales', 'addsale_step1', null); 
+				{          
+					$customers = CustomerModel::getCustomers();
+					$data = ProductModel::getProducts();
+
+					$this->view->render('sales', 'addsale_step1', $data); 
+				}
+ 				catch(Exception $ex)
+			 	{
+	 				require_once 'PageController.php';
+					$page = new PageController;
+					$page->errordb($ex->getMessage());
+ 				}
+			}
+			else {
+ 				require_once 'PageController.php';
+				$page = new PageController;
+				$page->error_accdenied();
+			}
+ 		}
+ 	}
+
+	public function saleHistory()
+ 	{
+ 		if (isset($_SESSION['role'])) {
+ 			if($_SESSION['role'] == 'MANAGER' || $_SESSION['role'] == 'SELLER') {
+				try 
+				{          
+					$this->view->render('sales', 'saleHistory', null); 
 				}
  				catch(Exception $ex)
 			 	{
