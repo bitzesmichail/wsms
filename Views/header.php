@@ -18,13 +18,15 @@
 	<link href="<?php echo BOOTSTRAP; ?>/css/bootstrap-datetimepicker.min.css" rel="stylesheet">	
   	
 	
-	<script src="<?php echo BOOTSTRAP; ?>/js/jquery-1.9.1.js"></script>
+	<script src="<?php echo BOOTSTRAP; ?>/js/jquery-1.8.1.min.js"></script>
     <script src="<?php echo BOOTSTRAP; ?>/js/bootstrap.min.js"></script>    
 	<script src="<?php echo BOOTSTRAP; ?>/js/bootstrap-dropdown.js"></script>
 	<script src="<?php echo BOOTSTRAP; ?>/js/bootstrap-modal.js"></script>
 	<script src="<?php echo BOOTSTRAP; ?>/js/jquery.dataTables.js"></script>
 	<script src="<?php echo BOOTSTRAP; ?>/js/DT_bootstrap.js"></script>
 	<script src="<?php echo BOOTSTRAP; ?>/js/bootstrap-datetimepicker.min.js"></script>
+	<script src="<?php echo BOOTSTRAP; ?>/js/jquery.dataTables.editable.js"></script>
+	<script src="<?php echo BOOTSTRAP; ?>/js/jquery.jeditable.js"></script>
 	
 	
 	<script type="text/javascript">			
@@ -77,6 +79,15 @@
 					"sPaginationType": "bootstrap",
 				});
 				
+				/*$('#selectProductTable').dataTable().makeEditable({
+							sUpdateURL: function(value, settings)
+                                {
+										console.log(value);
+										console.log(settings);
+                                        //return(value);
+                                }
+				});*/
+				
 				
 				$("#selectCustomerTable tbody tr").click(function(event) {
 					$('.row_selected').removeClass('row_selected');
@@ -120,7 +131,7 @@
 						$('.step4').show();
 						$('#selectedProductTable').dataTable().fnClearTable();
 						for (var i = 0; i < selectedProducts.length; i++) {
-							console.log(selectProductTable.fnGetData(selectedProducts[i]));
+							//console.log(selectProductTable.fnGetData(selectedProducts[i]));
 							$('#selectedProductTable').dataTable().fnAddData( selectProductTable.fnGetData(selectedProducts[i]) );
 						}
 						if (selectedCustomer != -1) {

@@ -2,7 +2,6 @@
   require_once 'Views/navbars/navbar.php';
 ?>
 
-
 <form class="form-horizontal" action="<?php echo SALEORDER . "/create"; ?>" method="post">
 	<div id="step1" class="stepDivs step1">
 		<h2>
