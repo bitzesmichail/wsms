@@ -1,6 +1,10 @@
 <?php
 
 require_once 'Controller.php';
+require_once 'Models/UserModel.php';
+require_once 'Models/ProductModel.php';
+require_once 'Models/SaleOrderModel.php';
+require_once 'Models/ProviderModel.php';
 
 /**
  * Controller for supply orders
@@ -15,6 +19,33 @@ require_once 'Controller.php';
  	public function index()
  	{
  		$this->view->render('supplies');
+ 	}
+
+	public function addsupplyorder()
+ 	{
+ 		if (isset($_SESSION['role'])) {
+ 			if($_SESSION['role'] == 'MANAGER' || $_SESSION['role'] == 'SELLER') {
+				try 
+				{          
+					$data = new StdClass();
+					$data->providers = ProviderModel::getProviders();
+					$data->products = ProductModel::getProducts();
+
+					$this->view->render('supplies', 'addsupply_step1', $data); 
+				}
+ 				catch(Exception $ex)
+			 	{
+	 				require_once 'PageController.php';
+					$page = new PageController;
+					$page->errordb($ex->getMessage());
+ 				}
+			}
+			else {
+ 				require_once 'PageController.php';
+				$page = new PageController;
+				$page->error_accdenied();
+			}
+ 		}
  	}
 
 	public function supplyHistory()

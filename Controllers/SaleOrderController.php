@@ -30,6 +30,7 @@ require_once 'Models/CustomerModel.php';
 						//var_dump($cur_customer);
 						$element = new StdClass();
 						//echo $cur_customer->name;
+						$element->id = $saleorder->idSaleOrder;
 						$element->name = $cur_customer->name;
 						$element->surname = $cur_customer->surname;
 						$element->ssn = $cur_customer->ssn;
@@ -60,8 +61,9 @@ require_once 'Models/CustomerModel.php';
  			if($_SESSION['role'] == 'MANAGER' || $_SESSION['role'] == 'SELLER') {
 				try 
 				{          
-					$customers = CustomerModel::getCustomers();
-					$data = ProductModel::getProducts();
+					$data = new StdClass();
+					$data->customers = CustomerModel::getCustomers();
+					$data->products = ProductModel::getProducts();
 
 					$this->view->render('sales', 'addsale_step1', $data); 
 				}
@@ -109,9 +111,46 @@ require_once 'Models/CustomerModel.php';
  			if($_SESSION['role'] == 'MANAGER' || $_SESSION['role'] == 'SELLER') {
 				try 
 				{
- 					$product = new SaleOrder($_POST['dateDue'], $_POST['customerSsn'], $_POST['idUser'], $_POST['status'], null);
- 					SaleOrderModel::create($product);
+					var_dump($_POST);
+
+					$middleProductObjArray = null;
+ 					$saleOrderObj = new SaleOrder($_POST['dateDue'], $_POST['customerSsn'], $_POST['idUser'], $_POST['status'], $middleProductObjArray);
+ 					SaleOrderModel::create($saleOrderObj);
 	 				SaleOrderController::index();
+				}
+ 				catch(Exception $ex)
+			 	{
+	 				require_once 'PageController.php';
+					$page = new PageController;
+					$page->errordb($ex->getMessage());
+ 				}
+ 			}
+			else {
+ 				require_once 'PageController.php';
+				$page = new PageController;
+				$page->error_accdenied();
+			}
+ 		}
+ 	}
+
+ 	public function editsaleorder($id='')
+ 	{
+ 		if (isset($_SESSION['role'])) {
+ 			if($_SESSION['role'] == 'MANAGER' || $_SESSION['role'] == 'SELLER') {
+				try 
+				{
+					$saleorder = SaleOrderModel::getSaleOrderById($id);
+					$cur_customer = CustomerModel::getCustomerBySsn($saleorder->customerSsn);
+					$element = new StdClass();
+					$element->id = $saleorder->idSaleOrder;
+					$element->name = $cur_customer->name;
+					$element->surname = $cur_customer->surname;
+					$element->ssn = $cur_customer->ssn;
+					$element->dateDue = $saleorder->dateDue;
+
+					$data[] = $element;
+						
+					$this->view->render('sales', 'edit', $data);
 				}
  				catch(Exception $ex)
 			 	{

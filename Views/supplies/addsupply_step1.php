@@ -2,15 +2,15 @@
   require_once 'Views/navbars/navbar.php';
 ?>
 
-<form class="form-horizontal" action="<?php echo SALEORDER . "/create"; ?>" method="post">
-	<div id="step1" class="addsale stepDivs step1">
+<form class="form-horizontal" action="<?php echo SUPPLYORDER . "/create"; ?>" method="post">
+	<div id="step1" class="addsupply stepDivs step1">
 		<h2>
-			Δημιουργία Παραγγελίας - Βήμα 1ο
+			Δημιουργία Προμήθειας - Βήμα 1ο
 		</h2>
 		<div class="control-group">
-			<label class="control-label" for="saleOrderID">Κωδικός Παραγγελίας</label>
+			<label class="control-label" for="supplyOrderID">Κωδικός Προμήθειας</label>
 			<div class="controls">
-				<input type="text" name="saleOrderID" id="saleOrderID">
+				<input type="text" name="supplyOrderID" id="supplyOrderID">
 			</div>
 		</div>
 
@@ -39,18 +39,18 @@
 			</div>
 		</div>
 
-		<button type="button" class="btn btn-success addsale previous" >Προηγούμενο</button>
-		<button type="button" class="btn btn-warning addsale next">Επόμενο</button>
+		<button type="button" class="btn btn-success addsupply previous" >Προηγούμενο</button>
+		<button type="button" class="btn btn-warning addsupply next">Επόμενο</button>
 		
 		
 	</div>
 	
-	<div id="step2" class="addsale stepDivs step2">
+	<div id="step2" class="addsupply stepDivs step2">
 		<h2>
-			Δημιουργία Παραγγελίας - Βήμα 2ο
+			Δημιουργία Προμήθειας - Βήμα 2ο
 		</h2>
 		
-		<table cellpadding="0" cellspacing="0" border="0" class="table table-striped table-bordered" width="100%" id="selectCustomerTable">
+		<table cellpadding="0" cellspacing="0" border="0" class="table table-striped table-bordered" width="100%" id="selectProviderTable">
 			<thead>
 			<tr>
 				<th><strong>ΑΦΜ</strong></th>
@@ -66,8 +66,8 @@
 			</thead>
 			<tbody>
 			<?php
-				if (!empty($data->customers)) {
-					foreach ($data->customers as &$value) {
+				if (!empty($data->providers)) {
+					foreach ($data->providers as &$value) {
 						echo "<tr>";
 						echo "<td>" . $value->ssn . "</td>";
 						echo "<td>" . $value->name . "</td>";
@@ -87,13 +87,13 @@
 		
 		
 		
-		<button type="button" class="btn btn-success addsale previous">Προηγούμενο</button>
-		<button type="button" class="btn btn-warning addsale next">Επόμενο</button>
+		<button type="button" class="btn btn-success addsupply previous">Προηγούμενο</button>
+		<button type="button" class="btn btn-warning addsupply next">Επόμενο</button>
 	</div>
 	
-	<div id="step3" class="addsale stepDivs step3">
+	<div id="step3" class="addsupply stepDivs step3">
 		<h2>
-			Δημιουργία Παραγγελίας - Βήμα 3ο
+			Δημιουργία Προμήθειας - Βήμα 3ο
 		</h2>
 		<table cellpadding="0" cellspacing="0" border="0" class="table table-striped table-bordered" width="100%" id="selectProductTable">
 			<thead>
@@ -125,18 +125,18 @@
 			?>
 			</tbody>
 		</table>
-		<button type="button" class="btn btn-success addsale previous">Προηγούμενο</button>
-		<button type="button" class="btn btn-warning addsale next">Επόμενο</button>
+		<button type="button" class="btn btn-success addsupply previous">Προηγούμενο</button>
+		<button type="button" class="btn btn-warning addsupply next">Επόμενο</button>
 	</div>
 	
-	<div id="step4" class="addsale stepDivs step4">
+	<div id="step4" class="addsupply stepDivs step4">
 		<h2>
-			Στοιχεία Παραγγελίας
+			Στοιχεία Προμήθειας
 		</h2>
 		<div>
-			<label class="control-label" for="saleOrderIDFinal">Κωδικός Παραγγελίας</label>
+			<label class="control-label" for="supplyOrderIDFinal">Κωδικός Παραγγελίας</label>
 			<div class="controls">
-				<input type="text" name="saleOrderIDFinal" id="saleOrderIDFinal" readonly></input>
+				<input type="text" name="supplyOrderIDFinal" id="supplyOrderIDFinal" readonly></input>
 			</div>
 		</div>		
 		<h3>
@@ -157,12 +157,12 @@
 			</div>
 		</div>		
 		<h3>
-			Στοιχεία Πελάτη
+			Στοιχεία Προμηθευτή
 		</h3>
 		<div>
-			<label class="control-label" for="customerSsnFinal">Κωδικός Πελάτη</label>
+			<label class="control-label" for="providerSsnFinal">Κωδικός Προμηθευτή</label>
 			<div class="controls">
-				<input type="text" name="customerSsnFinal" id="customerSsnFinal" readonly></input>
+				<input type="text" name="providerSsnFinal" id="providerSsnFinal" readonly></input>
 			</div>
 		</div>		
 		<h3>
@@ -183,13 +183,13 @@
 			
 			</tbody>
 		</table>	
-		<button type="button" class="btn btn-success addsale previous">Προηγούμενο</button>
+		<button type="button" class="btn btn-success addsupply previous">Προηγούμενο</button>
 	</div>
 
-	<div class="addsale stepDivs submitButton">
+	<div class="addsupply stepDivs submitButton">
 		<div class="control-group">
 			<div class="controls">
-				<button type="submit" class="btn btn-primary addsale" style="float:right;">Προσθήκη</button>
+				<button type="submit" class="btn btn-primary addsupply" style="float:right;">Προσθήκη</button>
 			</div>
 		</div>
 	</div>

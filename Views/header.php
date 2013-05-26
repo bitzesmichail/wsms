@@ -63,6 +63,7 @@
 	<script type="text/javascript">			
 			$(document).ready(function() {
 				var selectedCustomer = -1;
+				var selectedProvider = -1;
 				var selectedProducts = [];
 				dTable = $('#users_table, #product_table, #saleorderHistory_table, #supplyHistory_table, #selectedProductTable, #customer_table, #saleorder_table, #provider_table, #supplyorder_table').dataTable({
 					"bLengthChange": false,
@@ -74,33 +75,30 @@
 					"sPaginationType": "bootstrap",
 				});
 				
-				var selectProductTable = $("#selectProductTable").dataTable({
+				var selectProviderTable = $("#selectProviderTable").dataTable({
 					"bLengthChange": false,
 					"sPaginationType": "bootstrap",
 				});
 				
-				/*$('#selectProductTable').dataTable().makeEditable({
-							sUpdateURL: function(value, settings)
-                                {
-										console.log(value);
-										console.log(settings);
-                                        //return(value);
-                                }
-				});*/
+				var selectProductTable = $("#selectProductTable").dataTable({
+					//"bPaginate": false,
+					"bLengthChange": false,
+					"sPaginationType": "bootstrap",
+				});
 				
 				function editRow ( oTable, nRow )
 				{
 					var aData = oTable.fnGetData(nRow);
 					var jqTds = $('>td', nRow);
-					jqTds[4].innerHTML = '<input type="text" value="'+aData[4]+'">';
-					jqTds[5].innerHTML = '<a class="edit" href="">Αποθήκευση</a>';
+					jqTds[5].innerHTML = '<input type="text" value="'+aData[4]+'">';
+					jqTds[6].innerHTML = '<a class="edit" href="">Αποθήκευση</a>';
 				}
 				
 				function saveRow ( oTable, nRow )
 				{
 					var jqInputs = $('input', nRow);
-					oTable.fnUpdate( jqInputs[0].value, nRow, 4, false );
-					oTable.fnUpdate( '<a class="edit" href="">Επεξεργασία Ποσότητας</a>', nRow, 5, false );
+					oTable.fnUpdate( jqInputs[0].value, nRow, 5, false );
+					oTable.fnUpdate( '<a class="edit" href="">Επεξεργασία Ποσότητας</a>', nRow, 6, false );
 					oTable.fnDraw();
 				}
 				
@@ -130,8 +128,20 @@
 					}
 				} );
 				
+				/*$("#selectProductTable tbody tr").click(function(event) {
+					console.log('click');
+					console.log(selectProductTable.fnGetPosition(this));
+					$(event.target.parentNode).toggleClass('row_selected');
+					/*var index = $.inArray(selectProductTable.fnGetPosition(this), selectedProducts);
+					if (index == -1) {
+						selectedProducts.push(selectProductTable.fnGetPosition(this))
+					}
+					else {
+						selectedProducts.splice(index, 1);
+					}
+				});*/
 				
-				$("#selectCustomerTable tbody tr").click(function(event) {
+				$("body").on('click', '#selectCustomerTable tbody tr', function(event) {
 					$('.row_selected').removeClass('row_selected');
 					if (selectCustomerTable.fnGetPosition(this) != selectedCustomer) {
 						$(event.target.parentNode).toggleClass('row_selected');
@@ -139,64 +149,113 @@
 					}
 					else 
 						selectedCustomer = -1;
-					//var sData = selectCustomerTable.fnGetData( this );
-					//var aPos = selectCustomerTable.fnGetPosition(this);
 				});
 				
-				$("#selectProductTable tbody tr").click(function(event) {
+				$("body").on('click', '#selectProviderTable tbody tr', function(event) {
+					$('.row_selected').removeClass('row_selected');
+					if (selectProviderTable.fnGetPosition(this) != selectedProvider) {
+						$(event.target.parentNode).toggleClass('row_selected');
+						selectedProvider = selectProviderTable.fnGetPosition(this);
+					}
+					else 
+						selectedProvider = -1;
+				});
+				
+				$("body").on('click', '#selectProductTable tbody tr', function(event) {
+					//console.log(this);
+					//console.log('click');
+					//console.log(selectProductTable.fnGetPosition(this));
 					$(event.target.parentNode).toggleClass('row_selected');
-					var index = $.inArray(selectProductTable.fnGetPosition(this), selectedProducts);
-					if (index == -1) {
-						selectedProducts.push(selectProductTable.fnGetPosition(this))
-					}
-					else {
-						selectedProducts.splice(index, 1);
-					}
- 					//console.log(selectedProducts);
-					//var sData = selectProductTable.fnGetData( this );
 				});
 				
-				
-
-				$('.stepDivs').hide();
-				$('.step1').show();
-				$('.next').click(function (event){
-					$('.stepDivs').hide();
+				$('.addsale.stepDivs').hide();
+				$('.addsale.step1').show();
+				$('.addsale.next').click(function (event){
+					$('.addsale.stepDivs').hide();
 					var divID = $(this).parent().attr('id');
 					if (divID == 'step1') {
-						$('.step2').show();
+						$('.addsale.step2').show();
 					}
 					else if (divID == 'step2') {
-						$('.step3').show();
+						$('.addsale.step3').show();
 					}
 					else if (divID == 'step3') {
-						$('.step4').show();
+						$('.addsale.step4').show();						
 						$('#selectedProductTable').dataTable().fnClearTable();
-						for (var i = 0; i < selectedProducts.length; i++) {
-							//console.log(selectProductTable.fnGetData(selectedProducts[i]));
-							$('#selectedProductTable').dataTable().fnAddData( selectProductTable.fnGetData(selectedProducts[i]) );
+						var nodes = selectProductTable.fnGetNodes();
+						for (var j=0; j < nodes.length; j++) {
+							if ($(nodes[j]).hasClass('row_selected')) {
+								//console.log(selectProductTable.fnGetData(nodes[j]));
+								$('#selectedProductTable').dataTable().fnAddData( selectProductTable.fnGetData(nodes[j]) );
+							}
 						}
 						if (selectedCustomer != -1) {
 							$("#customerSsnFinal").val(selectCustomerTable.fnGetData(selectedCustomer)[0]);
 						}
 						$("#saleOrderIDFinal").val($("#saleOrderID").val());
-						$('.submitButton').show();
+						$('.addsale.submitButton').show();
 					}
 				});
-				$('.previous').click(function (event){
-					$('.stepDivs').hide();
+				$('.addsale.previous').click(function (event){
+					$('.addsale.stepDivs').hide();
 					var divID = $(this).parent().attr('id');
 					if (divID == 'step2') {
-						$('.step1').show();
+						$('.addsale.step1').show();
 					}
 					else if (divID == 'step3') {
-						$('.step2').show();
+						$('.addsale.step2').show();
 					}
 					else if (divID == 'step4') {
-						$('.step3').show();
+						$('.addsale.step3').show();
 					}
 				});
+				
+				$('.addsupply.stepDivs').hide();
+				$('.addsupply.step1').show();
+				$('.addsupply.next').click(function (event){
+					$('.addsupply.stepDivs').hide();
+					var divID = $(this).parent().attr('id');
+					if (divID == 'step1') {
+						$('.addsupply.step2').show();
+					}
+					else if (divID == 'step2') {
+						$('.addsupply.step3').show();
+					}
+					else if (divID == 'step3') {
+						$('.addsupply.step4').show();						
+						$('#selectedProductTable').dataTable().fnClearTable();
+						var nodes = selectProductTable.fnGetNodes();
+						for (var j=0; j < nodes.length; j++) {
+							if ($(nodes[j]).hasClass('row_selected')) {
+								//console.log(selectProductTable.fnGetData(nodes[j]));
+								$('#selectedProductTable').dataTable().fnAddData( selectProductTable.fnGetData(nodes[j]) );
+							}
+						}
+						if (selectedProvider != -1) {
+							$("#providerSsnFinal").val(selectProviderTable.fnGetData(selectedProvider)[0]);
+						}
+						$("#supplyOrderIDFinal").val($("#supplyOrderID").val());
+						$('.addsupply.submitButton').show();
+					}
+				});
+				$('.addsupply.previous').click(function (event){
+					$('.addsupply.stepDivs').hide();
+					var divID = $(this).parent().attr('id');
+					if (divID == 'step2') {
+						$('.addsupply.step1').show();
+					}
+					else if (divID == 'step3') {
+						$('.addsupply.step2').show();
+					}
+					else if (divID == 'step4') {
+						$('.addsupply.step3').show();
+					}
+				});
+				
+				
 			} );
+			
+		
 			
 	</script>
 	
