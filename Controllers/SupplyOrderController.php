@@ -1,6 +1,10 @@
 <?php
 
 require_once 'Controller.php';
+require_once 'Models/UserModel.php';
+require_once 'Models/ProductModel.php';
+require_once 'Models/SaleOrderModel.php';
+require_once 'Models/ProviderModel.php';
 
 /**
  * Controller for supply orders
@@ -24,10 +28,10 @@ require_once 'Controller.php';
 				try 
 				{          
 					$data = new StdClass();
-					$data->providers = ProviderModel::getCustomers();
+					$data->providers = ProviderModel::getProviders();
 					$data->products = ProductModel::getProducts();
 
-					$this->view->render('supplies', 'addsupply_step1', null); 
+					$this->view->render('supplies', 'addsupply_step1', $data); 
 				}
  				catch(Exception $ex)
 			 	{
