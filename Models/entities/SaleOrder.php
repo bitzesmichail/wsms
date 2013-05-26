@@ -10,7 +10,8 @@ class SaleOrder
 	private $customerSsn;
 	private $idUser;
 	private $status;
-	private $products;			
+	private $products;
+	private $address;
 	
     public function __construct($dateDue, 
 								$customerSsn, 
@@ -20,7 +21,8 @@ class SaleOrder
 								$dateCreated = null,
 								$idSaleOrder = null, 
 								$dateUpdated = null,
-								$dateClosed = null)
+								$dateClosed = null,
+    							$address = null)
     {
 		date_default_timezone_set('Europe/Athens');
 		
@@ -45,6 +47,7 @@ class SaleOrder
 		$this->status = $status;
 		$this->dateClosed = $dateClosed;
 		$this->products = $middleProductObjArray;
+		$this->address = $address;
     }
     
     public function __get($param)
@@ -69,6 +72,8 @@ class SaleOrder
 				return $this->status;
 			case "products":	
 				return $this->products;
+			case "address":
+				return $this->address;
 		}
     }
 	
@@ -102,7 +107,11 @@ class SaleOrder
 				break;	
 			case "products":
 				$this->products = $value;
-				break;					
+				break;
+			case "address":
+				$this->address = $value;
+				break;
+								
 		}
     }
 }
