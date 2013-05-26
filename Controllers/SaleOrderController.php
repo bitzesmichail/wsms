@@ -111,8 +111,11 @@ require_once 'Models/CustomerModel.php';
  			if($_SESSION['role'] == 'MANAGER' || $_SESSION['role'] == 'SELLER') {
 				try 
 				{
- 					$product = new SaleOrder($_POST['dateDue'], $_POST['customerSsn'], $_POST['idUser'], $_POST['status'], null);
- 					SaleOrderModel::create($product);
+					var_dump($_POST);
+
+					$middleProductObjArray = null;
+ 					$saleOrderObj = new SaleOrder($_POST['dateDue'], $_POST['customerSsn'], $_POST['idUser'], $_POST['status'], $middleProductObjArray);
+ 					SaleOrderModel::create($saleOrderObj);
 	 				SaleOrderController::index();
 				}
  				catch(Exception $ex)

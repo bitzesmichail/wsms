@@ -23,8 +23,9 @@ require_once 'Controller.php';
  			if($_SESSION['role'] == 'MANAGER' || $_SESSION['role'] == 'SELLER') {
 				try 
 				{          
-					//$customers = CustomerModel::getCustomers();
-					//$data = ProductModel::getProducts();
+					$data = new StdClass();
+					$data->providers = ProviderModel::getCustomers();
+					$data->products = ProductModel::getProducts();
 
 					$this->view->render('supplies', 'addsupply_step1', null); 
 				}
