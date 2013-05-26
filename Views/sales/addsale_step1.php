@@ -3,7 +3,7 @@
 ?>
 
 <form class="form-horizontal" action="<?php echo SALEORDER . "/create"; ?>" method="post">
-	<div id="step1" class="stepDivs step1">
+	<div id="step1" class="addsale stepDivs step1">
 		<h2>
 			Δημιουργία Παραγγελίας - Βήμα 1ο
 		</h2>
@@ -39,13 +39,13 @@
 			</div>
 		</div>
 
-		<button type="button" class="btn btn-success previous" >Προηγούμενο</button>
-		<button type="button" class="btn btn-warning next">Επόμενο</button>
+		<button type="button" class="btn btn-success addsale previous" >Προηγούμενο</button>
+		<button type="button" class="btn btn-warning addsale next">Επόμενο</button>
 		
 		
 	</div>
 	
-	<div id="step2" class="stepDivs step2">
+	<div id="step2" class="addsale stepDivs step2">
 		<h2>
 			Δημιουργία Παραγγελίας - Βήμα 2ο
 		</h2>
@@ -87,20 +87,14 @@
 		
 		
 		
-		<button type="button" class="btn btn-success previous">Προηγούμενο</button>
-		<button type="button" class="btn btn-warning next">Επόμενο</button>
+		<button type="button" class="btn btn-success addsale previous">Προηγούμενο</button>
+		<button type="button" class="btn btn-warning addsale next">Επόμενο</button>
 	</div>
 	
-	<div id="step3" class="stepDivs step3">
+	<div id="step3" class="addsale stepDivs step3">
 		<h2>
 			Δημιουργία Παραγγελίας - Βήμα 3ο
 		</h2>
-		<div class="control-group">
-			<label class="control-label" for="dateDue">Ποσότητα</label>
-			<div class="controls">
-				<input type="text" name="dateDue">
-			</div>
-		</div>
 		<table cellpadding="0" cellspacing="0" border="0" class="table table-striped table-bordered" width="100%" id="selectProductTable">
 			<thead>
 			<tr>
@@ -131,11 +125,11 @@
 			?>
 			</tbody>
 		</table>
-		<button type="button" class="btn btn-success previous">Προηγούμενο</button>
-		<button type="button" class="btn btn-warning next">Επόμενο</button>
+		<button type="button" class="btn btn-success addsale previous">Προηγούμενο</button>
+		<button type="button" class="btn btn-warning addsale next">Επόμενο</button>
 	</div>
 	
-	<div id="step4" class="stepDivs step4">
+	<div id="step4" class="addsale stepDivs step4">
 		<h2>
 			Στοιχεία Παραγγελίας
 		</h2>
@@ -189,13 +183,13 @@
 			
 			</tbody>
 		</table>	
-		<button type="button" class="btn btn-success previous">Προηγούμενο</button>
+		<button type="button" class="btn btn-success addsale previous">Προηγούμενο</button>
 	</div>
 
-	<div class="stepDivs submitButton">
+	<div class="addsale stepDivs submitButton">
 		<div class="control-group">
 			<div class="controls">
-				<button type="submit" class="btn btn-primary" style="float:right;">Προσθήκη</button>
+				<button type="submit" class="btn btn-primary addsale" style="float:right;">Προσθήκη</button>
 			</div>
 		</div>
 	</div>
