@@ -3,5 +3,11 @@
 ?>
 
 <div class="container">
-Hello <?php echo $data ?>!!!
+	<?php if (empty($data)): ?>
+		Data is empty
+	<?php else:?>
+	<?php foreach ($data as &$value) { ?>
+		Hello <?php echo $value->name; ?>, <?php echo $value->surname; ?>!!!
+	<?php } ?>
+	<?php endif ?>
 </div>

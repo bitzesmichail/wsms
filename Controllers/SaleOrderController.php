@@ -136,7 +136,17 @@ require_once 'Models/CustomerModel.php';
  			if($_SESSION['role'] == 'MANAGER' || $_SESSION['role'] == 'SELLER') {
 				try 
 				{
-					$data = SaleOrderModel::getSaleOrderById($id);
+					$saleorder = SaleOrderModel::getSaleOrderById($id);
+					$cur_customer = CustomerModel::getCustomerBySsn($saleorder->customerSsn);
+					$element = new StdClass();
+					$element->id = $saleorder->idSaleOrder;
+					$element->name = $cur_customer->name;
+					$element->surname = $cur_customer->surname;
+					$element->ssn = $cur_customer->ssn;
+					$element->dateDue = $saleorder->dateDue;
+
+					$data[] = $element;
+						
 					$this->view->render('sales', 'edit', $data);
 				}
  				catch(Exception $ex)
