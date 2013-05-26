@@ -28,10 +28,11 @@ require_once 'Models/ProviderModel.php';
 					{
 						$cur_provider = ProviderModel::getProviderBySsn($supplyorder->providerSsn);
 						$element = new StdClass();
-						$element->id = $supplyorder->idSupplyOrder;
-						$element->name = $cur_provider->name;
-						$element->surname = $cur_provider->surname;
-						$element->ssn = $cur_provider->ssn;
+						$element->idSupplyOrder = $supplyorder->idSupplyOrder;
+						$element->dateClosed = $cur_provider->name;
+						$element->idUser = 0;
+						$element->status = '';
+						$element->providerSsn = $cur_provider->ssn;
 						$element->dateDue = $supplyorder->dateDue;
 
 						$data[] = $element;
