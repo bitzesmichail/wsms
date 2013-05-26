@@ -75,6 +75,7 @@
 				});
 				
 				var selectProductTable = $("#selectProductTable").dataTable({
+					//"bPaginate": false,
 					"bLengthChange": false,
 					"sPaginationType": "bootstrap",
 				});
@@ -130,20 +131,7 @@
 					}
 				} );
 				
-				
-				$("#selectCustomerTable tbody tr").click(function(event) {
-					$('.row_selected').removeClass('row_selected');
-					if (selectCustomerTable.fnGetPosition(this) != selectedCustomer) {
-						$(event.target.parentNode).toggleClass('row_selected');
-						selectedCustomer = selectCustomerTable.fnGetPosition(this);
-					}
-					else 
-						selectedCustomer = -1;
-					//var sData = selectCustomerTable.fnGetData( this );
-					//var aPos = selectCustomerTable.fnGetPosition(this);
-				});
-				
-				$("#selectProductTable tbody tr").click(function(event) {
+				/*$("#selectProductTable tbody tr").click(function(event) {
 					console.log('click');
 					console.log(selectProductTable.fnGetPosition(this));
 					$(event.target.parentNode).toggleClass('row_selected');
@@ -153,9 +141,24 @@
 					}
 					else {
 						selectedProducts.splice(index, 1);
-					}*/
- 					//console.log(selectedProducts);
-					//var sData = selectProductTable.fnGetData( this );
+					}
+				});*/
+				
+				$("body").on('click', '#selectCustomerTable tbody tr', function(event) {
+					$('.row_selected').removeClass('row_selected');
+					if (selectCustomerTable.fnGetPosition(this) != selectedCustomer) {
+						$(event.target.parentNode).toggleClass('row_selected');
+						selectedCustomer = selectCustomerTable.fnGetPosition(this);
+					}
+					else 
+						selectedCustomer = -1;
+				});
+				
+				$("body").on('click', '#selectProductTable tbody tr', function(event) {
+					//console.log(this);
+					//console.log('click');
+					//console.log(selectProductTable.fnGetPosition(this));
+					$(event.target.parentNode).toggleClass('row_selected');
 				});
 				
 				
@@ -174,20 +177,14 @@
 					else if (divID == 'step3') {
 						$('.step4').show();
 						
-						var selectedRows = $('tr.row_selected');
-						console.log(selectedRows);
-						console.log(selectedRows.length);
-						
-					
 						
 						$('#selectedProductTable').dataTable().fnClearTable();
-						/*for (var i = 0; i < selectedProducts.length; i++) {
-							console.log(selectProductTable.fnGetData(selectedProducts[i]));
-							$('#selectedProductTable').dataTable().fnAddData( selectProductTable.fnGetData(selectedProducts[i]) );
-						}*/
-						for (var j=0; j < selectedRows.length; j++) {
-							var position = selectProductTable.fnGetPosition(selectedRows[j]);
-							$('#selectedProductTable').dataTable().fnAddData( selectProductTable.fnGetData(position) );
+						var nodes = selectProductTable.fnGetNodes();
+						for (var j=0; j < nodes.length; j++) {
+							if ($(nodes[j]).hasClass('row_selected')) {
+								console.log(selectProductTable.fnGetData(nodes[j]));
+								$('#selectedProductTable').dataTable().fnAddData( selectProductTable.fnGetData(nodes[j]) );
+							}
 						}
 						if (selectedCustomer != -1) {
 							$("#customerSsnFinal").val(selectCustomerTable.fnGetData(selectedCustomer)[0]);
