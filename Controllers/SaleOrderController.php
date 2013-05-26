@@ -130,6 +130,30 @@ require_once 'Models/CustomerModel.php';
  		}
  	}
 
+ 	public function editsaleorder($id='')
+ 	{
+ 		if (isset($_SESSION['role'])) {
+ 			if($_SESSION['role'] == 'MANAGER' || $_SESSION['role'] == 'SELLER') {
+				try 
+				{
+					$data = SaleOrderModel::getSaleOrderById($id);
+					$this->view->render('sales', 'edit', $data);
+				}
+ 				catch(Exception $ex)
+			 	{
+	 				require_once 'PageController.php';
+					$page = new PageController;
+					$page->errordb($ex->getMessage());
+ 				}
+ 			}
+			else {
+ 				require_once 'PageController.php';
+				$page = new PageController;
+				$page->error_accdenied();
+			}
+ 		}
+ 	}
+
  	public function update($id='', $new_sale='')
  	{
  		return 0;

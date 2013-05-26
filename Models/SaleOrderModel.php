@@ -295,14 +295,12 @@ class SaleOrderModel extends Model
 		}
 	}
 	
-	
-	
 	public static function getSaleOrdersByProduct($productSku)
 	{
 	
 	}
 	
-	public static function getSaleOrderById($idSaleOrder) 
+	public static function getSaleOrderById($idSaleOrder)
 	{
 		$pdo = Connector::getPDO();
 		 
