@@ -111,10 +111,10 @@ require_once 'Models/ProviderModel.php';
  			if($_SESSION['role'] == 'MANAGER' || $_SESSION['role'] == 'SCHEDULER') {
 				try 
 				{
- 					$provider = new Provider($_POST['name'], $_POST['surname'], 
- 						                     $_POST['ssn'], $_POST['phone'], 
- 						                     $_POST['cellphone'], $_POST['email'], 
- 						                     $_POST['address'], $_POST['city'], $_POST['zipCode']);
+					$provider = new Provider($_POST['name'], $_POST['surname'], 
+ 						                     $_POST['ssn'], $_POST['address'], 
+ 						                     $_POST['city'], $_POST['zipCode'], 
+ 						                     $_POST['phone'], $_POST['cellphone'], $_POST['email']);
  					ProviderModel::create($provider);
 	 				ProviderController::index();
 				}
@@ -141,9 +141,9 @@ require_once 'Models/ProviderModel.php';
 				try
 				{
  					$provider = new Provider($_POST['name'], $_POST['surname'], 
- 						                     $_POST['ssn'], $_POST['phone'], 
- 						                     $_POST['cellphone'], $_POST['email'], 
- 						                     $_POST['address'], $_POST['city'], $_POST['zipCode']);
+ 						                     $_POST['ssn'], $_POST['address'], 
+ 						                     $_POST['city'], $_POST['zipCode'], 
+ 						                     $_POST['phone'], $_POST['cellphone'], $_POST['email']);
  					ProviderModel::update($provider);
 	 				ProviderController::index();
 				}
