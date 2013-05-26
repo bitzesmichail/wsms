@@ -159,6 +159,7 @@ CREATE TABLE IF NOT EXISTS `history_saleorder` (
   `priceSale` DECIMAL(10,2) NOT NULL ,
   `priceSupply` DECIMAL(10,2) NOT NULL ,
   `discount` DECIMAL(10,2) NOT NULL ,
+  `address` varchar(100) NOT NULL,
   PRIMARY KEY (`idHistorySaleOrder`),
   KEY `fk_HistorySaleOrder_InstanceCustomer1_idx` (`idHistoryCustomer`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
@@ -323,6 +324,7 @@ CREATE TABLE IF NOT EXISTS `saleorder` (
   `customerSsn` varchar(9) NOT NULL,
   `idUser` int(11) NOT NULL,
   `status` enum('active','inactive','closed','problem') NOT NULL,
+  `address` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`idSaleOrder`,`dateUpdated`),
   KEY `fk_OrderSale_Customer1_idx` (`customerSsn`),
   KEY `fk_OrderSale_User1_idx` (`idUser`)
@@ -332,14 +334,35 @@ CREATE TABLE IF NOT EXISTS `saleorder` (
 -- Dumping data for table `saleorder`
 --
 
-INSERT INTO `saleorder` (`idSaleOrder`, `dateUpdated`, `dateCreated`, `dateClosed`, `dateDue`, `customerSsn`, `idUser`, `status`) VALUES
-(1, '2013-05-08 00:00:00', '2013-03-05 00:00:00', '2013-06-14 00:00:00', '2013-05-02 00:00:00', '1111', 1, 'active'),
-(2, '2013-05-12 18:30:42', '2013-05-12 18:30:42', NULL, '0000-00-00 00:00:00', '1111', 1, 'active'),
-(3, '2013-05-04 00:00:00', '2013-05-30 00:00:00', '2013-05-03 00:00:00', '2013-05-17 00:00:00', '1111', 2, 'active');
+INSERT INTO `saleorder` (`idSaleOrder`, `dateUpdated`, `dateCreated`, `dateClosed`, `dateDue`, `customerSsn`, `idUser`, `status`, `address`) VALUES
+(1, '2013-05-08 00:00:00', '2013-03-05 00:00:00', '2013-06-14 00:00:00', '2013-05-02 00:00:00', '1111', 1, 'active', 'Αναστασίου 4'),
+(2, '2013-05-12 18:30:42', '2013-05-12 18:30:42', '2013-05-12 18:30:42', '0000-00-00 00:00:00', '1111', 1, 'active', 'Αναστασίου 4'),
+(3, '2013-05-04 00:00:00', '2013-05-30 00:00:00', '2013-05-03 00:00:00', '2013-05-17 00:00:00', '1111', 2, 'active', 'Αναστασίου 4');
 
 --
 -- Triggers `saleorder`
 --
+
+DROP TRIGGER IF EXISTS `CurrentAddressSaleOrderTrigger`;
+DELIMITER //
+CREATE TRIGGER `CurrentAddressSaleOrderTrigger` BEFORE INSERT ON `saleorder`
+ FOR EACH ROW BEGIN
+
+	IF(NEW.address is NULL) THEN 
+	
+		SELECT address
+		INTO @currentAddress
+		FROM customer
+		WHERE ssn = NEW.customerSsn;
+	
+		SET NEW.address = @currentAddress;
+
+	END IF;
+END
+//
+DELIMITER ;
+
+
 DROP TRIGGER IF EXISTS `SaleOrderTrigger`;
 DELIMITER //
 CREATE TRIGGER `SaleOrderTrigger` BEFORE DELETE ON `saleorder`
@@ -383,9 +406,9 @@ CREATE TRIGGER `SaleOrderTrigger` BEFORE DELETE ON `saleorder`
 	    AND dateUpdated = OLD.dateUpdated;
 
             INSERT INTO history_saleorder 
-            (idSaleOrder,dateCreated,dateUpdated,dateDue,dateClosed,idHistoryCustomer,status,priceSale,priceSupply,discount)
+            (idSaleOrder,dateCreated,dateUpdated,dateDue,dateClosed,idHistoryCustomer,status,priceSale,priceSupply,discount,address)
             VALUES 
-	    (OLD.idSaleOrder,OLD.dateCreated,OLD.dateUpdated,OLD.dateDue,OLD.dateClosed,@historyCustomerId,OLD.status,@priceSale,@priceSupply,@discount);
+	    (OLD.idSaleOrder,OLD.dateCreated,OLD.dateUpdated,OLD.dateDue,OLD.dateClosed,@historyCustomerId,OLD.status,@priceSale,@priceSupply,@discount,OLD.address);
 
         END IF;
 

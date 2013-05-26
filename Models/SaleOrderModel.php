@@ -22,9 +22,9 @@ class SaleOrderModel extends Model
 		try
         {	
 			$stmt = $pdo->prepare("INSERT INTO saleorder
-									(dateUpdated, dateCreated, dateClosed, dateDue, customerSsn, idUser, status)
+									(dateUpdated, dateCreated, dateClosed, dateDue, customerSsn, idUser, status, address)
 								   VALUES
-									(:dateUpdated, :dateCreated, :dateClosed, :dateDue, :customerSsn, :idUser, :status)");
+									(:dateUpdated, :dateCreated, :dateClosed, :dateDue, :customerSsn, :idUser, :status, :address)");
 			    
             $stmt->bindValue(":dateUpdated", $saleOrderObj->dateUpdated);
             $stmt->bindValue(":dateCreated", $saleOrderObj->dateCreated);
@@ -33,6 +33,7 @@ class SaleOrderModel extends Model
             $stmt->bindValue(":customerSsn", $saleOrderObj->customerSsn);
             $stmt->bindValue(":idUser", $saleOrderObj->idUser);
 			$stmt->bindValue(":status", $saleOrderObj->status);
+			$stmt->bindValue(":address", $saleOrderObj->address);
             $stmt->execute();
 			
 			$idSaleOrder = $pdo->lastInsertId(); 
@@ -101,9 +102,9 @@ class SaleOrderModel extends Model
 			$stmt->execute();
 			
 			$stmt = $pdo->prepare("INSERT INTO saleorder
-									(idSaleOrder, dateUpdated, dateCreated, dateClosed, dateDue, customerSsn, idUser, status)
+									(idSaleOrder, dateUpdated, dateCreated, dateClosed, dateDue, customerSsn, idUser, status, address)
 								   VALUES
-									(:idSaleOrder, :dateUpdated, :dateCreated, :dateClosed, :dateDue, :customerSsn, :idUser, :status)");
+									(:idSaleOrder, :dateUpdated, :dateCreated, :dateClosed, :dateDue, :customerSsn, :idUser, :status, :address)");
 			
 			$stmt->bindValue(":idSaleOrder", $saleOrderObj->idSaleOrder);
             $stmt->bindValue(":dateUpdated", $dateUpdated);
@@ -113,6 +114,7 @@ class SaleOrderModel extends Model
             $stmt->bindValue(":customerSsn", $saleOrderObj->customerSsn);
             $stmt->bindValue(":idUser", $saleOrderObj->idUser);
 			$stmt->bindValue(":status", $saleOrderObj->status);
+			$stmt->bindValue(":address", $saleOrderObj->address);
             $stmt->execute();
 			
 			foreach ($saleOrderObj->products as $middleProductObj)
@@ -283,7 +285,9 @@ class SaleOrderModel extends Model
 						$middleProductObjArray,
 						$saleOrderCol['dateCreated'],
 						$saleOrderCol['idSaleOrder'],
-						$saleOrderCol['dateUpdated']);
+						$saleOrderCol['dateUpdated'],
+						$saleOrderCol['dateClosed'],
+						$saleOrderCol['address']);
 			}
 			return $saleOrderObjArray;
 		}
@@ -371,7 +375,9 @@ class SaleOrderModel extends Model
 													  $middleProductObjArray,
 													  $saleOrderCol['dateCreated'],
 													  $saleOrderCol['idSaleOrder'],
-													  $saleOrderCol['dateUpdated']);
+													  $saleOrderCol['dateUpdated'],
+                									  $saleOrderCol['dateClosed'],
+                									  $saleOrderCol['address']);
 		
 			return $saleOrderObj;
 		}
@@ -454,7 +460,9 @@ class SaleOrderModel extends Model
 													  $middleProductObjArray,
 													  $saleOrderCol['dateCreated'],
 													  $saleOrderCol['idSaleOrder'],
-													  $saleOrderCol['dateUpdated']);     
+													  $saleOrderCol['dateUpdated'],
+                									  $saleOrderCol['dateClosed'],
+                									  $saleOrderCol['address']);
             }
             return $saleOrderObjArray;
 		}

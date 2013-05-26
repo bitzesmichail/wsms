@@ -29,7 +29,7 @@ $manager=UserModel::getUserByUsername("manager");
 
 echo "Creating SaleOrder!</br>";
 
-SaleOrderModel::create(new SaleOrder($dateDue, 1111, $seller->idUser, "inactive", $middleProductObjArray,NULL,NULL,NULL,NULL));
+SaleOrderModel::create(new SaleOrder($dateDue, 1111, $seller->idUser, "inactive", $middleProductObjArray));
 
 echo "Print them! None should appear!</br>";
 
