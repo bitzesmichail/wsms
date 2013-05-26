@@ -92,15 +92,15 @@
 				{
 					var aData = oTable.fnGetData(nRow);
 					var jqTds = $('>td', nRow);
-					jqTds[4].innerHTML = '<input type="text" value="'+aData[4]+'">';
-					jqTds[5].innerHTML = '<a class="edit" href="">Αποθήκευση</a>';
+					jqTds[5].innerHTML = '<input type="text" value="'+aData[4]+'">';
+					jqTds[6].innerHTML = '<a class="edit" href="">Αποθήκευση</a>';
 				}
 				
 				function saveRow ( oTable, nRow )
 				{
 					var jqInputs = $('input', nRow);
-					oTable.fnUpdate( jqInputs[0].value, nRow, 4, false );
-					oTable.fnUpdate( '<a class="edit" href="">Επεξεργασία Ποσότητας</a>', nRow, 5, false );
+					oTable.fnUpdate( jqInputs[0].value, nRow, 5, false );
+					oTable.fnUpdate( '<a class="edit" href="">Επεξεργασία Ποσότητας</a>', nRow, 6, false );
 					oTable.fnDraw();
 				}
 				
@@ -144,14 +144,16 @@
 				});
 				
 				$("#selectProductTable tbody tr").click(function(event) {
+					console.log('click');
+					console.log(selectProductTable.fnGetPosition(this));
 					$(event.target.parentNode).toggleClass('row_selected');
-					var index = $.inArray(selectProductTable.fnGetPosition(this), selectedProducts);
+					/*var index = $.inArray(selectProductTable.fnGetPosition(this), selectedProducts);
 					if (index == -1) {
 						selectedProducts.push(selectProductTable.fnGetPosition(this))
 					}
 					else {
 						selectedProducts.splice(index, 1);
-					}
+					}*/
  					//console.log(selectedProducts);
 					//var sData = selectProductTable.fnGetData( this );
 				});
@@ -171,10 +173,21 @@
 					}
 					else if (divID == 'step3') {
 						$('.step4').show();
+						
+						var selectedRows = $('tr.row_selected');
+						console.log(selectedRows);
+						console.log(selectedRows.length);
+						
+					
+						
 						$('#selectedProductTable').dataTable().fnClearTable();
-						for (var i = 0; i < selectedProducts.length; i++) {
-							//console.log(selectProductTable.fnGetData(selectedProducts[i]));
+						/*for (var i = 0; i < selectedProducts.length; i++) {
+							console.log(selectProductTable.fnGetData(selectedProducts[i]));
 							$('#selectedProductTable').dataTable().fnAddData( selectProductTable.fnGetData(selectedProducts[i]) );
+						}*/
+						for (var j=0; j < selectedRows.length; j++) {
+							var position = selectProductTable.fnGetPosition(selectedRows[j]);
+							$('#selectedProductTable').dataTable().fnAddData( selectProductTable.fnGetData(position) );
 						}
 						if (selectedCustomer != -1) {
 							$("#customerSsnFinal").val(selectCustomerTable.fnGetData(selectedCustomer)[0]);

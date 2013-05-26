@@ -65,64 +65,9 @@
 			</tr>
 			</thead>
 			<tbody>
-			<tr>
-				<td>value->ssn</td>
-				<td>value->name</td>
-				<td>value->surname</td>
-				<td>value->phone</td>
-				<td>value->cellphone</td>
-				<td>value->email</td>
-				<td>value->address</td>
-				<td>value->zipCode</td>
-				<td>value->city</td>
-			</tr>
-			<tr>
-				<td>value-eg>ssn</td>
-				<td>value-eg>name</td>
-				<td>value-ege>eggsurname</td>
-				<td>value-egege>phone</td>
-				<td>value->cellphone</td>
-				<td>value-egege>email</td>
-				<td>valueggeg->address</td>
-				<td>valuege->zipCode</td>
-				<td>value->city</td>
-			</tr>
-			<tr>
-				<td>value-sgs>ssn</td>
-				<td>value->name</td>
-				<td>value->sgrgurname</td>
-				<td>valuesg->phone</td>
-				<td>value->cellphone</td>
-				<td>value-ges>email</td>
-				<td>value->address</td>
-				<td>valuees->zipCode</td>
-				<td>value->city</td>
-			</tr>
-			<tr>
-				<td>value->ssn1</td>
-				<td>value->name1</td>
-				<td>value->surname1</td>
-				<td>value->phone1</td>
-				<td>value->cellphone1</td>
-				<td>value->email1</td>
-				<td>value->address1</td>
-				<td>value->zipCode1</td>
-				<td>value->city1</td>
-			</tr>
-			<tr>
-				<td>value->ssn2</td>
-				<td>value->name2</td>
-				<td>value->surname2</td>
-				<td>value->phone2</td>
-				<td>value->cellphone2</td>
-				<td>value->email2</td>
-				<td>value->address2</td>
-				<td>value->zipCode2</td>
-				<td>value->city2</td>
-			</tr>
 			<?php
-				/*if (!empty($data)) {
-					foreach ($data as &$value) {
+				if (!empty($data->customers)) {
+					foreach ($data->customers as &$value) {
 						echo "<tr>";
 						echo "<td>" . $value->ssn . "</td>";
 						echo "<td>" . $value->name . "</td>";
@@ -135,7 +80,7 @@
 						echo "<td>" . $value->city . "</td>";
 						echo "</tr>";
 					}
-				}*/
+				}
 			?>
 			</tbody>
 		</table>
@@ -159,50 +104,30 @@
 		<table cellpadding="0" cellspacing="0" border="0" class="table table-striped table-bordered" width="100%" id="selectProductTable">
 			<thead>
 			<tr>
-				<th><strong>ΑΦΜ</strong></th>
-				<th><strong>Όνομα</strong></th>
-				<th><strong>Επώνυμο</strong></th>
-				<th><strong>Τηλέφωνο</strong></th>
+				<th><strong>Κωδικός</strong></th>
+				<th><strong>Περιγραφή</strong></th>
+				<th><strong>Τιμή</strong></th>
+				<th><strong>Απόθεμα</strong></th>
+				<th><strong>Έκδοση</strong></th>
 				<th><strong>Ποσότητα</strong></th>
 				<th><strong>Ενέργειες</strong></th>
 			</tr>
 			</thead>
 			<tbody>
-			<tr>
-				<td>value->ssn</td>
-				<td>value->name</td>
-				<td>value->surname</td>
-				<td>value->phone</td>
-				<td>0</td>
-				<td><a class="edit" href="">Επεξεργασία Ποσότητας</a></td>
-			</tr>
-			<tr>
-				<td>value->ssn1</td>
-				<td>value->name1</td>
-				<td>value->surname1</td>
-				<td>value->phone1</td>
-				<td>0</td>
-				<td><a class="edit" href="">Επεξεργασία Ποσότητας</a></td>
-			</tr>
-			<tr>
-				<td>value->ssn2</td>
-				<td>value->name2</td>
-				<td>value->surname2</td>
-				<td>value->phone2</td>
-				<td>0</td>
-				<td><a class="edit" href="">Επεξεργασία Ποσότητας</a></td>
-			</tr>
 			<?php
-				/*if (!empty($data)) {
-					foreach ($data as &$value) {
+				if (!empty($data->products)) {
+					foreach ($data->products as &$value) {
 						echo "<tr>";
-						echo "<td>" . $value->ssn . "</td>";
-						echo "<td>" . $value->name . "</td>";
-						echo "<td>" . $value->surname . "</td>";
-						echo "<td>" . $value->phone . "</td>";
+						echo "<td>" . $value->sku . "</td>";
+						echo "<td>" . $value->description . "</td>";
+						echo "<td>" . $value->priceSale . "</td>";
+						echo "<td>" . $value->availableSum . "</td>";
+						echo "<td>" . $value->version . "</td>";
+						echo "<td>0</td>";
+						echo '<td><a class="edit" href="">Επεξεργασία Ποσότητας</a></td>';
 						echo "</tr>";
 					}
-				}*/
+				}
 			?>
 			</tbody>
 		</table>
@@ -252,10 +177,11 @@
 		<table cellpadding="0" cellspacing="0" border="0" class="table table-striped table-bordered" width="100%" id="selectedProductTable">
 			<thead>
 			<tr>
-				<th><strong>ΑΦΜ</strong></th>
-				<th><strong>Όνομα</strong></th>
-				<th><strong>Επώνυμο</strong></th>
-				<th><strong>Τηλέφωνο</strong></th>
+				<th><strong>Κωδικός</strong></th>
+				<th><strong>Περιγραφή</strong></th>
+				<th><strong>Τιμή</strong></th>
+				<th><strong>Απόθεμα</strong></th>
+				<th><strong>Έκδοση</strong></th>
 				<th><strong>Ποσότητα</strong></th>
 			</tr>
 			</thead>
