@@ -3,7 +3,7 @@
 require_once 'Controller.php';
 require_once 'Models/UserModel.php';
 require_once 'Models/ProductModel.php';
-require_once 'Models/SaleOrderModel.php';
+require_once 'Models/SupplyOrderModel.php';
 require_once 'Models/ProviderModel.php';
 
 /**
@@ -18,7 +18,39 @@ require_once 'Models/ProviderModel.php';
 
  	public function index()
  	{
- 		$this->view->render('supplies');
+ 		if (isset($_SESSION['role'])) {
+ 			if ($_SESSION['role'] == 'MANAGER' || $_SESSION['role'] == 'SCHEDULER') {
+				try 
+				{
+					$supplyorders = SupplyOrderModel::getSupplyOrders();
+					$data = array();
+					foreach ($supplyorders as &$supplyorder)
+					{
+						$cur_provider = ProviderModel::getProviderBySsn($supplyorder->providerSsn);
+						$element = new StdClass();
+						$element->id = $supplyorder->idSupplyOrder;
+						$element->name = $cur_provider->name;
+						$element->surname = $cur_provider->surname;
+						$element->ssn = $cur_provider->ssn;
+						$element->dateDue = $supplyorder->dateDue;
+
+						$data[] = $element;
+	 				}
+	 				$this->view->render('supplies', 'index', $data);
+				}
+ 				catch(Exception $ex)
+			 	{
+	 				require_once 'PageController.php';
+					$page = new PageController;
+					$page->errordb($ex->getMessage());
+ 				}
+ 			}
+	 		else {
+ 				require_once 'PageController.php';
+				$page = new PageController;
+				$page->error_accdenied();
+			}
+ 		}
  	}
 
 	public function addsupplyorder()
