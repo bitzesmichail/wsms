@@ -30,6 +30,7 @@ require_once 'Models/CustomerModel.php';
 						//var_dump($cur_customer);
 						$element = new StdClass();
 						//echo $cur_customer->name;
+						$element->id = $saleorder->idSaleOrder;
 						$element->name = $cur_customer->name;
 						$element->surname = $cur_customer->surname;
 						$element->ssn = $cur_customer->ssn;
