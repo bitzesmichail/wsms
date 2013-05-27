@@ -62,7 +62,7 @@ require_once 'Models/CustomerModel.php';
 					$data->customers = CustomerModel::getCustomers();
 					$data->products = ProductModel::getProducts();
 
-					$this->view->render('sales', 'addsale', $data); 
+					$this->view->render('sales', 'addsale_step1', $data); 
 				}
  				catch(Exception $ex)
 			 	{
