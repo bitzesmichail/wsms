@@ -3,6 +3,7 @@
 require_once 'Controller.php';
 require_once 'Models/CustomerModel.php';
 require_once 'Models/ProductModel.php';
+require_once 'Models/HistoryModel.php';
 /**
  * Controller for customers
  */
@@ -275,9 +276,28 @@ require_once 'Models/ProductModel.php';
 	{
 		return CustomerModel::getDiscount($idCustomer, $idProduct);
 	}
+	*/
 
  	public function getStatistics($id='')
  	{
- 		return 0;
- 	}*/
+ 		if (isset($_SESSION['role'])) {
+ 			if($_SESSION['role'] == 'MANAGER') {
+				try 
+				{
+					$this->view->render('customers', 'stats', HistoryModel::getCustomerStatistics($_GET['ssn'])); 
+				}
+ 				catch(Exception $ex)
+			 	{
+	 				require_once 'PageController.php';
+					$page = new PageController;
+					$page->errordb($ex->getMessage());
+ 				}
+			}
+			else {
+ 				require_once 'PageController.php';
+				$page = new PageController;
+				$page->error_accdenied();
+			}
+ 		}
+ 	}
  }

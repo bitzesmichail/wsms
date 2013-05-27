@@ -112,6 +112,38 @@
 	</div>
 	
 	<div class="container">
+		<h3>
+			Διεύθυνση Αποστολής
+		</h3>
+
+		<div class="control-group">
+    		<label class="control-label" for="address">Διεύθυνση</label>
+    			<div class="controls">
+      				<input type="text" name="address" value="<?php echo $data->customer->address; ?>" readonly>
+    			</div>
+  		</div>
+
+  		<div class="control-group">
+    		<label class="control-label" for="zipCode">Ταχυδρομικός Κωδικός</label>
+    			<div class="controls">
+      				<input type="text" name="zipCode" value="<?php echo $data->customer->zipCode; ?>" readonly>
+    			</div>
+  		</div>
+
+  		<div class="control-group">
+    		<label class="control-label" for="city">Πόλη</label>
+    			<div class="controls">
+      				<input type="text" name="city" value="<?php echo $data->customer->city; ?>" readonly>
+    			</div>	
+  		</div>
+
+	</div>
+
+	<?php
+		var_dump($data->saleorder->products);
+	?>
+
+	<div class="container">
 		<h2>
 			Προϊόντα
 		</h2>
@@ -122,7 +154,7 @@
 				<th><strong>Περιγραφή</strong></th>
 				<th><strong>Τιμή</strong></th>
 				<th><strong>Απόθεμα</strong></th>
-				<th><strong>Έκδοση</strong></th>
+				<th><strong>Έκπτωση</strong></th>
 				<th><strong>Ποσότητα</strong></th>
 				<th><strong>Ενέργειες</strong></th>
 			</tr>
@@ -136,7 +168,7 @@
 						echo "<td>" . $value->description . "</td>";
 						echo "<td>" . $value->priceSale . "</td>";
 						echo "<td>" . $value->availableSum . "</td>";
-						echo "<td>" . $value->version . "</td>";
+						echo "<td>" . "" . "</td>";
 						echo "<td>0</td>";
 						echo '<td><a class="edit" href="">Επεξεργασία Ποσότητας</a></td>';
 						echo "</tr>";
@@ -150,7 +182,7 @@
 	<div class="container">
 		<div class="control-group">
 			<div class="controls">
-				<button type="submit" class="btn btn-primary addsale" style="float:right;">Επεξεργασία</button>
+				<button type="submit" class="btn btn-primary">Επεξεργασία</button>
 			</div>
 		</div>
 	</div>
