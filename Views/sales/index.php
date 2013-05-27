@@ -5,12 +5,11 @@
 
 <div class="container">
 <h2>
-	Κλείσιμο Παραγγελίας
+	Ενεργές Παραγγελίες
 </h2>
 
 <p>
-  <a href="<?php echo SALEORDER . "/addsaleorder"; ?>"><button class="btn btn-primary" type="button" >Κλείσιμο παραγγελίας</button></a>
-</p>
+   <a href="<?php echo SALEORDER . "/addsaleorder"; ?>"><button class="btn btn-primary" type="button" >Προσθήκη νέας παραγγελίας</button></a></p>
 
 <table cellpadding="0" cellspacing="0" border="0" class="table table-striped table-bordered" width="100%" id="saleorder_table">
 <thead>
