@@ -22,14 +22,11 @@ require_once 'Models/CustomerModel.php';
 				try 
 				{
 					$saleorders = SaleOrderModel::getSaleOrdersByStatus($_SESSION['username'], 'active');
-					//var_dump($saleorders);
 					$data = array();
 					foreach ($saleorders as &$saleorder)
 					{
 						$cur_customer = CustomerModel::getCustomerBySsn($saleorder->customerSsn);
-						//var_dump($cur_customer);
 						$element = new StdClass();
-						//echo $cur_customer->name;
 						$element->id = $saleorder->idSaleOrder;
 						$element->name = $cur_customer->name;
 						$element->surname = $cur_customer->surname;
@@ -65,7 +62,7 @@ require_once 'Models/CustomerModel.php';
 					$data->customers = CustomerModel::getCustomers();
 					$data->products = ProductModel::getProducts();
 
-					$this->view->render('sales', 'addsale_step1', $data); 
+					$this->view->render('sales', 'addsale', $data); 
 				}
  				catch(Exception $ex)
 			 	{
@@ -111,11 +108,37 @@ require_once 'Models/CustomerModel.php';
  			if($_SESSION['role'] == 'MANAGER' || $_SESSION['role'] == 'SELLER') {
 				try 
 				{
-					var_dump($_POST);
+					/*	
+					    $dateDue, 
+						$customerSsn, 
+						$idUser, 
+						$status,
+						$middleProductObjArray,
+						$dateCreated = null,
+						$idSaleOrder = null, 
+						$dateUpdated = null,
+						$dateClosed = null,
+    					$address = null)
+					*/    		
+					/*			
+						$sku,
+						$description,
+						$priceSale,
+						$priceSupply,
+						$discount,
+						$quantityCreated,
+						$quantityClosed = null)
+					*/
+					$middleProductObjArray = array();
+					for($i = 0; $i <= count($_POST['sku']) - 1; $i++)
+					{
+						$middleProductObjArray[] = new MiddleProduct($_POST['sku'], $_POST['description'], $_POST['priceSale'], 
+															       $_POST['priceSupply'], $_POST['discount'], $_POST['quantityCreated'], null);
+					}
+					$saleOrderObj = new SaleOrder($_POST['dateDue'], $_POST['customerSsn'], $_POST['idUser'], 
+						                          $_POST['status'], $middleProductObjArray, $_POST['dateCreated'], null, null, null, $_POST['address']);
 
-					$middleProductObjArray = null;
- 					$saleOrderObj = new SaleOrder($_POST['dateDue'], $_POST['customerSsn'], $_POST['idUser'], $_POST['status'], $middleProductObjArray);
- 					SaleOrderModel::create($saleOrderObj);
+					//SaleOrderModel::create($saleOrderObj);
 	 				SaleOrderController::index();
 				}
  				catch(Exception $ex)
