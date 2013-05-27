@@ -187,6 +187,38 @@ require_once 'Models/ProviderModel.php';
  		}
  	}
 
+	public function getStatistics()
+ 	{
+ 		if (isset($_SESSION['role'])) {
+ 			if($_SESSION['role'] == 'MANAGER') {
+				try 
+				{
+					$data = new StdClass();
+					$data->customer = ProviderModel::getProviderBySsn($_GET['ssn']);
+					$data->stats = HistoryModel::getProviderStatistics($_GET['ssn']);
+					$this->view->render('providers', 'stats', $data);
+				}
+ 				catch(Exception $ex)
+			 	{
+	 				require_once 'PageController.php';
+					$page = new PageController;
+					$page->errordb($ex->getMessage());
+ 				}
+			}
+			else {
+ 				require_once 'PageController.php';
+				$page = new PageController;
+				$page->error_accdenied();
+			}
+ 		}
+ 	}
+
+ 	//export σε Excel
+ 	public function exportStatistics()
+ 	{
+
+ 		return 0;
+ 	}
  	/*public static function viewAll()
  	{
  		return ProviderModel::getProviders();

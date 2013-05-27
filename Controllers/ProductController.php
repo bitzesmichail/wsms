@@ -307,6 +307,38 @@ require_once 'Models/WishProductModel.php';
  		}
  	}
 
+	public function getStatistics()
+ 	{
+ 		if (isset($_SESSION['role'])) {
+ 			if($_SESSION['role'] == 'MANAGER') {
+				try 
+				{
+					$data = new StdClass();
+					$data->customer = ProductModel::getProductBySku($_GET['sku']);
+					$data->stats = HistoryModel::getProductStatistics($_GET['sku']);
+					$this->view->render('product', 'stats', $data);
+				}
+ 				catch(Exception $ex)
+			 	{
+	 				require_once 'PageController.php';
+					$page = new PageController;
+					$page->errordb($ex->getMessage());
+ 				}
+			}
+			else {
+ 				require_once 'PageController.php';
+				$page = new PageController;
+				$page->error_accdenied();
+			}
+ 		}
+ 	}
+
+ 	//export σε Excel
+ 	public function exportStatistics()
+ 	{
+
+ 		return 0;
+ 	}
  	/*public static function viewAll()
  	{
  		return ProductModel::getProducts();
