@@ -1,7 +1,5 @@
 <?php
   require_once 'Views/navbars/navbar.php';
-  var_dump($data);
-
 ?>
 <div class="container">
 	<?php if (empty($data)): ?>

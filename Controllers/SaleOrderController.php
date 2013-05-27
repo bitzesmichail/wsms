@@ -162,16 +162,9 @@ require_once 'Models/CustomerModel.php';
  			if($_SESSION['role'] == 'MANAGER' || $_SESSION['role'] == 'SELLER') {
 				try 
 				{
-					$saleorder = SaleOrderModel::getSaleOrderById($id);
-					$cur_customer = CustomerModel::getCustomerBySsn($saleorder->customerSsn);
-					$element = new StdClass();
-					$element->id = $saleorder->idSaleOrder;
-					$element->name = $cur_customer->name;
-					$element->surname = $cur_customer->surname;
-					$element->ssn = $cur_customer->ssn;
-					$element->dateDue = $saleorder->dateDue;
-
-					$data[] = $element;
+					$data = new StdClass();
+					$data->saleorder = SaleOrderModel::getSaleOrderById($id);
+					$data->customer = CustomerModel::getCustomerBySsn($data->saleorder->customerSsn);
 						
 					$this->view->render('sales', 'edit', $data);
 				}
