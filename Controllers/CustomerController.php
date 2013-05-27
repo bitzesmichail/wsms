@@ -278,13 +278,16 @@ require_once 'Models/HistoryModel.php';
 	}
 	*/
 
- 	public function getStatistics($id='')
+ 	public function getStatistics()
  	{
  		if (isset($_SESSION['role'])) {
  			if($_SESSION['role'] == 'MANAGER') {
 				try 
 				{
-					$this->view->render('customers', 'stats', HistoryModel::getCustomerStatistics($_GET['ssn'])); 
+					$data = new StdClass();
+					$data->customer = CustomerModel::getCustomerBySsn($_GET['ssn']);
+					$data->stats = HistoryModel::getCustomerStatistics($_GET['ssn']);
+					$this->view->render('customers', 'stats', $data);
 				}
  				catch(Exception $ex)
 			 	{
@@ -299,5 +302,12 @@ require_once 'Models/HistoryModel.php';
 				$page->error_accdenied();
 			}
  		}
+ 	}
+
+ 	//export σε Excel
+ 	public function exportStatistics()
+ 	{
+
+ 		return 0;
  	}
  }
