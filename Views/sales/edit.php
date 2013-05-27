@@ -1,6 +1,5 @@
 <?php
   require_once 'Views/navbars/navbar.php';
-  var_dump($data);
 ?>
 
 <?php
@@ -8,11 +7,14 @@
 ?>
 
 <form class="form-horizontal" action="<?php echo SALEORDER . "/create"; ?>" method="post">
-	<div id="step1" class="addsale stepDivs step1">
+	<div class="container">
+		<h2>
+
+		</h2>
 		<div class="control-group">
 			<label class="control-label" for="saleOrderID">Κωδικός Παραγγελίας</label>
 			<div class="controls">
-				<input type="text" name="saleOrderID" id="saleOrderID" value="" readonly>
+				<input type="text" name="saleOrderID" id="saleOrderID" value="<?php echo $data->saleorder->idSaleOrder; ?>" readonly>
 			</div>
 		</div>
 
@@ -20,35 +22,36 @@
 			<label class="control-label" for="datePublish">Ημερομηνία Έκδοσης</label>
 			<div class="controls">
 				<div id="datePublish" class="input-append date">
-					<input data-format="dd/MM/yyyy hh:mm:ss" type="text"></input>
-					<span class="add-on">
-						<i data-time-icon="icon-time" data-date-icon="icon-calendar">
-						</i>
-					</span>
-				</div>
-			</div>
-		</div>
-		<div class="control-group">
-			<label class="control-label" for="dateDue">Ημερομηνία Παράδοσης</label>
-			<div class="controls">
-				<div id="dateDue" class="input-append date">
-					<input data-format="dd/MM/yyyy hh:mm:ss" type="text"></input>
-					<span class="add-on">
-						<i data-time-icon="icon-time" data-date-icon="icon-calendar">
-						</i>
-					</span>
+					<input data-format="dd/MM/yyyy hh:mm:ss" type="text" value="<?php echo $data->saleorder->dateCreated; ?>" readonly></input>
 				</div>
 			</div>
 		</div>
 
-		<button type="button" class="btn btn-success addsale previous" >Προηγούμενο</button>
-		<button type="button" class="btn btn-warning addsale next">Επόμενο</button>
-		
-		
+		<div class="control-group">
+			<label class="control-label" for="dateDue">Ημερομηνία Παράδοσης</label>
+			<div class="controls">
+				<div id="dateDue" class="input-append date">
+					<input data-format="dd/MM/yyyy hh:mm:ss" type="text" value="<?php echo $data->saleorder->dateDue; ?>"></input>
+					<span class="add-on">
+						<i data-time-icon="icon-time" data-date-icon="icon-calendar">
+						</i>
+					</span>
+				</div>
+			</div>
+		</div>	
 	</div>
 	
+	<div class="container">
+		<h2>
+			Στοιχεία Πελάτη
+		</h2>
+		
+		<?php
+			var_dump($data->customer);
+		?>
+	</div>
 	
-	<div id="step3" class="addsale stepDivs step3">
+	<div class="container">
 		<h2>
 			Δημιουργία Παραγγελίας - Βήμα 3ο
 		</h2>
@@ -82,11 +85,9 @@
 			?>
 			</tbody>
 		</table>
-		<button type="button" class="btn btn-success addsale previous">Προηγούμενο</button>
-		<button type="button" class="btn btn-warning addsale next">Επόμενο</button>
 	</div>
 	
-	<div id="step4" class="addsale stepDivs step4">
+	<div class="container">
 		<h2>
 			Στοιχεία Παραγγελίας
 		</h2>
@@ -123,7 +124,7 @@
 			</div>
 		</div>		
 		<h3>
-			Στοιχεία Προιόντων
+			Στοιχεία Προϊόντων
 		</h3>
 		<table cellpadding="0" cellspacing="0" border="0" class="table table-striped table-bordered" width="100%" id="selectedProductTable">
 			<thead>
@@ -140,10 +141,9 @@
 			
 			</tbody>
 		</table>	
-		<button type="button" class="btn btn-success addsale previous">Προηγούμενο</button>
 	</div>
 
-	<div class="addsale stepDivs submitButton">
+	<div class="container">
 		<div class="control-group">
 			<div class="controls">
 				<button type="submit" class="btn btn-primary addsale" style="float:right;">Προσθήκη</button>
