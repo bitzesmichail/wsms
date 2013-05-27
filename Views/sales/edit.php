@@ -147,9 +147,9 @@
 		<h2>
 			Προϊόντα
 		</h2>
-		<table cellpadding="0" cellspacing="0" border="0" class="table table-striped table-bordered" width="100%" id="selectProductTable">
+		<table cellpadding="0" cellspacing="0" border="0" class="table table-striped table-bordered" width="100%">
 			<thead>
-			<tr>
+			<tr>    
 				<th><strong>Κωδικός</strong></th>
 				<th><strong>Περιγραφή</strong></th>
 				<th><strong>Τιμή</strong></th>
@@ -161,19 +161,19 @@
 			</thead>
 			<tbody>
 			<?php
-				if (!empty($data->saleorder->products)) {
-					foreach ($data->saleorder->products as &$value) {
+				//if (!empty($data->saleorder->products)) {
+					for ($i = 0; $i <= count($data->saleorder->products) - 1; $i++) {
 						echo "<tr>";
-						echo "<td>" . $value->sku . "</td>";
-						echo "<td>" . $value->description . "</td>";
-						echo "<td>" . $value->priceSale . "</td>";
-						echo "<td>" . $value->availableSum . "</td>";
+						echo "<td>" . $data->saleorder->products[$i]->sku . "</td>";
+						echo "<td>" . $data->saleorder->products[$i]->description . "</td>";
+						echo "<td>" . $data->saleorder->products[$i]->priceSale . "</td>";
+						echo "<td>" . $data->saleorder->products[$i]->availableSum . "</td>";
 						echo "<td>" . "" . "</td>";
 						echo "<td>0</td>";
 						echo '<td><a class="edit" href="">Επεξεργασία Ποσότητας</a></td>';
 						echo "</tr>";
 					}
-				}
+				//}
 			?>
 			</tbody>
 		</table>
