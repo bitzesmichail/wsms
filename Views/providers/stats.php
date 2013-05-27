@@ -7,6 +7,10 @@
 		Στατιστικά Προμηθευτή
 	</h2>
 
+<?php
+  var_dump($data->stats);
+?>
+
 <p>
   <a href="<?php echo PROVIDER . "/exportStatistics"; ?>"><button class="btn btn-primary" type="button" >Εξαγωγή σε Excel</button></a>
 </p>
@@ -70,42 +74,40 @@
   <div class="control-group">
     <label class="control-label" for="city">Πόλη</label>
     <div class="controls">
-      <input type="text" value="<?php echo $data->customer->city; ?>" readonly>
+      <input type="text" value="<?php echo $data->provider->city; ?>" readonly>
     </div>
   </div>
+
+
+
+
+
 
   <div class="control-group">
     <label class="control-label" for="city">Συνολικά Έσοδα</label>
-    <div class="controls">
-      <input type="text" value="<?php echo $data->stats->sumIncome; ?>" readonly>
-    </div>
-  </div>
-
-  <div class="control-group">
-    <label class="control-label" for="city">Συνολικά Έξοδα</label>
     <div class="controls">
       <input type="text" value="<?php echo $data->stats->sumOutcome; ?>" readonly>
     </div>
   </div>
 
   <div class="control-group">
-    <label class="control-label" for="city">Κέρδη</label>
+    <label class="control-label" for="city">Συνολικά Έξοδα</label>
     <div class="controls">
-      <input type="text" value="<?php echo $data->stats->sumProfits; ?>" readonly>
+      <input type="text" value="<?php echo $data->stats->minOutcome; ?>" readonly>
     </div>
   </div>
 
   <div class="control-group">
-    <label class="control-label" for="city">Συνολική Έκπτωση</label>
+    <label class="control-label" for="city">Ελάχιστα Έσοδα</label>
     <div class="controls">
-      <input type="text" value="<?php echo $data->stats->sumDiscount; ?>" readonly>
+      <input type="text" value="<?php echo $data->stats->maxOutcome; ?>" readonly>
     </div>
   </div>
 
   <div class="control-group">
-    <label class="control-label" for="city">Ελάχιστο Εισόδημα</label>
+    <label class="control-label" for="city">Mέγιστα Έσοδα</label>
     <div class="controls">
-      <input type="text" value="<?php echo $data->stats->minIncome; ?>" readonly>
+      <input type="text" value="<?php echo $data->stats->avgOutcome; ?>" readonly>
     </div>
   </div>
 
@@ -119,15 +121,11 @@
 </form>
 
 
-<!--object(CustomerStatistics)[7]
-  private 'customerSsn' => string '1111' (length=4)
-  private 'sumIncome' => null
+<!--
   private 'sumOutcome' => null
-  private 'sumProfits' => null
-  private 'sumDiscount' => null
-  private 'minIncome' => null
-  private 'maxIncome' => null
-  private 'avgIncome' => null
-  private 'numSaleOrders' => string '0' (length=1)
+  private 'minOutcome' => null
+  private 'maxOutcome' => null
+  private 'avgOutcome' => null
+  private 'numSupplyOrders' => string '0' (length=1)
 -->
 </div>

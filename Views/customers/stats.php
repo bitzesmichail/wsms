@@ -110,6 +110,20 @@
   </div>
 
   <div class="control-group">
+    <label class="control-label" for="city">Μέγιστο Εισόδημα</label>
+    <div class="controls">
+      <input type="text" value="<?php echo $data->stats->maxIncome; ?>" readonly>
+    </div>
+  </div>
+
+  <div class="control-group">
+    <label class="control-label" for="city">Μέσο Εισόδημα</label>
+    <div class="controls">
+      <input type="text" value="<?php echo $data->stats->avgIncome; ?>" readonly>
+    </div>
+  </div>
+
+  <div class="control-group">
     <label class="control-label" for="city">Αριθμός Παραγγελιών</label>
     <div class="controls">
       <input type="text" name="city" value="<?php echo $data->stats->numSaleOrders; ?>" readonly>
