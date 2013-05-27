@@ -4,6 +4,7 @@ require_once 'Controller.php';
 require_once 'Models/UserModel.php';
 require_once 'Models/ProductModel.php';
 require_once 'Models/WishProductModel.php';
+require_once 'Models/HistoryModel.php';
 /**
  * Controller for products
  */
@@ -314,7 +315,7 @@ require_once 'Models/WishProductModel.php';
 				try 
 				{
 					$data = new StdClass();
-					$data->customer = ProductModel::getProductBySku($_GET['sku']);
+					$data->product = ProductModel::getProductBySku($_GET['sku']);
 					$data->stats = HistoryModel::getProductStatistics($_GET['sku']);
 					$this->view->render('product', 'stats', $data);
 				}

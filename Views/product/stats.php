@@ -4,9 +4,12 @@
 
 <div class="container">
 	<h2>	
-		Στατιστικά Πελάτη
+		Στατιστικά Προϊόντος
 	</h2>
 
+<p>
+  <a href="<?php echo PRODUCT . "/exportStatistics"; ?>"><button class="btn btn-primary" type="button" >Εξαγωγή σε Excel</button></a>
+</p>
 
 <form class="form-horizontal">
   <div class="control-group">

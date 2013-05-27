@@ -4,63 +4,66 @@
 
 <div class="container">
 	<h2>	
-		Στατιστικά Πελάτη
+		Στατιστικά Προμηθευτή
 	</h2>
 
+<p>
+  <a href="<?php echo PROVIDER . "/exportStatistics"; ?>"><button class="btn btn-primary" type="button" >Εξαγωγή σε Excel</button></a>
+</p>
 
 <form class="form-horizontal">
   <div class="control-group">
     <label class="control-label" for="ssn">ΑΦΜ</label>
     <div class="controls">
-      <input type="text" name="ssn" value="<?php echo $data->customer->ssn; ?>" readonly>
+      <input type="text" name="ssn" value="<?php echo $data->provider->ssn; ?>" readonly>
     </div>
   </div>
   <div class="control-group">
     <label class="control-label" for="name">Όνομα</label>
     <div class="controls">
-      <input type="text" name="name" value="<?php echo $data->customer->name; ?>" readonly>
+      <input type="text" name="name" value="<?php echo $data->provider->name; ?>" readonly>
     </div>
   </div>
   
   <div class="control-group">
     <label class="control-label" for="surname">Επώνυμο</label>
     <div class="controls">
-      <input type="text" name="surname" value="<?php echo $data->customer->surname; ?>" readonly>
+      <input type="text" name="surname" value="<?php echo $data->provider->surname; ?>" readonly>
     </div>
   </div>
 
   <div class="control-group">
     <label class="control-label" for="phone">Τηλέφωνο</label>
     <div class="controls">
-      <input type="text" name="phone" value="<?php echo $data->customer->phone; ?>" readonly>
+      <input type="text" name="phone" value="<?php echo $data->provider->phone; ?>" readonly>
     </div>
   </div>
   
   <div class="control-group">
     <label class="control-label" for="cellphone">Κινητό Τηλέφωνο</label>
     <div class="controls">
-      <input type="text" name="cellphone" value="<?php echo $data->customer->cellphone; ?>" readonly>
+      <input type="text" name="cellphone" value="<?php echo $data->provider->cellphone; ?>" readonly>
     </div>
   </div>
 
   <div class="control-group">
     <label class="control-label" for="email">Email</label>
     <div class="controls">
-      <input type="text" name="email" value="<?php echo $data->customer->email; ?>" readonly>
+      <input type="text" name="email" value="<?php echo $data->provider->email; ?>" readonly>
     </div>
   </div>
 
   <div class="control-group">
     <label class="control-label" for="address">Διεύθυνση</label>
     <div class="controls">
-      <input type="text" name="address" value="<?php echo $data->customer->address; ?>" readonly>
+      <input type="text" name="address" value="<?php echo $data->provider->address; ?>" readonly>
     </div>
   </div>
 
   <div class="control-group">
     <label class="control-label" for="zipCode">Ταχυδρομικός Κωδικός</label>
     <div class="controls">
-      <input type="text" name="zipCode" value="<?php echo $data->customer->zipCode; ?>" readonly> 
+      <input type="text" name="zipCode" value="<?php echo $data->provider->zipCode; ?>" readonly> 
     </div>
   </div>
 

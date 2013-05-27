@@ -2,7 +2,7 @@
 
 require_once 'Controller.php';
 require_once 'Models/ProviderModel.php';
-
+require_once 'Models/HistoryModel.php';
 /**
  * Controller for providers
  */
@@ -194,7 +194,7 @@ require_once 'Models/ProviderModel.php';
 				try 
 				{
 					$data = new StdClass();
-					$data->customer = ProviderModel::getProviderBySsn($_GET['ssn']);
+					$data->provider = ProviderModel::getProviderBySsn($_GET['ssn']);
 					$data->stats = HistoryModel::getProviderStatistics($_GET['ssn']);
 					$this->view->render('providers', 'stats', $data);
 				}
