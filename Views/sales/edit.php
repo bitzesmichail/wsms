@@ -8,9 +8,9 @@
 
 <form class="form-horizontal" action="<?php echo SALEORDER . "/create"; ?>" method="post">
 	<div class="container">
-		<h2>
-
-		</h2>
+		<h3>
+			Στοιχεία Παραγγελίας
+		</h3>
 		<div class="control-group">
 			<label class="control-label" for="saleOrderID">Κωδικός Παραγγελίας</label>
 			<div class="controls">
@@ -42,18 +42,78 @@
 	</div>
 	
 	<div class="container">
-		<h2>
+		<h3>
 			Στοιχεία Πελάτη
-		</h2>
-		
-		<?php
-			var_dump($data->customer);
-		?>
+		</h3>
+
+		<div class="control-group">
+    		<label class="control-label" for="ssn">ΑΦΜ</label>
+    			<div class="controls">
+      				<input type="text" name="ssn" value="<?php echo $data->customer->ssn; ?>" readonly>
+    			</div>
+  		</div>
+
+  		<div class="control-group">
+    		<label class="control-label" for="name">Όνομα</label>
+    			<div class="controls">
+      				<input type="text" name="name" value="<?php echo $data->customer->name; ?>" readonly>
+    			</div>
+  		</div>
+  
+  		<div class="control-group">
+    		<label class="control-label" for="surname">Επώνυμο</label>
+    		<div class="controls">
+      			<input type="text" name="surname" value="<?php echo $data->customer->surname; ?>" readonly>
+    		</div>
+  		</div>
+
+  		<div class="control-group">
+    		<label class="control-label" for="phone">Τηλέφωνο</label>
+    			<div class="controls">
+      				<input type="text" name="phone" value="<?php echo $data->customer->phone; ?>" readonly>
+    			</div>
+  		</div>
+  
+  		<div class="control-group">
+    		<label class="control-label" for="cellphone">Κινητό Τηλέφωνο</label>
+    			<div class="controls">
+      				<input type="text" name="cellphone" value="<?php echo $data->customer->cellphone; ?>" readonly>
+    			</div>
+  		</div>
+
+  		<div class="control-group">
+    		<label class="control-label" for="email">Email</label>
+    			<div class="controls">
+      				<input type="text" name="email" value="<?php echo $data->customer->email; ?>" readonly>
+    			</div>
+  		</div>
+
+  		<div class="control-group">
+    		<label class="control-label" for="address">Διεύθυνση</label>
+    			<div class="controls">
+      				<input type="text" name="address" value="<?php echo $data->customer->address; ?>" readonly>
+    			</div>
+  		</div>
+
+  		<div class="control-group">
+    		<label class="control-label" for="zipCode">Ταχυδρομικός Κωδικός</label>
+    			<div class="controls">
+      				<input type="text" name="zipCode" value="<?php echo $data->customer->zipCode; ?>" readonly>
+    			</div>
+  		</div>
+
+  		<div class="control-group">
+    		<label class="control-label" for="city">Πόλη</label>
+    			<div class="controls">
+      				<input type="text" name="city" value="<?php echo $data->customer->city; ?>" readonly>
+    			</div>	
+  		</div>
+
 	</div>
 	
 	<div class="container">
 		<h2>
-			Δημιουργία Παραγγελίας - Βήμα 3ο
+			Προϊόντα
 		</h2>
 		<table cellpadding="0" cellspacing="0" border="0" class="table table-striped table-bordered" width="100%" id="selectProductTable">
 			<thead>
@@ -69,8 +129,8 @@
 			</thead>
 			<tbody>
 			<?php
-				if (!empty($data->products)) {
-					foreach ($data->products as &$value) {
+				if (!empty($data->saleorder->products)) {
+					foreach ($data->saleorder->products as &$value) {
 						echo "<tr>";
 						echo "<td>" . $value->sku . "</td>";
 						echo "<td>" . $value->description . "</td>";
@@ -88,65 +148,9 @@
 	</div>
 	
 	<div class="container">
-		<h2>
-			Στοιχεία Παραγγελίας
-		</h2>
-		<div>
-			<label class="control-label" for="saleOrderIDFinal">Κωδικός Παραγγελίας</label>
-			<div class="controls">
-				<input type="text" name="saleOrderIDFinal" id="saleOrderIDFinal" readonly></input>
-			</div>
-		</div>		
-		<h3>
-			Στοιχεία Πωλητή
-		</h3>
-		<div>
-			<label class="control-label" for="datePublishFinal">Ημερομηνία Έκδοσης</label>
-			<div class="controls">
-				<div id="datePublishFinal" class="date">
-					<input data-format="dd/MM/yyyy hh:mm:ss" type="text" readonly></input>
-				</div>
-			</div>
-			<label class="control-label" for="dateDueFinal">Ημερομηνία Παράδοσης</label>
-			<div class="controls">
-				<div id="dateDueFinal" class="date">
-					<input data-format="dd/MM/yyyy hh:mm:ss" type="text" readonly></input>
-				</div>
-			</div>
-		</div>		
-		<h3>
-			Στοιχεία Πελάτη
-		</h3>
-		<div>
-			<label class="control-label" for="customerSsnFinal">Κωδικός Πελάτη</label>
-			<div class="controls">
-				<input type="text" name="customerSsnFinal" id="customerSsnFinal" readonly></input>
-			</div>
-		</div>		
-		<h3>
-			Στοιχεία Προϊόντων
-		</h3>
-		<table cellpadding="0" cellspacing="0" border="0" class="table table-striped table-bordered" width="100%" id="selectedProductTable">
-			<thead>
-			<tr>
-				<th><strong>Κωδικός</strong></th>
-				<th><strong>Περιγραφή</strong></th>
-				<th><strong>Τιμή</strong></th>
-				<th><strong>Απόθεμα</strong></th>
-				<th><strong>Έκδοση</strong></th>
-				<th><strong>Ποσότητα</strong></th>
-			</tr>
-			</thead>
-			<tbody>
-			
-			</tbody>
-		</table>	
-	</div>
-
-	<div class="container">
 		<div class="control-group">
 			<div class="controls">
-				<button type="submit" class="btn btn-primary addsale" style="float:right;">Προσθήκη</button>
+				<button type="submit" class="btn btn-primary addsale" style="float:right;">Επεξεργασία</button>
 			</div>
 		</div>
 	</div>
