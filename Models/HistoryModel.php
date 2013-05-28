@@ -25,6 +25,7 @@ class HistoryModel extends Model
 		
 		try
 		{
+			
 			$stmt = $pdo->prepare("SELECT SUM(priceSale),
 										  SUM(priceSupply),
 										  SUM(priceSale-priceSupply),
@@ -32,12 +33,22 @@ class HistoryModel extends Model
 										  MIN(priceSale),
 										  MAX(priceSale),
 										  AVG(priceSale),
-										  COUNT(*)
-								   FROM history_saleorder
-								   WHERE idHistoryCustomer IN (
-								   SELECT idHistoryCustomer 
-								   FROM history_customer 
-								   WHERE customerSsn = :customerSsn)");
+										  COUNT(*) 
+										  FROM history_saleorder 
+										  WHERE idHistoryCustomer  
+												IN 
+										 (SELECT idHistoryCustomer 
+										 FROM history_customer 
+										 WHERE customerSsn = :customerSsn) 
+										 AND idHistorySaleOrder IN 
+										 (SELECT idHistorySaleOrder FROM history_saleorder 
+										 WHERE idSaleOrder NOT IN 
+										(SELECT idSaleOrder FROM history_saleorder 
+										 WHERE dateUpdated<>dateCreated) 
+												UNION 
+									    (SELECT idHistorySaleOrder FROM history_saleorder 
+										 WHERE dateUpdated <> dateCreated))");
+			
 		
 			$stmt->bindValue(":customerSsn", $customerSsn);
 			$stmt->execute();
@@ -79,7 +90,15 @@ class HistoryModel extends Model
 								   WHERE idHistoryProvider IN (
 								   SELECT idHistoryProvider
 								   FROM history_provider
-								   WHERE providerSsn = :providerSsn)");
+								   WHERE providerSsn = :providerSsn)
+								   AND idHistorySupplyOrder IN 
+								   (SELECT idHistorySupplyOrder FROM history_supplyorder 
+								   WHERE idSupplyOrder NOT IN 
+								   (SELECT idSupplyOrder FROM history_supplyorder 
+								   WHERE dateUpdated<>dateCreated) 
+										UNION 
+									(SELECT idHistorySupplyOrder FROM history_supplyorder 
+								   WHERE dateUpdated <> dateCreated))");
 	
 			$stmt->bindValue(":providerSsn", $providerSsn);
 			$stmt->execute();
@@ -126,7 +145,13 @@ class HistoryModel extends Model
 								   SELECT idHistoryProduct
 								   FROM history_product
 								   WHERE sku = :productSku))
-								   s ON (h.idHistorySaleOrder = s.idHistorySaleOrder)
+								   s ON ((h.idHistorySaleOrder = s.idHistorySaleOrder 
+								   AND h.dateUpdated <> h.dateCreated) 
+								   OR (h.idHistorySaleOrder = s.idHistorySaleOrder 
+					               AND h.idSaleOrder NOT IN 
+								   (SELECT idSaleOrder 
+								   FROM history_saleorder 
+								   WHERE dateUpdated <> dateCreated)))
 								");
 
 			$stmt->bindValue(":productSku", $productSku);
@@ -153,7 +178,13 @@ class HistoryModel extends Model
 								   SELECT idHistoryProduct
 								   FROM history_product
 								   WHERE sku = :productSku))
-								   s ON (h.idHistorySupplyOrder = s.idHistorySupplyOrder)
+								   s ON ((h.idHistorySupplyOrder = s.idHistorySupplyOrder 
+								   AND h.dateUpdated <> h.dateCreated) 
+								   OR (h.idHistorySupplyOrder = s.idHistorySupplyOrder 
+								   AND h.idSupplyOrder 
+								   NOT IN (SELECT idSupplyOrder 
+								   FROM history_supplyorder 
+								   WHERE dateUpdated <> dateCreated)))
 								");
 			
 			$stmt->bindValue(":productSku", $productSku);
