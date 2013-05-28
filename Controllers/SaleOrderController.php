@@ -252,9 +252,17 @@ require_once 'Models/CustomerModel.php';
  		}
  	}
 
- 	public function update($id='', $new_sale='')
+ 	public function update()
  	{
- 		return 0;
+ 		$middleProductObjArray = unserialize($_POST['middleProducts']);
+ 		var_dump($_POST['dateDue']);
+ 		var_dump($_POST['ssn']);
+ 		var_dump($middleProductObjArray);
+ 		var_dump($_POST['dateDue']);
+ 		$saleOrderObj = new SaleOrder($_POST['dateDue'], $_POST['ssn'], '', 
+						                          'active', $middleProductObjArray, null, null, null, null, null);
+
+ 		SaleOrderModel::update($saleOrderObj);
  	}
 
  	public function delete($id='')
