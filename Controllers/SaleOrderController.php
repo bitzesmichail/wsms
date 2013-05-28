@@ -21,7 +21,7 @@ require_once 'Models/CustomerModel.php';
  			if ($_SESSION['role'] == 'MANAGER' || $_SESSION['role'] == 'SELLER') {
 				try 
 				{
-					$saleorders = SaleOrderModel::getSaleOrdersByStatus($_SESSION['username'], 'active');
+					$saleorders = SaleOrderModel::getActiveSaleOrders();
 					$data = array();
 					foreach ($saleorders as &$saleorder)
 					{
