@@ -6,6 +6,8 @@ require_once("entities/Connector.php");
 require_once("entities/CustomerStatistics.php");
 require_once("entities/ProviderStatistics.php");
 require_once("entities/ProductStatistics.php");
+require_once("entities/MiddleProduct.php");
+require_once("entities/HistorySaleOrder.php");
 
 
 class HistoryModel extends Model
@@ -179,6 +181,190 @@ class HistoryModel extends Model
 		    echo $e->getMessage();
 		}
 	
+	}
+	
+	
+	public static function getAllHistorySaleOrders()
+	{
+		$pdo = Connector::getPDO();
+	
+		try
+		{
+			$stmt = $pdo->prepare("SELECT * FROM history_saleorder
+									");
+	
+			$stmt->execute();
+
+			$saleOrderColumns = $stmt->fetchAll();
+			$saleOrderObjArray = array();
+	
+			foreach ($saleOrderColumns as $saleOrderCol)
+			{
+				
+				$stmt = $pdo->prepare("SELECT customerSsn FROM history_customer
+										WHERE idHistoryCustomer = :idHistoryCustomer
+									  ");
+				
+				$stmt->bindValue(":idHistoryCustomer", $saleOrderCol['idHistoryCustomer']);
+				$stmt->execute();
+
+				$customerSsn = $stmt->fetchColumn();
+				
+				$stmt = $pdo->prepare("SELECT idHistoryProduct,discount,quantityCreated,quantityClosed,priceSale,priceSupply,profit
+									  FROM history_saleorder_has_history_product
+                                      WHERE idHistorySaleOrder = :idHistorySaleOrder
+									  ");
+	
+				$stmt->bindValue(":idHistorySaleOrder", $saleOrderCol['idHistorySaleOrder']);
+				$stmt->execute();
+
+				$middleProductsColumns = $stmt->fetchAll();
+	
+				$middleProductObjArray = array();
+	
+				foreach ($middleProductsColumns as $middleProductsCol)
+				{
+					
+					$stmt = $pdo->prepare("SELECT sku,description,priceSale,priceSupply
+									  FROM history_product
+                                      WHERE idHistoryProduct = :idHistoryProduct
+									  ");
+					
+					$stmt->bindValue(":idHistoryProduct", $middleProductsCol['idHistoryProduct']);
+					$stmt->execute();
+
+					$middleProductsExtras = $stmt->fetch(PDO::FETCH_NUM);
+
+					$middleProductObjArray[] = new MiddleProduct($middleProductsExtras[0],
+							$middleProductsExtras[1],
+							$middleProductsExtras[2],
+							$middleProductsExtras[3],
+							$middleProductsCol['discount'],
+							$middleProductsCol['quantityCreated'],
+							$middleProductsCol['quantityClosed'],
+							$middleProductsCol['priceSale'],
+							$middleProductsCol['priceSupply'],
+							$middleProductsCol['profit']); 
+				}
+				$saleOrderObjArray[] = new HistorySaleOrder($saleOrderCol['idHistorySaleOrder'],
+															 $saleOrderCol['idSaleOrder'],
+															 $saleOrderCol['dateUpdated'],
+															 $saleOrderCol['dateCreated'],
+															 $saleOrderCol['dateClosed'],
+															 $saleOrderCol['dateDue'],
+															 $customerSsn,
+															 $saleOrderCol['status'],
+															 $middleProductObjArray,
+															 $saleOrderCol['address'],
+															 $saleOrderCol['priceSale'],
+															 $saleOrderCol['priceSupply'],
+															 $saleOrderCol['discount']);
+
+			}
+			return $saleOrderObjArray;
+		}
+		catch(PDOException $e)
+		{
+	
+			//	throw $e;
+			echo $e->getMessage();
+		}
+	}
+	
+	
+	// Returns only the last of every SaleOrder
+	
+	public static function getHistorySaleOrders()
+	{
+		$pdo = Connector::getPDO();
+	
+		try
+		{
+			$stmt = $pdo->prepare("(SELECT * FROM history_saleorder 
+									WHERE idSaleOrder NOT IN (
+									SELECT idSaleOrder FROM history_saleorder 
+									WHERE dateUpdated<>dateCreated)) 
+										UNION 
+									(SELECT * FROM history_saleorder 
+									WHERE dateUpdated <> dateCreated)
+									");
+	
+			$stmt->execute();
+	
+			$saleOrderColumns = $stmt->fetchAll();
+			$saleOrderObjArray = array();
+	
+			foreach ($saleOrderColumns as $saleOrderCol)
+			{
+	
+				$stmt = $pdo->prepare("SELECT customerSsn FROM history_customer
+										WHERE idHistoryCustomer = :idHistoryCustomer
+									  ");
+	
+				$stmt->bindValue(":idHistoryCustomer", $saleOrderCol['idHistoryCustomer']);
+				$stmt->execute();
+	
+				$customerSsn = $stmt->fetchColumn();
+	
+				$stmt = $pdo->prepare("SELECT idHistoryProduct,discount,quantityCreated,quantityClosed,priceSale,priceSupply,profit
+									  FROM history_saleorder_has_history_product
+                                      WHERE idHistorySaleOrder = :idHistorySaleOrder
+									  ");
+	
+				$stmt->bindValue(":idHistorySaleOrder", $saleOrderCol['idHistorySaleOrder']);
+				$stmt->execute();
+	
+				$middleProductsColumns = $stmt->fetchAll();
+	
+				$middleProductObjArray = array();
+	
+				foreach ($middleProductsColumns as $middleProductsCol)
+				{
+						
+					$stmt = $pdo->prepare("SELECT sku,description,priceSale,priceSupply
+									  FROM history_product
+                                      WHERE idHistoryProduct = :idHistoryProduct
+									  ");
+						
+					$stmt->bindValue(":idHistoryProduct", $middleProductsCol['idHistoryProduct']);
+					$stmt->execute();
+	
+					$middleProductsExtras = $stmt->fetch(PDO::FETCH_NUM);
+	
+					$middleProductObjArray[] = new MiddleProduct($middleProductsExtras[0],
+							$middleProductsExtras[1],
+							$middleProductsExtras[2],
+							$middleProductsExtras[3],
+							$middleProductsCol['discount'],
+							$middleProductsCol['quantityCreated'],
+							$middleProductsCol['quantityClosed'],
+							$middleProductsCol['priceSale'],
+							$middleProductsCol['priceSupply'],
+							$middleProductsCol['profit']);
+				}
+				$saleOrderObjArray[] = new HistorySaleOrder($saleOrderCol['idHistorySaleOrder'],
+						$saleOrderCol['idSaleOrder'],
+						$saleOrderCol['dateUpdated'],
+						$saleOrderCol['dateCreated'],
+						$saleOrderCol['dateClosed'],
+						$saleOrderCol['dateDue'],
+						$customerSsn,
+						$saleOrderCol['status'],
+						$middleProductObjArray,
+						$saleOrderCol['address'],
+						$saleOrderCol['priceSale'],
+						$saleOrderCol['priceSupply'],
+						$saleOrderCol['discount']);
+	
+			}
+			return $saleOrderObjArray;
+		}
+		catch(PDOException $e)
+		{
+	
+			//	throw $e;
+			echo $e->getMessage();
+		}
 	}
 	
 }
