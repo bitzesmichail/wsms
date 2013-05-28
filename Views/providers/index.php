@@ -43,7 +43,8 @@
 			echo "<td>" . $value->address . "</td>";
 			echo "<td>" . $value->zipCode . "</td>";
 			echo "<td>" . $value->city . "</td>";
-			echo "<td>" . "<a href=\"" . PROVIDER . "/editprovider?ssn=" . $value->ssn . "\">" . "<button class=\"btn btn-primary\" type=\"button\" >Επεξεργασία</button></a>";				
+			echo "<td>" . "<a href=\"" . PROVIDER . "/editprovider?ssn=" . $value->ssn . "\">" . "<button class=\"btn btn-primary\" type=\"button\" >Επεξεργασία</button></a>";
+			echo "<a href=\"" . PROVIDER . "/getStatistics?ssn=" . $value->ssn . "\">" . "<button class=\"btn btn-primary\" type=\"button\" >Στατιστικά</button></a>";				
 			echo "<a href=\"" . PROVIDER . "/deleteprovider?ssn=" . $value->ssn . "\">" . "<button class=\"btn btn-danger\" type=\"button\" >Διαγραφή</button></td></a>";
 			echo "</tr>";
 		}

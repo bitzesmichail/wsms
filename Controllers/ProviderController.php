@@ -2,7 +2,7 @@
 
 require_once 'Controller.php';
 require_once 'Models/ProviderModel.php';
-
+require_once 'Models/HistoryModel.php';
 /**
  * Controller for providers
  */
@@ -111,10 +111,10 @@ require_once 'Models/ProviderModel.php';
  			if($_SESSION['role'] == 'MANAGER' || $_SESSION['role'] == 'SCHEDULER') {
 				try 
 				{
- 					$provider = new Provider($_POST['name'], $_POST['surname'], 
- 						                     $_POST['ssn'], $_POST['phone'], 
- 						                     $_POST['cellphone'], $_POST['email'], 
- 						                     $_POST['address'], $_POST['city'], $_POST['zipCode']);
+					$provider = new Provider($_POST['name'], $_POST['surname'], 
+ 						                     $_POST['ssn'], $_POST['address'], 
+ 						                     $_POST['city'], $_POST['zipCode'], 
+ 						                     $_POST['phone'], $_POST['cellphone'], $_POST['email']);
  					ProviderModel::create($provider);
 	 				ProviderController::index();
 				}
@@ -141,9 +141,9 @@ require_once 'Models/ProviderModel.php';
 				try
 				{
  					$provider = new Provider($_POST['name'], $_POST['surname'], 
- 						                     $_POST['ssn'], $_POST['phone'], 
- 						                     $_POST['cellphone'], $_POST['email'], 
- 						                     $_POST['address'], $_POST['city'], $_POST['zipCode']);
+ 						                     $_POST['ssn'], $_POST['address'], 
+ 						                     $_POST['city'], $_POST['zipCode'], 
+ 						                     $_POST['phone'], $_POST['cellphone'], $_POST['email']);
  					ProviderModel::update($provider);
 	 				ProviderController::index();
 				}
@@ -187,6 +187,38 @@ require_once 'Models/ProviderModel.php';
  		}
  	}
 
+	public function getStatistics()
+ 	{
+ 		if (isset($_SESSION['role'])) {
+ 			if($_SESSION['role'] == 'MANAGER') {
+				try 
+				{
+					$data = new StdClass();
+					$data->provider = ProviderModel::getProviderBySsn($_GET['ssn']);
+					$data->stats = HistoryModel::getProviderStatistics($_GET['ssn']);
+					$this->view->render('providers', 'stats', $data);
+				}
+ 				catch(Exception $ex)
+			 	{
+	 				require_once 'PageController.php';
+					$page = new PageController;
+					$page->errordb($ex->getMessage());
+ 				}
+			}
+			else {
+ 				require_once 'PageController.php';
+				$page = new PageController;
+				$page->error_accdenied();
+			}
+ 		}
+ 	}
+
+ 	//export σε Excel
+ 	public function exportStatistics()
+ 	{
+
+ 		return 0;
+ 	}
  	/*public static function viewAll()
  	{
  		return ProviderModel::getProviders();

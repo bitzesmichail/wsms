@@ -22,14 +22,11 @@ require_once 'Models/CustomerModel.php';
 				try 
 				{
 					$saleorders = SaleOrderModel::getSaleOrdersByStatus($_SESSION['username'], 'active');
-					//var_dump($saleorders);
 					$data = array();
 					foreach ($saleorders as &$saleorder)
 					{
 						$cur_customer = CustomerModel::getCustomerBySsn($saleorder->customerSsn);
-						//var_dump($cur_customer);
 						$element = new StdClass();
-						//echo $cur_customer->name;
 						$element->id = $saleorder->idSaleOrder;
 						$element->name = $cur_customer->name;
 						$element->surname = $cur_customer->surname;
@@ -82,6 +79,59 @@ require_once 'Models/CustomerModel.php';
  		}
  	}
 
+	public function addsale_customer()
+ 	{
+ 		if (isset($_SESSION['role'])) {
+ 			if($_SESSION['role'] == 'MANAGER' || $_SESSION['role'] == 'SELLER') {
+				try 
+				{          
+					$data = CustomerModel::getCustomers();
+
+					$this->view->render('sales', 'addsale_customer', $data); 
+				}
+ 				catch(Exception $ex)
+			 	{
+	 				require_once 'PageController.php';
+					$page = new PageController;
+					$page->errordb($ex->getMessage());
+ 				}
+			}
+			else {
+ 				require_once 'PageController.php';
+				$page = new PageController;
+				$page->error_accdenied();
+			}
+ 		}
+ 	}
+
+	public function addsale_products()
+ 	{
+ 		if (isset($_SESSION['role'])) {
+ 			if($_SESSION['role'] == 'MANAGER' || $_SESSION['role'] == 'SELLER') {
+				try 
+				{          
+					//TODO: get customer from _POST and get the discounts for every product
+					$data = new StdClass();
+					$data->customers = CustomerModel::getCustomers();
+					$data->products = ProductModel::getProducts();
+
+					$this->view->render('sales', 'addsale_products', $data); 
+				}
+ 				catch(Exception $ex)
+			 	{
+	 				require_once 'PageController.php';
+					$page = new PageController;
+					$page->errordb($ex->getMessage());
+ 				}
+			}
+			else {
+ 				require_once 'PageController.php';
+				$page = new PageController;
+				$page->error_accdenied();
+			}
+ 		}
+ 	}
+
 	public function saleHistory()
  	{
  		if (isset($_SESSION['role'])) {
@@ -111,11 +161,37 @@ require_once 'Models/CustomerModel.php';
  			if($_SESSION['role'] == 'MANAGER' || $_SESSION['role'] == 'SELLER') {
 				try 
 				{
-					var_dump($_POST);
+					/*	
+					    $dateDue, 
+						$customerSsn, 
+						$idUser, 
+						$status,
+						$middleProductObjArray,
+						$dateCreated = null,
+						$idSaleOrder = null, 
+						$dateUpdated = null,
+						$dateClosed = null,
+    					$address = null)
+					*/    		
+					/*			
+						$sku,
+						$description,
+						$priceSale,
+						$priceSupply,
+						$discount,
+						$quantityCreated,
+						$quantityClosed = null)
+					*/
+					$middleProductObjArray = array();
+					for($i = 0; $i <= count($_POST['sku']) - 1; $i++)
+					{
+						$middleProductObjArray[] = new MiddleProduct($_POST['sku'], $_POST['description'], $_POST['priceSale'], 
+															       $_POST['priceSupply'], $_POST['discount'], $_POST['quantityCreated'], null);
+					}
+					$saleOrderObj = new SaleOrder($_POST['dateDue'], $_POST['customerSsn'], $_POST['idUser'], 
+						                          $_POST['status'], $middleProductObjArray, $_POST['dateCreated'], null, null, null, $_POST['address']);
 
-					$middleProductObjArray = null;
- 					$saleOrderObj = new SaleOrder($_POST['dateDue'], $_POST['customerSsn'], $_POST['idUser'], $_POST['status'], $middleProductObjArray);
- 					SaleOrderModel::create($saleOrderObj);
+					//SaleOrderModel::create($saleOrderObj);
 	 				SaleOrderController::index();
 				}
  				catch(Exception $ex)
@@ -139,16 +215,9 @@ require_once 'Models/CustomerModel.php';
  			if($_SESSION['role'] == 'MANAGER' || $_SESSION['role'] == 'SELLER') {
 				try 
 				{
-					$saleorder = SaleOrderModel::getSaleOrderById($id);
-					$cur_customer = CustomerModel::getCustomerBySsn($saleorder->customerSsn);
-					$element = new StdClass();
-					$element->id = $saleorder->idSaleOrder;
-					$element->name = $cur_customer->name;
-					$element->surname = $cur_customer->surname;
-					$element->ssn = $cur_customer->ssn;
-					$element->dateDue = $saleorder->dateDue;
-
-					$data[] = $element;
+					$data = new StdClass();
+					$data->saleorder = SaleOrderModel::getSaleOrderById($id);
+					$data->customer = CustomerModel::getCustomerBySsn($data->saleorder->customerSsn);
 						
 					$this->view->render('sales', 'edit', $data);
 				}
