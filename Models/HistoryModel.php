@@ -8,6 +8,7 @@ require_once("entities/ProviderStatistics.php");
 require_once("entities/ProductStatistics.php");
 require_once("entities/MiddleProduct.php");
 require_once("entities/HistorySaleOrder.php");
+require_once("entities/HistorySupplyOrder.php");
 
 
 class HistoryModel extends Model
@@ -272,7 +273,7 @@ class HistoryModel extends Model
 	}
 	
 	
-	// Returns only the last of every SaleOrder
+	// Returns only the latest of every SaleOrder
 	
 	public static function getHistorySaleOrders()
 	{
@@ -367,4 +368,178 @@ class HistoryModel extends Model
 		}
 	}
 	
+	
+	public static function getAllHistorySupplyOrders()
+	{
+		$pdo = Connector::getPDO();
+	
+		try
+		{
+			$stmt = $pdo->prepare("SELECT * FROM history_supplyorder
+									");
+	
+			$stmt->execute();
+
+			$supplyOrderColumns = $stmt->fetchAll();
+			$supplyOrderObjArray = array();
+	
+			foreach ($supplyOrderColumns as $supplyOrderCol)
+			{
+	
+				$stmt = $pdo->prepare("SELECT providerSsn FROM history_provider
+										WHERE idHistoryProvider = :idHistoryProvider
+									  ");
+	
+				$stmt->bindValue(":idHistoryProvider", $supplyOrderCol['idHistoryProvider']);
+				$stmt->execute();
+
+				$providerSsn = $stmt->fetchColumn();
+	
+				$stmt = $pdo->prepare("SELECT idHistoryProduct,quantityCreated,quantityClosed,priceSupply
+									  FROM history_supplyorder_has_history_product
+                                      WHERE idHistorySupplyOrder = :idHistorySupplyOrder
+									  ");
+	
+				$stmt->bindValue(":idHistorySupplyOrder", $supplyOrderCol['idHistorySupplyOrder']);
+				$stmt->execute();
+
+				$middleProductsColumns = $stmt->fetchAll();
+	
+				$middleProductObjArray = array();
+	
+				foreach ($middleProductsColumns as $middleProductsCol)
+				{
+						
+					$stmt = $pdo->prepare("SELECT sku,description,priceSale,priceSupply
+									  FROM history_product
+                                      WHERE idHistoryProduct = :idHistoryProduct
+									  ");
+						
+					$stmt->bindValue(":idHistoryProduct", $middleProductsCol['idHistoryProduct']);
+					$stmt->execute();
+
+					$middleProductsExtras = $stmt->fetch(PDO::FETCH_NUM);
+	
+					$middleProductObjArray[] = new MiddleProduct($middleProductsExtras[0],
+							$middleProductsExtras[1],
+							$middleProductsExtras[2],
+							$middleProductsExtras[3],
+							null,
+							$middleProductsCol['quantityCreated'],
+							$middleProductsCol['quantityClosed'],
+							null,
+							$middleProductsCol['priceSupply'],
+							null);
+				}
+				$supplyOrderObjArray[] = new HistorySupplyOrder($supplyOrderCol['idHistorySupplyOrder'],
+																$supplyOrderCol['idSupplyOrder'], 
+																$supplyOrderCol['dateUpdated'],
+																$supplyOrderCol['dateCreated'],
+																$supplyOrderCol['dateClosed'],
+																$supplyOrderCol['dateDue'], 
+																$providerSsn, 
+																$middleProductObjArray, 
+																$supplyOrderCol['priceSupply']);
+			}
+			return $supplyOrderObjArray;
+		}
+		catch(PDOException $e)
+		{
+	
+			//	throw $e;
+			echo $e->getMessage();
+		}
+	}
+	
+	
+	
+	// Returns only the latest of every SupplyOrder
+	
+	public static function getHistorySupplyOrders()
+	{
+	$pdo = Connector::getPDO();
+	
+		try
+		{
+			$stmt = $pdo->prepare("(SELECT * FROM history_supplyorder
+									WHERE idSupplyOrder NOT IN (
+									SELECT idSupplyOrder FROM history_supplyorder
+									WHERE dateUpdated<>dateCreated))
+										UNION
+									(SELECT * FROM history_supplyorder
+									WHERE dateUpdated <> dateCreated)
+									");
+			
+			$stmt->execute();
+
+			$supplyOrderColumns = $stmt->fetchAll();
+			$supplyOrderObjArray = array();
+	
+			foreach ($supplyOrderColumns as $supplyOrderCol)
+			{
+	
+				$stmt = $pdo->prepare("SELECT providerSsn FROM history_provider
+										WHERE idHistoryProvider = :idHistoryProvider
+									  ");
+	
+				$stmt->bindValue(":idHistoryProvider", $supplyOrderCol['idHistoryProvider']);
+				$stmt->execute();
+
+				$providerSsn = $stmt->fetchColumn();
+	
+				$stmt = $pdo->prepare("SELECT idHistoryProduct,quantityCreated,quantityClosed,priceSupply
+									  FROM history_supplyorder_has_history_product
+                                      WHERE idHistorySupplyOrder = :idHistorySupplyOrder
+									  ");
+	
+				$stmt->bindValue(":idHistorySupplyOrder", $supplyOrderCol['idHistorySupplyOrder']);
+				$stmt->execute();
+
+				$middleProductsColumns = $stmt->fetchAll();
+	
+				$middleProductObjArray = array();
+	
+				foreach ($middleProductsColumns as $middleProductsCol)
+				{
+						
+					$stmt = $pdo->prepare("SELECT sku,description,priceSale,priceSupply
+									  FROM history_product
+                                      WHERE idHistoryProduct = :idHistoryProduct
+									  ");
+						
+					$stmt->bindValue(":idHistoryProduct", $middleProductsCol['idHistoryProduct']);
+					$stmt->execute();
+	
+					$middleProductsExtras = $stmt->fetch(PDO::FETCH_NUM);
+	
+					$middleProductObjArray[] = new MiddleProduct($middleProductsExtras[0],
+							$middleProductsExtras[1],
+							$middleProductsExtras[2],
+							$middleProductsExtras[3],
+							null,
+							$middleProductsCol['quantityCreated'],
+							$middleProductsCol['quantityClosed'],
+							null,
+							$middleProductsCol['priceSupply'],
+							null);
+				}
+				$supplyOrderObjArray[] = new HistorySupplyOrder($supplyOrderCol['idHistorySupplyOrder'],
+																$supplyOrderCol['idSupplyOrder'], 
+																$supplyOrderCol['dateUpdated'],
+																$supplyOrderCol['dateCreated'],
+																$supplyOrderCol['dateClosed'],
+																$supplyOrderCol['dateDue'], 
+																$providerSsn, 
+																$middleProductObjArray, 
+																$supplyOrderCol['priceSupply']);
+			}
+			return $supplyOrderObjArray;
+		}
+		catch(PDOException $e)
+		{
+	
+			//	throw $e;
+			echo $e->getMessage();
+		}
+	}
 }
