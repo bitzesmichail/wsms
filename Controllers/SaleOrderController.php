@@ -110,10 +110,25 @@ require_once 'Models/CustomerModel.php';
  			if($_SESSION['role'] == 'MANAGER' || $_SESSION['role'] == 'SELLER') {
 				try 
 				{          
-					//TODO: get customer from _POST and get the discounts for every product
 					$data = new StdClass();
 					$data->customer = CustomerModel::getCustomerBySsn($_POST['customerssn']);
 					$data->products = ProductModel::getProducts();
+					$data->products_with_discount = array();
+
+					foreach ($data->products as &$value) {
+						$element = new StdClass();
+						$element->sku = $value->sku;
+						$element->description = $value->description;
+						$element->priceSale = $value->priceSale;
+						$element->availableSum = $value->availableSum;
+						
+						if(($value_discount = CustomerModel::getDiscount($_POST['customerssn'], $value->sku)) != null)
+							$element->discount = $value_discount;
+						else
+							$element->discount = 0.0;
+
+						$data->products_with_discount[] = $element;
+					}
 
 					$this->view->render('sales', 'addsale_products', $data); 
 				}

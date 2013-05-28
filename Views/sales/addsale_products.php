@@ -11,15 +11,11 @@
 		<div class="control-group">
 			<label class="control-label" for="datePublish">Ημερομηνία Έκδοσης</label>
 			<div class="controls">
-				<div id="datePublish" class="input-append date">
-					<input data-format="dd/MM/yyyy hh:mm:ss" type="text"></input>
-					<span class="add-on">
-						<i data-time-icon="icon-time" data-date-icon="icon-calendar">
-						</i>
-					</span>
+					<input data-format="dd/MM/yyyy hh:mm:ss" type="text" value="Σήμερα" readonly></input>
 				</div>
 			</div>
 		</div>
+
 		<div class="control-group">
 			<label class="control-label" for="dateDue">Ημερομηνία Παράδοσης</label>
 			<div class="controls">
@@ -32,15 +28,11 @@
 				</div>
 			</div>
 		</div>		
-	</div>
 	
-	<div class="container">
 		<h2>
 			Διεύθυνση Αποστολής
 		</h2>
-	</div>
-	
-	<div class="container">
+
 		<h2>
 			Προϊόντα
 		</h2>
@@ -58,14 +50,14 @@
 			</thead>
 			<tbody>
 			<?php
-				if (!empty($data->products)) {
-					foreach ($data->products as &$value) {
+				if (!empty($data->products_with_discount)) {
+					foreach ($data->products_with_discount as &$value) {
 						echo "<tr>";
 						echo "<td>" . $value->sku . "</td>";
 						echo "<td>" . $value->description . "</td>";
 						echo "<td>" . $value->priceSale . "</td>";
 						echo "<td>" . $value->availableSum . "</td>";
-						echo "<td>" . $value->version . "</td>";
+						echo "<td>" . $value->discount . "</td>";
 						echo "<td>0</td>";
 						echo '<td><a class="edit" href="">Επεξεργασία Ποσότητας</a></td>';
 						echo "</tr>";
@@ -74,6 +66,8 @@
 			?>
 			</tbody>
 		</table>
+
+		<button type="submit" class="btn btn-primary">Επιβεβαίωση</button>
 	</div>
 	
 	<div id="step4" class="addsale stepDivs step3">
@@ -132,10 +126,5 @@
 		</table>	
 	</div>
 
-	<div class="control-group">
-		<div class="controls">
-			<button type="submit" class="btn btn-primary addsale" style="float:right;">Προσθήκη νέας παραγγελίας</button>
-		</div>
-	</div>
 </form>
 
