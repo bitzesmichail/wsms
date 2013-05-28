@@ -1,5 +1,5 @@
 <?php
-  require_once 'navbar.php';
+  require_once 'Views/navbars/navbar.php';
 ?>
 
 <form class="form-horizontal" action="<?php echo SUORDER . "/create"; ?>" method="post">

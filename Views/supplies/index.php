@@ -33,7 +33,7 @@
 			echo "<td>" . $value->idUser . "</td>";
 			echo "<td>" . $value->status . "</td>";
 			echo "<td>" . $value->dateClosed . "</td>";					
-			echo "<td>" . "<a href=\"" . SUPPLYORDER . "/editsupplyorder?idSupplyOrder=" . $value->idSupplyOrder . "\">" . "<button class=\"btn btn-primary\" type=\"button\" >Επεξεργασία</button></a>";				
+			echo "<td>" . "<a href=\"" . SUPPLYORDER . "/edit/" . $value->idSupplyOrder . "\">" . "<button class=\"btn btn-primary\" type=\"button\" >Επεξεργασία</button></a>";				
 			echo "<a href=\"" . SUPPLYORDER . "/deletesupplyorder?idSupplyOrder=" . $value->idSupplyOrder . "\">" . "<button class=\"btn btn-danger\" type=\"button\" >Διαγραφή</button></td></a>";
 			echo "</tr>";
 		}
