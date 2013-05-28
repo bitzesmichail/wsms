@@ -146,6 +146,7 @@
 					if (selectCustomerTable.fnGetPosition(this) != selectedCustomer) {
 						$(event.target.parentNode).toggleClass('row_selected');
 						selectedCustomer = selectCustomerTable.fnGetPosition(this);
+						$("#customerSsnFinal").val(selectCustomerTable.fnGetData(selectedCustomer)[0]);
 					}
 					else 
 						selectedCustomer = -1;

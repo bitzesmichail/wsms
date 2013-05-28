@@ -2,7 +2,7 @@
   require_once 'Views/navbars/navbar.php';
 ?>
 
-<form class="form-horizontal" action="<?php echo SALEORDER . "/addsale_products"; ?>" method="post">
+<form class="form-horizontal" onsubmit="return check()" action="<?php echo SALEORDER . "/addsale_products"; ?>" method="post">
 	<div class="container">
 		<h2>
 			Επιλογή πελάτη
@@ -46,5 +46,6 @@
 		<button type="submit" class="btn btn-success">Επόμενο</button>
 	</div>
 	
+	<input type="hidden" name="customerssn" id="customerSsnFinal">
 </form>
 

@@ -3,16 +3,10 @@
 ?>
 
 <form class="form-horizontal" action="<?php echo SALEORDER . "/create"; ?>" method="post">
-	<div id="step1" class="addsale stepDivs step1">
+	<div  class="container">
 		<h2>
-			Δημιουργία Παραγγελίας - Βήμα 1ο
+			Παραγγελία για πελάτη <?php echo $data->customer->ssn ." " . $data->customer->name ." ". $data->customer->surname; ?>
 		</h2>
-		<div class="control-group">
-			<label class="control-label" for="saleOrderID">Κωδικός Παραγγελίας</label>
-			<div class="controls">
-				<input type="text" name="saleOrderID" id="saleOrderID" readonly>
-			</div>
-		</div>
 
 		<div class="control-group">
 			<label class="control-label" for="datePublish">Ημερομηνία Έκδοσης</label>
@@ -37,17 +31,18 @@
 					</span>
 				</div>
 			</div>
-		</div>
-
-		<button type="button" class="btn btn-success addsale previous" >Προηγούμενο</button>
-		<button type="button" class="btn btn-warning addsale next">Επόμενο</button>
-		
-		
+		</div>		
 	</div>
 	
-	<div id="step3" class="addsale stepDivs step3">
+	<div class="container">
 		<h2>
-			Δημιουργία Παραγγελίας - Βήμα 3ο
+			Διεύθυνση Αποστολής
+		</h2>
+	</div>
+	
+	<div class="container">
+		<h2>
+			Προϊόντα
 		</h2>
 		<table cellpadding="0" cellspacing="0" border="0" class="table table-striped table-bordered" width="100%" id="selectProductTable">
 			<thead>
@@ -56,7 +51,7 @@
 				<th><strong>Περιγραφή</strong></th>
 				<th><strong>Τιμή</strong></th>
 				<th><strong>Απόθεμα</strong></th>
-				<th><strong>Έκδοση</strong></th>
+				<th><strong>Έκπτωση</strong></th>
 				<th><strong>Ποσότητα</strong></th>
 				<th><strong>Ενέργειες</strong></th>
 			</tr>
@@ -79,11 +74,9 @@
 			?>
 			</tbody>
 		</table>
-		<button type="button" class="btn btn-success addsale previous">Προηγούμενο</button>
-		<button type="button" class="btn btn-warning addsale next">Επόμενο</button>
 	</div>
 	
-	<div id="step4" class="addsale stepDivs step4">
+	<div id="step4" class="addsale stepDivs step3">
 		<h2>
 			Στοιχεία Παραγγελίας
 		</h2>
@@ -120,7 +113,7 @@
 			</div>
 		</div>		
 		<h3>
-			Στοιχεία Προιόντων
+			Στοιχεία Προϊόντων
 		</h3>
 		<table cellpadding="0" cellspacing="0" border="0" class="table table-striped table-bordered" width="100%" id="selectedProductTable">
 			<thead>
@@ -137,14 +130,11 @@
 			
 			</tbody>
 		</table>	
-		<button type="button" class="btn btn-success addsale previous">Προηγούμενο</button>
 	</div>
 
-	<div class="addsale stepDivs submitButton">
-		<div class="control-group">
-			<div class="controls">
-				<button type="submit" class="btn btn-primary addsale" style="float:right;">Προσθήκη</button>
-			</div>
+	<div class="control-group">
+		<div class="controls">
+			<button type="submit" class="btn btn-primary addsale" style="float:right;">Προσθήκη νέας παραγγελίας</button>
 		</div>
 	</div>
 </form>

@@ -112,7 +112,7 @@ require_once 'Models/CustomerModel.php';
 				{          
 					//TODO: get customer from _POST and get the discounts for every product
 					$data = new StdClass();
-					$data->customers = CustomerModel::getCustomers();
+					$data->customer = CustomerModel::getCustomerBySsn($_POST['customerssn']);
 					$data->products = ProductModel::getProducts();
 
 					$this->view->render('sales', 'addsale_products', $data); 
