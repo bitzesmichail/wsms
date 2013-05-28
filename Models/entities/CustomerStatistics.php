@@ -11,6 +11,8 @@ class CustomerStatistics
 	private $maxIncome;
 	private $avgIncome;
 	private $numSaleOrders;
+	private $customerName;
+	private $customerSurname;
 
 	public function __construct($sumIncome,
 								$sumOutcome,
@@ -20,7 +22,9 @@ class CustomerStatistics
 								$maxIncome,
 								$avgIncome,
 								$numSaleOrders,
-								$customerSsn
+								$customerSsn,
+								$customerName = null,
+								$customerSurname = null
 								)
 	{
 
@@ -33,6 +37,8 @@ class CustomerStatistics
 		$this->avgIncome = $avgIncome;
 		$this->numSaleOrders = $numSaleOrders;
 		$this->customerSsn = $customerSsn;
+		$this->customerName = $customerName;
+		$this->customerSurname = $customerSurname;
 
 	}
 
@@ -58,6 +64,10 @@ class CustomerStatistics
 				return $this->numSaleOrders;
 			case "customerSsn":
 				return $this->customerSsn;
+			case "customerName":
+				return $this->customerName;
+			case "customerSurname":
+				return $this->customerSurname;
 		}
 	}
 
@@ -91,6 +101,12 @@ class CustomerStatistics
 				break;
 			case "customerSsn":
 				$this->customerSsn = $value;
+				break;
+			case "customerName":
+				$this->customerName = $value;
+				break;
+			case "customerSurname":
+				$this->customerSurname = $value;
 				break;
 		}
 	}

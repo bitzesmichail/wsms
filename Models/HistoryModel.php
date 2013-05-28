@@ -75,6 +75,76 @@ class HistoryModel extends Model
 		
 	}
 	
+	public static function getAllCustomersStatistics(){
+	
+		$pdo = Connector::getPDO();
+	
+		try
+		{
+			$stmt = $pdo->prepare("SELECT * FROM history_customer GROUP BY customerSsn
+									");
+			
+			$stmt->execute();
+			
+			$customerColumns = $stmt->fetchAll();
+			
+			$customersObjArray = array();
+			
+			foreach ($customerColumns as $customersCol)
+			{
+				$stmt = $pdo->prepare("SELECT SUM(priceSale),
+										  SUM(priceSupply),
+										  SUM(priceSale-priceSupply),
+										  SUM(discount),
+										  MIN(priceSale),
+										  MAX(priceSale),
+										  AVG(priceSale),
+										  COUNT(*)
+										  FROM history_saleorder
+										  WHERE idHistoryCustomer
+												IN
+										 (SELECT idHistoryCustomer
+										 FROM history_customer
+										 WHERE customerSsn = :customerSsn)
+										 AND idHistorySaleOrder IN
+										 (SELECT idHistorySaleOrder FROM history_saleorder
+										 WHERE idSaleOrder NOT IN
+										(SELECT idSaleOrder FROM history_saleorder
+										 WHERE dateUpdated<>dateCreated)
+												UNION
+									    (SELECT idHistorySaleOrder FROM history_saleorder
+										 WHERE dateUpdated <> dateCreated))");
+				
+				
+				$stmt->bindValue(":customerSsn", $customersCol['customerSsn']);
+				$stmt->execute();
+				
+				$customerCol = $stmt->fetch(PDO::FETCH_NUM);
+				
+				$customersObjArray[] = new CustomerStatistics($customerCol[0],
+						$customerCol[1],
+						$customerCol[2],
+						$customerCol[3],
+						$customerCol[4],
+						$customerCol[5],
+						$customerCol[6],
+						$customerCol[7],
+						$customersCol['customerSsn'],
+						$customersCol['name'],
+						$customersCol['surname']
+				);
+				
+			}
+			return $customersObjArray;
+		}
+		catch(PDOException $e)
+		{
+			throw $e;
+			//      echo $e->getMessage();
+		}
+	
+	}
+	
 	public static function getProviderStatistics($providerSsn){
 	
 		$pdo = Connector::getPDO();
@@ -118,6 +188,183 @@ class HistoryModel extends Model
 		{
 			throw $e;
 			//      echo $e->getMessage();
+		}
+	
+	}
+	
+	public static function getAllProvidersStatistics(){
+	
+		$pdo = Connector::getPDO();
+	
+		try
+		{
+			$stmt = $pdo->prepare("SELECT * FROM history_provider GROUP BY providerSsn
+									");
+				
+			$stmt->execute();
+				
+			$providersColumns = $stmt->fetchAll();
+				
+			$providersObjArray = array();
+				
+			foreach ($providersColumns as $providersCol)
+			{
+				$stmt = $pdo->prepare("SELECT SUM(priceSupply),
+										  MIN(priceSupply),
+										  MAX(priceSupply),
+										  AVG(priceSupply),
+										  COUNT(*)
+								   FROM history_supplyorder
+								   WHERE idHistoryProvider IN (
+								   SELECT idHistoryProvider
+								   FROM history_provider
+								   WHERE providerSsn = :providerSsn)
+								   AND idHistorySupplyOrder IN
+								   (SELECT idHistorySupplyOrder FROM history_supplyorder
+								   WHERE idSupplyOrder NOT IN
+								   (SELECT idSupplyOrder FROM history_supplyorder
+								   WHERE dateUpdated<>dateCreated)
+										UNION
+									(SELECT idHistorySupplyOrder FROM history_supplyorder
+								   WHERE dateUpdated <> dateCreated))");
+				
+				$stmt->bindValue(":providerSsn", $providersCol['providerSsn']);
+				$stmt->execute();
+				
+				$providerCol = $stmt->fetch(PDO::FETCH_NUM);
+				
+				$providersObjArray[] = new ProviderStatistics($providerCol[0],
+						$providerCol[1],
+						$providerCol[2],
+						$providerCol[3],
+						$providerCol[4],
+						$providersCol['providerSsn'],
+						$providersCol['name'],
+						$providersCol['surname']
+				);
+				return $providersObjArray;
+			}
+				
+		}
+		catch(PDOException $e)
+		{
+			throw $e;
+			//      echo $e->getMessage();
+		}
+	
+	}
+	
+	public static function getAllProductsStatistics(){
+	
+		$pdo = Connector::getPDO();
+	
+		try
+		{	
+			
+			$stmt = $pdo->prepare("SELECT * FROM history_product GROUP BY sku
+									");
+			
+			$stmt->execute();
+			
+			$productsColumns = $stmt->fetchAll();
+			
+			$productsObjArray = array();
+			
+			foreach ($productsColumns as $productsCol)
+			{
+				
+				$stmt = $pdo->prepare("SELECT SUM(s.priceSale),
+										  MIN(s.priceSale),
+										  MAX(s.priceSale),
+										  AVG(s.priceSale),
+										  SUM(s.quantityClosed),
+										  MIN(s.quantityClosed),
+										  MAX(s.quantityClosed),
+										  AVG(s.quantityClosed),
+										  COUNT(DISTINCT h.idHistorySaleOrder)
+								   FROM history_saleorder AS h
+								   JOIN (SELECT s.priceSale,
+								   s.quantityClosed,s.idHistorySaleOrder
+								   FROM history_saleorder_has_history_product AS s
+								   WHERE s.idHistoryProduct IN (
+								   SELECT idHistoryProduct
+								   FROM history_product
+								   WHERE sku = :productSku))
+								   s ON ((h.idHistorySaleOrder = s.idHistorySaleOrder
+								   AND h.dateUpdated <> h.dateCreated)
+								   OR (h.idHistorySaleOrder = s.idHistorySaleOrder
+					               AND h.idSaleOrder NOT IN
+								   (SELECT idSaleOrder
+								   FROM history_saleorder
+								   WHERE dateUpdated <> dateCreated)))
+								");
+				
+				$stmt->bindValue(":productSku", $productsCol['sku']);
+				$stmt->execute();
+				
+				$productSaleCol = $stmt->fetch(PDO::FETCH_NUM);
+				
+				
+				
+				$stmt = $pdo->prepare("SELECT SUM(s.priceSupply),
+										  MIN(s.priceSupply),
+										  MAX(s.priceSupply),
+										  AVG(s.priceSupply),
+										  SUM(s.quantityClosed),
+										  MIN(s.quantityClosed),
+										  MAX(s.quantityClosed),
+										  AVG(s.quantityClosed),
+										  COUNT(DISTINCT h.idHistorySupplyOrder)
+								   FROM history_supplyorder AS h
+								   JOIN (SELECT s.priceSupply,
+								   s.quantityClosed,s.idHistorySupplyOrder
+								   FROM history_supplyorder_has_history_product AS s
+								   WHERE s.idHistoryProduct IN (
+								   SELECT idHistoryProduct
+								   FROM history_product
+								   WHERE sku = :productSku))
+								   s ON ((h.idHistorySupplyOrder = s.idHistorySupplyOrder
+								   AND h.dateUpdated <> h.dateCreated)
+								   OR (h.idHistorySupplyOrder = s.idHistorySupplyOrder
+								   AND h.idSupplyOrder
+								   NOT IN (SELECT idSupplyOrder
+								   FROM history_supplyorder
+								   WHERE dateUpdated <> dateCreated)))
+								");
+				
+				$stmt->bindValue(":productSku", $productsCol['sku']);
+				$stmt->execute();
+				
+				$productSupplyCol = $stmt->fetch(PDO::FETCH_NUM);
+				
+				
+				$productsObjArray[] = new ProductStatistics($productSaleCol[0],
+						$productSaleCol[1],
+						$productSaleCol[2],
+						$productSaleCol[3],
+						$productSaleCol[4],
+						$productSaleCol[5],
+						$productSaleCol[6],
+						$productSaleCol[7],
+						$productSaleCol[8],
+						$productSupplyCol[0],
+						$productSupplyCol[1],
+						$productSupplyCol[2],
+						$productSupplyCol[3],
+						$productSupplyCol[4],
+						$productSupplyCol[5],
+						$productSupplyCol[6],
+						$productSupplyCol[7],
+						$productSupplyCol[8],
+						$productsCol['sku'],
+						$productsCol['description']);
+			}			
+			return $productsObjArray;
+		}
+		catch(PDOException $e)
+		{
+			throw $e;
+			echo $e->getMessage();
 		}
 	
 	}

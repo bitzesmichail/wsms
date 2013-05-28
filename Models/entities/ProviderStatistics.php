@@ -8,13 +8,17 @@ class ProviderStatistics
 	private $maxOutcome;
 	private $avgOutcome;
 	private $numSupplyOrders;
+	private $providerName;
+	private $providerSurname;
 
 	public function __construct($sumOutcome,
 								$minOutcome,
 								$maxOutcome,
 								$avgOutcome,
 								$numSupplyOrders,
-								$providerSsn
+								$providerSsn,
+							    $providerName = null,
+								$providerSurname = null
 								)
 	{
 
@@ -24,6 +28,8 @@ class ProviderStatistics
 		$this->avgOutcome = $avgOutcome;
 		$this->numSupplyOrders = $numSupplyOrders;
 		$this->providerSsn = $providerSsn;
+		$this->providerName = $providerName;
+		$this->providerSurname = $providerSurname;
 
 	}
 
@@ -43,6 +49,10 @@ class ProviderStatistics
 				return $this->numSupplyOrders;
 			case "providerSsn":
 				return $this->providerSsn;
+			case "providerName":
+				return $this->providerName;
+			case "providerSurname":
+				return $this->providerSurname;
 		}
 	}
 
@@ -67,6 +77,12 @@ class ProviderStatistics
 				break;
 			case "providerSsn":
 				$this->providerSsn = $value;
+				break;
+			case "providerName":
+				$this->providerName = $value;
+				break;
+			case "providerSurname":
+				$this->providerSurname = $value;
 				break;
 		}
 	}
