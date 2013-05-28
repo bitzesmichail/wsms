@@ -2,30 +2,25 @@
   require_once 'Views/navbars/navbar.php';
 ?>
 
+<script type="text/javascript">
+	$(document).ready(function() {
+
+	}
+</script>
+
 <form class="form-horizontal" action="<?php echo SALEORDER . "/create"; ?>" method="post">
-	<div id="step1" class="addsale stepDivs step1">
+		<div id="step1" class="addsale stepDivs step1">
 		<h2>
-			Δημιουργία Παραγγελίας - Βήμα 1ο
+			Παραγγελία για πελάτη <?php echo $data->customer->ssn ." " . $data->customer->name ." ". $data->customer->surname; ?>
 		</h2>
-		<div class="control-group">
-			<label class="control-label" for="saleOrderID">Κωδικός Παραγγελίας</label>
-			<div class="controls">
-				<input type="text" name="saleOrderID" id="saleOrderID" readonly>
-			</div>
-		</div>
 
 		<div class="control-group">
 			<label class="control-label" for="datePublish">Ημερομηνία Έκδοσης</label>
 			<div class="controls">
-				<div id="datePublish" class="input-append date">
-					<input data-format="dd/MM/yyyy hh:mm:ss" type="text"></input>
-					<span class="add-on">
-						<i data-time-icon="icon-time" data-date-icon="icon-calendar">
-						</i>
-					</span>
-				</div>
+					<input data-format="dd/MM/yyyy hh:mm:ss" type="text" value="Σήμερα" readonly></input>
 			</div>
 		</div>
+
 		<div class="control-group">
 			<label class="control-label" for="dateDue">Ημερομηνία Παράδοσης</label>
 			<div class="controls">
@@ -37,18 +32,55 @@
 					</span>
 				</div>
 			</div>
-		</div>
-
-		<button type="button" class="btn btn-success addsale previous" >Προηγούμενο</button>
-		<button type="button" class="btn btn-warning addsale next">Επόμενο</button>
-		
-		
-	</div>
+		</div>		
 	
-	<div id="step3" class="addsale stepDivs step3">
 		<h2>
-			Δημιουργία Παραγγελίας - Βήμα 3ο
+			Διεύθυνση Αποστολής
 		</h2>
+		
+		<div class="control-group">
+    		<label class="control-label" for="name">Όνομα</label>
+    		<div class="controls">
+      			<input type="text" value="<?php echo $data->customer->name; ?>" readonly>
+    		</div>
+  		</div>
+  
+  		<div class="control-group">
+    		<label class="control-label" for="surname">Επώνυμο</label>
+    		<div class="controls">
+      			<input type="text" value="<?php echo $data->customer->surname; ?>" readonly>
+    		</div>
+  		</div>
+
+  		<div class="control-group">
+    		<label class="control-label" for="address">Διεύθυνση</label>
+    		<div class="controls">
+      			<input type="text" value="<?php echo $data->customer->address; ?>" readonly>
+    		</div>
+  		</div>
+
+ 	 	<div class="control-group">
+    		<label class="control-label" for="zipCode">Ταχυδρομικός Κωδικός</label>
+    		<div class="controls">
+      			<input type="text" value="<?php echo $data->customer->zipCode; ?>" readonly>
+    		</div>
+  		</div>
+
+  		<div class="control-group">
+    		<label class="control-label" for="city">Πόλη</label>
+    		<div class="controls">
+      			<input type="text" value="<?php echo $data->customer->city; ?>" readonly>
+    		</div>
+  		</div>
+
+		<h2>
+			Επιλογή Προϊόντων
+		</h2>
+
+		<p>
+      		<a target="_blank" href="<?php echo PRODUCT . "/wishproduct_index"; ?>"><button class="btn btn-primary" type="button" >Ευκταία Προϊόντα</button></a>
+    	</p>
+
 		<table cellpadding="0" cellspacing="0" border="0" class="table table-striped table-bordered" width="100%" id="selectProductTable">
 			<thead>
 			<tr>
@@ -56,21 +88,21 @@
 				<th><strong>Περιγραφή</strong></th>
 				<th><strong>Τιμή</strong></th>
 				<th><strong>Απόθεμα</strong></th>
-				<th><strong>Έκδοση</strong></th>
+				<th><strong>Έκπτωση</strong></th>
 				<th><strong>Ποσότητα</strong></th>
 				<th><strong>Ενέργειες</strong></th>
 			</tr>
 			</thead>
 			<tbody>
 			<?php
-				if (!empty($data->products)) {
-					foreach ($data->products as &$value) {
+				if (!empty($data->products_with_discount)) {
+					foreach ($data->products_with_discount as &$value) {
 						echo "<tr>";
 						echo "<td>" . $value->sku . "</td>";
 						echo "<td>" . $value->description . "</td>";
 						echo "<td>" . $value->priceSale . "</td>";
 						echo "<td>" . $value->availableSum . "</td>";
-						echo "<td>" . $value->version . "</td>";
+						echo "<td>" . $value->discount . "</td>";
 						echo "<td>0</td>";
 						echo '<td><a class="edit" href="">Επεξεργασία Ποσότητας</a></td>';
 						echo "</tr>";
@@ -79,73 +111,75 @@
 			?>
 			</tbody>
 		</table>
-		<button type="button" class="btn btn-success addsale previous">Προηγούμενο</button>
+		
 		<button type="button" class="btn btn-warning addsale next">Επόμενο</button>
 	</div>
-	
-	<div id="step4" class="addsale stepDivs step4">
+
+	<div id="step2" class="addsale stepDivs step2">
 		<h2>
-			Στοιχεία Παραγγελίας
+			Επιβεβαίωση Παραγγελίας για πελάτη <?php echo $data->customer->ssn ." " . $data->customer->name ." ". $data->customer->surname; ?>
 		</h2>
-		<div>
-			<label class="control-label" for="saleOrderIDFinal">Κωδικός Παραγγελίας</label>
+
+		<div class="control-group">
+			<label class="control-label" for="datePublish">Ημερομηνία Έκδοσης</label>
 			<div class="controls">
-				<input type="text" name="saleOrderIDFinal" id="saleOrderIDFinal" readonly></input>
+					<input data-format="dd/MM/yyyy hh:mm:ss" type="text" value="Σήμερα" readonly></input>
 			</div>
-		</div>		
-		<h3>
-			Στοιχεία Πωλητή
-		</h3>
+		</div>
+
 		<div>
-			<label class="control-label" for="datePublishFinal">Ημερομηνία Έκδοσης</label>
-			<div class="controls">
-				<div id="datePublishFinal" class="date">
-					<input data-format="dd/MM/yyyy hh:mm:ss" type="text" readonly></input>
-				</div>
-			</div>
 			<label class="control-label" for="dateDueFinal">Ημερομηνία Παράδοσης</label>
 			<div class="controls">
 				<div id="dateDueFinal" class="date">
-					<input data-format="dd/MM/yyyy hh:mm:ss" type="text" readonly></input>
+					<input name="dateDueFinal" data-format="dd/MM/yyyy hh:mm:ss" type="text" readonly></input>
 				</div>
 			</div>
 		</div>		
-		<h3>
-			Στοιχεία Πελάτη
-		</h3>
-		<div>
-			<label class="control-label" for="customerSsnFinal">Κωδικός Πελάτη</label>
-			<div class="controls">
-				<input type="text" name="customerSsnFinal" id="customerSsnFinal" readonly></input>
-			</div>
-		</div>		
-		<h3>
-			Στοιχεία Προιόντων
-		</h3>
-		<table cellpadding="0" cellspacing="0" border="0" class="table table-striped table-bordered" width="100%" id="selectedProductTable">
-			<thead>
-			<tr>
-				<th><strong>Κωδικός</strong></th>
-				<th><strong>Περιγραφή</strong></th>
-				<th><strong>Τιμή</strong></th>
-				<th><strong>Απόθεμα</strong></th>
-				<th><strong>Έκδοση</strong></th>
-				<th><strong>Ποσότητα</strong></th>
-			</tr>
-			</thead>
-			<tbody>
-			
-			</tbody>
-		</table>	
-		<button type="button" class="btn btn-success addsale previous">Προηγούμενο</button>
-	</div>
-
-	<div class="addsale stepDivs submitButton">
+		
+		<h2>
+			Διεύθυνση Αποστολής
+		</h2>
+		
 		<div class="control-group">
-			<div class="controls">
-				<button type="submit" class="btn btn-primary addsale" style="float:right;">Προσθήκη</button>
-			</div>
+    		<label class="control-label" for="name">Όνομα</label>
+    		<div class="controls">
+      			<input type="text" value="<?php echo $data->customer->name; ?>" readonly>
+    		</div>
+  		</div>
+  
+  		<div class="control-group">
+    		<label class="control-label" for="surname">Επώνυμο</label>
+    		<div class="controls">
+      			<input type="text" value="<?php echo $data->customer->surname; ?>" readonly>
+    		</div>
+  		</div>
+
+  		<div class="control-group">
+    		<label class="control-label" for="address">Διεύθυνση</label>
+    		<div class="controls">
+      			<input type="text" value="<?php echo $data->customer->address; ?>" readonly>
+    		</div>
+  		</div>
+
+ 	 	<div class="control-group">
+    		<label class="control-label" for="zipCode">Ταχυδρομικός Κωδικός</label>
+    		<div class="controls">
+      			<input type="text" value="<?php echo $data->customer->zipCode; ?>" readonly>
+    		</div>
+  		</div>
+
+  		<div class="control-group">
+    		<label class="control-label" for="city">Πόλη</label>
+    		<div class="controls">
+      			<input type="text" value="<?php echo $data->customer->city; ?>" readonly>
+    		</div>
+  		</div>
+
+  		<input type="hidden" name="customerSsn" value="<?php echo $data->customer->ssn ?>">
+		<button type="button" class="btn btn-success addsale previous">Προηγούμενο</button>
+
+		<div class="addsale stepDivs submitButton">
+				<button type="submit" class="btn btn-primary addsale" style="float:right;">Επιβεβαίωση</button>
 		</div>
 	</div>
 </form>
-

@@ -46,5 +46,6 @@
 		<button type="submit" class="btn btn-success">Επόμενο</button>
 	</div>
 	
+	<input type="hidden" name="customerssn" id="customerSsnFinal">
 </form>
 
