@@ -9,14 +9,20 @@ class MiddleProduct
     private $discount;
 	private $quantityCreated;
 	private $quantityClosed;
-    
+	private $income;
+	private $outcome;
+	private $profit;
+	
     public function __construct($sku,
 								$description,
 								$priceSale,
 								$priceSupply,
 								$discount,
 								$quantityCreated,
-								$quantityClosed = null)
+								$quantityClosed = null,
+    							$income = null,
+    							$outcome = null,
+    							$profit = null)
     {
     	if($quantityClosed == null)
     	{
@@ -30,6 +36,9 @@ class MiddleProduct
 		$this->quantityCreated = $quantityCreated;
 		$this->quantityClosed = $quantityClosed;
 		$this->discount = $discount;
+		$this->income = $income;
+		$this->outcome = $outcome;
+		$this->profit = $profit;
     }
     
     public function __get($param)
@@ -49,7 +58,13 @@ class MiddleProduct
 			case "quantityClosed":
 				return $this->quantityClosed;			
 			case "discount":
-				return $this->discount;				
+				return $this->discount;
+			case "income":
+				return $this->income;
+			case "outcome":
+				return $this->outcome;
+			case "profit":
+				return $this->profit;
 		}
     }
 
@@ -77,7 +92,16 @@ class MiddleProduct
 				break;	 	    
 			case "discount":
 				$this->discount = $value;
-				break; 
+				break;
+			case "income":
+				$this->income = $value;
+				break;
+			case "outcome":
+				$this->outcome = $value;
+				break;
+			case "profit":
+				$this->profit = $value;
+				break;
 		}
     }
 }
