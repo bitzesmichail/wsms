@@ -7,22 +7,38 @@ class ProductStatistics
 	private $minIncome;
 	private $maxIncome;
 	private $avgIncome;
+	private $sumQuantitySold;
+	private $minQuantitySold;
+	private $maxQuantitySold;
+	private $avgQuantitySold;
 	private $numSaleOrders;
 	private $sumOutcome;
 	private $minOutcome;
 	private $maxOutcome;
 	private $avgOutcome;
+	private $sumQuantitySupplied;
+	private $minQuantitySupplied;
+	private $maxQuantitySupplied;
+	private $avgQuantitySupplied;
 	private $numSupplyOrders;
 
 	public function __construct($sumIncome,
 								$minIncome,
 								$maxIncome,
 								$avgIncome,
+								$sumQuantitySold,
+								$minQuantitySold,
+								$maxQuantitySold,
+								$avgQuantitySold,
 								$numSaleOrders,
 								$sumOutcome,
 								$minOutcome,
 								$maxOutcome,
 								$avgOutcome,
+								$sumQuantitySupplied,
+								$minQuantitySupplied,
+								$maxQuantitySupplied,
+								$avgQuantitySupplied,
 								$numSupplyOrders,
 								$productSku
 								)
@@ -32,11 +48,20 @@ class ProductStatistics
 		$this->minIncome = $minIncome;
 		$this->maxIncome = $maxIncome;
 		$this->avgIncome = $avgIncome;
+		$this->sumQuantitySold = $sumQuantitySold;
+		$this->minQuantitySold = $minQuantitySold;
+		$this->maxQuantitySold = $maxQuantitySold;
+		$this->avgQuantitySold = $avgQuantitySold;
 		$this->numSaleOrders = $numSaleOrders;
 		$this->sumOutcome = $sumOutcome;
 		$this->minOutcome = $minOutcome;
 		$this->maxOutcome = $maxOutcome;
 		$this->avgOutcome = $avgOutcome;
+		$this->avgIncome = $avgIncome;
+		$this->sumQuantitySupplied = $sumQuantitySupplied;
+		$this->minQuantitySupplied = $minQuantitySupplied;
+		$this->maxQuantitySupplied = $maxQuantitySupplied;
+		$this->avgQuantitySupplied = $avgQuantitySupplied;
 		$this->numSupplyOrders = $numSupplyOrders;
 		$this->productSku = $productSku;
 
@@ -68,6 +93,22 @@ class ProductStatistics
 				return $this->numSupplyOrders;
 			case "productSku":
 				return $this->productSku;
+			case "sumQuantitySold":
+				return $this->sumQuantitySold;
+			case "minQuantitySold":
+				return $this->minQuantitySold;
+			case "maxQuantitySold":
+				return $this->maxQuantitySold;
+			case "avgQuantitySold":
+				return $this->avgQuantitySold;
+			case "sumQuantitySupplied":
+				return $this->sumQuantitySupplied;
+			case "minQuantitySupplied":
+				return $this->minQuantitySupplied;
+			case "maxQuantitySupplied":
+				return $this->maxQuantitySupplied;
+			case "avgQuantitySupplied":
+				return $this->avgQuantitySupplied;
 		}
 	}
 
@@ -107,6 +148,30 @@ class ProductStatistics
 				break;
 			case "productSku":
 				$this->productSku = $value;
+				break;
+			case "sumQuantitySold":
+				$this->sumQuantitySold = $value;
+				break;
+			case "minQuantitySold":
+				$this->minQuantitySold = $value;
+				break;
+			case "maxQuantitySold":
+				$this->maxQuantitySold = $value;
+				break;
+			case "avgQuantitySold":
+				$this->avgQuantitySold = $value;
+				break;
+			case "sumQuantitySupplied":
+				$this->sumQuantitySupplied = $value;
+				break;
+			case "minQuantitySupplied":
+				$this->minQuantitySupplied = $value;
+				break;
+			case "maxQuantitySupplied":
+				$this->maxQuantitySupplied = $value;
+				break;
+			case "avgQuantitySupplied":
+				$this->avgQuantitySupplied = $value;
 				break;
 		}
 	}

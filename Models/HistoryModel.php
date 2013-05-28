@@ -167,11 +167,19 @@ class HistoryModel extends Model
 										 $productSaleCol[2],
 										 $productSaleCol[3],
 										 $productSaleCol[4],
+										 $productSaleCol[5],
+										 $productSaleCol[6],
+										 $productSaleCol[7],
+										 $productSaleCol[8],
 										 $productSupplyCol[0],
 										 $productSupplyCol[1],
 										 $productSupplyCol[2],
 										 $productSupplyCol[3],
 										 $productSupplyCol[4],
+										 $productSupplyCol[5],
+										 $productSupplyCol[6],
+										 $productSupplyCol[7],
+										 $productSupplyCol[8],
 										 $productSku);
 			
 	
