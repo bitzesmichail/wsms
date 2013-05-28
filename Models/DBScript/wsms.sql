@@ -155,10 +155,10 @@ CREATE TABLE IF NOT EXISTS `history_saleorder` (
   `dateDue` datetime NOT NULL,
   `dateClosed` datetime NOT NULL,
   `idHistoryCustomer` int(11) NOT NULL,
-  `status` enum('closed','problem') NOT NULL,
-  `priceSale` DECIMAL(10,2) NOT NULL ,
-  `priceSupply` DECIMAL(10,2) NOT NULL ,
-  `discount` DECIMAL(10,2) NOT NULL ,
+  `status` enum('active','inactive','closed','problem') NOT NULL,
+  `priceSale` DECIMAL(10,2) DEFAULT NULL ,
+  `priceSupply` DECIMAL(10,2) DEFAULT NULL ,
+  `discount` DECIMAL(10,2) DEFAULT NULL ,
   `address` varchar(100) NOT NULL,
   PRIMARY KEY (`idHistorySaleOrder`),
   KEY `fk_HistorySaleOrder_InstanceCustomer1_idx` (`idHistoryCustomer`)
@@ -188,10 +188,11 @@ CREATE TABLE IF NOT EXISTS `history_supplyorder` (
   `idHistorySupplyOrder` int(11) NOT NULL AUTO_INCREMENT,
   `idSupplyOrder` int(11) NOT NULL,
   `dateCreated` datetime NOT NULL,
+  `dateUpdated` datetime NOT NULL,
   `dateDue` datetime NOT NULL,
   `dateClosed` datetime NOT NULL,
   `idHistoryProvider` int(11) NOT NULL,
-  `priceSupply` DECIMAL(10,2) NOT NULL ,
+  `priceSupply` DECIMAL(10,2) DEFAULT NULL ,
   PRIMARY KEY (`idHistorySupplyOrder`),
   KEY `fk_HistorySupplyOrder_HistoryProvider1_idx` (`idHistoryProvider`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
@@ -259,7 +260,9 @@ DROP TRIGGER IF EXISTS `IncreaseProductVersionTrigger`;
 DELIMITER //
 CREATE TRIGGER `IncreaseProductVersionTrigger` BEFORE UPDATE ON `product`
  FOR EACH ROW BEGIN
-	SET NEW.version = NEW.version + 1;
+	IF(OLD.description <> NEW.description OR OLD.priceSale <> NEW.priceSale OR OLD.priceSupply <>NEW.priceSupply) THEN
+		SET NEW.version = NEW.version + 1;
+	END IF;
 END
 //
 DELIMITER ;
@@ -325,6 +328,7 @@ CREATE TABLE IF NOT EXISTS `saleorder` (
   `idUser` int(11) NOT NULL,
   `status` enum('active','inactive','closed','problem') NOT NULL,
   `address` varchar(100) DEFAULT NULL,
+  `updated` CHAR(0) DEFAULT NULL,
   PRIMARY KEY (`idSaleOrder`,`dateUpdated`),
   KEY `fk_OrderSale_Customer1_idx` (`customerSsn`),
   KEY `fk_OrderSale_User1_idx` (`idUser`)
@@ -358,21 +362,51 @@ CREATE TRIGGER `CurrentAddressSaleOrderTrigger` BEFORE INSERT ON `saleorder`
 		SET NEW.address = @currentAddress;
 
 	END IF;
+
+	IF(NEW.dateCreated <> NEW.dateUpdated) THEN
+		
+		SELECT updated
+		INTO @updated
+		FROM saleorder
+		WHERE idSaleOrder = NEW.idSaleOrder 
+		AND dateUpdated = dateCreated;
+
+		IF(@updated IS NULL) THEN
+		
+			UPDATE product p
+			JOIN (SELECT s.sku, s.quantityClosed 
+			FROM saleorder_has_product AS s
+			WHERE s.idSaleOrder = NEW.idSaleOrder
+			AND s.dateUpdated = NEW.dateCreated) s
+			ON p.sku = s.sku
+			SET p.availableSum := p.availableSum + s.quantityClosed,
+			p.reservedSum := p.reservedSum - s.quantityClosed;		
+					
+		END IF;
+
+	END IF;
 END
 //
 DELIMITER ;
+
 
 
 DROP TRIGGER IF EXISTS `SaleOrderTrigger`;
 DELIMITER //
 CREATE TRIGGER `SaleOrderTrigger` BEFORE DELETE ON `saleorder`
  FOR EACH ROW BEGIN 
+	
+	SET @status := (
+	SELECT status
+	FROM saleorder 
+	WHERE idSaleOrder = OLD.idSaleOrder
+	AND dateUpdated <> OLD.dateUpdated);
 
-        IF( (OLD.status='closed') OR (OLD.status='problem') ) THEN
+        IF( (OLD.status='closed') OR (OLD.status='problem') OR (OLD.dateCreated = OLD.dateUpdated AND (@status ='closed' OR 'problem'))) THEN
 
             SET @customerVersion := (
                 SELECT version
-                FROM provider
+                FROM customer
                 WHERE ssn = OLD.customerSsn
             );
 
@@ -410,6 +444,74 @@ CREATE TRIGGER `SaleOrderTrigger` BEFORE DELETE ON `saleorder`
             VALUES 
 	    (OLD.idSaleOrder,OLD.dateCreated,OLD.dateUpdated,OLD.dateDue,OLD.dateClosed,@historyCustomerId,OLD.status,@priceSale,@priceSupply,@discount,OLD.address);
 
+	END IF;
+
+	IF( (OLD.status <>'closed') AND (OLD.status <>'problem')) THEN
+
+
+
+		IF(OLD.dateUpdated <> OLD.dateCreated) THEN
+
+			UPDATE product p
+			JOIN (SELECT s.sku, s.quantityClosed 
+			FROM saleorder_has_product AS s
+			WHERE s.idSaleOrder = OLD.idSaleOrder
+			AND s.dateUpdated = OLD.dateUpdated) s
+			ON p.sku = s.sku
+			SET p.availableSum := p.availableSum + s.quantityClosed,
+			p.reservedSum := p.reservedSum - s.quantityClosed;
+		ELSE
+			SET @next := (
+			SELECT idSaleOrder
+			FROM saleorder 
+			WHERE idSaleOrder = OLD.idSaleOrder
+			AND dateUpdated <> OLD.dateUpdated);
+
+			IF(OLD.updated IS NULL AND @next IS NULL) THEN
+				UPDATE product p
+				JOIN (SELECT s.sku, s.quantityClosed 
+				FROM saleorder_has_product AS s
+				WHERE s.idSaleOrder = OLD.idSaleOrder
+				AND s.dateUpdated = OLD.dateCreated) s
+				ON p.sku = s.sku
+				SET p.availableSum := p.availableSum + s.quantityClosed,
+				p.reservedSum := p.reservedSum - s.quantityClosed;
+			END IF;
+		END IF;
+
+	ELSE
+
+			IF(OLD.dateUpdated <> OLD.dateCreated) THEN
+
+				UPDATE product p
+				JOIN (SELECT s.sku, s.quantityClosed 
+				FROM saleorder_has_product AS s
+				WHERE s.idSaleOrder = OLD.idSaleOrder
+				AND s.dateUpdated = OLD.dateUpdated) s
+				ON p.sku = s.sku
+				SET p.reservedSum := p.reservedSum - s.quantityClosed;
+			ELSE
+				SET @next := (
+				SELECT idSaleOrder
+				FROM saleorder 
+				WHERE idSaleOrder = OLD.idSaleOrder
+				AND dateUpdated <> OLD.dateUpdated);
+
+				IF(OLD.updated IS NULL AND @next IS NULL) THEN
+					UPDATE product p
+					JOIN (SELECT s.sku, s.quantityClosed 
+					FROM saleorder_has_product AS s
+					WHERE s.idSaleOrder = OLD.idSaleOrder
+					AND s.dateUpdated = OLD.dateCreated) s
+					ON p.sku = s.sku
+					SET p.reservedSum := p.reservedSum - s.quantityClosed;
+				END IF;
+
+
+			END IF;
+
+		
+
         END IF;
 
         DELETE FROM saleorder_has_product  
@@ -429,7 +531,7 @@ CREATE TABLE IF NOT EXISTS `saleorder_has_product` (
   `idSaleOrder` int(11) NOT NULL,
   `dateUpdated` datetime NOT NULL,
   `quantityCreated` int(11) NOT NULL,
-  `quantityClosed` int(11) DEFAULT NULL,
+  `quantityClosed` int(11) NOT NULL,
   `currentDiscount` decimal(4,3) NOT NULL,
   `currentPriceSale` decimal(10,2) NOT NULL,
   `currentPriceSupply` decimal(10,2) NOT NULL,
@@ -445,7 +547,7 @@ CREATE TABLE IF NOT EXISTS `saleorder_has_product` (
 --
 
 INSERT INTO `saleorder_has_product` (`sku`, `idSaleOrder`, `dateUpdated`, `quantityCreated`, `quantityClosed`, `currentDiscount`, `currentPriceSale`, `currentPriceSupply`, `currentVersion`, `currentDescription`) VALUES
-('BEV.0007', 1, '2013-05-08 00:00:00', 50, NULL, 0.250, 5.00, 4.00, 0, 'μια ωραία πεταλούδα');
+('BEV.0007', 1, '2013-05-08 00:00:00', 50, 50, 0.250, 5.00, 4.00, 0, 'μια ωραία πεταλούδα');
 
 --
 -- Triggers `saleorder_has_product`
@@ -454,21 +556,63 @@ DROP TRIGGER IF EXISTS `CurrentValuesSaleOrderTrigger`;
 DELIMITER //
 CREATE TRIGGER `CurrentValuesSaleOrderTrigger` BEFORE INSERT ON `saleorder_has_product`
  FOR EACH ROW BEGIN
-	SELECT version
-	INTO @currentVersion
+
+	SELECT priceSupply, version, description, priceSale 
+	INTO @currentPriceSupply, @currentVersion, @currentDescription, @currentPriceSale
 	FROM product
-	WHERE NEW.sku = sku;
+	WHERE  sku = NEW.sku;
+
+	SET	NEW.currentPriceSale := @currentPriceSale;
+	SET	NEW.currentPriceSupply := @currentPriceSupply;
+	SET	NEW.currentVersion := @currentVersion;
+	SET	NEW.currentDescription := @currentDescription;
 	
-	SET NEW.currentVersion = @currentVersion;
+
+	SELECT dateCreated
+	INTO @dateCreated
+	FROM saleorder
+	WHERE idSaleOrder = NEW.idSaleOrder 
+	AND dateUpdated = NEW.dateUpdated;
+
+	IF(NEW.dateUpdated <> @dateCreated) THEN 
+		
+		UPDATE saleorder 
+		SET updated := ''
+		WHERE idSaleOrder = NEW.idSaleOrder
+		AND dateUpdated = dateCreated;
+
+	END IF;
+
+	UPDATE product
+	SET availableSum := availableSum - NEW.quantityClosed,
+	reservedSum := reservedSum + NEW.quantityClosed
+	WHERE sku = NEW.sku;
+
 END
 //
 DELIMITER ;
+
+
+
 DROP TRIGGER IF EXISTS `SaleOrderHasProductTrigger`;
 DELIMITER //
 CREATE TRIGGER `SaleOrderHasProductTrigger` BEFORE DELETE ON `saleorder_has_product`
  FOR EACH ROW BEGIN
 
-        IF( (SELECT status FROM saleorder WHERE idSaleOrder=OLD.idSaleOrder AND dateUpdated = OLD.dateUpdated)='closed' OR 'problem' ) THEN
+	SELECT status,dateCreated
+	INTO @status,@dateCreated
+	FROM saleorder
+	WHERE idSaleOrder =OLD.idSaleOrder 
+	AND dateUpdated = OLD.dateUpdated;
+
+
+	SET @nextstatus := (
+	SELECT status
+	FROM saleorder 
+	WHERE idSaleOrder = OLD.idSaleOrder
+	AND dateUpdated <> OLD.dateUpdated);
+
+        IF( (@status='closed' OR 'problem') OR (@dateCreated = OLD.dateUpdated AND (@nextstatus ='closed' OR 'problem'))) THEN
             
             SET @historyProductId := (
                 SELECT idHistoryProduct 
@@ -532,6 +676,7 @@ CREATE TABLE IF NOT EXISTS `supplyorder` (
   `idUser` int(11) NOT NULL,
   `dateCreated` datetime NOT NULL,
   `status` enum('active','closed') NOT NULL,
+  `updated` CHAR(0) DEFAULT NULL,
   PRIMARY KEY (`idSupplyOrder`,`dateUpdated`),
   KEY `fk_OrderSupply_Provider1_idx` (`providerSsn`),
   KEY `fk_OrderSupply_User1_idx` (`idUser`)
@@ -540,12 +685,65 @@ CREATE TABLE IF NOT EXISTS `supplyorder` (
 --
 -- Triggers `supplyorder`
 --
+
+DROP TRIGGER IF EXISTS `InsertSupplyOrderTrigger`;
+DELIMITER //
+CREATE TRIGGER `InsertSupplyOrderTrigger` BEFORE INSERT ON `supplyorder`
+ FOR EACH ROW BEGIN
+
+	IF(NEW.dateCreated <> NEW.dateUpdated) THEN
+		
+		SELECT updated,status
+		INTO @updated,@status
+		FROM supplyorder
+		WHERE idSupplyOrder = NEW.idSupplyOrder 
+		AND dateUpdated = dateCreated;
+
+		IF(@updated IS NULL) THEN
+		
+		   IF(@status = 'closed') THEN
+			UPDATE product p
+			JOIN (SELECT s.sku, s.quantityClosed 
+			FROM supplyorder_has_product AS s
+			WHERE s.idSupplyOrder = NEW.idSupplyOrder
+			AND s.dateUpdated = NEW.dateCreated) s
+			ON p.sku = s.sku
+			SET p.availableSum := p.availableSum - s.quantityClosed,
+			p.orderedSum := p.orderedSum - s.quantityClosed;
+
+		  ELSE
+			UPDATE product p
+			JOIN (SELECT s.sku, s.quantityClosed 
+			FROM supplyorder_has_product AS s
+			WHERE s.idSupplyOrder = NEW.idSupplyOrder
+			AND s.dateUpdated = NEW.dateCreated) s
+			ON p.sku = s.sku
+			SET p.orderedSum := p.orderedSum - s.quantityClosed;
+			
+		  END IF;		
+					
+		END IF;
+
+	END IF;
+END
+//
+DELIMITER ;
+
+
+
+
 DROP TRIGGER IF EXISTS `SupplyOrderTrigger`;
 DELIMITER //
 CREATE TRIGGER `SupplyOrderTrigger` BEFORE DELETE ON `supplyorder`
  FOR EACH ROW BEGIN 
 
-        IF(OLD.status = 'closed') THEN
+	SET @status := (
+	SELECT status
+	FROM supplyorder 
+	WHERE idSupplyOrder = OLD.idSupplyOrder
+	AND dateUpdated <> OLD.dateUpdated);
+
+        IF((OLD.status = 'closed') OR (OLD.dateUpdated = OLD.dateCreated AND (@status ='closed'))) THEN
 			
 			SET @providerVersion := (
 				SELECT version 
@@ -568,23 +766,55 @@ CREATE TRIGGER `SupplyOrderTrigger` BEFORE DELETE ON `supplyorder`
 				WHERE ssn = OLD.providerSsn;
             
 				SET @historyProviderId := LAST_INSERT_ID();
-            END IF;
+            		END IF;
 
-	    SELECT SUM(currentPriceSupply*quantityClosed)
-	    INTO @priceSupply
-	    FROM supplyorder_has_product 
-	    WHERE idSupplyOrder = OLD.idSupplyOrder
-	    AND dateUpdated = OLD.dateUpdated;
+	    		SELECT SUM(currentPriceSupply*quantityClosed)
+	    		INTO @priceSupply
+	    		FROM supplyorder_has_product 
+	   	 	WHERE idSupplyOrder = OLD.idSupplyOrder
+	    		AND dateUpdated = OLD.dateUpdated;
             
-            INSERT INTO history_supplyorder 
-			(idSupplyOrder, dateCreated, dateDue, dateClosed, idHistoryProvider,priceSupply) 
+            		INSERT INTO history_supplyorder 
+			(idSupplyOrder, dateCreated, dateUpdated, dateDue, dateClosed, idHistoryProvider,priceSupply) 
 			VALUES 
-			(OLD.idSupplyOrder, OLD.dateCreated, OLD.dateDue, OLD.dateClosed, @historyProviderId,@priceSupply);
+			(OLD.idSupplyOrder, OLD.dateCreated, OLD.dateUpdated, OLD.dateDue, OLD.dateClosed, @historyProviderId,@priceSupply);
+        
+
+	END IF;
+
+	IF(OLD.dateUpdated <> OLD.dateCreated) THEN
+
+			UPDATE product p
+			JOIN (SELECT s.sku, s.quantityClosed 
+			FROM supplyorder_has_product AS s
+			WHERE s.idSupplyOrder = OLD.idSupplyOrder
+			AND s.dateUpdated = OLD.dateUpdated) s
+			ON p.sku = s.sku
+			SET p.orderedSum := p.orderedSum - s.quantityClosed;
+
+
+	ELSE
+		SET @next := (
+		SELECT idSupplyOrder
+		FROM supplyorder 
+		WHERE idSupplyOrder = OLD.idSupplyOrder
+		AND dateUpdated <> OLD.dateUpdated);
+
+			IF(OLD.updated IS NULL AND @next IS NULL) THEN
+				UPDATE product p
+				JOIN (SELECT s.sku, s.quantityClosed 
+				FROM supplyorder_has_product AS s
+				WHERE s.idSupplyOrder = OLD.idSupplyOrder
+				AND s.dateUpdated = OLD.dateCreated) s
+				ON p.sku = s.sku
+				SET p.orderedSum := p.orderedSum - s.quantityClosed;
+			END IF;
+
         END IF;
 
 
 	DELETE FROM supplyorder_has_product  
-	WHERE (idSupplyOrder = OLD.idSupplyOrder);
+	WHERE (idSupplyOrder = OLD.idSupplyOrder AND dateUpdated = OLD.dateUpdated);
 
     END
 //
@@ -601,7 +831,7 @@ CREATE TABLE IF NOT EXISTS `supplyorder_has_product` (
   `dateUpdated` datetime NOT NULL,
   `sku` varchar(20) NOT NULL,
   `quantityCreated` int(11) NOT NULL,
-  `quantityClosed` int(11) DEFAULT NULL,
+  `quantityClosed` int(11) NOT NULL,
   `currentPriceSupply` decimal(10,2) NOT NULL,
   `currentDescription` text NOT NULL,
   `currentVersion` int(11) DEFAULT NULL,
@@ -628,6 +858,36 @@ CREATE TRIGGER `CurrentValuesSupplyOrderTrigger` BEFORE INSERT ON `supplyorder_h
 		SET	NEW.currentPriceSupply := @currentPriceSupply;
 		SET	NEW.currentVersion := @currentVersion;
 		SET	NEW.currentDescription := @currentDescription;
+
+
+		SELECT dateCreated,status
+		INTO @dateCreated,@status
+		FROM supplyorder
+		WHERE idSupplyOrder = NEW.idSupplyOrder 
+		AND dateUpdated = NEW.dateUpdated;
+
+		IF(NEW.dateUpdated <> @dateCreated) THEN 
+		
+			UPDATE supplyorder 
+			SET updated := ''
+			WHERE idSupplyOrder = NEW.idSupplyOrder
+			AND dateUpdated = dateCreated;
+
+		END IF;
+
+		IF(@status = 'closed') THEN
+
+			UPDATE product
+			SET availableSum := availableSum + NEW.quantityClosed,
+			orderedSum := orderedSum + NEW.quantityClosed
+			WHERE sku = NEW.sku;
+
+		ELSE
+			UPDATE product
+			SET orderedSum := orderedSum + NEW.quantityClosed
+			WHERE sku = NEW.sku;
+
+		END IF;
 END
 //
 DELIMITER ;
@@ -636,7 +896,20 @@ DELIMITER //
 CREATE TRIGGER `SupplyOrderHasProductTrigger` BEFORE DELETE ON `supplyorder_has_product`
  FOR EACH ROW BEGIN
 
-        IF( (SELECT status FROM supplyorder WHERE idSupplyOrder = OLD.idSupplyOrder AND dateUpdated = OLD.dateUpdated)='closed' ) THEN
+
+	SELECT status,dateCreated
+	INTO @status,@dateCreated
+	FROM supplyorder
+	WHERE idSupplyOrder=OLD.idSupplyOrder 
+	AND dateUpdated = OLD.dateUpdated;
+
+	SET @nextstatus := (
+	SELECT status
+	FROM supplyorder 
+	WHERE idSupplyOrder = OLD.idSupplyOrder
+	AND dateUpdated <> OLD.dateUpdated);
+
+        IF( (@status='closed') OR (@dateCreated = OLD.dateUpdated AND @nextstatus ='closed')) THEN
             
             SET @historyProductId := (
                 SELECT idHistoryProduct 
@@ -660,8 +933,8 @@ CREATE TRIGGER `SupplyOrderHasProductTrigger` BEFORE DELETE ON `supplyorder_has_
             SET @idHistorySupplyOrder :=(
                 SELECT idHistorySupplyOrder 
                 FROM history_supplyorder 
-                WHERE idSupplyOrder = OLD.idSupplyOrder 
-            );
+                WHERE idSupplyOrder = OLD.idSupplyOrder
+		AND dateUpdated = OLD.dateUpdated);
             
             INSERT INTO history_supplyorder_has_history_product 
             (idHistorySupplyOrder,idHistoryProduct,quantityCreated,quantityClosed,priceSupply) 
@@ -813,7 +1086,7 @@ ALTER TABLE `supplyorder`
 --
 ALTER TABLE `supplyorder_has_product`
   ADD CONSTRAINT `fk_SupplyOrder_has_Product_Product1` FOREIGN KEY (`sku`) REFERENCES `product` (`sku`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  ADD CONSTRAINT `fk_SupplyOrder_has_Product_SupplyOrder1` FOREIGN KEY (`idSupplyOrder`) REFERENCES `supplyorder` (`idSupplyOrder`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+  ADD CONSTRAINT `fk_SupplyOrder_has_Product_SupplyOrder1` FOREIGN KEY (`idSupplyOrder`, `dateUpdated`) REFERENCES `supplyorder` (`idSupplyOrder`, `dateUpdated`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
 -- Constraints for table `wishproduct`

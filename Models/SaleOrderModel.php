@@ -42,14 +42,15 @@ class SaleOrderModel extends Model
             {
                 
                 $stmt = $pdo->prepare("INSERT INTO saleorder_has_product
-                                       (sku, idSaleOrder, dateUpdated, quantityCreated, currentDiscount, currentPriceSale, currentPriceSupply, currentDescription)
+                                       (sku, idSaleOrder, dateUpdated, quantityCreated, quantityClosed, currentDiscount, currentPriceSale, currentPriceSupply, currentDescription)
                                       VALUES
-                                       (:sku, :idSaleOrder, :dateUpdated, :quantityCreated, :currentDiscount, :currentPriceSale, :currentPriceSupply, :currentDescription)");
+                                       (:sku, :idSaleOrder, :dateUpdated, :quantityCreated, :quantityClosed, :currentDiscount, :currentPriceSale, :currentPriceSupply, :currentDescription)");
     
                 $stmt->bindValue(":sku", $middleProductObj->sku);
                 $stmt->bindValue(":idSaleOrder", $idSaleOrder);
 				$stmt->bindValue(":dateUpdated", $saleOrderObj->dateUpdated);
 				$stmt->bindValue(":quantityCreated", $middleProductObj->quantityCreated);
+				$stmt->bindValue(":quantityClosed", $middleProductObj->quantityClosed);
 				$stmt->bindValue(":currentDiscount", $middleProductObj->discount);
 				$stmt->bindValue(":currentPriceSale", $middleProductObj->priceSale);
 				$stmt->bindValue(":currentPriceSupply", $middleProductObj->priceSupply);
@@ -121,14 +122,15 @@ class SaleOrderModel extends Model
             {
                 
                 $stmt = $pdo->prepare("INSERT INTO saleorder_has_product
-                                       (sku, idSaleOrder, dateUpdated, quantityCreated, currentDiscount, currentPriceSale, currentPriceSupply, currentDescription)
+                                       (sku, idSaleOrder, dateUpdated, quantityCreated, quantityClosed, currentDiscount, currentPriceSale, currentPriceSupply, currentDescription)
                                       VALUES
-                                       (:sku, :idSaleOrder, :dateUpdated, :quantityCreated, :currentDiscount, :currentPriceSale, :currentPriceSupply, :currentDescription)");
+                                       (:sku, :idSaleOrder, :dateUpdated, :quantityCreated, :quantityClosed, :currentDiscount, :currentPriceSale, :currentPriceSupply, :currentDescription)");
     
                 $stmt->bindValue(":sku", $middleProductObj->sku);
                 $stmt->bindValue(":idSaleOrder", $saleOrderObj->idSaleOrder);
 				$stmt->bindValue(":dateUpdated", $dateUpdated);
 				$stmt->bindValue(":quantityCreated", $middleProductObj->quantityCreated);
+				$stmt->bindValue(":quantityClosed", $middleProductObj->quantityClosed);
 				$stmt->bindValue(":currentDiscount", $middleProductObj->discount);
 				$stmt->bindValue(":currentPriceSale", $middleProductObj->priceSale);
 				$stmt->bindValue(":currentPriceSupply", $middleProductObj->priceSupply);

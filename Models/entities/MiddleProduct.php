@@ -18,6 +18,11 @@ class MiddleProduct
 								$quantityCreated,
 								$quantityClosed = null)
     {
+    	if($quantityClosed == null)
+    	{
+    		$quantityClosed = $quantityCreated;
+    	}
+    	
 		$this->sku = $sku;
 		$this->description = $description;
 		$this->priceSale = $priceSale;
