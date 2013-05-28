@@ -79,6 +79,59 @@ require_once 'Models/CustomerModel.php';
  		}
  	}
 
+	public function addsale_customer()
+ 	{
+ 		if (isset($_SESSION['role'])) {
+ 			if($_SESSION['role'] == 'MANAGER' || $_SESSION['role'] == 'SELLER') {
+				try 
+				{          
+					$data = CustomerModel::getCustomers();
+
+					$this->view->render('sales', 'addsale_customer', $data); 
+				}
+ 				catch(Exception $ex)
+			 	{
+	 				require_once 'PageController.php';
+					$page = new PageController;
+					$page->errordb($ex->getMessage());
+ 				}
+			}
+			else {
+ 				require_once 'PageController.php';
+				$page = new PageController;
+				$page->error_accdenied();
+			}
+ 		}
+ 	}
+
+	public function addsale_products()
+ 	{
+ 		if (isset($_SESSION['role'])) {
+ 			if($_SESSION['role'] == 'MANAGER' || $_SESSION['role'] == 'SELLER') {
+				try 
+				{          
+					//TODO: get customer from _POST and get the discounts for every product
+					$data = new StdClass();
+					$data->customers = CustomerModel::getCustomers();
+					$data->products = ProductModel::getProducts();
+
+					$this->view->render('sales', 'addsale_products', $data); 
+				}
+ 				catch(Exception $ex)
+			 	{
+	 				require_once 'PageController.php';
+					$page = new PageController;
+					$page->errordb($ex->getMessage());
+ 				}
+			}
+			else {
+ 				require_once 'PageController.php';
+				$page = new PageController;
+				$page->error_accdenied();
+			}
+ 		}
+ 	}
+
 	public function saleHistory()
  	{
  		if (isset($_SESSION['role'])) {
