@@ -197,16 +197,17 @@ require_once 'Models/CustomerModel.php';
 						$quantityCreated,
 						$quantityClosed = null)
 					*/
-					$middleProductObjArray = array();
-					for($i = 0; $i <= count($_POST['sku']) - 1; $i++)
-					{
-						$middleProductObjArray[] = new MiddleProduct($_POST['sku'], $_POST['description'], $_POST['priceSale'], 
-															       $_POST['priceSupply'], $_POST['discount'], $_POST['quantityCreated'], null);
-					}
-					$saleOrderObj = new SaleOrder($_POST['dateDue'], $_POST['customerSsn'], $_POST['idUser'], 
-						                          $_POST['status'], $middleProductObjArray, $_POST['dateCreated'], null, null, null, $_POST['address']);
 
-					//SaleOrderModel::create($saleOrderObj);
+					$middleProductObjArray = array();
+					//for($i = 0; $i <= count($_POST['sku']) - 1; $i++)
+					//{
+					//	$middleProductObjArray[] = new MiddleProduct($_POST['sku'], $_POST['description'], $_POST['priceSale'], 
+					//										       $_POST['priceSupply'], $_POST['discount'], $_POST['quantityCreated'], null);
+					//}
+					$saleOrderObj = new SaleOrder($_POST['dateDueFinal'], $_POST['customerSsn'], $_SESSION['idUser'], 
+						                          'active', $middleProductObjArray, null, null, null, null, null);
+
+					SaleOrderModel::create($saleOrderObj);
 	 				SaleOrderController::index();
 				}
  				catch(Exception $ex)
