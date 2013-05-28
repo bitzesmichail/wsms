@@ -6,7 +6,7 @@
   require_once 'Views/navbars/navbar.php';
 ?>
 
-<form class="form-horizontal" action="<?php echo SALEORDER . "/create"; ?>" method="post">
+<form class="form-horizontal" action="<?php echo SALEORDER . "/update"; ?>" method="post">
 	<div class="container">
 		<h3>
 			Στοιχεία Παραγγελίας
@@ -31,7 +31,7 @@
 			<label class="control-label" for="dateDue">Ημερομηνία Παράδοσης</label>
 			<div class="controls">
 				<div id="dateDue" class="input-append date">
-					<input data-format="dd/MM/yyyy hh:mm:ss" type="text" value="<?php echo $data->saleorder->dateDue; ?>"></input>
+					<input name='dateDue' data-format="dd/MM/yyyy hh:mm:ss" type="text" value="<?php echo $data->saleorder->dateDue; ?>"></input>
 					<span class="add-on">
 						<i data-time-icon="icon-time" data-date-icon="icon-calendar">
 						</i>
@@ -177,6 +177,7 @@
 			?>
 			</tbody>
 		</table>
+		<input type='text' hidden='hidden' name='middleProducts' value='<?php echo serialize($data->saleorder->products); ?>'>
 	</div>
 	
 	<div class="container">
