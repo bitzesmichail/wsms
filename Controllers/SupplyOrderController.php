@@ -5,6 +5,7 @@ require_once 'Models/UserModel.php';
 require_once 'Models/ProductModel.php';
 require_once 'Models/SupplyOrderModel.php';
 require_once 'Models/ProviderModel.php';
+require_once 'Models/HistoryModel.php';
 
 /**
  * Controller for supply orders

@@ -5,6 +5,8 @@ require_once 'Models/UserModel.php';
 require_once 'Models/ProductModel.php';
 require_once 'Models/SaleOrderModel.php';
 require_once 'Models/CustomerModel.php';
+require_once 'Models/HistoryModel.php';
+
 /**
  * Controller for sale orders
  */
