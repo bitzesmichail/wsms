@@ -177,7 +177,7 @@
 			?>
 			</tbody>
 		</table>
-		<input type='text' hidden='hidden' name='middleProducts' value='<?php echo serialize($data->saleorder->products); ?>'>
+		<input type='text' hidden='hidden' name='middleProducts' value='<?php echo base64_encode(serialize($data->saleorder->products)); ?>'>
 	</div>
 	
 	<div class="container">
