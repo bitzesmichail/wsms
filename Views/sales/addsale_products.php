@@ -106,7 +106,9 @@
 			</tbody>
 		</table>
 		
-		<button type="button" class="btn btn-warning addsale next">Επόμενο</button>
+		<button type="button" class="btn btn-warning addsale next" 
+		onclick="windows.location.href='<?php echo SALEORDER; ?>/addsale_products';
+						<?php $selectedProducts[] = $_POST['selectedProducts'] ?>">Επόμενο</button>
 	</div>
 
 	<div id="step2" class="addsale stepDivs step2">

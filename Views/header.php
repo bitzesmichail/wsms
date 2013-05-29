@@ -188,8 +188,6 @@
 								//$('#selectedProductTable').dataTable().fnAddData( selectProductTable.fnGetData(nodes[j]) );
 						}
 						$('.addsale.submitButton').show();
-						windows.location.href="<?php echo SALEORDER; ?>/addsale_products";
-						<?php $selectedProducts[] = $_POST['selectedProducts'] ?>
 					}
 					else if (divID == 'step3') {
 						$('.addsale.step4').show();						
