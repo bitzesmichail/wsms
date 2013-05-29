@@ -170,6 +170,9 @@
 				});
 				
 				$('.addsale.stepDivs').hide();
+				
+
+				<?php $selectedProducts = array('' => , ); ?>
 				$('.addsale.step1').show();
 				$('.addsale.next').click(function (event){
 					$('.addsale.stepDivs').hide();
@@ -179,13 +182,14 @@
 						var nodes = selectProductTable.fnGetNodes();
 						for (var j=0; j < nodes.length; j++) {
 							if(selectProductTable.fnGetData(nodes[j])[5] > 0) {
-								$('#selectedProductTable').dataTable().fnAddData( <?php echo "'kati'"; ?>);//selectProductTable.fnGetData(nodes[j]) );
-
+								$('#selectedProductTable').dataTable().fnAddData( selectProductTable.fnGetData(nodes[j]) );
 							}
 								//console.log(selectProductTable.fnGetData(nodes[j]));
 								//$('#selectedProductTable').dataTable().fnAddData( selectProductTable.fnGetData(nodes[j]) );
 						}
 						$('.addsale.submitButton').show();
+						windows.location.href="<?php echo SALEORDER; ?>/addsale_products";
+						<?php $selectedProducts[] = $_POST['selectedProducts'] ?>
 					}
 					else if (divID == 'step3') {
 						$('.addsale.step4').show();						
