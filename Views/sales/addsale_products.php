@@ -1,5 +1,6 @@
 <?php
   require_once 'Views/navbars/navbar.php';
+  $selectedProducts = array();
 ?>
 
 <form class="form-horizontal" action="<?php echo SALEORDER . "/create"; ?>" method="post">
@@ -106,14 +107,18 @@
 			</tbody>
 		</table>
 		
+		<form method='post' action='<?php echo SALEORDER; ?>/addsale_products'>
+			<input name='selectedProds' type='hidden' value='' />
 		<button type="button" class="btn btn-warning addsale next" 
-		onclick="windows.location.href='<?php echo SALEORDER; ?>/addsale_products';
-						<?php $selectedProducts[] = $_POST['selectedProducts'] ?>">Επόμενο</button>
+		onclick="this.selectedProds.innerHTML='hello prods';windows.location.href='<?php echo SALEORDER; ?>/addsale_products';">Επόμενο</button>
+		</form>
 	</div>
 
 	<div id="step2" class="addsale stepDivs step2">
 		<h2>
 			Επιβεβαίωση Παραγγελίας για πελάτη <?php echo $data->customer->ssn ." " . $data->customer->name ." ". $data->customer->surname; ?>
+
+			<?php echo $_POST['selectedProds']; ?>
 		</h2>
 
 		<div class="control-group">
