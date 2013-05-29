@@ -266,14 +266,16 @@ require_once 'Models/HistoryModel.php';
  	public function update()
  	{
  		$middleProductObjArray = unserialize(base64_decode($_POST['middleProducts']));
- 		var_dump($_POST['dateDue']);
- 		var_dump($_POST['ssn']);
- 		var_dump($middleProductObjArray);
- 		var_dump($_POST['dateDue']);
+ 		
  		$saleOrderObj = new SaleOrder($_POST['dateDue'], $_POST['ssn'], $_SESSION['idUser'], 
 						                          'active', $middleProductObjArray, null, $_POST['saleOrderID'], null, null, null);
 
  		SaleOrderModel::update($saleOrderObj);
+
+ 		require_once 'PageController.php';
+		$page = new PageController;
+		$page->redirect(HOME);
+
  	}
 
  	//export σε Excel
