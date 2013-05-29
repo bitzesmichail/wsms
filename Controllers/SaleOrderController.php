@@ -200,6 +200,11 @@ require_once 'Models/HistoryModel.php';
 						$quantityClosed = null)
 					*/
 					var_dump($_POST['sku']);
+					$sku = array('' => , );
+
+					foreach ($_POST['sku'] as &$sku) {
+						$sku->
+					}
 
 					//$middleProductObjArray = array();
 					//for($i = 0; $i <= count($_POST['sku']) - 1; $i++)
