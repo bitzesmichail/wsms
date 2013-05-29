@@ -3,7 +3,7 @@
   $selectedProducts = array();
 ?>
 
-<form class="form-horizontal" action="<?php echo SALEORDER . "/create"; ?>" method="post">
+<form class="form-horizontal" action="<?php echo SALEORDER . "/addsale_products"; ?>" method="post">
 		<div id="step1" class="addsale stepDivs step1">
 		<h2>
 			Παραγγελία για πελάτη <?php echo $data->customer->ssn ." " . $data->customer->name ." ". $data->customer->surname; ?>
@@ -107,18 +107,23 @@
 			</tbody>
 		</table>
 		
-		<form method='post' action='<?php echo SALEORDER; ?>/addsale_products'>
+		
 			<input id='selectedProds' name='selectedProds' type='hidden' value='jhkhhkh' />
 		<button type="button" class="btn btn-warning addsale next" 
 		onclick="$('#selectedProds').val('helloooooooo');this.form.submit()">Επόμενο</button>
-		</form>
 	</div>
+</form>
 
+<form class="form-horizontal" action="<?php echo SALEORDER . "/create"; ?>" method="post">
 	<div id="step2" class="addsale stepDivs step2">
 		<h2>
 			Επιβεβαίωση Παραγγελίας για πελάτη <?php echo $data->customer->ssn ." " . $data->customer->name ." ". $data->customer->surname; ?>
 
-			<?php echo $_POST['selectedProds']; ?>
+			<?php 
+			if (isset($_POST['selectedProds'])) {
+				echo $_POST['selectedProds']; 
+			}
+			?>
 		</h2>
 
 		<div class="control-group">
