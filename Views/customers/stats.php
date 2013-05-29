@@ -7,10 +7,6 @@
 		Στατιστικά Πελάτη
 	</h2>
 
-<p>
-  <a href="<?php echo CUSTOMER . "/exportStatistics"; ?>"><button class="btn btn-primary" type="button" >Εξαγωγή σε Excel</button></a>
-</p>
-
 <form class="form-horizontal">
   <div class="control-group">
     <label class="control-label" for="ssn">ΑΦΜ</label>

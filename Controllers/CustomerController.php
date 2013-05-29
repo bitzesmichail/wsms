@@ -307,6 +307,7 @@ require_once 'Models/HistoryModel.php';
  	//export σε Excel
  	public function exportStatistics()
  	{
+ 		HistoryModel::getAllCustomersStatisticsToExcel($_SESSION['username']);
 
  		return 0;
  	}

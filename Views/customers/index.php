@@ -12,6 +12,10 @@
   <a href="<?php echo CUSTOMER . "/addcustomer"; ?>"><button class="btn btn-primary" type="button" >Προσθήκη νέου πελάτη</button></a>
 </p>
 
+<p>
+  <a href="<?php echo CUSTOMER . "/exportStatistics"; ?>"><button class="btn btn-primary" type="button" >Εξαγωγή σε Excel</button></a>
+</p>
+
 <table cellpadding="0" cellspacing="0" border="0" class="table table-striped table-bordered" width="100%" id="customer_table">
 <thead>
 <tr>

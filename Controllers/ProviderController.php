@@ -216,8 +216,8 @@ require_once 'Models/HistoryModel.php';
  	//export σε Excel
  	public function exportStatistics()
  	{
-
- 		return 0;
+ 		HistoryModel::getAllProvidersStatisticsToExcel($_SESSION['username']);
+ 		
  	}
  	/*public static function viewAll()
  	{

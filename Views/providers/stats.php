@@ -7,14 +7,6 @@
 		Στατιστικά Προμηθευτή
 	</h2>
 
-<?php
-  var_dump($data->stats);
-?>
-
-<p>
-  <a href="<?php echo PROVIDER . "/exportStatistics"; ?>"><button class="btn btn-primary" type="button" >Εξαγωγή σε Excel</button></a>
-</p>
-
 <form class="form-horizontal">
   <div class="control-group">
     <label class="control-label" for="ssn">ΑΦΜ</label>
