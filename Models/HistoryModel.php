@@ -9,7 +9,7 @@ require_once("entities/ProductStatistics.php");
 require_once("entities/MiddleProduct.php");
 require_once("entities/HistorySaleOrder.php");
 require_once("entities/HistorySupplyOrder.php");
-require_once ("../../phpexcel/Classes/PHPExcel.php");
+require_once("../phpexcel/Classes/PHPExcel.php");
 
 class HistoryModel extends Model
 {
@@ -1091,7 +1091,7 @@ class HistoryModel extends Model
 		$objWriter->save('php://output');
 	}
 	
-	function getAllProductsStatisticsToExcel($user) 
+	public static function getAllProductsStatisticsToExcel($user) 
 	{	
 		$productsObjArray = HistoryModel::getAllProductsStatistics();
 		
