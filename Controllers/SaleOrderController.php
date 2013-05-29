@@ -199,11 +199,12 @@ require_once 'Models/HistoryModel.php';
 						$quantityCreated,
 						$quantityClosed = null)
 					*/
-					var_dump($_POST['sku']);
-					$sku = array('' => , );
+					// var_dump($_POST['sku']);
+					$sku = array();
 
-					foreach ($_POST['sku'] as &$sku) {
-						$sku->
+					foreach ($_POST['sku'] as &$selectedProduct) {
+						$sku = explode(':', $selectedProduct);
+						var_dump($sku);
 					}
 
 					//$middleProductObjArray = array();
