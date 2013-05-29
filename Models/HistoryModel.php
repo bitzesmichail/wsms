@@ -234,17 +234,16 @@ class HistoryModel extends Model
 				$providerCol = $stmt->fetch(PDO::FETCH_NUM);
 				
 				$providersObjArray[] = new ProviderStatistics($providerCol[0],
-						$providerCol[1],
-						$providerCol[2],
-						$providerCol[3],
-						$providerCol[4],
-						$providersCol['providerSsn'],
-						$providersCol['name'],
-						$providersCol['surname']
-				);
-				return $providersObjArray;
+															$providerCol[1],
+															$providerCol[2],
+															$providerCol[3],
+															$providerCol[4],
+															$providersCol['providerSsn'],
+															$providersCol['name'],
+															$providersCol['surname']
+															);
 			}
-				
+			return $providersObjArray;	
 		}
 		catch(PDOException $e)
 		{
