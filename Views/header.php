@@ -172,7 +172,7 @@
 				$('.addsale.stepDivs').hide();
 				
 
-				<?php $selectedProducts = array('' => , ); ?>
+				<?php $selectedProducts = array(); ?>
 				$('.addsale.step1').show();
 				$('.addsale.next').click(function (event){
 					$('.addsale.stepDivs').hide();
