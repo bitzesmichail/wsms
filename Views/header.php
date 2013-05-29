@@ -107,9 +107,10 @@
 				{
 					var aData = oTable.fnGetData(nRow);
 					var jqTds = $('>td', nRow);
+					var jqInputs = $('input', nRow);
+
 					jqTds[0].innerHTML = jqTds[0].innerHTML + '<input type="hidden" name="sku[]" value="'+aData[0]+'">';
 
-					var jqInputs = $('input', nRow);
 					oTable.fnUpdate( jqInputs[0].value, nRow, 5, false );
 					oTable.fnUpdate( '<a class="edit" href="">Επεξεργασία Ποσότητας</a>', nRow, 6, false );
 					oTable.fnDraw();
