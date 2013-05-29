@@ -210,7 +210,7 @@ require_once 'Models/HistoryModel.php';
 						$middleProductObjArray[] = $product;
 					}
 
-					// var_dump($middleProductObjArray);
+					var_dump($middleProductObjArray);
 
 					//for($i = 0; $i <= count($_POST['sku']) - 1; $i++)
 					//{
