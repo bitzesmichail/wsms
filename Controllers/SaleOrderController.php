@@ -268,13 +268,13 @@ require_once 'Models/HistoryModel.php';
  		$middleProductObjArray = unserialize(base64_decode($_POST['middleProducts']));
  		
  		$saleOrderObj = new SaleOrder($_POST['dateDue'], $_POST['ssn'], $_SESSION['idUser'], 
-						                          'active', $middleProductObjArray, null, $_POST['saleOrderID'], null, null, null);
+						                          'active', $middleProductObjArray, $_POST['dateDue'], $_POST['saleOrderID'], null, null, null);
 
  		SaleOrderModel::update($saleOrderObj);
 
  		require_once 'PageController.php';
 		$page = new PageController;
-		$page->redirect(HOME);
+		$page->redirect(SALEORDER);
 
  	}
 
