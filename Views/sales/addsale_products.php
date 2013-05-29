@@ -108,7 +108,7 @@
 		</table>
 		
 		<form method='post' action='<?php echo SALEORDER; ?>/addsale_products'>
-			<input id='selectedProds' name='selectedProds' type='hidden' value='' />
+			<input id='selectedProds' name='selectedProds' type='hidden' value='jhkhhkh' />
 		<button type="button" class="btn btn-warning addsale next" 
 		onclick="$('#selectedProds').val('helloooooooo');this.form.submit()">Επόμενο</button>
 		</form>
