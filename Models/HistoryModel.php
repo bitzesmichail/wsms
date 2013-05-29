@@ -831,9 +831,8 @@ class HistoryModel extends Model
 	
 	public static function getHistorySaleOrdersToExcel($user) 
 	{	
-		//$user einai to onoma tou xrhsth pou dhmiourghse to eggrafo
-		
-		$saleOrderObjArray = HistoryModel::getHistorySaleOrders();
+	
+		$saleOrderObjArray = self::getHistorySaleOrders();
 		
 		date_default_timezone_set('Europe/Athens');
 
@@ -867,17 +866,17 @@ class HistoryModel extends Model
 
 		// Add some data
 		$objPHPExcel->setActiveSheetIndex(0)
-					->setCellValue('A1', 'Êùäéêüò Ðáñáããåëßáò')
-					->setCellValue('B1', 'Çìåñïìçíßá Äçìéïõñãßáò')
-					->setCellValue('C1', 'Çìåñïìçíßá Ðñïèåóìßáò')
-					->setCellValue('D1', 'Çìåñïìçíßá ÅêôÝëåóçò')
-					->setCellValue('E1', 'Á.Ö.Ì ÐåëÜôç')
-					->setCellValue('F1', 'ÊáôÜóôáóç')
-					->setCellValue('G1', 'Äéåýèõíóç ÁðïóôïëÞò')
-					->setCellValue('H1', 'Ìéêôü ÊÝñäïò')
-					->setCellValue('I1', 'Êüóôïò')
-					->setCellValue('J1', 'Ðïóü ¸êðôùóçò')
-					->setCellValue('K1', 'ÊÝñäïò');
+					->setCellValue('A1', 'ÎšÏ‰Î´Î¹ÎºÏŒÏ‚ Î Î±ÏÎ±Î³Î³ÎµÎ»Î¯Î±Ï‚')
+					->setCellValue('B1', 'Î—Î¼ÎµÏÎ¿Î¼Î·Î½Î¯Î± Î”Î·Î¼Î¹Î¿Ï…ÏÎ³Î¯Î±Ï‚')
+					->setCellValue('C1', 'Î—Î¼ÎµÏÎ¿Î¼Î·Î½Î¯Î± Î ÏÎ¿Î¸ÎµÏƒÎ¼Î¯Î±Ï‚')
+					->setCellValue('D1', 'Î—Î¼ÎµÏÎ¿Î¼Î·Î½Î¯Î± Î•ÎºÏ„Î­Î»ÎµÏƒÎ·Ï‚')
+					->setCellValue('E1', 'Î‘.Î¦.Îœ Î ÎµÎ»Î¬Ï„Î·')
+					->setCellValue('F1', 'ÎšÎ±Ï„Î¬ÏƒÏ„Î±ÏƒÎ·')
+					->setCellValue('G1', 'Î”Î¹ÎµÏÎ¸Ï…Î½ÏƒÎ· Î‘Ï€Î¿ÏƒÏ„Î¿Î»Î®Ï‚')
+					->setCellValue('H1', 'ÎœÎ¹ÎºÏ„ÏŒ ÎšÎ­ÏÎ´Î¿Ï‚')
+					->setCellValue('I1', 'ÎšÏŒÏƒÏ„Î¿Ï‚')
+					->setCellValue('J1', 'Î Î¿ÏƒÏŒ ÎˆÎºÏ€Ï„Ï‰ÏƒÎ·Ï‚')
+					->setCellValue('K1', 'ÎšÎ­ÏÎ´Î¿Ï‚');
 
 		$i = 2;			 
 		foreach( $saleOrderObjArray as $hso ) 
@@ -898,7 +897,7 @@ class HistoryModel extends Model
 		}	
 		
 		$objPHPExcel->setActiveSheetIndex(0)
-				->setCellValue('G'.($i + 1), 'Óýíïëï')
+				->setCellValue('G'.($i + 1), 'Î£ÏÎ½Î¿Î»Î¿')
 				->setCellValue('H'.($i + 1), "=SUM(H1:H".($i-1).")")
 				->setCellValue('I'.($i + 1), "=SUM(I1:I".($i-1).")")
 				->setCellValue('J'.($i + 1), "=SUM(J1:J".($i-1).")")
@@ -917,7 +916,7 @@ class HistoryModel extends Model
 		// Set active sheet index to the first sheet, so Excel opens this as the first sheet
 		$objPHPExcel->setActiveSheetIndex(0);
 
-		// Redirect output to a client’s web browser (Excel5)
+		// Redirect output to a clientâ€™s web browser (Excel5)
 		header('Content-Type: application/vnd.ms-excel');
 		header('Content-Disposition: attachment;filename="statistics.xls"');
 		header('Cache-Control: max-age=0');
@@ -925,11 +924,12 @@ class HistoryModel extends Model
 		$objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel5');
 		$objWriter->save('php://output');
 	}
+
 	
 	public static function getHistorySupplyOrdersToExcel($user) 
 	{	 
 		
-		$supplyOrderObjArray = HistoryModel::getHistorySupplyOrders();
+		$supplyOrderObjArray = self::getHistorySupplyOrders();
 		
 		date_default_timezone_set('Europe/Athens');
 
@@ -963,12 +963,12 @@ class HistoryModel extends Model
 
 		// Add some data
 		$objPHPExcel->setActiveSheetIndex(0)
-					->setCellValue('A1', 'Êùäéêüò ÐñïìÞèåéáò')
-					->setCellValue('B1', 'Çìåñïìçíßá Äçìéïõñãßáò')
-					->setCellValue('C1', 'Çìåñïìçíßá ÅêôÝëåóçò')
-					->setCellValue('D1', 'Çìåñïìçíßá Ðñïèåóìßáò')
-					->setCellValue('E1', 'Á.Ö.Ì ÐñïìçèåõôÞ')
-					->setCellValue('F1', 'Êüóôïò');
+					->setCellValue('A1', 'ÎšÏ‰Î´Î¹ÎºÏŒÏ‚ Î ÏÎ¿Î¼Î®Î¸ÎµÎ¹Î±Ï‚')
+					->setCellValue('B1', 'Î—Î¼ÎµÏÎ¿Î¼Î·Î½Î¯Î± Î”Î·Î¼Î¹Î¿Ï…ÏÎ³Î¯Î±Ï‚')
+					->setCellValue('C1', 'Î—Î¼ÎµÏÎ¿Î¼Î·Î½Î¯Î± Î•ÎºÏ„Î­Î»ÎµÏƒÎ·Ï‚')
+					->setCellValue('D1', 'Î—Î¼ÎµÏÎ¿Î¼Î·Î½Î¯Î± Î ÏÎ¿Î¸ÎµÏƒÎ¼Î¯Î±Ï‚')
+					->setCellValue('E1', 'Î‘.Î¦.Îœ Î ÏÎ¿Î¼Î·Î¸ÎµÏ…Ï„Î®')
+					->setCellValue('F1', 'ÎšÏŒÏƒÏ„Î¿Ï‚');
 		
 		$i = 2;			 
 		foreach( $supplyOrderObjArray as $hso ) 
@@ -985,7 +985,7 @@ class HistoryModel extends Model
 		}	
 		
 		$objPHPExcel->setActiveSheetIndex(0)
-				->setCellValue('E'.($i + 1), 'Óýíïëï')
+				->setCellValue('E'.($i + 1), 'Î£ÏÎ½Î¿Î»Î¿')
 				->setCellValue('F'.($i + 1), "=SUM(F1:F".($i-1).")");
 		
 		$objPHPExcel->getActiveSheet()
@@ -1001,7 +1001,7 @@ class HistoryModel extends Model
 		// Set active sheet index to the first sheet, so Excel opens this as the first sheet
 		$objPHPExcel->setActiveSheetIndex(0);
 
-		// Redirect output to a client’s web browser (Excel5)
+		// Redirect output to a clientâ€™s web browser (Excel5)
 		header('Content-Type: application/vnd.ms-excel');
 		header('Content-Disposition: attachment;filename="statistics.xls"');
 		header('Cache-Control: max-age=0');
@@ -1013,7 +1013,7 @@ class HistoryModel extends Model
 	public static function getAllCustomersStatisticsToExcel($user) 
 	{	
 
-		$customersObjArray = HistoryModel::getAllCustomersStatistics();
+		$customersObjArray = self::getAllCustomersStatistics();
 		
 		date_default_timezone_set('Europe/Athens');
 
@@ -1048,17 +1048,17 @@ class HistoryModel extends Model
 
 		// Add some data
 		$objPHPExcel->setActiveSheetIndex(0)
-					->setCellValue('A1', 'Á.Ö.Ì')
-					->setCellValue('B1', '¼íïìá')
-					->setCellValue('C1', 'Åðþíõìï')
-					->setCellValue('D1', 'Ìéêôü ÊÝñäïò')
-					->setCellValue('E1', 'Küóôïò')
-					->setCellValue('F1', 'Êáèáñü ÊÝñäïò')
-					->setCellValue('G1', 'Óýíïëï ¸êðôùóçò')
-					->setCellValue('H1', 'Ìéêôü ÊÝñäïò(ÅëÜ÷éóôï)')
-					->setCellValue('I1', 'Ìéêôü ÊÝñäïò(ÌÝãéóôï)')
-					->setCellValue('J1', 'Ìéêôü ÊÝñäïò(Ì.Ï)')
-					->setCellValue('K1', 'Áñéèìüò Ðáñáããåëéþí');
+					->setCellValue('A1', 'Î‘.Î¦.Îœ')
+					->setCellValue('B1', 'ÎŒÎ½Î¿Î¼Î±')
+					->setCellValue('C1', 'Î•Ï€ÏŽÎ½Ï…Î¼Î¿')
+					->setCellValue('D1', 'ÎœÎ¹ÎºÏ„ÏŒ ÎšÎ­ÏÎ´Î¿Ï‚')
+					->setCellValue('E1', 'KÏŒÏƒÏ„Î¿Ï‚')
+					->setCellValue('F1', 'ÎšÎ±Î¸Î±ÏÏŒ ÎšÎ­ÏÎ´Î¿Ï‚')
+					->setCellValue('G1', 'Î£ÏÎ½Î¿Î»Î¿ ÎˆÎºÏ€Ï„Ï‰ÏƒÎ·Ï‚')
+					->setCellValue('H1', 'ÎœÎ¹ÎºÏ„ÏŒ ÎšÎ­ÏÎ´Î¿Ï‚(Î•Î»Î¬Ï‡Î¹ÏƒÏ„Î¿)')
+					->setCellValue('I1', 'ÎœÎ¹ÎºÏ„ÏŒ ÎšÎ­ÏÎ´Î¿Ï‚(ÎœÎ­Î³Î¹ÏƒÏ„Î¿)')
+					->setCellValue('J1', 'ÎœÎ¹ÎºÏ„ÏŒ ÎšÎ­ÏÎ´Î¿Ï‚(Îœ.ÎŸ)')
+					->setCellValue('K1', 'Î‘ÏÎ¹Î¸Î¼ÏŒÏ‚ Î Î±ÏÎ±Î³Î³ÎµÎ»Î¹ÏŽÎ½');
 
 		$i = 2;			 
 		foreach( $customersObjArray as $coa ) 
@@ -1082,7 +1082,7 @@ class HistoryModel extends Model
 		// Set active sheet index to the first sheet, so Excel opens this as the first sheet
 		$objPHPExcel->setActiveSheetIndex(0);
 
-		// Redirect output to a client’s web browser (Excel5)
+		// Redirect output to a clientâ€™s web browser (Excel5)
 		header('Content-Type: application/vnd.ms-excel');
 		header('Content-Disposition: attachment;filename="statistics.xls"');
 		header('Cache-Control: max-age=0');
@@ -1093,7 +1093,7 @@ class HistoryModel extends Model
 	
 	public static function getAllProductsStatisticsToExcel($user) 
 	{	
-		$productsObjArray = HistoryModel::getAllProductsStatistics();
+		$productsObjArray = self::getAllProductsStatistics();
 		
 		date_default_timezone_set('Europe/Athens');
 
@@ -1128,26 +1128,26 @@ class HistoryModel extends Model
 		
 		// Add some data
 		$objPHPExcel->setActiveSheetIndex(0)
-					->setCellValue('A1', 'Êùäéêüò')
-					->setCellValue('B1', 'ÐåñéãñáöÞ')
-					->setCellValue('C1', 'Ìéêôü ÊÝñäïò')
-					->setCellValue('D1', 'Ìéêôü ÊÝñäïò(ÅëÜ÷éóôï)')
-					->setCellValue('E1', 'Ìéêôü ÊÝñäïò(ÌÝãéóôï)')
-					->setCellValue('F1', 'Ìéêôü ÊÝñäïò(Ì.Ï)')
-					->setCellValue('G1', 'ÐïõëçìÝíá ÔåìÜ÷éá')
-					->setCellValue('H1', 'ÐïõëçìÝíá ÔåìÜ÷éá(ÅëÜ÷éóôï)')
-					->setCellValue('I1', 'ÐïõëçìÝíá ÔåìÜ÷éá(ÌÝãéóôï)')
-					->setCellValue('J1', 'ÐïõëçìÝíá ÔåìÜ÷éá(Ì.Ï)')
-					->setCellValue('K1', 'Áñéèìüò Ðáñáããåëéþí')
-					->setCellValue('L1', 'Êüóôïò')
-					->setCellValue('M1', 'Êüóôïò(ÅëÜ÷éóôï)')
-					->setCellValue('N1', 'Êüóôïò(ÌÝãéóôï)')
-					->setCellValue('O1', 'Êüóôïò(Ì.Ï)')
-					->setCellValue('P1', 'ÐáñáããåëìÝíá ÔåìÜ÷éá')
-					->setCellValue('Q1', 'ÐáñáããåëìÝíá ÔåìÜ÷éá(ÅëÜ÷éóôï)')
-					->setCellValue('R1', 'ÐáñáããåëìÝíá ÔåìÜ÷éá(ÌÝãéóôï)')
-					->setCellValue('S1', 'ÐáñáããåëìÝíá ÔåìÜ÷éá(Ì.Ï)')
-					->setCellValue('T1', 'Áñéèìüò Ðñïìçèåéþí');
+					->setCellValue('A1', 'ÎšÏ‰Î´Î¹ÎºÏŒÏ‚')
+					->setCellValue('B1', 'Î ÎµÏÎ¹Î³ÏÎ±Ï†Î®')
+					->setCellValue('C1', 'ÎœÎ¹ÎºÏ„ÏŒ ÎšÎ­ÏÎ´Î¿Ï‚')
+					->setCellValue('D1', 'ÎœÎ¹ÎºÏ„ÏŒ ÎšÎ­ÏÎ´Î¿Ï‚(Î•Î»Î¬Ï‡Î¹ÏƒÏ„Î¿)')
+					->setCellValue('E1', 'ÎœÎ¹ÎºÏ„ÏŒ ÎšÎ­ÏÎ´Î¿Ï‚(ÎœÎ­Î³Î¹ÏƒÏ„Î¿)')
+					->setCellValue('F1', 'ÎœÎ¹ÎºÏ„ÏŒ ÎšÎ­ÏÎ´Î¿Ï‚(Îœ.ÎŸ)')
+					->setCellValue('G1', 'Î Î¿Ï…Î»Î·Î¼Î­Î½Î± Î¤ÎµÎ¼Î¬Ï‡Î¹Î±')
+					->setCellValue('H1', 'Î Î¿Ï…Î»Î·Î¼Î­Î½Î± Î¤ÎµÎ¼Î¬Ï‡Î¹Î±(Î•Î»Î¬Ï‡Î¹ÏƒÏ„Î¿)')
+					->setCellValue('I1', 'Î Î¿Ï…Î»Î·Î¼Î­Î½Î± Î¤ÎµÎ¼Î¬Ï‡Î¹Î±(ÎœÎ­Î³Î¹ÏƒÏ„Î¿)')
+					->setCellValue('J1', 'Î Î¿Ï…Î»Î·Î¼Î­Î½Î± Î¤ÎµÎ¼Î¬Ï‡Î¹Î±(Îœ.ÎŸ)')
+					->setCellValue('K1', 'Î‘ÏÎ¹Î¸Î¼ÏŒÏ‚ Î Î±ÏÎ±Î³Î³ÎµÎ»Î¹ÏŽÎ½')
+					->setCellValue('L1', 'ÎšÏŒÏƒÏ„Î¿Ï‚')
+					->setCellValue('M1', 'ÎšÏŒÏƒÏ„Î¿Ï‚(Î•Î»Î¬Ï‡Î¹ÏƒÏ„Î¿)')
+					->setCellValue('N1', 'ÎšÏŒÏƒÏ„Î¿Ï‚(ÎœÎ­Î³Î¹ÏƒÏ„Î¿)')
+					->setCellValue('O1', 'ÎšÏŒÏƒÏ„Î¿Ï‚(Îœ.ÎŸ)')
+					->setCellValue('P1', 'Î Î±ÏÎ±Î³Î³ÎµÎ»Î¼Î­Î½Î± Î¤ÎµÎ¼Î¬Ï‡Î¹Î±')
+					->setCellValue('Q1', 'Î Î±ÏÎ±Î³Î³ÎµÎ»Î¼Î­Î½Î± Î¤ÎµÎ¼Î¬Ï‡Î¹Î±(Î•Î»Î¬Ï‡Î¹ÏƒÏ„Î¿)')
+					->setCellValue('R1', 'Î Î±ÏÎ±Î³Î³ÎµÎ»Î¼Î­Î½Î± Î¤ÎµÎ¼Î¬Ï‡Î¹Î±(ÎœÎ­Î³Î¹ÏƒÏ„Î¿)')
+					->setCellValue('S1', 'Î Î±ÏÎ±Î³Î³ÎµÎ»Î¼Î­Î½Î± Î¤ÎµÎ¼Î¬Ï‡Î¹Î±(Îœ.ÎŸ)')
+					->setCellValue('T1', 'Î‘ÏÎ¹Î¸Î¼ÏŒÏ‚ Î ÏÎ¿Î¼Î·Î¸ÎµÎ¹ÏŽÎ½');
 
 		$i = 2;			 
 		foreach( $productsObjArray as $poa ) 
@@ -1180,7 +1180,7 @@ class HistoryModel extends Model
 		// Set active sheet index to the first sheet, so Excel opens this as the first sheet
 		$objPHPExcel->setActiveSheetIndex(0);
 
-		// Redirect output to a client’s web browser (Excel5)
+		// Redirect output to a clientâ€™s web browser (Excel5)
 		header('Content-Type: application/vnd.ms-excel');
 		header('Content-Disposition: attachment;filename="statistics.xls"');
 		header('Cache-Control: max-age=0');
@@ -1191,7 +1191,7 @@ class HistoryModel extends Model
 	
 	public static function getAllProvidersStatisticsToExcel($user) 
 	{	
-		$providersObjArray = HistoryModel::getAllProvidersStatistics();
+		$providersObjArray = self::getAllProvidersStatistics();
 		
 		date_default_timezone_set('Europe/Athens');
 
@@ -1226,14 +1226,14 @@ class HistoryModel extends Model
 
 		// Add some data
 		$objPHPExcel->setActiveSheetIndex(0)
-					->setCellValue('A1', 'Á.Ö.Ì')
-					->setCellValue('B1', '¼íïìá')
-					->setCellValue('C1', 'Åðþíõìï')
-					->setCellValue('D1', 'Êüóôïò')
-					->setCellValue('E1', 'Küóôïò(ÅëÜ÷éóôï)')
-					->setCellValue('F1', 'Küóôïò(ÌÝãéóôï)')
-					->setCellValue('G1', 'Küóôïò(Ì.Ï)')
-					->setCellValue('H1', 'Áñéèìüò Ðñïìçèåéþí');
+					->setCellValue('A1', 'Î‘.Î¦.Îœ')
+					->setCellValue('B1', 'ÎŒÎ½Î¿Î¼Î±')
+					->setCellValue('C1', 'Î•Ï€ÏŽÎ½Ï…Î¼Î¿')
+					->setCellValue('D1', 'ÎšÏŒÏƒÏ„Î¿Ï‚')
+					->setCellValue('E1', 'KÏŒÏƒÏ„Î¿Ï‚(Î•Î»Î¬Ï‡Î¹ÏƒÏ„Î¿)')
+					->setCellValue('F1', 'KÏŒÏƒÏ„Î¿Ï‚(ÎœÎ­Î³Î¹ÏƒÏ„Î¿)')
+					->setCellValue('G1', 'KÏŒÏƒÏ„Î¿Ï‚(Îœ.ÎŸ)')
+					->setCellValue('H1', 'Î‘ÏÎ¹Î¸Î¼ÏŒÏ‚ Î ÏÎ¿Î¼Î·Î¸ÎµÎ¹ÏŽÎ½');
 						
 		$i = 2;			 
 		foreach( $providersObjArray as $poa ) 
@@ -1254,7 +1254,7 @@ class HistoryModel extends Model
 		// Set active sheet index to the first sheet, so Excel opens this as the first sheet
 		$objPHPExcel->setActiveSheetIndex(0);
 
-		// Redirect output to a client’s web browser (Excel5)
+		// Redirect output to a clientâ€™s web browser (Excel5)
 		header('Content-Type: application/vnd.ms-excel');
 		header('Content-Disposition: attachment;filename="statistics.xls"');
 		header('Cache-Control: max-age=0');
