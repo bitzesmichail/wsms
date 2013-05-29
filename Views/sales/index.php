@@ -36,9 +36,9 @@
 			echo "<td>" . $value->surname . "</td>";
 			echo "<td>" . $value->ssn . "</td>";
 			echo "<td>" . $value->dateDue . "</td>";	
-			echo "<td>"			
+			echo "<td>";		
 			if ($_SESSION['role'] == 'MANAGER' || $_SESSION['role'] == 'SELLER') {
-				echo  "<a href=\"" . SALEORDER . "/editsaleorder/" . $value->id . "\">" . "<button class=\"btn btn-primary\" type=\"button\" >Επεξεργασία</button></a>";				
+				echo "<a href=\"" . SALEORDER . "/editsaleorder/" . $value->id . "\">" . "<button class=\"btn btn-primary\" type=\"button\" >Επεξεργασία</button></a>";				
 				echo "<a href=\"" . SALEORDER . "/deletesaleorder?id=" . $value->id . "\">" . "<button class=\"btn btn-danger\" type=\"button\" >Διαγραφή</button></a>";
 			}
 			echo "<a href=\"" . SALEORDER . "/closesaleorder?id=" . $value->id . "\">" . "<button class=\"btn btn-danger\" type=\"button\" >Κλείσιμο</button></td></a>";
