@@ -2,12 +2,6 @@
   require_once 'Views/navbars/navbar.php';
 ?>
 
-<script type="text/javascript">
-	$(document).ready(function() {
-
-	}
-</script>
-
 <form class="form-horizontal" action="<?php echo SALEORDER . "/create"; ?>" method="post">
 		<div id="step1" class="addsale stepDivs step1">
 		<h2>
@@ -174,6 +168,26 @@
       			<input type="text" value="<?php echo $data->customer->city; ?>" readonly>
     		</div>
   		</div>
+
+  		<h2>
+			Προϊόντα
+		</h2>
+
+		<table cellpadding="0" cellspacing="0" border="0" class="table table-striped table-bordered" width="100%" id="selectedProductTable">
+			<thead>
+			<tr>
+				<th><strong>Κωδικός</strong></th>
+				<th><strong>Περιγραφή</strong></th>
+				<th><strong>Τιμή</strong></th>
+				<th><strong>Απόθεμα</strong></th>
+				<th><strong>Έκπτωση</strong></th>
+				<th><strong>Ποσότητα</strong></th>
+			</tr>
+			</thead>
+			<tbody>
+			
+			</tbody>
+		</table>	
 
   		<input type="hidden" name="customerSsn" value="<?php echo $data->customer->ssn ?>">
 		<button type="button" class="btn btn-success addsale previous">Προηγούμενο</button>

@@ -179,14 +179,11 @@
 						var nodes = selectProductTable.fnGetNodes();
 						for (var j=0; j < nodes.length; j++) {
 							if(selectProductTable.fnGetData(nodes[j])[5] > 0)
-								console.log(selectProductTable.fnGetData(nodes[j]));
+								$('#selectedProductTable').dataTable().fnAddData( selectProductTable.fnGetData(nodes[j]) );
+								//console.log(selectProductTable.fnGetData(nodes[j]));
 								//$('#selectedProductTable').dataTable().fnAddData( selectProductTable.fnGetData(nodes[j]) );
 						}
 						$('.addsale.submitButton').show();
-					}
-					else if (divID == 'step2') {
-						$('.addsale.step3').show();
-						
 					}
 					else if (divID == 'step3') {
 						$('.addsale.step4').show();						
@@ -195,7 +192,6 @@
 						for (var j=0; j < nodes.length; j++) {
 							if ($(nodes[j]).hasClass('row_selected')) {
 								//console.log(selectProductTable.fnGetData(nodes[j]));
-								$('#selectedProductTable').dataTable().fnAddData( selectProductTable.fnGetData(nodes[j]) );
 							}
 						}
 						if (selectedCustomer != -1) {
