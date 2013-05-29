@@ -112,7 +112,7 @@
 
 					var aData = oTable.fnGetData(nRow);
 					var jqTds = $('>td', nRow);
-					jqTds[0].innerHTML = jqTds[0].innerHTML + '<input type="hidden" name="sku[]" value="'+aData[0] + ' ' + aData[5] + '">';
+					jqTds[0].innerHTML = jqTds[0].innerHTML + '<input type="hidden" name="sku[]" value="'+ aData[0] + ':'aData[1] + ':'aData[2] + ':'aData[3] + ':' + aData[4] + ':'aData[5] + '">';
 					oTable.fnDraw();
 				}
 				
