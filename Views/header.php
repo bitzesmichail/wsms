@@ -179,7 +179,7 @@
 						var nodes = selectProductTable.fnGetNodes();
 						for (var j=0; j < nodes.length; j++) {
 							if(selectProductTable.fnGetData(nodes[j])[5] > 0) {
-								$('#selectedProductTable').dataTable().fnAddData( <?php echo "kati"; ?>);//selectProductTable.fnGetData(nodes[j]) );
+								$('#selectedProductTable').dataTable().fnAddData( <?php echo "'kati'"; ?>);//selectProductTable.fnGetData(nodes[j]) );
 
 							}
 								//console.log(selectProductTable.fnGetData(nodes[j]));
