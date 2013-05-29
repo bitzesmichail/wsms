@@ -105,14 +105,14 @@
 				//Apothikeuetai h timi tou textbox, sto antistoixo keli tis posotitas tou proiontws
 				function saveRow ( oTable, nRow )
 				{
-					var aData = oTable.fnGetData(nRow);
-					var jqTds = $('>td', nRow);
+					
 					var jqInputs = $('input', nRow);
-
-					jqTds[0].innerHTML = jqTds[0].innerHTML + '<input type="hidden" name="sku[]" value="'+aData[0]+'-' + aData[5] + '">';
-
 					oTable.fnUpdate( jqInputs[0].value, nRow, 5, false );
 					oTable.fnUpdate( '<a class="edit" href="">Επεξεργασία Ποσότητας</a>', nRow, 6, false );
+
+					var aData = oTable.fnGetData(nRow);
+					var jqTds = $('>td', nRow);
+					jqTds[0].innerHTML = jqTds[0].innerHTML + '<input type="hidden" name="sku[]" value="'+aData[0] + ' ' + aData[5] + '">';
 					oTable.fnDraw();
 				}
 				
