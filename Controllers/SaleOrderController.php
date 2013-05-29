@@ -201,13 +201,15 @@ require_once 'Models/HistoryModel.php';
 					*/
 					// var_dump($_POST['sku']);
 					$sku = array();
+					$middleProductObjArray = array();
 
 					foreach ($_POST['sku'] as &$selectedProduct) {
 						$sku = explode(':', $selectedProduct);
-						echo $sku[0];
+						$middleProductObjArray[] = ProductModel::getProductBySku($sku[0]);
 					}
 
-					//$middleProductObjArray = array();
+					var_dump($middleProductObjArray);
+
 					//for($i = 0; $i <= count($_POST['sku']) - 1; $i++)
 					//{
 					//	$middleProductObjArray[] = new MiddleProduct($_POST['sku'], $_POST['description'], $_POST['priceSale'], 
