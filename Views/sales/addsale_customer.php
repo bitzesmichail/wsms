@@ -43,7 +43,7 @@
 			</tbody>
 		</table>
 		
-		<button type="submit" class="btn btn-success">Επόμενο</button>
+		<button type="submit" class="btn btn-success" style="float:right;">Επόμενο</button>
 	</div>
 	
 	<input type="hidden" name="customerssn" id="customerSsnFinal">

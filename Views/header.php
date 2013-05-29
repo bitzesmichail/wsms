@@ -37,6 +37,7 @@
 				"sPaginationType": "bootstrap"
 			});
 			
+			//metatrepei ta input textboxes se datetime pickers
 			$(function() {
 				$('#datePublish, #dateDue, #datePublishFinal, #dateDueFinal').datetimepicker({
 					language: 'en',
@@ -44,16 +45,19 @@
 				});
 			});
 					
+			//metaferei otidipote grafete sto datePublish sto datePublishFinal
 			$("#datePublish").on('changeDate', function(e) {
 				var picker = $('#datePublishFinal').data('datetimepicker');
 				picker.setLocalDate(e.localDate);
 			});
 			
+			//metaferei otidipote grafete sto dateDue sto dateDueFinal
 			$("#dateDue").on('changeDate', function(e) {
 				var picker = $('#dateDueFinal').data('datetimepicker');
 				picker.setLocalDate(e.localDate);
 			});
 			
+			//arxikopoiei ta dropdowns wste na anoigoun/kleinoun otan patas se auta
 			$('.dropdown-toggle').dropdown();
 		
 		} );
@@ -62,9 +66,11 @@
 	
 	<script type="text/javascript">			
 			$(document).ready(function() {
+				//metabliti pou an exei epilegei pelatis exei ton arithmo tis grammis tou pinaka tou epilegmenou pelati, alliws -1
 				var selectedCustomer = -1;
+				//metabliti pou an exei epilegei promitheutis exei ton arithmo tis grammis tou pinaka tou epilegmenou promitheuti, alliws -1
 				var selectedProvider = -1;
-				var selectedProducts = [];
+
 				dTable = $('#users_table, #product_table, #saleorderHistory_table, #supplyHistory_table, #selectedProductTable, #customer_table, #saleorder_table, #provider_table, #supplyorder_table').dataTable({
 					"bLengthChange": false,
 					"sPaginationType": "bootstrap"
@@ -86,6 +92,8 @@
 					"sPaginationType": "bootstrap",
 				});
 				
+				
+				//Metatrepetai to keli tis posotitas se textbox, wste na mporei na balei o xristis tin epithimiti posotita
 				function editRow ( oTable, nRow )
 				{
 					var aData = oTable.fnGetData(nRow);
@@ -94,10 +102,19 @@
 					jqTds[6].innerHTML = '<a class="edit" href="">Αποθήκευση</a>';
 				}
 				
+				//Apothikeuetai h timi tou textbox, sto antistoixo keli tis posotitas tou proiontws
 				function saveRow ( oTable, nRow )
 				{
 					var jqInputs = $('input', nRow);
 					oTable.fnUpdate( jqInputs[0].value, nRow, 5, false );
+					oTable.fnUpdate( '<a class="edit" href="">Επεξεργασία Ποσότητας</a>', nRow, 6, false );
+					oTable.fnDraw();
+				}
+				
+				function restoreRow ( oTable, nRow )
+				{
+					var jqInputs = $('input', nRow);
+					oTable.fnUpdate( 0, nRow, 5, false );
 					oTable.fnUpdate( '<a class="edit" href="">Επεξεργασία Ποσότητας</a>', nRow, 6, false );
 					oTable.fnDraw();
 				}
@@ -107,20 +124,26 @@
 				$('#selectProductTable a.edit').live('click', function (e) {
 					e.preventDefault();
 					 
-					/* Get the row as a parent of the link that was clicked on */
+					//H epilegmenh grammi pou patithike mia sigekrimenh energeia
 					var nRow = $(this).parents('tr')[0];
 					 
+					/*
+					An patithei "Επεξεργασια Ποσοτητας" enw exei paththei alli grammh kai den exei ginei apothikeush,
+					tote epanaferoume thn 1h grammh stin arxiki katastash kai epeksergazomaste ti nea
+					*/
 					if ( nEditing !== null && nEditing != nRow ) {
 						/* A different row is being edited - the edit should be cancelled and this row edited */
 						restoreRow( selectProductTable, nEditing );
 						editRow( selectProductTable, nRow );
 						nEditing = nRow;
 					}
+					/* An patithei "Αποθήκευση" apothikeuetai h timi pou exei dothei sto textbox */
 					else if ( nEditing == nRow && this.innerHTML == "Αποθήκευση" ) {
 						/* This row is being edited and should be saved */
 						saveRow( selectProductTable, nEditing );
 						nEditing = null;
 					}
+					/*Epeksergazomaste tin epilegmenh grammh */
 					else {
 						/* No row currently being edited */
 						editRow( selectProductTable, nRow );
@@ -128,26 +151,17 @@
 					}
 				} );
 				
-				/*$("#selectProductTable tbody tr").click(function(event) {
-					console.log('click');
-					console.log(selectProductTable.fnGetPosition(this));
-					$(event.target.parentNode).toggleClass('row_selected');
-					/*var index = $.inArray(selectProductTable.fnGetPosition(this), selectedProducts);
-					if (index == -1) {
-						selectedProducts.push(selectProductTable.fnGetPosition(this))
-					}
-					else {
-						selectedProducts.splice(index, 1);
-					}
-				});*/
-				
+				/*Orizoume tin sinartisi epilogis mias grammis tou pinaka*/
 				$("body").on('click', '#selectCustomerTable tbody tr', function(event) {
+					/*afairoume ton background apo oles tis grammes*/
 					$('.row_selected').removeClass('row_selected');
+					/*An patisoume se diaforetiki grammi apo tin prohgoumenh epilegmenh tote epilegoume ti nea kai thetoume to selectedCustomer*/
 					if (selectCustomerTable.fnGetPosition(this) != selectedCustomer) {
 						$(event.target.parentNode).toggleClass('row_selected');
 						selectedCustomer = selectCustomerTable.fnGetPosition(this);
 						$("#customerSsnFinal").val(selectCustomerTable.fnGetData(selectedCustomer)[0]);
 					}
+					//an oxi den einai kanenas pelatis epilegmenos
 					else 
 						selectedCustomer = -1;
 				});
@@ -163,22 +177,23 @@
 				});
 				
 				$("body").on('click', '#selectProductTable tbody tr', function(event) {
-					//console.log(this);
-					//console.log('click');
-					//console.log(selectProductTable.fnGetPosition(this));
 					//$(event.target.parentNode).toggleClass('row_selected');
 				});
 				
+				
+				/*Kwdikas gia tin ilopoihsh ths prosthikis paragelias kai promitheias */
 				$('.addsale.stepDivs').hide();
 				
 				$('.addsale.step1').show();
 				$('.addsale.next').click(function (event){
 					$('.addsale.stepDivs').hide();
 					var divID = $(this).parent().attr('id');
+					/*exoume 2 divs me ta bimata tis paraggelias.Otan patame sto "Προηγουμενο/Επομενο" kryboume h' emfanizoyme to antistoixo*/
 					if (divID == 'step1') {
 						$('.addsale.step2').show();
 						var nodes = selectProductTable.fnGetNodes();
 						for (var j=0; j < nodes.length; j++) {
+							/*Thewroume os epilegmena proionta osa exoun timi > 0 sth stili posotita*/
 							if(selectProductTable.fnGetData(nodes[j])[5] > 0) {
 								$('#selectedProductTable').dataTable().fnAddData( selectProductTable.fnGetData(nodes[j]) );
 							}
