@@ -205,10 +205,12 @@ require_once 'Models/HistoryModel.php';
 
 					foreach ($_POST['sku'] as &$selectedProduct) {
 						$sku = explode(':', $selectedProduct);
-						$middleProductObjArray[] = ProductModel::getProductBySku($sku[0]);
+						$product = ProductModel::getProductBySku($sku[0]);
+						$product->orderedSum = $sku[5];
+						$middleProductObjArray[] = $product;
 					}
 
-					var_dump($middleProductObjArray);
+					// var_dump($middleProductObjArray);
 
 					//for($i = 0; $i <= count($_POST['sku']) - 1; $i++)
 					//{
