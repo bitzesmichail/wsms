@@ -12,6 +12,10 @@
   <a href="<?php echo SUPPLYORDER . "/addsupplyorder"; ?>"><button class="btn btn-primary" type="button" >Προσθήκη νέας προμήθειας</button></a>
 </p>
 
+<p>
+  <a href="<?php echo SUPPLYORDER . "/exportStatistics"; ?>"><button class="btn btn-primary" type="button" >Εξαγωγή σε Excel</button></a>
+</p>
+
 <table cellpadding="0" cellspacing="0" border="0" class="table table-striped table-bordered" width="100%" id="supplyorder_table">
 <thead>
 <tr>

@@ -197,8 +197,9 @@ require_once 'Models/CustomerModel.php';
 						$quantityCreated,
 						$quantityClosed = null)
 					*/
+					var_dump($_POST);
 
-					$middleProductObjArray = array();
+					//$middleProductObjArray = array();
 					//for($i = 0; $i <= count($_POST['sku']) - 1; $i++)
 					//{
 					//	$middleProductObjArray[] = new MiddleProduct($_POST['sku'], $_POST['description'], $_POST['priceSale'], 
@@ -263,6 +264,12 @@ require_once 'Models/CustomerModel.php';
 						                          'active', $middleProductObjArray, null, null, null, null, null);
 
  		SaleOrderModel::update($saleOrderObj);
+ 	}
+
+ 	//export σε Excel
+ 	public function exportStatistics()
+ 	{
+ 		HistoryModel::getHistorySaleOrdersToExcel($_SESSION['username']);
  	}
 
  	public function delete($id='')

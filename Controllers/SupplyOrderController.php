@@ -131,6 +131,12 @@ require_once 'Models/ProviderModel.php';
  		}
  	}
 
+ 	//export σε Excel
+ 	public function exportStatistics()
+ 	{
+ 		HistoryModel::getHistorySupplyOrdersToExcel($_SESSION['username']);
+ 	}
+
  	public function create($supply='')
  	{
  		return 0;
