@@ -20,7 +20,7 @@ require_once 'Models/HistoryModel.php';
  	public function index()
  	{
  		if (isset($_SESSION['role'])) {
- 			if ($_SESSION['role'] == 'MANAGER' || $_SESSION['role'] == 'SELLER') {
+ 			if ($_SESSION['role'] == 'MANAGER' || $_SESSION['role'] == 'SELLER' || $_SESSION['role'] == 'STOREKEEPER') {
 				try 
 				{
 					$saleorders = SaleOrderModel::getActiveSaleOrders();
