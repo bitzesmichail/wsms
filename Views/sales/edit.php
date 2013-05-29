@@ -22,7 +22,7 @@
 			<label class="control-label" for="datePublish">Ημερομηνία Έκδοσης</label>
 			<div class="controls">
 				<div id="datePublish" class="input-append date">
-					<input data-format="dd/MM/yyyy hh:mm:ss" type="text" value="<?php echo $data->saleorder->dateCreated; ?>" readonly></input>
+					<input name="dateCreated" data-format="dd/MM/yyyy hh:mm:ss" type="text" value="<?php echo $data->saleorder->dateCreated; ?>" readonly></input>
 				</div>
 			</div>
 		</div>
