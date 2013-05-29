@@ -110,7 +110,7 @@
 		<form method='post' action='<?php echo SALEORDER; ?>/addsale_products'>
 			<input id='selectedProds' name='selectedProds' type='hidden' value='' />
 		<button type="button" class="btn btn-warning addsale next" 
-		onclick="$('#selectedProds').val('helloooooooo');windows.location.href='<?php echo SALEORDER; ?>/addsale_products';">Επόμενο</button>
+		onclick="$('#selectedProds').val('helloooooooo');this.form.submit()">Επόμενο</button>
 		</form>
 	</div>
 
