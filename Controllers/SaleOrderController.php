@@ -271,7 +271,7 @@ require_once 'Models/HistoryModel.php';
  		var_dump($middleProductObjArray);
  		var_dump($_POST['dateDue']);
  		$saleOrderObj = new SaleOrder($_POST['dateDue'], $_POST['ssn'], $_SESSION['idUser'], 
-						                          'active', $middleProductObjArray, null, null, null, null, null);
+						                          'active', $middleProductObjArray, null, $_POST['saleOrderID'], null, null, null);
 
  		SaleOrderModel::update($saleOrderObj);
  	}
