@@ -828,4 +828,438 @@ class HistoryModel extends Model
 			echo $e->getMessage();
 		}
 	}
+	
+	public static function getHistorySaleOrdersToExcel($user) 
+	{	
+		//$user einai to onoma tou xrhsth pou dhmiourghse to eggrafo
+		
+		$saleOrderObjArray = HistoryModel::getHistorySaleOrders();
+		
+		date_default_timezone_set('Europe/Athens');
+
+		// Create new PHPExcel object
+		$objPHPExcel = new PHPExcel();
+
+		foreach(range('A','K') as $columnID) {
+			$objPHPExcel->getActiveSheet()
+						->getColumnDimension($columnID)->setAutoSize(true);			
+		}
+			
+		$objPHPExcel->getDefaultStyle()
+					->getAlignment()
+					->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+					
+		$objPHPExcel->getActiveSheet()->getStyle("A1:K1")->getFont()->applyFromArray(
+				array(
+					'name'	  => 'Arial',
+					'underline' => PHPExcel_Style_Font::UNDERLINE_SINGLE,
+					)
+				 );
+					 
+		$objPHPExcel->getProperties()->setCreator($user)
+									 ->setLastModifiedBy($user)
+									 ->setTitle("Warehouse Statistics")
+									 ->setSubject("Warehouse Statistics")
+									 ->setDescription("Warehouse Statistics")
+									 ->setKeywords("office 2007")
+									 ->setCategory("Statistics");
+
+
+		// Add some data
+		$objPHPExcel->setActiveSheetIndex(0)
+					->setCellValue('A1', 'Κωδικός Παραγγελίας')
+					->setCellValue('B1', 'Ημερομηνία Δημιουργίας')
+					->setCellValue('C1', 'Ημερομηνία Προθεσμίας')
+					->setCellValue('D1', 'Ημερομηνία Εκτέλεσης')
+					->setCellValue('E1', 'Α.Φ.Μ Πελάτη')
+					->setCellValue('F1', 'Κατάσταση')
+					->setCellValue('G1', 'Διεύθυνση Αποστολής')
+					->setCellValue('H1', 'Μικτό Κέρδος')
+					->setCellValue('I1', 'Κόστος')
+					->setCellValue('J1', 'Ποσό Έκπτωσης')
+					->setCellValue('K1', 'Κέρδος');
+
+		$i = 2;			 
+		foreach( $saleOrderObjArray as $hso ) 
+		{
+			$objPHPExcel->setActiveSheetIndex(0)
+						->setCellValue('A'.$i, $hso->idSaleOrder)
+						->setCellValue('B'.$i, $hso->dateCreated)
+						->setCellValue('C'.$i, $hso->dateDue)
+						->setCellValue('D'.$i, $hso->dateClosed)
+						->setCellValue('E'.$i, $hso->customerSsn)
+						->setCellValue('F'.$i, $hso->status)
+						->setCellValue('G'.$i, $hso->address)
+						->setCellValue('H'.$i, $hso->income)
+						->setCellValue('I'.$i, $hso->outcome)
+						->setCellValue('J'.$i, $hso->amountDiscount)
+						->setCellValue('K'.$i, $hso->income - $hso->outcome);
+			$i++;			
+		}	
+		
+		$objPHPExcel->setActiveSheetIndex(0)
+				->setCellValue('G'.($i + 1), 'Σύνολο')
+				->setCellValue('H'.($i + 1), "=SUM(H1:H".($i-1).")")
+				->setCellValue('I'.($i + 1), "=SUM(I1:I".($i-1).")")
+				->setCellValue('J'.($i + 1), "=SUM(J1:J".($i-1).")")
+				->setCellValue('K'.($i + 1), "=SUM(K1:K".($i-1).")");
+		
+		$objPHPExcel->getActiveSheet()
+					->getStyle('G'.($i + 1))
+					->getFont()
+					->applyFromArray(
+						array(
+							'name'	  => 'Arial',
+							'underline' => PHPExcel_Style_Font::UNDERLINE_SINGLE,
+							)
+					);
+					
+		// Set active sheet index to the first sheet, so Excel opens this as the first sheet
+		$objPHPExcel->setActiveSheetIndex(0);
+
+		// Redirect output to a client’s web browser (Excel5)
+		header('Content-Type: application/vnd.ms-excel');
+		header('Content-Disposition: attachment;filename="statistics.xls"');
+		header('Cache-Control: max-age=0');
+
+		$objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel5');
+		$objWriter->save('php://output');
+	}
+	
+	public static function getHistorySupplyOrdersToExcel($user) 
+	{	 
+		
+		$supplyOrderObjArray = HistoryModel::getHistorySupplyOrders();
+		
+		date_default_timezone_set('Europe/Athens');
+
+		// Create new PHPExcel object
+		$objPHPExcel = new PHPExcel();
+
+		foreach(range('A','F') as $columnID) {
+			$objPHPExcel->getActiveSheet()
+						->getColumnDimension($columnID)->setAutoSize(true);		
+		}
+
+		$objPHPExcel->getDefaultStyle()
+					->getAlignment()
+					->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);		
+		
+		$objPHPExcel->getActiveSheet()->getStyle("A1:F1")->getFont()->applyFromArray(
+				array(
+					'name'	  => 'Arial',
+					'underline' => PHPExcel_Style_Font::UNDERLINE_SINGLE,
+					)
+				 );
+		// Set properties
+
+		$objPHPExcel->getProperties()->setCreator($user)
+									 ->setLastModifiedBy($user)
+									 ->setTitle("Warehouse Statistics")
+									 ->setSubject("Warehouse Statistics")
+									 ->setDescription("Warehouse Statistics")
+									 ->setKeywords("office 2007")
+									 ->setCategory("Statistics");
+
+		// Add some data
+		$objPHPExcel->setActiveSheetIndex(0)
+					->setCellValue('A1', 'Κωδικός Προμήθειας')
+					->setCellValue('B1', 'Ημερομηνία Δημιουργίας')
+					->setCellValue('C1', 'Ημερομηνία Εκτέλεσης')
+					->setCellValue('D1', 'Ημερομηνία Προθεσμίας')
+					->setCellValue('E1', 'Α.Φ.Μ Προμηθευτή')
+					->setCellValue('F1', 'Κόστος');
+		
+		$i = 2;			 
+		foreach( $supplyOrderObjArray as $hso ) 
+		{
+			$objPHPExcel->setActiveSheetIndex(0)
+						->setCellValue('A'.$i, $hso->idSupplyOrder)
+						->setCellValue('B'.$i, $hso->dateCreated)
+						->setCellValue('C'.$i, $hso->dateClosed)
+						->setCellValue('D'.$i, $hso->dateDue)
+						->setCellValue('E'.$i, $hso->providerSsn)
+						->setCellValue('F'.$i, $hso->outcome);
+			
+			$i++;			
+		}	
+		
+		$objPHPExcel->setActiveSheetIndex(0)
+				->setCellValue('E'.($i + 1), 'Σύνολο')
+				->setCellValue('F'.($i + 1), "=SUM(F1:F".($i-1).")");
+		
+		$objPHPExcel->getActiveSheet()
+					->getStyle('E'.($i + 1))
+					->getFont()
+					->applyFromArray(
+						array(
+							'name'	  => 'Arial',
+							'underline' => PHPExcel_Style_Font::UNDERLINE_SINGLE,
+							)
+					);
+			
+		// Set active sheet index to the first sheet, so Excel opens this as the first sheet
+		$objPHPExcel->setActiveSheetIndex(0);
+
+		// Redirect output to a client’s web browser (Excel5)
+		header('Content-Type: application/vnd.ms-excel');
+		header('Content-Disposition: attachment;filename="statistics.xls"');
+		header('Cache-Control: max-age=0');
+
+		$objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel5');
+		$objWriter->save('php://output');
+	}
+	
+	public static function getAllCustomersStatisticsToExcel($user) 
+	{	
+
+		$customersObjArray = HistoryModel::getAllCustomersStatistics();
+		
+		date_default_timezone_set('Europe/Athens');
+
+		// Create new PHPExcel object
+		$objPHPExcel = new PHPExcel();
+
+		foreach(range('A','K') as $columnID) {
+			$objPHPExcel->getActiveSheet()
+						->getColumnDimension($columnID)->setAutoSize(true);			
+		}
+
+		$objPHPExcel->getDefaultStyle()
+					->getAlignment()
+					->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+					
+		$objPHPExcel->getActiveSheet()->getStyle("A1:K1")->getFont()->applyFromArray(
+					array(
+						'name'	  => 'Arial',
+						'underline' => PHPExcel_Style_Font::UNDERLINE_SINGLE,
+						)
+					 );
+						
+		// Set properties
+
+		$objPHPExcel->getProperties()->setCreator($user)
+									 ->setLastModifiedBy($user)
+									 ->setTitle("Warehouse Statistics")
+									 ->setSubject("Warehouse Statistics")
+									 ->setDescription("Warehouse Statistics")
+									 ->setKeywords("office 2007")
+									 ->setCategory("Statistics");
+
+		// Add some data
+		$objPHPExcel->setActiveSheetIndex(0)
+					->setCellValue('A1', 'Α.Φ.Μ')
+					->setCellValue('B1', 'Όνομα')
+					->setCellValue('C1', 'Επώνυμο')
+					->setCellValue('D1', 'Μικτό Κέρδος')
+					->setCellValue('E1', 'Kόστος')
+					->setCellValue('F1', 'Καθαρό Κέρδος')
+					->setCellValue('G1', 'Σύνολο Έκπτωσης')
+					->setCellValue('H1', 'Μικτό Κέρδος(Ελάχιστο)')
+					->setCellValue('I1', 'Μικτό Κέρδος(Μέγιστο)')
+					->setCellValue('J1', 'Μικτό Κέρδος(Μ.Ο)')
+					->setCellValue('K1', 'Αριθμός Παραγγελιών');
+
+		$i = 2;			 
+		foreach( $customersObjArray as $coa ) 
+		{
+			$objPHPExcel->setActiveSheetIndex(0)
+						->setCellValue('A'.$i, $coa->customerSsn)
+						->setCellValue('B'.$i, $coa->customerName)
+						->setCellValue('C'.$i, $coa->customerSurname)
+						->setCellValue('D'.$i, $coa->sumIncome)
+						->setCellValue('E'.$i, $coa->sumOutcome)
+						->setCellValue('F'.$i, $coa->sumProfits)
+						->setCellValue('G'.$i, $coa->sumDiscount)
+						->setCellValue('H'.$i, $coa->minIncome)
+						->setCellValue('I'.$i, $coa->maxIncome)
+						->setCellValue('J'.$i, $coa->avgIncome)
+						->setCellValue('K'.$i, $coa->numSaleOrders);
+			
+			$i++;			
+		}	
+			
+		// Set active sheet index to the first sheet, so Excel opens this as the first sheet
+		$objPHPExcel->setActiveSheetIndex(0);
+
+		// Redirect output to a client’s web browser (Excel5)
+		header('Content-Type: application/vnd.ms-excel');
+		header('Content-Disposition: attachment;filename="statistics.xls"');
+		header('Cache-Control: max-age=0');
+
+		$objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel5');
+		$objWriter->save('php://output');
+	}
+	
+	function getAllProductsStatisticsToExcel($user) 
+	{	
+		$productsObjArray = HistoryModel::getAllProductsStatistics();
+		
+		date_default_timezone_set('Europe/Athens');
+
+		// Create new PHPExcel object
+		$objPHPExcel = new PHPExcel();
+
+		foreach(range('A','T') as $columnID) {
+			$objPHPExcel->getActiveSheet()
+						->getColumnDimension($columnID)->setAutoSize(true);			
+		}
+
+		$objPHPExcel->getDefaultStyle()
+					->getAlignment()
+					->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);		
+
+		$objPHPExcel->getActiveSheet()->getStyle("A1:T1")->getFont()->applyFromArray(
+					array(
+						'name'	  => 'Arial',
+						'underline' => PHPExcel_Style_Font::UNDERLINE_SINGLE,
+						)
+					 );	
+
+		// Set properties
+
+		$objPHPExcel->getProperties()->setCreator($user)
+									 ->setLastModifiedBy($user)
+									 ->setTitle("Warehouse Statistics")
+									 ->setSubject("Warehouse Statistics")
+									 ->setDescription("Warehouse Statistics")
+									 ->setKeywords("office 2007")
+									 ->setCategory("Statistics");
+		
+		// Add some data
+		$objPHPExcel->setActiveSheetIndex(0)
+					->setCellValue('A1', 'Κωδικός')
+					->setCellValue('B1', 'Περιγραφή')
+					->setCellValue('C1', 'Μικτό Κέρδος')
+					->setCellValue('D1', 'Μικτό Κέρδος(Ελάχιστο)')
+					->setCellValue('E1', 'Μικτό Κέρδος(Μέγιστο)')
+					->setCellValue('F1', 'Μικτό Κέρδος(Μ.Ο)')
+					->setCellValue('G1', 'Πουλημένα Τεμάχια')
+					->setCellValue('H1', 'Πουλημένα Τεμάχια(Ελάχιστο)')
+					->setCellValue('I1', 'Πουλημένα Τεμάχια(Μέγιστο)')
+					->setCellValue('J1', 'Πουλημένα Τεμάχια(Μ.Ο)')
+					->setCellValue('K1', 'Αριθμός Παραγγελιών')
+					->setCellValue('L1', 'Κόστος')
+					->setCellValue('M1', 'Κόστος(Ελάχιστο)')
+					->setCellValue('N1', 'Κόστος(Μέγιστο)')
+					->setCellValue('O1', 'Κόστος(Μ.Ο)')
+					->setCellValue('P1', 'Παραγγελμένα Τεμάχια')
+					->setCellValue('Q1', 'Παραγγελμένα Τεμάχια(Ελάχιστο)')
+					->setCellValue('R1', 'Παραγγελμένα Τεμάχια(Μέγιστο)')
+					->setCellValue('S1', 'Παραγγελμένα Τεμάχια(Μ.Ο)')
+					->setCellValue('T1', 'Αριθμός Προμηθειών');
+
+		$i = 2;			 
+		foreach( $productsObjArray as $poa ) 
+		{
+			$objPHPExcel->setActiveSheetIndex(0)
+						->setCellValue('A'.$i, $poa->productSku)
+						->setCellValue('B'.$i, $poa->productDescription)
+						->setCellValue('C'.$i, $poa->sumIncome)
+						->setCellValue('D'.$i, $poa->minIncome)
+						->setCellValue('E'.$i, $poa->maxIncome)
+						->setCellValue('F'.$i, $poa->avgIncome)
+						->setCellValue('G'.$i, $poa->sumQuantitySold)
+						->setCellValue('H'.$i, $poa->minQuantitySold)
+						->setCellValue('I'.$i, $poa->maxQuantitySold)
+						->setCellValue('J'.$i, $poa->avgQuantitySold)
+						->setCellValue('K'.$i, $poa->numSaleOrders)
+						->setCellValue('L'.$i, $poa->sumOutcome)
+						->setCellValue('M'.$i, $poa->minOutcome)
+						->setCellValue('N'.$i, $poa->maxOutcome)
+						->setCellValue('O'.$i, $poa->avgOutcome)
+						->setCellValue('P'.$i, $poa->sumQuantitySupplied)
+						->setCellValue('Q'.$i, $poa->minQuantitySupplied)
+						->setCellValue('R'.$i, $poa->maxQuantitySupplied)
+						->setCellValue('S'.$i, $poa->avgQuantitySupplied)
+						->setCellValue('T'.$i, $poa->numSupplyOrders);
+			
+			$i++;			
+		}	
+			
+		// Set active sheet index to the first sheet, so Excel opens this as the first sheet
+		$objPHPExcel->setActiveSheetIndex(0);
+
+		// Redirect output to a client’s web browser (Excel5)
+		header('Content-Type: application/vnd.ms-excel');
+		header('Content-Disposition: attachment;filename="statistics.xls"');
+		header('Cache-Control: max-age=0');
+
+		$objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel5');
+		$objWriter->save('php://output');
+	}
+	
+	public static function getAllProvidersStatisticsToExcel($user) 
+	{	
+		$providersObjArray = HistoryModel::getAllProvidersStatistics();
+		
+		date_default_timezone_set('Europe/Athens');
+
+		// Create new PHPExcel object
+		$objPHPExcel = new PHPExcel();
+
+		foreach(range('A','H') as $columnID) {
+			$objPHPExcel->getActiveSheet()
+						->getColumnDimension($columnID)->setAutoSize(true);			
+		}
+		
+		$objPHPExcel->getDefaultStyle()
+				->getAlignment()
+				->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+		
+		$objPHPExcel->getActiveSheet()->getStyle("A1:H1")->getFont()->applyFromArray(
+				array(
+					'name'	  => 'Arial',
+					'underline' => PHPExcel_Style_Font::UNDERLINE_SINGLE
+					)	
+				 );
+					 
+		// Set properties
+
+		$objPHPExcel->getProperties()->setCreator($user)
+									 ->setLastModifiedBy($user)
+									 ->setTitle("Warehouse Statistics")
+									 ->setSubject("Warehouse Statistics")
+									 ->setDescription("Warehouse Statistics")
+									 ->setKeywords("office 2007")
+									 ->setCategory("Statistics");
+
+		// Add some data
+		$objPHPExcel->setActiveSheetIndex(0)
+					->setCellValue('A1', 'Α.Φ.Μ')
+					->setCellValue('B1', 'Όνομα')
+					->setCellValue('C1', 'Επώνυμο')
+					->setCellValue('D1', 'Κόστος')
+					->setCellValue('E1', 'Kόστος(Ελάχιστο)')
+					->setCellValue('F1', 'Kόστος(Μέγιστο)')
+					->setCellValue('G1', 'Kόστος(Μ.Ο)')
+					->setCellValue('H1', 'Αριθμός Προμηθειών');
+						
+		$i = 2;			 
+		foreach( $providersObjArray as $poa ) 
+		{
+			$objPHPExcel->setActiveSheetIndex(0)
+						->setCellValue('A'.$i, $poa->providerSsn)
+						->setCellValue('B'.$i, $poa->providerName)
+						->setCellValue('C'.$i, $poa->providerSurname)
+						->setCellValue('D'.$i, $poa->sumOutcome)
+						->setCellValue('E'.$i, $poa->minOutcome)
+						->setCellValue('F'.$i, $poa->maxOutcome)
+						->setCellValue('G'.$i, $poa->avgOutcome)
+						->setCellValue('H'.$i, $poa->numSupplyOrders);
+			
+			$i++;			
+		}	
+			
+		// Set active sheet index to the first sheet, so Excel opens this as the first sheet
+		$objPHPExcel->setActiveSheetIndex(0);
+
+		// Redirect output to a client’s web browser (Excel5)
+		header('Content-Type: application/vnd.ms-excel');
+		header('Content-Disposition: attachment;filename="statistics.xls"');
+		header('Cache-Control: max-age=0');
+
+		$objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel5');
+		$objWriter->save('php://output');
+	}	
 }
