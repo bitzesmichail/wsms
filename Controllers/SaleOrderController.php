@@ -207,7 +207,12 @@ require_once 'Models/HistoryModel.php';
 						$sku = explode(':', $selectedProduct);
 						$product = ProductModel::getProductBySku($sku[0]);
 						$product->orderedSum = $sku[5];
-						$middleProductObjArray[] = $product;
+						$middleProductObjArray[] = new MiddleProduct($product->sku, 
+							$product->description,
+							$product->priceSale,
+							$product->priceSupply,
+							$sku[4],
+							$product->orderedSum)
 					}
 
 					var_dump($middleProductObjArray);
