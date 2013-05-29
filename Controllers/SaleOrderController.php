@@ -204,7 +204,7 @@ require_once 'Models/HistoryModel.php';
 
 					foreach ($_POST['sku'] as &$selectedProduct) {
 						$sku = explode(':', $selectedProduct);
-						var_dump($sku);
+						echo $sku[0];
 					}
 
 					//$middleProductObjArray = array();
