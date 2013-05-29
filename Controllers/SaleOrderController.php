@@ -199,7 +199,7 @@ require_once 'Models/HistoryModel.php';
 						$quantityCreated,
 						$quantityClosed = null)
 					*/
-					var_dump($_POST);
+					var_dump($_POST['sku']);
 
 					//$middleProductObjArray = array();
 					//for($i = 0; $i <= count($_POST['sku']) - 1; $i++)
