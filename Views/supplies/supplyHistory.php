@@ -12,10 +12,13 @@
 <table cellpadding="0" cellspacing="0" border="0" class="table table-striped table-bordered" width="100%" id="supplyHistory_table">
 <thead>
 <tr>
-	<th><strong>Κωδικός</strong></th>
 	<th><strong>Κωδικός Προμήθειας</strong></th>
 	<th><strong>Κωδικός Προμηθευτή</strong></th>
-	<th><strong>Τιμή</strong></th>
+	<th><strong>Ημερομηνία Δημιουργίας</strong></th>
+	<th><strong>Ημερομηνία Ενημέρωσης</strong></th>
+	<th><strong>Προθεσμία</strong></th>
+	<th><strong>Ημερομηνία Κλεισίματος</strong></th>
+	<th><strong>Τιμή Προμηθειών</strong></th>
 </tr>
 </thead>
 <tbody>
@@ -26,6 +29,10 @@
 			echo "<td>" . $value->idHistorySupplyOrder . "</td>";
 			echo "<td>" . $value->idSupplyOrder . "</td>";
 			echo "<td>" . $value->providerSsn . "</td>";
+			echo "<td>" . $value->dateCreated . "</td>";
+			echo "<td>" . $value->dateUpdated . "</td>";
+			echo "<td>" . $value->dateDue . "</td>";
+			echo "<td>" . $value->dateClosed . "</td>";
 			echo "<td>" . $value->outcome . "</td>";	
 			echo "</tr>";
 		}
