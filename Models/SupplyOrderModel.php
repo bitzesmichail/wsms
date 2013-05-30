@@ -211,6 +211,7 @@ class SupplyOrderModel extends Model
     					$supplyOrderCol['dateCreated'],
     					$supplyOrderCol['idSupplyOrder'],
     					$supplyOrderCol['dateUpdated'],
+    					$supplyOrderCol['dateClosed'],
     					$username);
     		}
     		return $supplyOrderObjArray;
@@ -349,6 +350,7 @@ class SupplyOrderModel extends Model
     				$supplyOrderColumns['dateCreated'],
     				$supplyOrderColumns['idSupplyOrder'],
     				$supplyOrderColumns['dateUpdated'],
+    				$supplyOrderCol['dateClosed'],
     				$username);
     
     		return $supplyOrderObj;
