@@ -155,7 +155,9 @@ require_once 'Models/HistoryModel.php';
  			if($_SESSION['role'] == 'MANAGER' || $_SESSION['role'] == 'SELLER') {
 				try 
 				{          
-					$this->view->render('sales', 'saleHistory', null); 
+					$data = new StdClass();
+					$data->stats = HistoryModel::getHistorySaleOrders();
+					$this->view->render('sales', 'saleHistory', $data); 
 				}
  				catch(Exception $ex)
 			 	{
