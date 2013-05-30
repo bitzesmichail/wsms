@@ -98,7 +98,7 @@
 				{
 					var aData = oTable.fnGetData(nRow);
 					var jqTds = $('>td', nRow);
-					jqTds[5].innerHTML = '<input type="text" value="'+aData[4]+'">';
+					jqTds[5].innerHTML = '<input type="text" value="'+aData[5]+'">';
 					jqTds[6].innerHTML = '<a class="edit" href="">Αποθήκευση</a>';
 				}
 				
