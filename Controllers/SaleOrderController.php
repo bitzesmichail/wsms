@@ -27,14 +27,9 @@ require_once 'Models/HistoryModel.php';
 					$data = array();
 					foreach ($saleorders as &$saleorder)
 					{
-						$cur_customer = CustomerModel::getCustomerBySsn($saleorder->customerSsn);
 						$element = new StdClass();
-						$element->id = $saleorder->idSaleOrder;
-						$element->name = $cur_customer->name;
-						$element->surname = $cur_customer->surname;
-						$element->ssn = $cur_customer->ssn;
-						$element->dateDue = $saleorder->dateDue;
-
+						$element->customer = CustomerModel::getCustomerBySsn($saleorder->customerSsn);	
+						$element->order = $saleorder;
 						$data[] = $element;
 	 				}
 	 				$this->view->render('sales', 'index', $data);
