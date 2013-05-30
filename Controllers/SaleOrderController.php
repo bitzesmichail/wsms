@@ -213,7 +213,7 @@ require_once 'Models/HistoryModel.php';
 					}
 
 					$saleOrderObj = new SaleOrder($_POST['dateDueFinal'], $_POST['customerSsn'], $_SESSION['idUser'], 
-						                          'active', $middleProductObjArray, null, null, null, null, null);
+						                          $_POST['status'], $middleProductObjArray, null, null, null, null, null);
 
 					SaleOrderModel::create($saleOrderObj);
 	 				SaleOrderController::index();
@@ -265,7 +265,7 @@ require_once 'Models/HistoryModel.php';
  		$middleProductObjArray = unserialize(base64_decode($_POST['middleProducts']));
  		
  		$saleOrderObj = new SaleOrder($_POST['dateDue'], $_POST['ssn'], $_SESSION['idUser'], 
-						                          'active', $middleProductObjArray, $_POST['dateCreated'], $_POST['saleOrderID'], null, null, null);
+						                          $_POST['status'], $middleProductObjArray, $_POST['dateCreated'], $_POST['saleOrderID'], null, null, null);
 
  		SaleOrderModel::update($saleOrderObj);
 
