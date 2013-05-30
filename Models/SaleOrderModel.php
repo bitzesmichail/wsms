@@ -256,7 +256,7 @@ class SaleOrderModel extends Model
 	
 			foreach ($saleOrderColumns as $saleOrderCol)
 			{
-				$stmt = $pdo->prepare("SELECT sku, currentDescription, currentPriceSale, currentPriceSupply, quantityCreated, quantityClosed
+				$stmt = $pdo->prepare("SELECT sku, currentDescription, currentPriceSale, currentPriceSupply, quantityCreated, quantityClosed, currentDiscount
 									  FROM saleorder_has_product
                                       WHERE idSaleOrder = :idSaleOrder
     								  AND dateUpdated = :dateUpdated
