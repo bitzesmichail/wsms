@@ -89,7 +89,7 @@ require_once 'Models/HistoryModel.php';
 				try 
 				{          
 					$data = new StdClass();
-					$data->stats = HistoryModel::getHistorySupplyOrders();
+					$data = HistoryModel::getHistorySupplyOrders();
 					$this->view->render('supplies', 'supplyHistory', $data); 
 				}
  				catch(Exception $ex)
