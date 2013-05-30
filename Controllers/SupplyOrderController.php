@@ -24,7 +24,7 @@ require_once 'Models/HistoryModel.php';
 				try 
 				{
 					$supplyorders = SupplyOrderModel::getSupplyOrders();
-					$data = array();
+				/*	$data = array();
 					foreach ($supplyorders as &$supplyorder)
 					{
 						$cur_provider = ProviderModel::getProviderBySsn($supplyorder->providerSsn);
@@ -37,7 +37,7 @@ require_once 'Models/HistoryModel.php';
 						$element->dateDue = $supplyorder->dateDue;
 
 						$data[] = $element;
-	 				}
+	 				}*/
 	 				$this->view->render('supplies', 'index', $data);
 				}
  				catch(Exception $ex)
