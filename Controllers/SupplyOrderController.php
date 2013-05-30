@@ -38,7 +38,7 @@ require_once 'Models/HistoryModel.php';
 
 						$data[] = $element;
 	 				}*/
-	 				$this->view->render('supplies', 'index', $data);
+	 				$this->view->render('supplies', 'index', $supplyorders);
 				}
  				catch(Exception $ex)
 			 	{
