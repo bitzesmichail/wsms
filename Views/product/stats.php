@@ -11,55 +11,55 @@
     <div class="control-group">
     <label class="control-label" for="sku">SKU</label>
     <div class="controls">
-      <input type="text" name="sku" value="<?php echo $data->product->sku; ?>">
+      <input type="text" name="sku" value="<?php echo $data->product->sku; ?>"readonly>
     </div>
   </div>
   <div class="control-group">
     <label class="control-label" for="description">Περιγραφή</label>
     <div class="controls">
-      <input type="text" name="description" value="<?php echo $data->product->description; ?>">
+      <input type="text" name="description" value="<?php echo $data->product->description; ?>"readonly>
     </div>
   </div>
   
   <div class="control-group">
     <label class="control-label" for="priceSale">Τιμή Πώλησης</label>
     <div class="controls">
-      <input type="text" name="priceSale" value="<?php echo $data->product->priceSale; ?>">
+      <input type="text" name="priceSale" value="<?php echo $data->product->priceSale; ?>"readonly>
     </div>
   </div>
 
   <div class="control-group">
     <label class="control-label" for="priceSupply">Τιμή Αγοράς</label>
     <div class="controls">
-      <input type="text" name="priceSupply" value="<?php echo $data->product->priceSupply; ?>">
+      <input type="text" name="priceSupply" value="<?php echo $data->product->priceSupply; ?>"readonly>
     </div>
   </div>
   
   <div class="control-group">
     <label class="control-label" for="availableSum">Διαθέσιμο</label>
     <div class="controls">
-      <input type="text" name="availableSum" value="<?php echo $data->product->availableSum; ?>">
+      <input type="text" name="availableSum" value="<?php echo $data->product->availableSum; ?>"readonly>
     </div>
   </div>
 
   <div class="control-group">
     <label class="control-label" for="reservedSum">Δεσμευμένο</label>
     <div class="controls">
-      <input type="text" name="reservedSum" value="<?php echo $data->product->reservedSum; ?>">
+      <input type="text" name="reservedSum" value="<?php echo $data->product->reservedSum; ?>"readonly>
     </div>
   </div>
 
   <div class="control-group">
     <label class="control-label" for="orderedSum">Σε παραγγελία</label>
     <div class="controls">
-      <input type="text" name="orderedSum" value="<?php echo $data->product->orderedSum; ?>">
+      <input type="text" name="orderedSum" value="<?php echo $data->product->orderedSum; ?>"readonly>
     </div>
   </div>
 
   <div class="control-group">
     <label class="control-label" for="criticalSum">Κρίσιμο</label>
     <div class="controls">
-      <input type="text" name="criticalSum" value="<?php echo $data->product->criticalSum; ?>">
+      <input type="text" name="criticalSum" value="<?php echo $data->product->criticalSum; ?>"readonly>
     </div>
   </div>
 
