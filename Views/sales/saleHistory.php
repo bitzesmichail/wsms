@@ -28,11 +28,11 @@
 			echo "<tr>";
 			echo "<td>" . $value->idHistorySaleOrder . "</td>";
 			echo "<td>" . $value->idSaleOrder . "</td>";
-			echo "<td>" . $value->idHistoryCustomer . "</td>";
+			echo "<td>" . $value->customerSsn . "</td>";
 			echo "<td>" . $value->status . "</td>";	
-			echo "<td>" . $value->priceSale . "</td>";	
-			echo "<td>" . $value->priceSupply . "</td>";	
-			echo "<td>" . $value->discount . "</td>";
+			echo "<td>" . $value->amountDiscount . "</td>";	
+			echo "<td>" . $value->income . "</td>";	
+			echo "<td>" . $value->outcome . "</td>";
 			echo "</tr>";
 		}
 	}
