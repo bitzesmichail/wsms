@@ -4,6 +4,7 @@ require_once 'Controller.php';
 require_once 'Models/UserModel.php';
 require_once 'Models/RoleModel.php';
 require_once 'Models/entities/User.php';
+require_once 'Models/HistoryModel.php';
 /**
  * Controller for users
  */
