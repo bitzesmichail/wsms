@@ -70,9 +70,7 @@ class SaleOrder
 			case "customerSsn":
 				return $this->customerSsn;
 			case "idUser":
-				return $this->idUser;	case "username":
-    			$this->username = $value;
-    			break;
+				return $this->idUser;
 			case "status":
 				return $this->status;
 			case "products":	
