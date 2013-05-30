@@ -170,6 +170,15 @@ class SupplyOrderModel extends Model
     
     		foreach ($supplyOrderColumns as $supplyOrderCol)
     		{
+    			
+    			$stmt = $pdo->prepare("SELECT username FROM user WHERE idUser = :idUser
+									");
+    			 
+    			$stmt->bindValue(":idUser", $supplyOrderCol['idUser']);
+    			$stmt->execute();
+    			
+    			$username = $stmt->fetchColumn();
+    			
     			$stmt = $pdo->prepare("SELECT sku, currentDescription, currentPriceSale, currentPriceSupply, quantityCreated, quantityClosed
 									  FROM supplyorder_has_product
                                       WHERE idSupplyOrder = :idSupplyOrder 
@@ -201,7 +210,8 @@ class SupplyOrderModel extends Model
     					$middleProductObjArray,
     					$supplyOrderCol['dateCreated'],
     					$supplyOrderCol['idSupplyOrder'],
-    					$supplyOrderCol['dateUpdated']);
+    					$supplyOrderCol['dateUpdated'],
+    					$username);
     		}
     		return $supplyOrderObjArray;
     	}
@@ -294,6 +304,18 @@ class SupplyOrderModel extends Model
     		$stmt->execute();
     	
     		$supplyOrderColumns = $stmt->fetch();
+    		
+    		
+    		
+    		$stmt = $pdo->prepare("SELECT username FROM user WHERE idUser = :idUser
+									");
+    		
+    		$stmt->bindValue(":idUser", $supplyOrderCol['idUser']);
+    		$stmt->execute();
+    		 
+    		$username = $stmt->fetchColumn();
+    		
+    		
     	
     		$stmt = $pdo->prepare("SELECT sku, currentDescription, currentPriceSale, currentPriceSupply, quantityCreated, quantityClosed
 								   FROM supplyorder_has_product
@@ -326,7 +348,8 @@ class SupplyOrderModel extends Model
     				$middleProductObjArray,
     				$supplyOrderColumns['dateCreated'],
     				$supplyOrderColumns['idSupplyOrder'],
-    				$supplyOrderColumns['dateUpdated']);
+    				$supplyOrderColumns['dateUpdated'],
+    				$username);
     
     		return $supplyOrderObj;
     	}

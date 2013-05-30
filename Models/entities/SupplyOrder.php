@@ -11,6 +11,7 @@ class SupplyOrder
     private $idUser;
     private $status;
     private $products;
+    private $username;
     
     public function __construct($dateDue,
     		$providerSsn,
@@ -20,7 +21,8 @@ class SupplyOrder
     		$dateCreated ,
     		$idSupplyOrder ,
     		$dateUpdated = null,
-    		$dateClosed = null)
+    		$dateClosed = null,
+    		$username = null)
     {
     	date_default_timezone_set('Europe/Athens');
     
@@ -45,6 +47,7 @@ class SupplyOrder
     	$this->status = $status;
     	$this->dateClosed = $dateClosed;
     	$this->products = $middleProductObjArray;
+    	$this->username = $username;
     }
     
     public function __get($param)
@@ -69,6 +72,8 @@ class SupplyOrder
     			return $this->status;
     		case "products":
     			return $this->products;
+    		case "username":
+    			return $this->username;
     	}
     }
     
@@ -102,6 +107,9 @@ class SupplyOrder
     			break;
     		case "products":
     			$this->products = $value;
+    			break;
+    		case "username":
+    			$this->username = $value;
     			break;
     	}
     }

@@ -267,6 +267,18 @@ class SaleOrderModel extends Model
 				$stmt->execute();
 	
 				$middleProductsColumns = $stmt->fetchAll();
+				
+				
+				$stmt = $pdo->prepare("SELECT username FROM user WHERE idUser = :idUser
+									");
+				
+				$stmt->bindValue(":idUser", $saleOrderCol['idUser']);
+				$stmt->execute();
+				 
+				$username = $stmt->fetchColumn();
+				
+				
+				
 	
 				$middleProductObjArray = array();
 	
@@ -289,7 +301,8 @@ class SaleOrderModel extends Model
 						$saleOrderCol['idSaleOrder'],
 						$saleOrderCol['dateUpdated'],
 						$saleOrderCol['dateClosed'],
-						$saleOrderCol['address']);
+						$saleOrderCol['address'],
+						$username);
 			}
 			return $saleOrderObjArray;
 		}
@@ -342,6 +355,15 @@ class SaleOrderModel extends Model
 			$stmt->execute();
 			 
 			$saleOrderCol = $stmt->fetch();
+			
+			
+			$stmt = $pdo->prepare("SELECT username FROM user WHERE idUser = :idUser
+									");
+			
+			$stmt->bindValue(":idUser", $saleOrderCol['idUser']);
+			$stmt->execute();
+			 
+			$username = $stmt->fetchColumn();
 	
 			 
 			$stmt = $pdo->prepare("SELECT sku, currentDescription, currentPriceSale, currentPriceSupply, currentDiscount, quantityCreated, quantityClosed
@@ -377,7 +399,8 @@ class SaleOrderModel extends Model
 													  $saleOrderCol['idSaleOrder'],
 													  $saleOrderCol['dateUpdated'],
                 									  $saleOrderCol['dateClosed'],
-                									  $saleOrderCol['address']);
+                									  $saleOrderCol['address'],
+                									  $username);
 		
 			return $saleOrderObj;
 		}
@@ -426,9 +449,22 @@ class SaleOrderModel extends Model
             
             $saleOrderObjArray = array();
             
+            
+            
+            
+            
             foreach ($saleOrderColumns as $saleOrderCol)
             {
                 
+            	$stmt = $pdo->prepare("SELECT username FROM user WHERE idUser = :idUser
+									");
+            	
+            	$stmt->bindValue(":idUser", $saleOrderCol['idUser']);
+            	$stmt->execute();
+            	 
+            	$username = $stmt->fetchColumn();
+            	
+            	
                 $stmt = $pdo->prepare("SELECT sku, currentDescription, currentPriceSale, currentPriceSupply, currentDiscount, quantityCreated, quantityClosed
 									  FROM saleorder_has_product
                                       WHERE idSaleOrder = :idSaleOrder
@@ -462,7 +498,8 @@ class SaleOrderModel extends Model
 													  $saleOrderCol['idSaleOrder'],
 													  $saleOrderCol['dateUpdated'],
                 									  $saleOrderCol['dateClosed'],
-                									  $saleOrderCol['address']);
+                									  $saleOrderCol['address'],
+                									  $username);
             }
             return $saleOrderObjArray;
 		}

@@ -20,9 +20,14 @@
 <thead>
 <tr>
 	<th><strong>Κωδικός Προμήθειας</strong></th>
-	<th><strong>Κωδικός Προμηθευτή</strong></th>
-	<th><strong>Κωδικός Πωλητή</strong></th>
+	<th><strong>Όνομα Προμηθευτή</strong></th>
+	<th><strong>Επώνυμο Προμηθευτή</strong></th>
+	<th><strong>ΑΦΜ Προμηθευτή</strong></th>
+	<th><strong>UserName Πωλητή</strong></th>
 	<th><strong>Κατάσταση</strong></th>
+	<th><strong>Ημερομηνία Δημιουργίας</strong></th>
+	<th><strong>Ημερομηνία Ενημέρωσης</strong></th>
+	<th><strong>Προθεσμία</strong></th>
 	<th><strong>Ημερομηνία Κλεισίματος</strong></th>
 	<th><strong>Ενέργειες</strong></th>
 </tr>
@@ -32,11 +37,16 @@
 	if (!empty($data)) {
 		foreach ($data as &$value) {
 			echo "<tr>";
-			echo "<td>" . $value->idSupplyOrder . "</td>";
-			echo "<td>" . $value->providerSsn . "</td>";
-			echo "<td>" . $value->idUser . "</td>";
-			echo "<td>" . $value->status . "</td>";
-			echo "<td>" . $value->dateClosed . "</td>";					
+			echo "<td>" . $value->order->idSupplyOrder . "</td>";
+			echo "<td>" . $value->provider->name . "</td>";
+			echo "<td>" . $value->provider->surname . "</td>";
+			echo "<td>" . $value->order->providerSsn . "</td>";
+			echo "<td>" . $value->order->username . "</td>";
+			echo "<td>" . $value->order->status . "</td>";
+			echo "<td>" . $value->order->dateCreated . "</td>";
+			echo "<td>" . $value->order->dateUpdated . "</td>";
+			echo "<td>" . $value->order->dateDue . "</td>";
+			echo "<td>" . $value->order->dateClosed . "</td>";
 			echo "<td>" . "<a href=\"" . SUPPLYORDER . "/edit/" . $value->idSupplyOrder . "\">" . "<button class=\"btn btn-primary\" type=\"button\" >Επεξεργασία</button></a>";				
 			echo "<a href=\"" . SUPPLYORDER . "/deletesupplyorder?idSupplyOrder=" . $value->idSupplyOrder . "\">" . "<button class=\"btn btn-danger\" type=\"button\" >Διαγραφή</button></td></a>";
 			echo "</tr>";

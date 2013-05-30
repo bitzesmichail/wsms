@@ -24,21 +24,16 @@ require_once 'Models/HistoryModel.php';
 				try 
 				{
 					$supplyorders = SupplyOrderModel::getSupplyOrders();
-				/*	$data = array();
+					$data = array();
 					foreach ($supplyorders as &$supplyorder)
 					{
-						$cur_provider = ProviderModel::getProviderBySsn($supplyorder->providerSsn);
+						
 						$element = new StdClass();
-						$element->idSupplyOrder = $supplyorder->idSupplyOrder;
-						$element->dateClosed = $cur_provider->name;
-						$element->idUser = 0;
-						$element->status = '';
-						$element->providerSsn = $cur_provider->ssn;
-						$element->dateDue = $supplyorder->dateDue;
-
+						$element->provider = ProviderModel::getProviderBySsn($supplyorder->providerSsn);
+						$element->order = $supplyorder;
 						$data[] = $element;
-	 				}*/
-	 				$this->view->render('supplies', 'index', $supplyorders);
+	 				}
+	 				$this->view->render('supplies', 'index', $data);
 				}
  				catch(Exception $ex)
 			 	{
