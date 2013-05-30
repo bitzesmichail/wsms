@@ -26,7 +26,6 @@
 	if (!empty($data)) {
 		foreach ($data as &$value) {
 			echo "<tr>";
-			echo "<td>" . $value->idHistorySupplyOrder . "</td>";
 			echo "<td>" . $value->idSupplyOrder . "</td>";
 			echo "<td>" . $value->providerSsn . "</td>";
 			echo "<td>" . $value->dateCreated . "</td>";
