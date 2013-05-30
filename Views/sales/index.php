@@ -44,7 +44,7 @@
 			echo "<td>" . $value->order->status . "</td>";
 			echo "<td>" . $value->order->dateCreated . "</td>";
 			echo "<td>" . $value->order->dateUpdated . "</td>";
-			echo "<td>" . $value->dateDue . "</td>";
+			echo "<td>" . $value->order->dateDue . "</td>";
 			echo "<td>" . $value->order->dateClosed . "</td>";
 			echo "<td>";		
 			if ($_SESSION['role'] == 'MANAGER' || $_SESSION['role'] == 'SELLER') {
