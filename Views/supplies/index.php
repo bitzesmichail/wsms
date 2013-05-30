@@ -47,8 +47,8 @@
 			echo "<td>" . $value->order->dateUpdated . "</td>";
 			echo "<td>" . $value->order->dateDue . "</td>";
 			echo "<td>" . $value->order->dateClosed . "</td>";
-			echo "<td>" . "<a href=\"" . SUPPLYORDER . "/edit/" . $value->idSupplyOrder . "\">" . "<button class=\"btn btn-primary\" type=\"button\" >Επεξεργασία</button></a>";				
-			echo "<a href=\"" . SUPPLYORDER . "/deletesupplyorder?idSupplyOrder=" . $value->idSupplyOrder . "\">" . "<button class=\"btn btn-danger\" type=\"button\" >Διαγραφή</button></td></a>";
+			echo "<td>" . "<a href=\"" . SUPPLYORDER . "/edit/" . $value->order->idSupplyOrder . "\">" . "<button class=\"btn btn-primary\" type=\"button\" >Επεξεργασία</button></a>";				
+			echo "<a href=\"" . SUPPLYORDER . "/deletesupplyorder?idSupplyOrder=" . $value->order->idSupplyOrder . "\">" . "<button class=\"btn btn-danger\" type=\"button\" >Διαγραφή</button></td></a>";
 			echo "</tr>";
 		}
 	}
