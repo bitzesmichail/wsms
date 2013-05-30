@@ -156,7 +156,7 @@ require_once 'Models/HistoryModel.php';
 				try 
 				{          
 					$data = new StdClass();
-					$data->stats = HistoryModel::getHistorySaleOrders();
+					$data = HistoryModel::getHistorySaleOrders();
 					$this->view->render('sales', 'saleHistory', $data); 
 				}
  				catch(Exception $ex)
