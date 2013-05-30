@@ -88,7 +88,9 @@ require_once 'Models/HistoryModel.php';
  			if($_SESSION['role'] == 'MANAGER' || $_SESSION['role'] == 'SELLER') {
 				try 
 				{          
-					$this->view->render('supplies', 'supplyHistory', null); 
+					$data = new StdClass();
+					$data->stats = HistoryModel::getHistorySupplyOrders();
+					$this->view->render('supplies', 'supplyHistory', $data); 
 				}
  				catch(Exception $ex)
 			 	{

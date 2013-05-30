@@ -25,8 +25,8 @@
 			echo "<tr>";
 			echo "<td>" . $value->idHistorySupplyOrder . "</td>";
 			echo "<td>" . $value->idSupplyOrder . "</td>";
-			echo "<td>" . $value->idHistoryProvider . "</td>";
-			echo "<td>" . $value->priceSupply . "</td>";	
+			echo "<td>" . $value->providerSsn . "</td>";
+			echo "<td>" . $value->outcome . "</td>";	
 			echo "</tr>";
 		}
 	}
