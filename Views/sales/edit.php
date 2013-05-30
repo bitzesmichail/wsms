@@ -40,6 +40,12 @@
 			</div>
 		</div>	
 	</div>
+
+	<select name="status">
+	  <option value="active" <?php if($data->saleorder->status == 'active') echo 'selected="selected"' ?>>Ενεργό</option>
+	  <option value="inactive" <?php if($data->saleorder->status == 'inactive') echo 'selected="selected"' ?>>Ανενεργό</option>
+	  <option value="closed" <?php if($data->saleorder->status == 'closed') echo 'selected="selected"' ?>>Κλεισμένη</option>
+	</select>
 	
 	<div class="container">
 		<h3>

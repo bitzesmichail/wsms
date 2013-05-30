@@ -136,7 +136,18 @@
 					<input name="dateDueFinal" data-format="dd/MM/yyyy hh:mm:ss" type="text" readonly></input>
 				</div>
 			</div>
-		</div>		
+		</div>	
+<br>
+<div class="control-group">
+	<label class="control-label" for="status">Κατάσταση Παραγγελίας</label>
+			<div class="controls">
+		<select name="status">
+	  <option value="active">Ενεργή</option>
+	  <option value="inactive" selected="selected">Ανενεργή</option>
+	  <option value="closed">Κλεισμένη</option>
+	</select>
+</div>
+	</div>	
 		
 		<h2>
 			Διεύθυνση Αποστολής
