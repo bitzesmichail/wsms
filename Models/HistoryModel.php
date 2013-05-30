@@ -9,7 +9,8 @@ require_once("entities/ProductStatistics.php");
 require_once("entities/MiddleProduct.php");
 require_once("entities/HistorySaleOrder.php");
 require_once("entities/HistorySupplyOrder.php");
-require_once("../phpexcel/Classes/PHPExcel.php");
+require_once("entities/SystemStatistics.php");
+//require_once("../phpexcel/Classes/PHPExcel.php");
 
 class HistoryModel extends Model
 {
@@ -1261,4 +1262,154 @@ class HistoryModel extends Model
 		$objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel5');
 		$objWriter->save('php://output');
 	}	
+	
+	
+	
+	public static function getSystemStatistics(){
+	
+	
+		$pdo = Connector::getPDO();
+	
+		try
+		{
+			$stmt = $pdo->prepare("SELECT SUM(priceSale),
+										  MIN(priceSale),
+										  MAX(priceSale),
+										  AVG(priceSale),
+										  SUM(priceSale-priceSupply),
+										  MIN(priceSale-priceSupply),
+										  MAX(priceSale-priceSupply),
+										  AVG(priceSale-priceSupply),
+										  SUM(discount),
+										  MIN(discount),
+										  MAX(discount),
+										  AVG(discount),
+										  COUNT(DISTINCT idHistorySaleOrder)
+										  FROM history_saleorder
+										  WHERE idHistorySaleOrder IN
+										 (SELECT idHistorySaleOrder
+										  FROM history_saleorder
+										  WHERE idSaleOrder NOT IN
+										 (SELECT idSaleOrder FROM history_saleorder
+										  WHERE dateUpdated<>dateCreated))
+										  OR idHistorySaleOrder IN
+										  (SELECT idHistorySaleOrder
+										  FROM history_saleorder
+										  WHERE dateUpdated <> dateCreated)
+									");
+	
+	
+			$stmt->execute();
+
+			$productSaleCol = $stmt->fetch(PDO::FETCH_NUM);
+	
+	
+	
+			$stmt = $pdo->prepare("SELECT SUM(priceSupply),
+										  MIN(priceSupply),
+										  MAX(priceSupply),
+										  AVG(priceSupply),
+										  COUNT(DISTINCT idHistorySupplyOrder)
+										  FROM history_supplyorder
+										  WHERE idHistorySupplyOrder IN
+										 (SELECT idHistorySupplyOrder
+										  FROM history_supplyorder
+										  WHERE idSupplyOrder NOT IN
+										 (SELECT idSupplyOrder FROM history_supplyorder
+										  WHERE dateUpdated<>dateCreated))
+										  OR idHistorySupplyOrder IN
+										  (SELECT idHistorySupplyOrder
+										  FROM history_supplyorder
+										  WHERE dateUpdated <> dateCreated)
+									");
+			
+			
+			$stmt->execute();
+
+			$productSupplyCol = $stmt->fetch(PDO::FETCH_NUM);
+			
+			
+			$stmt = $pdo->prepare("SELECT COUNT(*) FROM user");
+				
+				
+			$stmt->execute();
+				
+			$numUsers = $stmt->fetchColumn();
+			
+			$stmt = $pdo->prepare("SELECT COUNT(*) FROM wishproduct");
+			
+			
+			$stmt->execute();
+			
+			$numWishProducts = $stmt->fetchColumn();
+			
+			
+			$stmt = $pdo->prepare("SELECT COUNT(sku) FROM product");
+				
+				
+			$stmt->execute();
+				
+			$numProducts = $stmt->fetchColumn();
+			
+			
+			$stmt = $pdo->prepare("SELECT COUNT(ssn) FROM provider");
+				
+				
+			$stmt->execute();
+				
+			$numProviders = $stmt->fetchColumn();
+			
+			
+			
+			$stmt = $pdo->prepare("SELECT COUNT(ssn) FROM customer");
+				
+				
+			$stmt->execute();
+				
+			$numCustomers = $stmt->fetchColumn();
+			
+			
+			$stmt = $pdo->prepare("SELECT create_time FROM INFORMATION_SCHEMA.TABLES WHERE table_schema = 'wsms'");
+				
+				
+			$stmt->execute();
+				
+			$creationTime = $stmt->fetchColumn();
+			
+
+			
+			return new SystemStatistics($productSaleCol[0], 
+										$productSaleCol[1], 
+										$productSaleCol[2], 
+										$productSaleCol[3], 
+										$productSaleCol[4], 
+										$productSaleCol[5], 
+										$productSaleCol[6], 
+										$productSaleCol[7], 
+										$productSaleCol[12], 
+										$productSupplyCol[0], 
+										$productSupplyCol[1], 
+										$productSupplyCol[2], 
+										$productSupplyCol[3], 
+										$productSaleCol[8], 
+										$productSaleCol[9], 
+										$productSaleCol[10], 
+										$productSaleCol[11], 
+										$productSupplyCol[4], 
+										$numUsers, 
+										$numCustomers, 
+										$numProviders, 
+										$numProducts, 
+										$numWishProducts,
+										$creationTime);
+	
+
+		}
+		catch(PDOException $e)
+		{
+			throw $e;
+			echo $e->getMessage();
+		}
+	
+	}
 }

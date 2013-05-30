@@ -21,6 +21,7 @@
 			  echo '<li><a href="' . PROVIDER . '/index' .'">Προμηθευτές</a></li>';
 			  echo '<li><a href="' . PRODUCT . '/index' .'">Προϊόντα</a></li>';
 			  echo '<li><a href="' . USERS . '/index' .'">Χρήστες</a></li>';
+			  echo '<li><a href="' . USERS . '/getStatistics' .'">Στατιστικά</a></li>';
 			  break;
 			case 'supplyorder':
 				echo '<li class="dropdown">';
@@ -41,6 +42,7 @@
 				echo '<li><a href="' . PROVIDER . '/index' .'">Προμηθευτές</a></li>';
 				echo '<li><a href="' . PRODUCT . '/index' .'">Προϊόντα</a></li>';
 				echo '<li><a href="' . USERS . '/index' .'">Χρήστες</a></li>';
+				echo '<li><a href="' . USERS . '/getStatistics' .'">Στατιστικά</a></li>';
 				break;
 			case 'customer':
 			  echo '<li class="dropdown">';
@@ -61,6 +63,7 @@
 			  echo '<li><a href="' . PROVIDER . '/index' .'">Προμηθευτές</a></li>';
 			  echo '<li><a href="' . PRODUCT . '/index' .'">Προϊόντα</a></li>';
 			  echo '<li><a href="' . USERS . '/index' .'">Χρήστες</a></li>';
+			  echo '<li><a href="' . USERS . '/getStatistics' .'">Στατιστικά</a></li>';
 			  break;
 			case 'provider':
 			  echo '<li class="dropdown">';
@@ -81,6 +84,7 @@
 			  echo '<li class="active"><a>Προμηθευτές</a></li>';
 			  echo '<li><a href="' . PRODUCT . '/index' .'">Προϊόντα</a></li>';
 			  echo '<li><a href="' . USERS . '/index' .'">Χρήστες</a></li>';
+			  echo '<li><a href="' . USERS . '/getStatistics' .'">Στατιστικά</a></li>';
 			  break;
 			case 'product':
 			  echo '<li class="dropdown">';
@@ -101,6 +105,7 @@
 			  echo '<li><a href="' . PROVIDER . '/index' .'">Προμηθευτές</a></li>';
 			  echo '<li class="active"><a>Προϊόντα</a></li>';
 			  echo '<li><a href="' . USERS . '/index' .'">Χρήστες</a></li>';
+			  echo '<li><a href="' . USERS . '/getStatistics' .'">Στατιστικά</a></li>';
 			  break;
 			case 'users':
 			  echo '<li class="dropdown">';
@@ -121,7 +126,29 @@
 			  echo '<li><a href="' . PROVIDER . '/index' .'">Προμηθευτές</a></li>';
 			  echo '<li><a href="' . PRODUCT . '/index' .'">Προϊόντα</a></li>';
 			  echo '<li class="active"><a>Χρήστες</a></li>';
+			  echo '<li><a href="' . USERS . '/getStatistics' .'">Στατιστικά</a></li>';
 			  break;
+			  case 'stats':
+			  	echo '<li class="dropdown">';
+			  	echo '<a href="#" class="dropdown-toggle" data-toggle="dropdown">Παραγγελίες <b class="caret"></b></a>';
+			  	echo '<ul class="dropdown-menu">';
+			  	echo '	  <li><a href="' . SALEORDER . '/index' .'">Διαχείριση Παραγγελιών</a></li>';
+			  	echo '	  <li><a href="' . SALEORDER . '/saleHistory' .'">Ιστορικό</a></li>';
+			  	echo '	</ul>';
+			  	echo '  </li>';
+			  	echo '<li class="dropdown">';
+			  	echo '<a href="#" class="dropdown-toggle" data-toggle="dropdown">Προμήθειες <b class="caret"></b></a>';
+			  	echo '<ul class="dropdown-menu">';
+			  	echo '	  <li><a href="' . SUPPLYORDER . '/index' .'">Διαχείριση Προμηθειών</a></li>';
+			  	echo '	  <li><a href="' . SUPPLYORDER . '/supplyHistory' .'">Ιστορικό</a></li>';
+			  	echo '	</ul>';
+			  	echo '  </li>';
+			  	echo '<li><a href="' . CUSTOMER . '/index' .'">Πελάτες</a></li>';
+			  	echo '<li><a href="' . PROVIDER . '/index' .'">Προμηθευτές</a></li>';
+			  	echo '<li><a href="' . PRODUCT . '/index' .'">Προϊόντα</a></li>';
+			  	echo '<li><a href="' . USERS . '/index' .'">Χρήστες</a></li>';
+			  	echo '<li class="active"><a>Στατιστικά</a></li>';
+			  	break;
 		}
 		}
 		else {
@@ -143,6 +170,7 @@
 			  echo '<li><a href="' . PROVIDER . '/index' .'">Προμηθευτές</a></li>';
 			  echo '<li><a href="' . PRODUCT . '/index' .'">Προϊόντα</a></li>';
 			  echo '<li><a href="' . USERS . '/index' .'">Χρήστες</a></li>';
+			  echo '<li><a href="' . USERS . '/getStatistics' .'">Στατιστικά</a></li>';
 		}
 	  ?> 
 </ul>

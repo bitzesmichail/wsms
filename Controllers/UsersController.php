@@ -232,4 +232,29 @@ require_once 'Models/entities/User.php';
  			}
  		}
  	}
+ 	
+ 	public function getStatistics()
+ 	{
+ 		if (isset($_SESSION['role'])) {
+ 			if($_SESSION['role'] == 'MANAGER') {
+ 				try
+ 				{
+ 					$data = new StdClass();
+ 					$data->stats = HistoryModel::getSystemStatistics();
+ 					$this->view->render('users', 'stats', $data);
+ 				}
+ 				catch(Exception $ex)
+ 				{
+ 					require_once 'PageController.php';
+ 					$page = new PageController;
+ 					$page->errordb($ex->getMessage());
+ 				}
+ 			}
+ 			else {
+ 				require_once 'PageController.php';
+ 				$page = new PageController;
+ 				$page->error_accdenied();
+ 			}
+ 		}
+ 	}
  }
