@@ -23,7 +23,7 @@ require_once 'Models/HistoryModel.php';
  			if ($_SESSION['role'] == 'MANAGER' || $_SESSION['role'] == 'SELLER' || $_SESSION['role'] == 'STOREKEEPER') {
 				try 
 				{
-					$saleorders = SaleOrderModel::getActiveSaleOrders();
+					$saleorders = SaleOrderModel::getSaleOrders();
 					$data = array();
 					foreach ($saleorders as &$saleorder)
 					{
